@@ -1,0 +1,77 @@
+/** \mainpage The OpenGV library
+ *
+ * The OpenGV library aims at unifying geometric computer vision algorithms for calibrated camera pose computation within a single
+ * efficient C++-library. OpenGV stands for Open Geometric Vision. It contains classical central and more recent non-central absolute
+ * and relative camera pose computation algorithms, as well as triangulation and point-cloud alignment functionalities, all extended
+ * by non-linear optimization and RANSAC contexts. It contains a flexible C++-interface as well as a Matlab port, and eases the
+ * comparison of different geometric vision algorithms.
+ *
+ * The library has been developped in the context of the following papers. Please cite one of these papers if you use the library for your research.
+ *
+ * - L. Kneip, D. Scaramuzza, R. Siegwart, "A Novel Parametrization of the Perspective-Three-Point Problem for a Direct Computation of Absolute Camera Position and Orientation", Proc. of The IEEE Conference on Computer Vision and Pattern Recognition (CVPR), Colorado Springs, USA. June 2011.
+ * - L. Kneip, M. Chli, R. Siegwart, "Robust Real-Time Visual Odometry with a Single Camera and an IMU", Proc. of The British Machine Vision Conference (BMVC), Dundee, UK. August 2011.
+ * - T. Kazik, L. Kneip, J. Nikolic, M. Pollefeys, R. Siegwart, "Real-Time 6D Stereo Visual Odometry with Non-Overlapping Fields of View", Proc. of The IEEE Conference on Computer Vision and Pattern Recognition (CVPR), Providence, USA. June 2012.
+ * - L. Kneip, R. Siegwart, M. Pollefeys, "Finding the Exact Rotation Between Two Images Independently of the Translation", Proc. of The European Conference on Computer Vision (ECCV), Florence, Italy. October 2012.
+ * - L. Kneip, P. Furgale, R. Siegwart, "Using Multi-Camera Systems in Robotics: Efficient Solutions to the NPnP Problem", Proc. of The IEEE International Conference on Robotics and Automation (ICRA), Karlsruhe, Germany. May 2013.
+ * - L. Kneip, S. Lynen, "Direct Optimization of Frame-to-Frame Rotation", Proc. of The International Conference on Computer Vision (ICCV), Sydney, Australia. December 2013. (Accepted for publication)
+ *
+ * \section main_sec_2 Getting started
+ *
+ * OpenGV features the following set of algorithms:
+ * 
+ *  <ul>
+ *  <li> Absolute camera pose computation:
+ *    <ol>
+ *    <li>absolute pose computation with known rotation
+ *    <li>two P3P-algorithms (Kneip, Gao)
+ *    <li>generalized P3P
+ *    <li>the EPnP algorithm by Lepetit and Fua
+ *    <li>an extension of the EPnP algorithm to the non-central case (Kneip)
+ *    <li>non-linear optimization over n correspondences (both central and non-central)
+ *    </ol>
+ *  <li> Relative camera-pose computation:
+ *    <ol>
+ *    <li>2-point algorithm for computing the translation with known relative rotation
+ *    <li>2-point algorithm for deriving the rotation in a pure-rotation situation
+ *    <li>n-point algorithm for deriving the rotation in a pure-rotation situation
+ *    <li>5-point algorithm by Stewenius
+ *    <li>5-point algorithm by Nister
+ *    <li>5-point algorithm to solve for rotations directly (by Kneip)
+ *    <li>7-point algorithm
+ *    <li>8-point algorithm by Longuet-Higgins
+ *    <li>17-point algorithm by Hongdong Li
+ *    <li>non-linear optimization over n correspondences (both central and non-central)
+ *    <li>relative rotation as an iterative eigenproblem (by Kneip)
+ *    </ol>
+ *  <li>Two methods for point-triangulation
+ *  <li>Arun's method for aligning point clouds
+ *  <li>Generic sample-consensus problems for most algorithms useable with Ransac
+ *  <li>Math tools:
+ *    <ol>
+ *    <li>Generic Sturm-sequence implementation for numerical root-finding
+ *    <li>Algebraic root finding
+ *    <li>Cayley rotations
+ *    </ol>
+ *  <li>Unit/Benchmarking tests for all algorithms
+ *  <li>Matlab interface
+ *  </ul>
+ * 
+ * The aim of OpenGV is to make these algorithms accessible
+ * to real-time computer vision and robotics-related tasks, that require efficient
+ * pose computation of calibrated cameras. It is also intended to serve as a
+ * future benchmarking framework for testing and comparing different solutions
+ * to geometric-vision problems. The library realizes a clean separation between
+ * image processing/2D-to-3D projection and 3D-geometry tasks. It thus provides
+ * a somewhat missing block between image-processing libraries (e.g. OpenCV) and
+ * more exhaustive non-linear optimization frameworks (e.g. g2o, ceres). By
+ * working exclusively with 3D unit bearing-vectors, it allows to be applied in
+ * conjunction with any optical projection system.
+ *
+ * Please consult the following sub-pages to get a step-by-step introduction to the library:
+ * - \subpage page_installation "Installation"
+ * - \subpage page_how_to_use "How to use"
+ * - \subpage page_how_to_contribute "How to contribute"
+ * - \subpage page_contact "Contact"
+ * - \subpage page_references "References"
+ *
+ */

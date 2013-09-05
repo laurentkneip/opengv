@@ -1,0 +1,33 @@
+/** \page page_references References
+ *
+[1]  L. Kneip, D. Scaramuzza, R. Siegwart, "A Novel Parametrization of the Perspective-Three-Point Problem for a Direct Computation of Absolute Camera Position and Orientation", Proc. of The IEEE Conference on Computer Vision and Pattern Recognition (CVPR), Colorado Springs, USA. June 2011.
+
+[2]  X. Gao, X. Hou, J. Tang, H. Cheng. "Complete solution classification for the perspective-three-point problem", IEEE Transactions on Pattern Analysis and Machine Intelligence, 25(8):930–943, 2003.
+
+[3]  L. Kneip, P. Furgale, R. Siegwart, "Using Multi-Camera Systems in Robotics: Efficient Solutions to the NPnP Problem", Proc. of The IEEE International Conference on Robotics and Automation (ICRA), Karlsruhe, Germany. May 2013.
+
+[4]  V. Lepetit, F. Moreno-Noguer, P. Fua. "Epnp: An accurate O(n) solution to the pnp problem", International Journal of Computer Vision (IJCV), 81(2):578–589, 2009.
+
+[5]  H. D. Stewénius, C. Engels, D. Nistér. "Recent developments on direct relative orientation", ISPRS Journal of Photogrammetry and Remote Sensing, 60(4):284–294, 2006.
+
+[6]  D. Nistér, "An efficient solution to the five-point relative pose problem", IEEE Transactions on Pattern Analysis and Machine Intelligence (PAMI), 26(6):756–777, 2004.
+
+[7]  L. Kneip, R. Siegwart, M. Pollefeys, "Finding the Exact Rotation Between Two Images Independently of the Translation", Proc. of The European Conference on Computer Vision (ECCV), Florence, Italy. October 2012.
+
+[8]  R. Hartley, A. Zisserman. "Multiple View Geometry in Computer Vision", Cambridge University Press, New York, NY, USA, second edition, 2004.
+
+[9]  H. Longuet-Higgins, "Readings in computer vision: issues, problems, principles, and paradigms", Morgan Kaufmann Publishers Inc., San Francisco, CA, USA, 1987.
+
+[10] R. Hartley, "In Defense of the Eight-Point Algorithm", IEEE Transactions on Pattern Analysis and Machine Intelligence (PAMI), 19(6):580–593, 1997.
+
+[11] L. Kneip, S. Lynen, "Direct Optimization of Frame-to-Frame Rotation", Proc. of The International Conference on Computer Vision (ICCV), Sydney, Australia. December 2013. (Accepted for publication)
+
+[12] H. Li, R. Hartley, J. Kim, "A Linear Approach  to Motion Estimation Using Generalized Camera Models", Proc. of The IEEE Conference on Computer Vision and Pattern Recognition (CVPR), Anchorage, Alaska, USA. June 2008.
+
+[13] K.S. Arun, T.S. Huang, S.D. Blostein, "Least-Squares Fitting of Two 3-D Point Sets", IEEE Transactions on Pattern Analysis and Machine Intelligence (PAMI), 9(5), 698-700, 1987.
+
+[14] A. Cayley. "About the algebraic structure of the orthogonal group and the other classical groups in a field of characteristic zero or a prime characteristic", Reine Angewandte Mathematik, 32, 1846.
+
+[15] M. Fischler, R. Bolles, "Random sample consensus: a paradigm for model fitting with applications to image analysis and automated cartography", Communications of the ACM, 24(6):381–395, 1981.
+ *
+ */

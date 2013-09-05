@@ -1,0 +1,20 @@
+<package>
+  <description brief="opengv">
+
+     opengv
+
+  </description>
+  <author>Laurent Kneip</author>
+  <license>FreeBSD</license>
+  <review status="reviewed" notes=""/>
+  <url>http://ros.org/wiki/opengv</url>
+  <rosdep name="eigen"/>
+  
+  <export> 
+        <cpp cflags="-I${prefix}/include -I${prefix}/cfg/cpp"  lflags="-L${prefix}/lib -lopengv"/>
+  </export>
+  
+  
+</package>
+
+
