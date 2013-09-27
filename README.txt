@@ -1,4 +1,5 @@
 library: OpenGV
+pages:   http://laurentkneip.github.io/opengv
 brief:   OpenGV is a collection of computer vision methods for solving
          geometric vision problems. It contains absolute-pose, relative-pose,
          triangulation, and point-cloud alignment methods for the calibrated
