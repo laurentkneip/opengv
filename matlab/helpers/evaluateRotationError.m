@@ -9,7 +9,8 @@ function rotation_error = evaluateRotationError(R_gt,R)
     
     if numberSolutions == 1
         
-        rotation_error = norm(rodrigues(R_gt'*R));
+        %rotation_error = norm(rodrigues(R_gt'*R));
+        rotation_error = norm( rodrigues(R_gt) - rodrigues(R) );
         
     else
         
@@ -22,7 +23,8 @@ function rotation_error = evaluateRotationError(R_gt,R)
             %Check if there is any Nan
             if ~isnan(R(1,1,i))
                 index = index + 1;
-                rotation_errors(1,index) = norm(rodrigues(R_gt'*R(:,:,i)));
+                %rotation_errors(1,index) = norm(rodrigues(R_gt'*R(:,:,i)));
+                rotation_errors(1,index) = norm( rodrigues(R_gt) - rodrigues(R(:,:,i)) );
             end
         end
         
