@@ -372,7 +372,7 @@ opengv::relative_pose::sevenpt( const RelativeAdapterBase & adapter )
   double eps = 0.00000001;
   essentials_t essentials;
   
-  if( fabs(F1.determinant()) < eps )
+  if( fabs(F1.determinant()) < eps || numberCorrespondences > 7 )
   {
     essentials.push_back(F1);
   }
@@ -458,7 +458,7 @@ opengv::relative_pose::sevenpt(
   double eps = 0.00000001;
   essentials_t essentials;
   
-  if( fabs(F1.determinant()) < eps )
+  if( fabs(F1.determinant()) < eps || numberCorrespondences > 7 )
   {
     essentials.push_back(F1);
   }
