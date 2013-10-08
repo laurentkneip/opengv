@@ -1307,8 +1307,8 @@ opengv::relative_pose::optimize_nonlinear( RelativeAdapterBase & adapter )
   LevenbergMarquardt< NumericalDiff<OptimizeNonlinearFunctor1> > lm(numDiff);
 
   lm.resetParameters();
-  lm.parameters.ftol = 1.E5*NumTraits<double>::epsilon();
-  lm.parameters.xtol = 1.E5*NumTraits<double>::epsilon();
+  lm.parameters.ftol = 1.E1*NumTraits<double>::epsilon();
+  lm.parameters.xtol = 1.E1*NumTraits<double>::epsilon();
   lm.parameters.maxfev = 1000;
   lm.minimize(x);
 
@@ -1335,8 +1335,8 @@ opengv::relative_pose::optimize_nonlinear(
       lm(numDiff);
 
   lm.resetParameters();
-  lm.parameters.ftol = 1.E5*NumTraits<double>::epsilon();
-  lm.parameters.xtol = 1.E5*NumTraits<double>::epsilon();
+  lm.parameters.ftol = 1.E1*NumTraits<double>::epsilon();
+  lm.parameters.xtol = 1.E1*NumTraits<double>::epsilon();
   lm.parameters.maxfev = 1000;
   lm.minimize(x);
 
