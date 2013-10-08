@@ -633,7 +633,7 @@ opengv::relative_pose::modules::eigensolver_main(
 
   lm.resetParameters();
   lm.parameters.ftol = 0.00005;
-  lm.parameters.xtol = 1.E10*NumTraits<double>::epsilon();
+  lm.parameters.xtol = 1.E1*NumTraits<double>::epsilon();
   lm.parameters.maxfev = 100;
   lm.minimize(x);
 
