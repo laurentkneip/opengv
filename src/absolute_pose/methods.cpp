@@ -668,8 +668,8 @@ opengv::absolute_pose::optimize_nonlinear( const AbsoluteAdapterBase & adapter )
   LevenbergMarquardt< NumericalDiff<OptimizeNonlinearFunctor1> > lm(numDiff);
 
   lm.resetParameters();
-  lm.parameters.ftol = 1.E5*NumTraits<double>::epsilon();
-  lm.parameters.xtol = 1.E5*NumTraits<double>::epsilon();
+  lm.parameters.ftol = 1.E1*NumTraits<double>::epsilon();
+  lm.parameters.xtol = 1.E1*NumTraits<double>::epsilon();
   lm.parameters.maxfev = 1000;
   lm.minimize(x);
 
@@ -695,8 +695,8 @@ opengv::absolute_pose::optimize_nonlinear(
   LevenbergMarquardt< NumericalDiff<OptimizeNonlinearFunctor2> > lm(numDiff);
 
   lm.resetParameters();
-  lm.parameters.ftol = 1.E5*NumTraits<double>::epsilon();
-  lm.parameters.xtol = 1.E5*NumTraits<double>::epsilon();
+  lm.parameters.ftol = 1.E1*NumTraits<double>::epsilon();
+  lm.parameters.xtol = 1.E1*NumTraits<double>::epsilon();
   lm.parameters.maxfev = 1000;
   lm.minimize(x);
 
