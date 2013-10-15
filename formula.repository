@@ -17,22 +17,13 @@
 \form#16:$ \mathbf{R}_{c'}^{c} $
 \form#17:$ \mathbf{t}_{vp'}^{vp} $
 \form#18:$ \mathbf{R}_{vp'}^{vp} $
-\form#19:$ \theta $
+\form#19:$ q $
 \form#20:$ \mathbf{f}_{meas} $
 \form#21:$ \mathbf{f}_{repr} $
-\form#22:$ \theta_{threshold} $
+\form#22:$ q_{threshold} $
 \form#23:$ \psi $
 \form#24:$ l $
-\form#25:$ \theta_{threshold} = \atan{\frac{\psi}{l}} $
-\form#26:$ \cos\theta $
-\form#27:$ \epsilon = 1 - \mathbf{f}_{meas}^{T}\mathbf{f}_{repr} = 1 - \cos\theta $
-\form#28:$ \epsilon_{threshold} = 1 - \cos{\theta_{threshold}} = 1 - \cos{\atan{\frac{\psi}{l}}} $
-\form#29:$ \theta_{threshold} = \arctan{\frac{\psi}{l}} $
-\form#30:$ \epsilon_{threshold} = 1 - \cos{\theta_{threshold}} = 1 - \cos{\arctan{\frac{\psi}{l}}} $
-\form#31:$ \epsilon_{threshold} = 1 - \cos{\theta_{threshold}} = 1 - \cos({\arctan{\frac{\psi}{l}}}) $
-\form#32:$ q $
-\form#33:$ q_{threshold} $
-\form#34:$ q_{threshold} = \arctan{\frac{\psi}{l}} $
-\form#35:$ \cos q $
-\form#36:$ \epsilon = 1 - \mathbf{f}_{meas}^{T}\mathbf{f}_{repr} = 1 - \cos q $
-\form#37:$ \epsilon_{threshold} = 1 - \cos{q_{threshold}} = 1 - \cos({\arctan{\frac{\psi}{l}}}) $
+\form#25:$ q_{threshold} = \arctan{\frac{\psi}{l}} $
+\form#26:$ \cos q $
+\form#27:$ \epsilon = 1 - \mathbf{f}_{meas}^{T}\mathbf{f}_{repr} = 1 - \cos q $
+\form#28:$ \epsilon_{threshold} = 1 - \cos{q_{threshold}} = 1 - \cos({\arctan{\frac{\psi}{l}}}) $
