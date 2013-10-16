@@ -99,22 +99,20 @@ mex -setup
 \endverbatim
  *
  * and chose the right compiler by following the instructions. You will have to chose the same compiler than the one you used for compiling the opengv library before-hand. Under windows you might also
- * run into the following problem. Depending on the distribution (e.g. R2012b), Matlab does not yet "know" your compiler (e.g. Visual Studio 2012 Express), so you will have to additionally follow the
+ * run into the following problem. Depending on the distribution (e.g. R2012b), Matlab does not yet "know" your compiler, so you will have to additionally follow the
  * following instructions
  *
 \verbatim
 http://jimdavid.blogspot.com.au/2012/12/matlab-2012b-mex-setup-with-vs2012.html
 \endverbatim
  *
- * to get things running.
+ * to get things running. Also note that Visual Studio Express is difficult to use together with Matlab. It is not listed as a supported compiler.
  * <li>Once this is done, you can compile the mex-file by going to the opengv/matlab folder and typing in the console
  *
 \verbatim
 mex -I../include -I../third_party -I../third_party/eigen3 -L../lib/Release -lopengv opengv.cpp
 \endverbatim
  *
- * Note that you might need the -cxx option under Linux/Unix. Also note that ../lib/Release needs to point to the folder where your library has been compiled, which might depend on the system as 
- * well.Please report in case you found that out.
  * <li>An additional note on 64-bit Windows/Matlab systems: If you have a Matlab version that is 64-bit, you will have to also compile OpenGV in 64-bit. You will have to follow
  * two steps for this under Windows. The first one is to make sure that you open an x64 native tools command prompt to make the x64 Visual Studio compiler visible. The second one
  * is to-when running cmake-extend the generator name by " Win64". The final command to run cmake finally looks as follows:
@@ -123,7 +121,7 @@ mex -I../include -I../third_party -I../third_party/eigen3 -L../lib/Release -lope
 cmake -G "Visual Studio 11 Win64" ..
 \endverbatim
  *
- * The actual build command stays the same. Under Linux, cmake will probably select the right compiler automatically. Please report in case you encounter any issues.
+ * The actual build command stays the same.
  * </ul>
  *
  * \section sec_installation_5 Installing the library under Matlab (Linux-version)
