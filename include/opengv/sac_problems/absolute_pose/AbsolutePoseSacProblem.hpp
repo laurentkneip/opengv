@@ -77,10 +77,11 @@ public:
   /** The possible algorithms for solving this problem */
   typedef enum Algorithm
   {
-    KNEIP = 0,     // central     [1]
-    GAO = 1,       // central     [2]
-    EPNP = 2,      // central     [4]
-    GP3P = 3       // non-central [3]
+    TWOPT = 0,     // central, with rotation prior
+    KNEIP = 1,     // central     [1]
+    GAO = 2,       // central     [2]
+    EPNP = 3,      // central     [4]
+    GP3P = 4       // non-central [3]
   } algorithm_t;
 
   /**

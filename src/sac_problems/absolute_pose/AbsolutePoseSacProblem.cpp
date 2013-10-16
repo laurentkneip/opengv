@@ -42,6 +42,19 @@ opengv::sac_problems::
 
   switch(_algorithm)
   {
+  case TWOPT:
+  {
+    rotation_t rotation = _adapter.getR();
+    translation_t translation = opengv::absolute_pose::p2p(_adapter,indices);
+    
+    transformation_t solution;
+    translation_t t_bc = _adapter.getCamOffset(indices[0]);
+    rotation_t R_bc = _adapter.getCamRotation(indices[0]);
+    solution.col(3) = translation - rotation * R_bc.transpose() * t_bc;
+    solution.block<3,3>(0,0) = rotation * R_bc.transpose();
+
+    solutions.push_back(solution);
+  }
   case KNEIP:
   {
     solutions = opengv::absolute_pose::p3p_kneip(_adapter,indices);
@@ -194,6 +207,8 @@ opengv::sac_problems::
     absolute_pose::AbsolutePoseSacProblem::getSampleSize() const
 {
   int sampleSize = 4;
+  if(_algorithm == TWOPT)
+    sampleSize = 2;
   if(_algorithm == EPNP)
     sampleSize = 6;
   return sampleSize;
