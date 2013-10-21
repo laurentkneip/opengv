@@ -66,8 +66,8 @@ opengv::bearingVector_t
 opengv::relative_pose::MANoncentralRelativeMulti::
     getBearingVector1( size_t pairIndex, size_t correspondenceIndex ) const
 {
-  assert(pairIndex < numberBearingVectors.size());
-  assert(correspondenceIndex < _numberBearingVectors1[pairIndex]);
+  assert(pairIndex < _numberBearingVectors.size());
+  assert(correspondenceIndex < _numberBearingVectors[pairIndex]);
   
   bearingVector_t bearingVector;
   bearingVector[0] = _bearingVectors1[pairIndex][correspondenceIndex * 3];
@@ -81,8 +81,8 @@ opengv::bearingVector_t
 opengv::relative_pose::MANoncentralRelativeMulti::
     getBearingVector2( size_t pairIndex, size_t correspondenceIndex ) const
 {
-  assert(pairIndex < numberBearingVectors.size());
-  assert(correspondenceIndex < _numberBearingVectors2[pairIndex]);
+  assert(pairIndex < _numberBearingVectors.size());
+  assert(correspondenceIndex < _numberBearingVectors[pairIndex]);
   
   bearingVector_t bearingVector;
   bearingVector[0] = _bearingVectors2[pairIndex][correspondenceIndex * 3];
@@ -103,7 +103,7 @@ opengv::translation_t
 opengv::relative_pose::MANoncentralRelativeMulti::
     getCamOffset( size_t pairIndex ) const
 {
-  assert(pairIndex < numberBearingVectors.size());
+  assert(pairIndex < _numberBearingVectors.size());
   translation_t camOffset;
   camOffset[0] = _camOffsets[pairIndex * 3];
   camOffset[1] = _camOffsets[pairIndex * 3 + 1];
@@ -122,7 +122,7 @@ size_t
 opengv::relative_pose::MANoncentralRelativeMulti::
     getNumberCorrespondences(size_t pairIndex) const
 {
-  assert(pairIndex < numberBearingVectors.size());
+  assert(pairIndex < _numberBearingVectors.size());
   return _numberBearingVectors[pairIndex];
 }
 
