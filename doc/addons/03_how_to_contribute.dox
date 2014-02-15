@@ -24,7 +24,6 @@
  * collaborate on one of these points.
  *
  * <ul>
- * <li> Add documentation of the Matlab-interface.
  * <li> The library now allows very easily further benchmarks, for instance all the special cases (e.g. planar structure etc.).
  * <li> The triangulation method needs to be able to handle non-central viewpoints. This would avoid some hacks here and there. Same accounts for the point-cloud alignment methods.
  * <li> The triangulation methods (and possibly further algorithms) should be included in the opengv-Matlab-interface.
@@ -33,12 +32,10 @@
  * <li> Sometimes ransac or iterative methods reset the adapter transformation for instance to compute reprojection errors (search recursively for sett). The original value should always be reset, because other parts of the algorithm potentially want to use it.
  * <li> Add more adapters to increase the portability. Examples are: OpenCV, Gandalf, VXR, Bundler, libcvd, OpenMVG.
  * <li> There is an improved version of p3p_kneip lying around somewhere, which could be included.
- * <li> Nister remains too slow. The reason is likely to be the Sturm bracketing in OpenGV.
- * <li> Hongdong Li's five-point solver (SOTA) should be included.
+ * <li> Richard Hartley's implementation of the five-point should be included (replacing the current one).
+ * <li> Hongdong Li's five-point solver should be included.
  * <li> Kukelova's polynomial eigenvalue solution should be included.
- * <li> P4P should be included.
- * <li> RPnP and DLS for PnP (SOTA) should be included.
- * <li> The six-point method for non-central relative pose should be included.
+ * <li> P4P and DLT should be included.
  * <li> Most of the current implementations treat the correspondences equally. The AdapterBase-classes however contain already a virtual function called "getWeight", which could be used to weight the correspondences differently for instance in a non-linear optimization. Most of the adapters currently simply return 1.0 for these calls. Only the CentralRelativeWeightingAdapter has contructors that include the weight of the correspondences.
  * <li> arun_complete and threept_arun are redundant, we should get rid of one of them.
  * <li> The polynomial structures are Matlab-like arrays of coefficients, of different types, and sometimes with different conventions (coefficients once stored along the lines, once along the columns).

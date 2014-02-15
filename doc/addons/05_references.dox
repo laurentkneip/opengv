@@ -29,5 +29,9 @@
 [14] A. Cayley. "About the algebraic structure of the orthogonal group and the other classical groups in a field of characteristic zero or a prime characteristic", Reine Angewandte Mathematik, 32, 1846.
 
 [15] M. Fischler, R. Bolles, "Random sample consensus: a paradigm for model fitting with applications to image analysis and automated cartography", Communications of the ACM, 24(6):381–395, 1981.
+
+[16] H. Stewenius, D. Nister, M. Oskarsson, K. Aström, "Solutions to Minimal Generalized Relative Pose Problems", Workshop on omni-directional vision, 2005.
+
+[17] L. Kneip, P. Furgale, "OpenGV: A unified and generalized approach to real-time calibrated geometric vision", Proc. of The IEEE International Conference on Robotics and Automation (ICRA), Hong Kong, China. May 2014.
  *
  */
