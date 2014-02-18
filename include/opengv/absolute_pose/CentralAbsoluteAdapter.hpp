@@ -68,23 +68,18 @@ protected:
 public:
   EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 
-  /** A type defined for the matches, see protected class-members */
-  typedef std::vector<int> matches_t;
-
+  /**
+   * \brief Constructor. See protected class-members to understand parameters
+   */
+  CentralAbsoluteAdapter(
+      const bearingVectors_t & bearingVectors,
+      const points_t & points );
   /**
    * \brief Constructor. See protected class-members to understand parameters
    */
   CentralAbsoluteAdapter(
       const bearingVectors_t & bearingVectors,
       const points_t & points,
-      const matches_t & matches );
-  /**
-   * \brief Constructor. See protected class-members to understand parameters
-   */
-  CentralAbsoluteAdapter(
-      const bearingVectors_t & bearingVectors,
-      const points_t & points,
-      const matches_t & matches,
       const rotation_t & R );
   /**
    * \brief Constructor. See protected class-members to understand parameters
@@ -92,7 +87,6 @@ public:
   CentralAbsoluteAdapter(
       const bearingVectors_t & bearingVectors,
       const points_t & points,
-      const matches_t & matches,
       const translation_t & t,
       const rotation_t & R );
   /**
@@ -120,12 +114,6 @@ protected:
   const bearingVectors_t & _bearingVectors;
   /** Reference to the points expressed in the world-frame. */
   const points_t & _points;
-  /** Reference to array containing matches between bearing-vectors and world
-   *  points. Length equals to number of observations in the camera-frame, and
-   *  elements are indices of corresponding points in the world frame.
-   */
-  const matches_t & _matches;
-
 };
 
 }

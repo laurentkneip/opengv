@@ -34,35 +34,29 @@
 
 opengv::absolute_pose::CentralAbsoluteAdapter::CentralAbsoluteAdapter(
     const bearingVectors_t & bearingVectors,
-    const points_t & points,
-    const matches_t & matches ) :
+    const points_t & points ) :
     AbsoluteAdapterBase(),
     _bearingVectors(bearingVectors),
-    _points(points),
-    _matches(matches)
+    _points(points)
 {}
 
 opengv::absolute_pose::CentralAbsoluteAdapter::CentralAbsoluteAdapter(
     const bearingVectors_t & bearingVectors,
     const points_t & points,
-    const matches_t & matches,
     const rotation_t & R ) :
     AbsoluteAdapterBase(R),
     _bearingVectors(bearingVectors),
-    _points(points),
-    _matches(matches)
+    _points(points)
 {}
 
 opengv::absolute_pose::CentralAbsoluteAdapter::CentralAbsoluteAdapter(
     const bearingVectors_t & bearingVectors,
     const points_t & points,
-    const matches_t & matches,
     const translation_t & t,
     const rotation_t & R ) :
     AbsoluteAdapterBase(t,R),
     _bearingVectors(bearingVectors),
-    _points(points),
-    _matches(matches)
+    _points(points)
 {}
 
 opengv::absolute_pose::CentralAbsoluteAdapter::~CentralAbsoluteAdapter()
@@ -88,7 +82,7 @@ opengv::absolute_pose::CentralAbsoluteAdapter::getPoint(
     size_t index ) const
 {
   assert(index < _bearingVectors.size());
-  return _points[_matches[index]];
+  return _points[index];
 }
 
 opengv::translation_t
@@ -113,5 +107,5 @@ size_t
 opengv::absolute_pose::CentralAbsoluteAdapter::
     getNumberCorrespondences() const
 {
-  return _matches.size();
+  return _bearingVectors.size();
 }

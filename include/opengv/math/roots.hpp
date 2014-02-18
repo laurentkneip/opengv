@@ -52,6 +52,14 @@ namespace math
 {
 
 /**
+ * \brief The roots of a third-order polynomial.
+ * 
+ * \param[in] p The polynomial coefficients (poly = p[0]*x^3 + p[1]*x^2 ...).
+ * \return The roots of the polynomial (only real ones).
+ */
+std::vector<double> o3_roots( const std::vector<double> & p );
+
+/**
  * \brief Ferrari's method for computing the roots of a fourth order polynomial.
  *
  * \param[in] p The polynomial coefficients (poly = p(0,0)*x^4 + p(1,0)*x^3 ...).
@@ -63,7 +71,7 @@ std::vector<double> o4_roots( const Eigen::MatrixXd & p );
  * \brief Ferrari's method for computing the roots of a fourth order polynomial.
  *        With a different interface.
  *
- * \param[in] p The polynomial coefficients (poly = p[0]*x^4 + p[0]*x^3 ...).
+ * \param[in] p The polynomial coefficients (poly = p[0]*x^4 + p[1]*x^3 ...).
  * \return The roots of the polynomial (only real ones).
  */
 std::vector<double> o4_roots( const std::vector<double> & p );

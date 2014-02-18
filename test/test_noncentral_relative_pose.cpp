@@ -73,14 +73,13 @@ int main( int argc, char** argv )
   //derive correspondences based on random point-cloud
   bearingVectors_t bearingVectors1;
   bearingVectors_t bearingVectors2;
-  std::vector<int> matches;
   std::vector<int> camCorrespondences1;
   std::vector<int> camCorrespondences2;
   Eigen::MatrixXd gt(3,numberPoints);
   generateRandom2D2DCorrespondences(
       position1, rotation1, position2, rotation2,
       camOffsets, camRotations, numberPoints, noise, outlierFraction,
-      bearingVectors1, bearingVectors2, matches,
+      bearingVectors1, bearingVectors2,
       camCorrespondences1, camCorrespondences2, gt );
 
   //Extract the relative pose
@@ -97,7 +96,6 @@ int main( int argc, char** argv )
       bearingVectors2,
       camCorrespondences1,
       camCorrespondences2,
-      matches,
       camOffsets,
       camRotations,
       position,
@@ -109,6 +107,24 @@ int main( int argc, char** argv )
   size_t iterations = 100;
 
   //running experiment
+  std::cout << "running sixpt with 6 correspondences" << std::endl;
+  std::vector<int> indices6 = getNindices(6);
+  rotations_t sixpt_rotations;
+  gettimeofday( &tic, 0 );
+  for( size_t i = 0; i < iterations; i++ )
+    sixpt_rotations = relative_pose::sixpt(adapter,indices6);
+  gettimeofday( &toc, 0 );
+  double sixpt_time = TIMETODOUBLE(timeval_minus(toc,tic)) / iterations;
+  
+  std::cout << "running ge with 8 correspondences" << std::endl;
+  std::vector<int> indices8 = getNindices(8);
+  rotation_t ge_rotation;
+  gettimeofday( &tic, 0 );
+  for( size_t i = 0; i < iterations; i++ )
+    ge_rotation = relative_pose::ge(adapter,indices8);
+  gettimeofday( &toc, 0 );
+  double ge_time = TIMETODOUBLE(timeval_minus(toc,tic)) / iterations;
+  
   std::cout << "running seventeenpt algorithm with 17 correspondences";
   std::cout << std::endl;
   std::vector<int> indices17 = getNindices(17);
@@ -155,6 +171,11 @@ int main( int argc, char** argv )
       relative_pose::optimize_nonlinear(adapter,indices10);
 
   //print results
+  std::cout << "results from 6pt algorithm:" << std::endl;
+  for( int i = 0; i < sixpt_rotations.size(); i++ )
+    std::cout << sixpt_rotations[i] << std::endl << std::endl;
+  std::cout << "result from ge using 8 points:" << std::endl;
+  std::cout << ge_rotation << std::endl << std::endl;
   std::cout << "results from 17pt algorithm:" << std::endl;
   std::cout << seventeenpt_transformation << std::endl << std::endl;
   std::cout << "results from 17pt algorithm with all points:" << std::endl;
@@ -165,6 +186,10 @@ int main( int argc, char** argv )
   std::cout << std::endl;
   std::cout << nonlinear_transformation_10 << std::endl << std::endl;
   
+  std::cout << "timings from 6pt algorithm: ";
+  std::cout << sixpt_time << std::endl;
+  std::cout << "timings from ge: ";
+  std::cout << ge_time << std::endl;
   std::cout << "timings from 17pt algorithm: ";
   std::cout << seventeenpt_time << std::endl;
   std::cout << "timings from 17pt algorithm with all the points: ";

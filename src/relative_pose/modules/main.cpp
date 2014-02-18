@@ -39,6 +39,8 @@
 #include <opengv/relative_pose/modules/fivept_stewenius/modules.hpp>
 #include <opengv/relative_pose/modules/fivept_kneip/modules.hpp>
 #include <opengv/relative_pose/modules/eigensolver/modules.hpp>
+#include <opengv/relative_pose/modules/sixpt/modules.hpp>
+#include <opengv/relative_pose/modules/ge/modules.hpp>
 #include <opengv/OptimizationFunctor.hpp>
 #include <opengv/math/arun.hpp>
 #include <opengv/math/cayley.hpp>
@@ -344,7 +346,7 @@ opengv::relative_pose::modules::fivept_kneip_main(
     tempp = D[i];
 
     //check if we have a real solution
-    if( tempp.imag() < 0.1 )
+    if( fabs(tempp.imag()) < 0.1 )
     {
       tempp = V(18,i)/V(19,i);
       finalRotation(0,0) = tempp.real();// tempVector[0] = tempp;
@@ -661,4 +663,364 @@ opengv::relative_pose::modules::eigensolver_main(
   output.eigenvalues = D;
   output.eigenvectors = V;
 
+}
+
+void
+opengv::relative_pose::modules::sixpt_main(
+  Eigen::Matrix<double,6,6> & L1,
+  Eigen::Matrix<double,6,6> & L2,
+  rotations_t & solutions)
+{
+  
+  //create vectors of Pluecker coordinates
+  std::vector< Eigen::Matrix<double,6,1>, Eigen::aligned_allocator<Eigen::Matrix<double,6,1> > > L1vec;
+  std::vector< Eigen::Matrix<double,6,1>, Eigen::aligned_allocator<Eigen::Matrix<double,6,1> > > L2vec;
+  for(int i = 0; i < 6; i++ )
+  {
+    L1vec.push_back( L1.col(i) );
+    L2vec.push_back( L2.col(i) );
+  }
+  
+  //setup the action matrix
+  Eigen::Matrix<double,64,64> Action = Eigen::Matrix<double,64,64>::Zero();
+  sixpt::setupAction( L1vec, L2vec, Action );
+  
+  //finally eigen-decompose the action-matrix and obtain the solutions
+  Eigen::ComplexEigenSolver< Eigen::Matrix<double,64,64> > Eig(Action,true);
+  Eigen::Matrix<std::complex<double>,64,64> EV = Eig.eigenvectors();
+  
+  solutions.reserve(64);  
+  for( int c = 0; c < 64; c++ )
+  {
+    cayley_t solution;
+    for( int r = 0; r < 3; r++ )
+    {
+      std::complex<double> temp = EV(60+r,c)/EV(63,c);
+      solution[r] = temp.real();
+    }
+    
+    solutions.push_back(math::cayley2rot(solution).transpose());
+  }
+}
+
+namespace opengv
+{
+namespace relative_pose
+{
+namespace modules
+{
+
+struct Ge_step : OptimizationFunctor<double>
+{
+  const Eigen::Matrix3d & _xxF;
+  const Eigen::Matrix3d & _yyF;
+  const Eigen::Matrix3d & _zzF;
+  const Eigen::Matrix3d & _xyF;
+  const Eigen::Matrix3d & _yzF;
+  const Eigen::Matrix3d & _zxF;
+  const Eigen::Matrix<double,3,9> & _x1P;
+  const Eigen::Matrix<double,3,9> & _y1P;
+  const Eigen::Matrix<double,3,9> & _z1P;
+  const Eigen::Matrix<double,3,9> & _x2P;
+  const Eigen::Matrix<double,3,9> & _y2P;
+  const Eigen::Matrix<double,3,9> & _z2P;
+  const Eigen::Matrix<double,9,9> & _m11P;
+  const Eigen::Matrix<double,9,9> & _m12P;
+  const Eigen::Matrix<double,9,9> & _m22P;
+
+  Ge_step(
+    const Eigen::Matrix3d & xxF,
+    const Eigen::Matrix3d & yyF,
+    const Eigen::Matrix3d & zzF,
+    const Eigen::Matrix3d & xyF,
+    const Eigen::Matrix3d & yzF,
+    const Eigen::Matrix3d & zxF,
+    const Eigen::Matrix<double,3,9> & x1P,
+    const Eigen::Matrix<double,3,9> & y1P,
+    const Eigen::Matrix<double,3,9> & z1P,
+    const Eigen::Matrix<double,3,9> & x2P,
+    const Eigen::Matrix<double,3,9> & y2P,
+    const Eigen::Matrix<double,3,9> & z2P,
+    const Eigen::Matrix<double,9,9> & m11P,
+    const Eigen::Matrix<double,9,9> & m12P,
+    const Eigen::Matrix<double,9,9> & m22P ) :
+    OptimizationFunctor<double>(3,3),
+    _xxF(xxF),_yyF(yyF),_zzF(zzF),_xyF(xyF),_yzF(yzF),_zxF(zxF),
+    _x1P(x1P),_y1P(y1P),_z1P(z1P),_x2P(x2P),_y2P(y2P),_z2P(z2P),
+    _m11P(m11P),_m12P(m12P),_m22P(m22P) {}
+
+  int operator()(const Eigen::VectorXd &x, Eigen::VectorXd &fvec) const
+  {
+    cayley_t cayley = x;
+    Eigen::Matrix<double,1,3> jacobian;
+    double smallestEV = ge::getCostWithJacobian(
+        _xxF,_yyF,_zzF,_xyF,_yzF,_zxF,
+        _x1P,_y1P,_z1P,_x2P,_y2P,_z2P,_m11P,_m12P,_m22P,cayley,jacobian,1);
+
+    fvec[0] = jacobian(0,0);
+    fvec[1] = jacobian(0,1);
+    fvec[2] = jacobian(0,2);
+    
+    return 0;
+  }
+};
+
+}
+}
+}
+
+void
+opengv::relative_pose::modules::ge_main(
+    const Eigen::Matrix3d & xxF,
+    const Eigen::Matrix3d & yyF,
+    const Eigen::Matrix3d & zzF,
+    const Eigen::Matrix3d & xyF,
+    const Eigen::Matrix3d & yzF,
+    const Eigen::Matrix3d & zxF,
+    const Eigen::Matrix<double,3,9> & x1P,
+    const Eigen::Matrix<double,3,9> & y1P,
+    const Eigen::Matrix<double,3,9> & z1P,
+    const Eigen::Matrix<double,3,9> & x2P,
+    const Eigen::Matrix<double,3,9> & y2P,
+    const Eigen::Matrix<double,3,9> & z2P,
+    const Eigen::Matrix<double,9,9> & m11P,
+    const Eigen::Matrix<double,9,9> & m12P,
+    const Eigen::Matrix<double,9,9> & m22P,
+    const cayley_t & startingPoint,
+    geOutput_t & output )
+{
+  //this one doesn't work, probably because of double numerical differentiation
+  //use ge_main2, which is an implementation of gradient descent
+  const int n=3;
+  VectorXd x(n);
+
+  x = startingPoint;
+  Ge_step functor(xxF,yyF,zzF,xyF,yzF,zxF,
+      x1P,y1P,z1P,x2P,y2P,z2P,m11P,m12P,m22P);
+  NumericalDiff<Ge_step> numDiff(functor);
+  LevenbergMarquardt< NumericalDiff<Ge_step> > lm(numDiff);
+
+  lm.resetParameters();
+  lm.parameters.ftol = 0.000001;//1.E1*NumTraits<double>::epsilon();
+  lm.parameters.xtol = 1.E1*NumTraits<double>::epsilon();
+  lm.parameters.maxfev = 100;
+  lm.minimize(x);
+
+  cayley_t cayley = x;
+  rotation_t R = math::cayley2rot(cayley);
+  
+  Eigen::Matrix4d G = ge::composeG(xxF,yyF,zzF,xyF,yzF,zxF,
+      x1P,y1P,z1P,x2P,y2P,z2P,m11P,m12P,m22P,cayley);
+  
+  Eigen::ComplexEigenSolver< Eigen::Matrix4d > Eig(G,true);
+  Eigen::Matrix<std::complex<double>,4,1> D_complex = Eig.eigenvalues();
+  Eigen::Matrix<std::complex<double>,4,4> V_complex = Eig.eigenvectors();
+  Eigen::Vector4d D;
+  Eigen::Matrix4d V;
+  for(size_t i = 0; i < 4; i++)
+  {
+    D[i] = D_complex[i].real();
+    for(size_t j = 0; j < 4; j++)
+      V(i,j) = V_complex(i,j).real();
+  }
+
+  double factor = V(3,0);
+  Eigen::Vector4d t = (1.0/factor) * V.col(0);
+
+  output.translation = t;
+  output.rotation = R;
+  output.eigenvalues = D;
+  output.eigenvectors = V;
+}
+
+void
+opengv::relative_pose::modules::ge_main2(
+    const Eigen::Matrix3d & xxF,
+    const Eigen::Matrix3d & yyF,
+    const Eigen::Matrix3d & zzF,
+    const Eigen::Matrix3d & xyF,
+    const Eigen::Matrix3d & yzF,
+    const Eigen::Matrix3d & zxF,
+    const Eigen::Matrix<double,3,9> & x1P,
+    const Eigen::Matrix<double,3,9> & y1P,
+    const Eigen::Matrix<double,3,9> & z1P,
+    const Eigen::Matrix<double,3,9> & x2P,
+    const Eigen::Matrix<double,3,9> & y2P,
+    const Eigen::Matrix<double,3,9> & z2P,
+    const Eigen::Matrix<double,9,9> & m11P,
+    const Eigen::Matrix<double,9,9> & m12P,
+    const Eigen::Matrix<double,9,9> & m22P,
+    const cayley_t & startingPoint,
+    geOutput_t & output )
+{
+  //todo: the optimization strategy is something that can possibly be improved:
+  //-one idea is to check the gradient at the new sampling point, if that derives
+  // too much, we have to stop
+  //-another idea consists of having linear change of lambda, instead of exponential (safer, but slower)
+  
+  double lambda = 0.01;
+  double maxLambda = 0.08;
+  double modifier = 2.0;
+  int maxIterations = 50;
+  double min_xtol = 0.00001;
+  bool disablingIncrements = true;
+  bool print = false;
+
+  cayley_t cayley;
+  
+  double disturbanceAmplitude = 0.3;
+  bool found = false;
+  int randomTrialCount = 0;
+  
+  while( !found && randomTrialCount < 5 )
+  {
+    if(randomTrialCount > 2)
+      disturbanceAmplitude = 0.6;
+	
+    if( randomTrialCount == 0 )
+      cayley = startingPoint;
+    else
+    {
+      cayley = startingPoint;
+      Eigen::Vector3d disturbance;
+      disturbance[0] = (((double) rand())/ ((double) RAND_MAX)-0.5)*2.0*disturbanceAmplitude;
+      disturbance[1] = (((double) rand())/ ((double) RAND_MAX)-0.5)*2.0*disturbanceAmplitude;
+      disturbance[2] = (((double) rand())/ ((double) RAND_MAX)-0.5)*2.0*disturbanceAmplitude;
+      cayley += disturbance;
+    }
+	
+    lambda = 0.01;
+    int iterations = 0;
+    double smallestEV = ge::getCost(xxF,yyF,zzF,xyF,yzF,zxF,
+        x1P,y1P,z1P,x2P,y2P,z2P,m11P,m12P,m22P,cayley,1);
+    
+    while( iterations < maxIterations )
+    {
+      Eigen::Matrix<double,1,3> jacobian;
+      ge::getQuickJacobian(xxF,yyF,zzF,xyF,yzF,zxF,
+          x1P,y1P,z1P,x2P,y2P,z2P,m11P,m12P,m22P,cayley,smallestEV,jacobian,1);
+      
+      double norm = sqrt(pow(jacobian[0],2.0) + pow(jacobian[1],2.0) + pow(jacobian[2],2.0));
+      cayley_t normalizedJacobian = (1/norm) * jacobian.transpose();
+      
+      cayley_t samplingPoint = cayley - lambda * normalizedJacobian;
+      double samplingEV = ge::getCost(xxF,yyF,zzF,xyF,yzF,zxF,
+          x1P,y1P,z1P,x2P,y2P,z2P,m11P,m12P,m22P,samplingPoint,1);
+      
+      if(print)
+      {
+        std::cout << iterations << ": " << samplingPoint.transpose();
+        std::cout << " lambda: " << lambda << " EV: " << samplingEV << std::endl;
+      }
+      
+      if( iterations == 0 || !disablingIncrements )
+      {
+        while( samplingEV < smallestEV )
+        {
+          smallestEV = samplingEV;
+          if( lambda * modifier > maxLambda )
+            break;
+          lambda *= modifier;
+          samplingPoint = cayley - lambda * normalizedJacobian;
+          samplingEV = ge::getCost(xxF,yyF,zzF,xyF,yzF,zxF,
+              x1P,y1P,z1P,x2P,y2P,z2P,m11P,m12P,m22P,samplingPoint,1);
+          
+          if(print)
+          {
+            std::cout << iterations << ": " << samplingPoint.transpose();
+            std::cout << " lambda: " << lambda << " EV: " << samplingEV << std::endl;
+          }
+        }
+      }
+      
+      while( samplingEV > smallestEV )
+      {
+        lambda /= modifier;
+        samplingPoint = cayley - lambda * normalizedJacobian;
+        samplingEV = ge::getCost(xxF,yyF,zzF,xyF,yzF,zxF,
+            x1P,y1P,z1P,x2P,y2P,z2P,m11P,m12P,m22P,samplingPoint,1);
+        
+        if(print)
+        {
+          std::cout << iterations << ": " << samplingPoint.transpose();
+          std::cout << " lambda: " << lambda << " EV: " << samplingEV << std::endl;
+        }
+      }
+      
+      //apply update
+      cayley = samplingPoint;
+      smallestEV = samplingEV;
+      
+      //stopping condition (check if the update was too small)
+      if( lambda < min_xtol )
+        break;
+      
+      iterations++;
+    }
+    
+    //try to see if we can robustly identify each time we enter up in the wrong minimum
+    if( cayley.norm() < 0.01 )
+    {
+      //we are close to the origin, test the EV 2
+      double ev2 = ge::getCost(xxF,yyF,zzF,xyF,yzF,zxF,
+            x1P,y1P,z1P,x2P,y2P,z2P,m11P,m12P,m22P,cayley,0);
+      if( ev2 > 0.001 )
+        randomTrialCount++;
+      else
+        found = true;
+    }
+    else
+      found = true;
+  }
+  
+  Eigen::Matrix4d G = ge::composeG(xxF,yyF,zzF,xyF,yzF,zxF,
+      x1P,y1P,z1P,x2P,y2P,z2P,m11P,m12P,m22P,cayley);
+  
+  Eigen::ComplexEigenSolver< Eigen::Matrix4d > Eig(G,true);
+  Eigen::Matrix<std::complex<double>,4,1> D_complex = Eig.eigenvalues();
+  Eigen::Matrix<std::complex<double>,4,4> V_complex = Eig.eigenvectors();
+  Eigen::Vector4d D;
+  Eigen::Matrix4d V;
+  for(size_t i = 0; i < 4; i++)
+  {
+    D[i] = D_complex[i].real();
+    for(size_t j = 0; j < 4; j++)
+      V(i,j) = V_complex(i,j).real();
+  }
+
+  double factor = V(3,0);
+  Eigen::Vector4d t = (1.0/factor) * V.col(0);
+
+  output.translation = t;
+  output.rotation = math::cayley2rot(cayley);
+  output.eigenvalues = D;
+  output.eigenvectors = V;
+}
+
+void
+opengv::relative_pose::modules::ge_plot(
+    const Eigen::Matrix3d & xxF,
+    const Eigen::Matrix3d & yyF,
+    const Eigen::Matrix3d & zzF,
+    const Eigen::Matrix3d & xyF,
+    const Eigen::Matrix3d & yzF,
+    const Eigen::Matrix3d & zxF,
+    const Eigen::Matrix<double,3,9> & x1P,
+    const Eigen::Matrix<double,3,9> & y1P,
+    const Eigen::Matrix<double,3,9> & z1P,
+    const Eigen::Matrix<double,3,9> & x2P,
+    const Eigen::Matrix<double,3,9> & y2P,
+    const Eigen::Matrix<double,3,9> & z2P,
+    const Eigen::Matrix<double,9,9> & m11P,
+    const Eigen::Matrix<double,9,9> & m12P,
+    const Eigen::Matrix<double,9,9> & m22P,
+    geOutput_t & output )
+{
+  cayley_t cayley = math::rot2cayley(output.rotation);
+  
+  ge::getEV(xxF,yyF,zzF,xyF,yzF,zxF,
+      x1P,y1P,z1P,x2P,y2P,z2P,m11P,m12P,m22P,cayley,output.eigenvalues);
+  
+  output.eigenvectors = ge::composeG(xxF,yyF,zzF,xyF,yzF,zxF,
+      x1P,y1P,z1P,x2P,y2P,z2P,m11P,m12P,m22P,cayley);
 }

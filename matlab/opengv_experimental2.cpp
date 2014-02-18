@@ -33,12 +33,13 @@ static const char *copyright =
 
 // Matlab usage:
 //
-//    X = opengv_experimental2( method, data1, data2 )
+//    X = opengv_experimental2( data1, data2, algorithm )
 //
 // where
 //    data1, data2 are matched points of dimension 6xn
+//    algorithm is 0 for sixpt, 1 for ge, and 2 for seventeenpt
 //    X is a 3x5 matrix returning the found transformation, plus the number of
-//    Ransac-iterations
+//    Ransac-iterations and inliers
 //
 
 //matlab header
@@ -66,9 +67,13 @@ typedef boost::shared_ptr<nrelRansac> nrelRansacPtr;
 void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
 {  
   // Characterize the type of the call
-  int callCharacter = -1;
   const mxArray *data1 = prhs[0];
   const mxArray *data2 = prhs[1];
+  
+  const mxArray *temp1 = prhs[2];
+  double *temp2 = (double*) mxGetData(temp1);
+  int algorithm = floor(temp2[0]+0.01);
+  
   const mwSize *data1dim = mxGetDimensions(data1);
   const mwSize *data2dim = mxGetDimensions(data2);
   
@@ -81,16 +86,30 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
       data2dim[1] );
 
   nrelRansacPtr problem;
-  problem = nrelRansacPtr( new nrelRansac( *relativeAdapter ) );
+  
+  switch(algorithm)
+  {
+    case 0:
+	  problem = nrelRansacPtr( new nrelRansac( *relativeAdapter, nrelRansac::SIXPT ) );
+	  break;
+	case 1:
+	  problem = nrelRansacPtr( new nrelRansac( *relativeAdapter, nrelRansac::GE ) );
+	  break;
+	case 2:
+	  problem = nrelRansacPtr( new nrelRansac( *relativeAdapter, nrelRansac::SEVENTEENPT ) );
+	  break;
+  }
+  
   opengv::sac::Ransac<nrelRansac> ransac;
   ransac.sac_model_ = problem;
   ransac.threshold_ = 2.0*(1.0 - cos(atan(sqrt(2.0)*0.5/800.0)));
-  ransac.max_iterations_ = 1000;
+  ransac.max_iterations_ = 10000000;
   ransac.computeModel();
   
   Eigen::Matrix<double,3,5> result;
   result.block<3,4>(0,0) = ransac.model_coefficients_;
   result(0,4) = ransac.iterations_;
+  result(1,4) = ransac.inliers_.size();
   
   int dims[2];
   dims[0] = 3;

@@ -78,17 +78,28 @@ public:
   typedef transformation_t model_t;
   /** The type of adapter that is expected by the methods */
   typedef opengv::relative_pose::RelativeMultiAdapterBase adapter_t;
+  
+  /** The possible algorithms for solving this problem */
+  typedef enum Algorithm
+  {
+    SIXPT = 0,      // [16]
+    GE = 1,         // []
+    SEVENTEENPT = 2 // [12]
+  } algorithm_t;
 
 
   /**
    * \brief Constructor.
    * \param[in] adapter Visitor holding bearing vector correspondences etc.
+   * \param[in] algorithm The algorithm to use.
    * \param[in] asCentral Solve problem with only one camera?
    */
-  MultiNoncentralRelativePoseSacProblem(adapter_t & adapter, bool asCentral = false ) :
-    MultiSampleConsensusProblem<model_t> (),
-    _adapter(adapter),
-    _asCentral(asCentral)
+  MultiNoncentralRelativePoseSacProblem(
+      adapter_t & adapter, algorithm_t algorithm, bool asCentral = false ) :
+      MultiSampleConsensusProblem<model_t> (),
+      _adapter(adapter),
+      _algorithm(algorithm),
+      _asCentral(asCentral)
   {
     std::vector<int> numberCorrespondences;
     for(size_t i = 0; i < adapter.getNumberPairs(); i++)
@@ -99,15 +110,19 @@ public:
   /**
    * \brief Constructor.
    * \param[in] adapter Visitor holding bearing vector correspondences etc.
+   * \param[in] algorithm The algorithm to use.
    * \param[in] indices A vector of multi-indices to be used from all available
    *                    correspondences.
    * \param[in] asCentral Solve problem with only one camera?
    */
   MultiNoncentralRelativePoseSacProblem(
       adapter_t & adapter,
-      const std::vector<std::vector<int> > & indices, bool asCentral = false) :
+      algorithm_t algorithm,
+      const std::vector<std::vector<int> > & indices,
+      bool asCentral = false) :
       MultiSampleConsensusProblem<model_t> (),
       _adapter(adapter),
+      _algorithm(algorithm),
       _asCentral(asCentral)
   {
     setIndices(indices);
@@ -149,6 +164,8 @@ public:
 protected:
   /** The adapter holding all input data. */
   adapter_t & _adapter;
+  /** The algorithm we are using. */
+  algorithm_t _algorithm;
   /** Use the central algorithm? (only one camera?). */
   bool _asCentral;
 };

@@ -33,11 +33,9 @@
 
 opengv::relative_pose::CentralRelativeMultiAdapter::CentralRelativeMultiAdapter(
     std::vector<boost::shared_ptr<bearingVectors_t> > bearingVectors1,
-    std::vector<boost::shared_ptr<bearingVectors_t> > bearingVectors2,
-    std::vector<boost::shared_ptr<matches_t> > matches ) :
+    std::vector<boost::shared_ptr<bearingVectors_t> > bearingVectors2 ) :
     _bearingVectors1(bearingVectors1),
-    _bearingVectors2(bearingVectors2),
-    _matches(matches)
+    _bearingVectors2(bearingVectors2)
 {
   // The following variables are needed for the serialization and
   // de-serialization of indices
@@ -66,23 +64,16 @@ opengv::relative_pose::CentralRelativeMultiAdapter::
     getBearingVector1( size_t pairIndex, size_t correspondenceIndex ) const
 {
   assert(pairIndex < _bearingVectors1.size());
-  assert(pairIndex < _bearingVectors2.size());
-  assert(pairIndex < _matches.size());
 
-  assert(correspondenceIndex < _bearingVectors2[pairIndex]->size());
-  assert((*_matches[pairIndex])[correspondenceIndex] <
-      _bearingVectors1[pairIndex]->size());
-  return
-      (*_bearingVectors1[pairIndex])[(*_matches[pairIndex])[correspondenceIndex]];
+  assert(correspondenceIndex < _bearingVectors1[pairIndex]->size());
+  return (*_bearingVectors1[pairIndex])[correspondenceIndex];
 }
 
 opengv::bearingVector_t
 opengv::relative_pose::CentralRelativeMultiAdapter::
     getBearingVector2( size_t pairIndex, size_t correspondenceIndex ) const
 {
-  assert(pairIndex < _bearingVectors1.size());
   assert(pairIndex < _bearingVectors2.size());
-  assert(pairIndex < _matches.size());
 
   assert(correspondenceIndex < _bearingVectors2[pairIndex]->size());
   return (*_bearingVectors2[pairIndex])[correspondenceIndex];
@@ -113,12 +104,8 @@ size_t
 opengv::relative_pose::CentralRelativeMultiAdapter::
     getNumberCorrespondences(size_t pairIndex) const
 {
-  assert(pairIndex < _bearingVectors1.size());
   assert(pairIndex < _bearingVectors2.size());
-  assert(pairIndex < _matches.size());
-
-  assert(_matches[pairIndex]->size() == _bearingVectors2[pairIndex]->size());
-  return _matches[pairIndex]->size();
+  return _bearingVectors2[pairIndex]->size();
 }
 
 size_t

@@ -39,22 +39,7 @@ opengv::absolute_pose::MANoncentralAbsolute::MANoncentralAbsolute(
     _points(points),
     _bearingVectors(bearingVectors),
     _numberPoints(numberPoints),
-    _numberBearingVectors(numberBearingVectors),
-    _useMatches(false)
-{}
-
-opengv::absolute_pose::MANoncentralAbsolute::MANoncentralAbsolute(
-    const double * points,
-    const double * bearingVectors,
-    const double * matches,
-    int numberPoints,
-    int numberBearingVectors ) :
-    _points(points),
-    _bearingVectors(bearingVectors),
-    _matches(matches),
-    _numberPoints(numberPoints),
-    _numberBearingVectors(numberBearingVectors),
-    _useMatches(true)
+    _numberBearingVectors(numberBearingVectors)
 {}
 
 opengv::absolute_pose::MANoncentralAbsolute::~MANoncentralAbsolute()
@@ -84,22 +69,10 @@ opengv::absolute_pose::MANoncentralAbsolute::
     getPoint( size_t index ) const
 {
   point_t point;
-  if( _useMatches )
-  {
-    assert(index < _numberBearingVectors);
-    int i = floor(_matches[index] + 0.01);
-    assert(i < _numberPoints);
-    point[0] = _points[i * 3];
-    point[1] = _points[i * 3 + 1];
-    point[2] = _points[i * 3 + 2];
-  }
-  else
-  {
-    assert(index < _numberPoints);
-    point[0] = _points[index * 3];
-    point[1] = _points[index * 3 + 1];
-    point[2] = _points[index * 3 + 2];
-  }
+  assert(index < _numberPoints);
+  point[0] = _points[index * 3];
+  point[1] = _points[index * 3 + 1];
+  point[2] = _points[index * 3 + 2];
   return point;
 }
 
@@ -119,8 +92,6 @@ opengv::rotation_t
 opengv::absolute_pose::MANoncentralAbsolute::getCamRotation(
     size_t index ) const
 {
-  //we could insert a check here that camIndex is 0, because this adapter is
-  //for a single camera only
   return Eigen::Matrix3d::Identity();
 }
 

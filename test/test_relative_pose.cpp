@@ -72,14 +72,13 @@ int main( int argc, char** argv )
   //derive correspondences based on random point-cloud
   bearingVectors_t bearingVectors1;
   bearingVectors_t bearingVectors2;
-  std::vector<int> matches;
   std::vector<int> camCorrespondences1; //unused in the central case
   std::vector<int> camCorrespondences2; //unused in the central case
   Eigen::MatrixXd gt(3,numberPoints);
   generateRandom2D2DCorrespondences(
       position1, rotation1, position2, rotation2,
       camOffsets, camRotations, numberPoints, noise, outlierFraction,
-      bearingVectors1, bearingVectors2, matches,
+      bearingVectors1, bearingVectors2,
       camCorrespondences1, camCorrespondences2, gt );
 
   //Extract the relative pose
@@ -97,7 +96,6 @@ int main( int argc, char** argv )
   relative_pose::CentralRelativeAdapter adapter(
       bearingVectors1,
       bearingVectors2,
-      matches,
       rotation);
 
   //timer

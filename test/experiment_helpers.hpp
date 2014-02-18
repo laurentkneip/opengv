@@ -91,7 +91,6 @@ void generateRandom2D3DCorrespondences(
     double outlierFraction,
     bearingVectors_t & bearingVectors,
     points_t & points,
-    std::vector<int> & matches,
     std::vector<int> & camCorrespondences,
     Eigen::MatrixXd & gt );
     
@@ -107,7 +106,6 @@ void generateRandom2D2DCorrespondences(
     double outlierFraction,
     bearingVectors_t & bearingVectors1,
     bearingVectors_t & bearingVectors2,
-    std::vector<int> & matches,
     std::vector<int> & camCorrespondences1,
     std::vector<int> & camCorrespondences2,
     Eigen::MatrixXd & gt );
@@ -122,7 +120,6 @@ void generateRandom3D3DCorrespondences(
     double outlierFraction,
     bearingVectors_t & points1,
     bearingVectors_t & points2,
-    std::vector<int> & matches,
     Eigen::MatrixXd & gt );
     
 void generateMulti2D2DCorrespondences(
@@ -137,7 +134,6 @@ void generateMulti2D2DCorrespondences(
     double outlierFraction,
     std::vector<boost::shared_ptr<bearingVectors_t> > & multiBearingVectors1,
     std::vector<boost::shared_ptr<bearingVectors_t> > & multiBearingVectors2,
-    std::vector<boost::shared_ptr<std::vector<int> > > & multiMatches,
     std::vector<boost::shared_ptr<Eigen::MatrixXd> > & gt );
 
 }

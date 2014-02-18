@@ -24,7 +24,7 @@
  * collaborate on one of these points.
  *
  * <ul>
- * <li> The library now allows very easily further benchmarks, for instance all the special cases (e.g. planar structure etc.).
+ * <li> The library should easily permit further benchmarks, for instance all the special cases (e.g. planar structure etc.).
  * <li> The triangulation method needs to be able to handle non-central viewpoints. This would avoid some hacks here and there. Same accounts for the point-cloud alignment methods.
  * <li> The triangulation methods (and possibly further algorithms) should be included in the opengv-Matlab-interface.
  * <li> Add the AbsoluteMultiAdapterBase class, homogeneous sampling is also useful in the non-central absolute pose situation.
@@ -36,6 +36,8 @@
  * <li> Hongdong Li's five-point solver should be included.
  * <li> Kukelova's polynomial eigenvalue solution should be included.
  * <li> P4P and DLT should be included.
+ * <li> What about DLS and OPnP? Only Matlab versions are publically available.
+ * <li> The 6-point by Stewenius is extremly difficult to reimplement. The reimplementation I provide is maybe not the best.
  * <li> Most of the current implementations treat the correspondences equally. The AdapterBase-classes however contain already a virtual function called "getWeight", which could be used to weight the correspondences differently for instance in a non-linear optimization. Most of the adapters currently simply return 1.0 for these calls. Only the CentralRelativeWeightingAdapter has contructors that include the weight of the correspondences.
  * <li> arun_complete and threept_arun are redundant, we should get rid of one of them.
  * <li> The polynomial structures are Matlab-like arrays of coefficients, of different types, and sometimes with different conventions (coefficients once stored along the lines, once along the columns).

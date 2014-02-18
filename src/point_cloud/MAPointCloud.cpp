@@ -40,23 +40,7 @@ opengv::point_cloud::MAPointCloud::MAPointCloud(
     _points1(points1),
     _points2(points2),
     _numberPoints1(numberPoints1),
-    _numberPoints2(numberPoints2),
-    _useMatches(false)
-{}
-
-opengv::point_cloud::MAPointCloud::MAPointCloud(
-    const double * points1,
-    const double * points2,
-    const double * matches,
-    int numberPoints1,
-    int numberPoints2 ) :
-    PointCloudAdapterBase(),
-    _points1(points1),
-    _points2(points2),
-    _matches(matches),
-    _numberPoints1(numberPoints1),
-    _numberPoints2(numberPoints2),
-    _useMatches(true)
+    _numberPoints2(numberPoints2)
 {}
 
 opengv::point_cloud::MAPointCloud::~MAPointCloud()
@@ -67,22 +51,10 @@ opengv::point_cloud::MAPointCloud::
     getPoint1( size_t index ) const
 {  
   point_t point;
-  if(_useMatches)
-  {
-    assert( index < _numberPoints2 );
-    int i = floor( _matches[index] + 0.01 );
-    assert( i < _numberPoints1 );
-    point[0] = _points1[ 3 * i];
-    point[1] = _points1[ 3 * i + 1];
-    point[2] = _points1[ 3 * i + 2];
-  }
-  else
-  {
-    assert( index < _numberPoints1 );
-    point[0] = _points1[ 3 * index];
-    point[1] = _points1[ 3 * index + 1];
-    point[2] = _points1[ 3 * index + 2];
-  }
+  assert( index < _numberPoints1 );
+  point[0] = _points1[ 3 * index];
+  point[1] = _points1[ 3 * index + 1];
+  point[2] = _points1[ 3 * index + 2];
   return point;
 }
 

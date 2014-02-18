@@ -435,10 +435,10 @@ opengv::absolute_pose::modules::gp3p_main(
 
 void
 opengv::absolute_pose::modules::gpnp_main(
-  const Eigen::Matrix<double,12,1> & a,
-  const Eigen::Matrix<double,12,12> & V,
-  const points_t & c,
-  transformation_t & transformation )
+    const Eigen::Matrix<double,12,1> & a,
+    const Eigen::Matrix<double,12,12> & V,
+    const points_t & c,
+    transformation_t & transformation )
 {
   //extracting the nullspace vectors
   Eigen::Matrix<double,12,1> vec_5 = V.col(7);
@@ -588,10 +588,10 @@ opengv::absolute_pose::modules::gpnp_main(
 
 double
 opengv::absolute_pose::modules::gpnp_evaluate(
-  const Eigen::Matrix<double,12,1> & solution,
-  const points_t & c,
-  translation_t & t,
-  rotation_t & R )
+    const Eigen::Matrix<double,12,1> & solution,
+    const points_t & c,
+    translation_t & t,
+    rotation_t & R )
 {
   points_t ccam;
   for(size_t i = 0; i<4; i++)
@@ -676,10 +676,10 @@ struct GpnpOptimizationFunctor : OptimizationFunctor<double>
 
 void
 opengv::absolute_pose::modules::gpnp_optimize(
-  const Eigen::Matrix<double,12,1> & a,
-  const Eigen::Matrix<double,12,12> & V,
-  const points_t & c,
-  std::vector<double> & factors )
+    const Eigen::Matrix<double,12,1> & a,
+    const Eigen::Matrix<double,12,12> & V,
+    const points_t & c,
+    std::vector<double> & factors )
 {
   const int n=factors.size();
   VectorXd x(n);

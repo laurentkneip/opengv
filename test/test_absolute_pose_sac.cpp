@@ -72,12 +72,11 @@ int main( int argc, char** argv )
   //derive correspondences based on random point-cloud
   bearingVectors_t bearingVectors;
   points_t points;
-  std::vector<int> matches;
   std::vector<int> camCorrespondences; //unused in the central case!
   Eigen::MatrixXd gt(3,numberPoints);
   generateRandom2D3DCorrespondences(
       position, rotation, camOffsets, camRotations, numberPoints, noise, outlierFraction,
-      bearingVectors, points, matches, camCorrespondences, gt );
+      bearingVectors, points, camCorrespondences, gt );
 
   //print the experiment characteristics
   printExperimentCharacteristics(
@@ -87,7 +86,6 @@ int main( int argc, char** argv )
   absolute_pose::CentralAbsoluteAdapter adapter(
       bearingVectors,
       points,
-      matches,
       rotation);
 
   //Create an AbsolutePoseSac problem and Ransac

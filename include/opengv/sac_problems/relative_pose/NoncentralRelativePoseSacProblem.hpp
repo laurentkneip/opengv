@@ -74,15 +74,26 @@ public:
   /** The type of adapter that is expected by the methods */
   typedef opengv::relative_pose::RelativeAdapterBase adapter_t;
 
+  /** The possible algorithms for solving this problem */
+  typedef enum Algorithm
+  {
+    SIXPT = 0,      // [16]
+    GE = 1,         // []
+    SEVENTEENPT = 2 // [12]
+  } algorithm_t;
+
   /**
    * \brief Constructor.
    * \param[in] adapter Visitor holding bearing vector correspondences etc.
+   * \param[in] algorithm The algorithm to use.
    * \param[in] asCentral Solve problem with only one camera?
    */
-  NoncentralRelativePoseSacProblem(adapter_t & adapter, bool asCentral = false ) :
-    SampleConsensusProblem<model_t> (),
-    _adapter(adapter),
-    _asCentral(asCentral)
+  NoncentralRelativePoseSacProblem(
+      adapter_t & adapter, algorithm_t algorithm, bool asCentral = false ) :
+      SampleConsensusProblem<model_t> (),
+      _adapter(adapter),
+      _algorithm(algorithm),
+      _asCentral(asCentral)
   {
     setUniformIndices(adapter.getNumberCorrespondences());
   };
@@ -90,16 +101,19 @@ public:
   /**
    * \brief Constructor.
    * \param[in] adapter Visitor holding bearing vector correspondences etc.
+   * \param[in] algorithm The algorithm to use
    * \param[in] indices A vector of indices to be used from all available
    *                    correspondences.
    * \param[in] asCentral Solve problem with only one camera?
    */
   NoncentralRelativePoseSacProblem(
       adapter_t & adapter,
+      algorithm_t algorithm,
       const std::vector<int> & indices,
       bool asCentral = false ) :
       SampleConsensusProblem<model_t> (),
       _adapter(adapter),
+      _algorithm(algorithm),
       _asCentral(asCentral)
   {
     setIndices(indices);
@@ -141,6 +155,8 @@ public:
 protected:
   /** The adapter holding all input data. */
   adapter_t & _adapter;
+  /** The algorithm we are using. */
+  algorithm_t _algorithm;
   /** Use the central algorithm? (only one camera?). */
   bool _asCentral;
 };
@@ -149,4 +165,4 @@ protected:
 }
 }
 
-#endif  //#ifndef OPENGV_SAC_PROBLEMS_RELATIVE_POSE_NONCENTRALRELATIVEPOSESACPROBLEM_HPP_
+#endif  /* OPENGV_SAC_PROBLEMS_RELATIVE_POSE_NONCENTRALRELATIVEPOSESACPROBLEM_HPP_ */

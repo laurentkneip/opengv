@@ -32,8 +32,8 @@
  * \file RelativeMultiAdapterBase.hpp
  * \brief Adapter-class for passing bearing-vector correspondences to the
  *        relative-pose algorithms. Intended for multi-central-viewpoint or
- *        relative non-central-viewpoint problems. Access of correspondences etc.
- *        via an additional pair-index referring to the pairs of cameras.
+ *        relative non-central-viewpoint problems. Access of correspondences
+ *        etc. via an additional pair-index referring to the pairs of cameras.
  */
 
 #ifndef OPENGV_RELATIVE_POSE_RELATIVEMULTIADAPTERBASE_HPP_
@@ -144,8 +144,8 @@ public:
   //Conversion to and from serialized indices
   
   /**
-   * \brief Convert an array of (pairIndex,correspondenceIndex)-pairs into an array
-   *        of serialized indices.
+   * \brief Convert an array of (pairIndex,correspondenceIndex)-pairs into an
+   *        array of serialized indices.
    * \param[in] multiIndices Array of (pairIndex,correspondenceIndex)-pairs.
    * \return Array of single serialized indices referring uniquely to
    *         (pairIndex,correspondenceIndex)-pairs.
