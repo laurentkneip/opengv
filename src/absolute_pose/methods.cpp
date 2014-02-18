@@ -37,8 +37,6 @@
 
 #include <opengv/absolute_pose/modules/main.hpp>
 #include <opengv/absolute_pose/modules/Epnp.hpp>
-#include <opengv/absolute_pose/modules/upnp2.hpp>
-#include <opengv/absolute_pose/modules/upnp4.hpp>
 #include <opengv/OptimizationFunctor.hpp>
 #include <opengv/math/cayley.hpp>
 #include <opengv/math/quaternion.hpp>
