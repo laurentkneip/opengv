@@ -130,37 +130,37 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00051"></a>00051 
 <a name="l00056"></a><a class="code" href="structopengv_1_1Indices.html">00056</a> <span class="keyword">struct </span><a class="code" href="structopengv_1_1Indices.html">Indices</a>
 <a name="l00057"></a>00057 {
-<a name="l00058"></a>00058   <span class="keywordtype">bool</span> _useIndices;
-<a name="l00059"></a>00059   <span class="keyword">const</span> std::vector&lt;int&gt; * _indices;
-<a name="l00060"></a>00060   <span class="keywordtype">size_t</span> _numberCorrespondences;
-<a name="l00061"></a>00061 
-<a name="l00062"></a>00062   <a class="code" href="structopengv_1_1Indices.html">Indices</a>( <span class="keyword">const</span> std::vector&lt;int&gt; &amp; indices) :
-<a name="l00063"></a>00063     _useIndices(<span class="keyword">true</span>),
-<a name="l00064"></a>00064     _indices(&amp;indices),
-<a name="l00065"></a>00065     _numberCorrespondences(indices.size())
-<a name="l00066"></a>00066   {}
-<a name="l00067"></a>00067 
-<a name="l00068"></a>00068   <a class="code" href="structopengv_1_1Indices.html">Indices</a>(<span class="keywordtype">size_t</span> numberCorrespondences) :
-<a name="l00069"></a>00069       _useIndices(<span class="keyword">false</span>),
-<a name="l00070"></a>00070       _numberCorrespondences(numberCorrespondences)
-<a name="l00071"></a>00071   {}
-<a name="l00072"></a>00072 
-<a name="l00073"></a>00073   <span class="keywordtype">size_t</span> size()<span class="keyword"> const</span>
-<a name="l00074"></a>00074 <span class="keyword">  </span>{
-<a name="l00075"></a>00075     <span class="keywordflow">return</span> _numberCorrespondences;
-<a name="l00076"></a>00076   }
-<a name="l00077"></a>00077 
-<a name="l00078"></a>00078   <span class="keywordtype">int</span> operator[](<span class="keywordtype">int</span> i)<span class="keyword"> const</span>
-<a name="l00079"></a>00079 <span class="keyword">  </span>{
-<a name="l00080"></a>00080     <span class="keywordflow">if</span>( _useIndices )
-<a name="l00081"></a>00081       <span class="keywordflow">return</span> (*_indices)[i];
-<a name="l00082"></a>00082     <span class="keywordflow">return</span> i;
-<a name="l00083"></a>00083   }
-<a name="l00084"></a>00084 };
-<a name="l00085"></a>00085 
-<a name="l00086"></a>00086 }
-<a name="l00087"></a>00087 
-<a name="l00088"></a>00088 <span class="preprocessor">#endif </span><span class="comment">/* OPENGV_INDICES_HPP_ */</span>
+<a name="l00059"></a><a class="code" href="structopengv_1_1Indices.html#a5c91f9146b83c6c2a0513435536d2691">00059</a>   <span class="keywordtype">bool</span> <a class="code" href="structopengv_1_1Indices.html#a5c91f9146b83c6c2a0513435536d2691">_useIndices</a>;
+<a name="l00061"></a><a class="code" href="structopengv_1_1Indices.html#ae5af9380cd46ec42bae048e1f7223220">00061</a>   <span class="keyword">const</span> std::vector&lt;int&gt; * <a class="code" href="structopengv_1_1Indices.html#ae5af9380cd46ec42bae048e1f7223220">_indices</a>;
+<a name="l00063"></a><a class="code" href="structopengv_1_1Indices.html#aed2c4b6cb6085995b3ebdb484c06108e">00063</a>   <span class="keywordtype">size_t</span> <a class="code" href="structopengv_1_1Indices.html#aed2c4b6cb6085995b3ebdb484c06108e">_numberCorrespondences</a>;
+<a name="l00064"></a>00064 
+<a name="l00069"></a><a class="code" href="structopengv_1_1Indices.html#aeb9149f725b6bebbfc2654ccb6f1f0b2">00069</a>   <a class="code" href="structopengv_1_1Indices.html">Indices</a>( <span class="keyword">const</span> std::vector&lt;int&gt; &amp; indices) :
+<a name="l00070"></a>00070     _useIndices(true),
+<a name="l00071"></a>00071     _indices(&amp;indices),
+<a name="l00072"></a>00072     _numberCorrespondences(indices.size())
+<a name="l00073"></a>00073   {}
+<a name="l00074"></a>00074 
+<a name="l00079"></a><a class="code" href="structopengv_1_1Indices.html#aace79eec0204164dd8b34b84fcd228d2">00079</a>   <a class="code" href="structopengv_1_1Indices.html">Indices</a>(<span class="keywordtype">size_t</span> numberCorrespondences) :
+<a name="l00080"></a>00080       _useIndices(false),
+<a name="l00081"></a>00081       _numberCorrespondences(numberCorrespondences)
+<a name="l00082"></a>00082   {}
+<a name="l00083"></a>00083 
+<a name="l00088"></a><a class="code" href="structopengv_1_1Indices.html#a0eaccc5162a421d6b8f99d26521395df">00088</a>   <span class="keywordtype">size_t</span> size()<span class="keyword"> const</span>
+<a name="l00089"></a>00089 <span class="keyword">  </span>{
+<a name="l00090"></a>00090     <span class="keywordflow">return</span> _numberCorrespondences;
+<a name="l00091"></a>00091   }
+<a name="l00092"></a>00092 
+<a name="l00098"></a><a class="code" href="structopengv_1_1Indices.html#a37dd06fe4e68fa007733eeb57d6a09a1">00098</a>   <span class="keywordtype">int</span> operator[](<span class="keywordtype">int</span> i)<span class="keyword"> const</span>
+<a name="l00099"></a>00099 <span class="keyword">  </span>{
+<a name="l00100"></a>00100     <span class="keywordflow">if</span>( _useIndices )
+<a name="l00101"></a>00101       <span class="keywordflow">return</span> (*_indices)[i];
+<a name="l00102"></a>00102     <span class="keywordflow">return</span> i;
+<a name="l00103"></a>00103   }
+<a name="l00104"></a>00104 };
+<a name="l00105"></a>00105 
+<a name="l00106"></a>00106 }
+<a name="l00107"></a>00107 
+<a name="l00108"></a>00108 <span class="preprocessor">#endif </span><span class="comment">/* OPENGV_INDICES_HPP_ */</span>
 </pre></div></div><!-- contents -->
 </div>
 <!-- window showing the filter options -->
@@ -181,7 +181,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul>
       <li class="navelem"><a class="el" href="Indices_8hpp.html">Indices.hpp</a>      </li>
 
-    <li class="footer">Generated on Tue Feb 18 2014 15:31:57 for OpenGV by
+    <li class="footer">Generated on Tue Feb 18 2014 15:49:19 for OpenGV by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
    </ul>

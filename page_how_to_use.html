@@ -366,7 +366,7 @@ relative_pose::NoncentralRelativeAdapter adapter(
     <a class="code" href="namespaceopengv_1_1relative__pose.html#af5935af73d282ad4c8c5134ed0572436" title="Compute the relative rotation between two non-central viewpoints following Stewenius&#39; method [16]...">relative_pose::sixpt</a>( adapter, indices );
 
 <span class="comment">// generalized eigensolver (over all points)</span>
-geOutput_t output;
+<a class="code" href="namespaceopengv.html#a2a6f7a963d928b515aacdfff17882899">geOutput_t</a> output;
 <a class="code" href="namespaceopengv_1_1relative__pose.html#ae01b9e51d594cbd963645464174e762a" title="Compute the rotation matrix between two non-central viewpoints as an iterative eigenproblem. Using all available correspondences.">relative_pose::ge</a>(adapter,output);
 <a class="code" href="namespaceopengv.html#abba454dc7125a489191f32645216a1a5">translation_t</a> ge_translation = output.translation.block&lt;3,1&gt;(0,0);
 <a class="code" href="namespaceopengv.html#a8df9be48bee2fbd07982bb70084f7743">rotation_t</a> ge_rotation = output.rotation;
@@ -617,7 +617,7 @@ benchmark_relative_pose_noncentral.m </li>
   <div id="nav-path" class="navpath">
     <ul>
 
-    <li class="footer">Generated on Tue Feb 18 2014 15:31:58 for OpenGV by
+    <li class="footer">Generated on Tue Feb 18 2014 15:49:19 for OpenGV by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
    </ul>
