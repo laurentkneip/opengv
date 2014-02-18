@@ -1,9 +1,8 @@
 var classopengv_1_1absolute__pose_1_1NoncentralAbsoluteAdapter =
 [
-    [ "camCorrespondences_t", "classopengv_1_1absolute__pose_1_1NoncentralAbsoluteAdapter.html#a1c3dc2b9d7503cb7b1f83fcc31bb5814", null ],
-    [ "NoncentralAbsoluteAdapter", "classopengv_1_1absolute__pose_1_1NoncentralAbsoluteAdapter.html#a8891bac7f6883a9d0cbabdc164d0c5ef", null ],
-    [ "NoncentralAbsoluteAdapter", "classopengv_1_1absolute__pose_1_1NoncentralAbsoluteAdapter.html#ad40ebdfd65a92b428275c41bba4eb6ba", null ],
-    [ "NoncentralAbsoluteAdapter", "classopengv_1_1absolute__pose_1_1NoncentralAbsoluteAdapter.html#a8f6bdf73d0c29f9104d65ddbd321e5de", null ],
+    [ "NoncentralAbsoluteAdapter", "classopengv_1_1absolute__pose_1_1NoncentralAbsoluteAdapter.html#a4b500aaa39418de5dea9e25fb93803d5", null ],
+    [ "NoncentralAbsoluteAdapter", "classopengv_1_1absolute__pose_1_1NoncentralAbsoluteAdapter.html#adaa846addbff103d8e48d9c8e8174a84", null ],
+    [ "NoncentralAbsoluteAdapter", "classopengv_1_1absolute__pose_1_1NoncentralAbsoluteAdapter.html#a8592fb5e4902d494162e1b8eb18c8f4b", null ],
     [ "~NoncentralAbsoluteAdapter", "classopengv_1_1absolute__pose_1_1NoncentralAbsoluteAdapter.html#a73cb56a4af2d8c72b6115414b7324106", null ],
     [ "getBearingVector", "classopengv_1_1absolute__pose_1_1NoncentralAbsoluteAdapter.html#ae57746e53db80616b54f60c5ff15c292", null ],
     [ "getCamOffset", "classopengv_1_1absolute__pose_1_1NoncentralAbsoluteAdapter.html#ab85e5bd54ac88312b889eb6962420cd6", null ],
@@ -15,7 +14,6 @@ var classopengv_1_1absolute__pose_1_1NoncentralAbsoluteAdapter =
     [ "_camCorrespondences", "classopengv_1_1absolute__pose_1_1NoncentralAbsoluteAdapter.html#a718b4794c17c5a41981fb3497f756cad", null ],
     [ "_camOffsets", "classopengv_1_1absolute__pose_1_1NoncentralAbsoluteAdapter.html#a46d7b29eac9ccc2d4a69b6d55002c801", null ],
     [ "_camRotations", "classopengv_1_1absolute__pose_1_1NoncentralAbsoluteAdapter.html#a46c6ca1d3c9d40078ca402615a1efac8", null ],
-    [ "_matches", "classopengv_1_1absolute__pose_1_1NoncentralAbsoluteAdapter.html#ae02922621ae0b9c9649fc6649367cc24", null ],
     [ "_points", "classopengv_1_1absolute__pose_1_1NoncentralAbsoluteAdapter.html#ab253d261a31f8ecebee2d2ec25f752e7", null ],
-    [ "matches_t", "classopengv_1_1absolute__pose_1_1NoncentralAbsoluteAdapter.html#aa067ffc5c8c453f6412a407937c7efa4", null ]
+    [ "camCorrespondences_t", "classopengv_1_1absolute__pose_1_1NoncentralAbsoluteAdapter.html#acd9c78cad9bb7112188ab4b6f1a3ff49", null ]
 ];

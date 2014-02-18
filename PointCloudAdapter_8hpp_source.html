@@ -138,42 +138,36 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00067"></a>00067 <span class="keyword">public</span>:
 <a name="l00068"></a>00068   EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 <a name="l00069"></a>00069 
-<a name="l00071"></a><a class="code" href="classopengv_1_1point__cloud_1_1PointCloudAdapter.html#acadbf39125780a2b45e03861e9fab8c0">00071</a>   <span class="keyword">typedef</span> std::vector&lt;int&gt; <a class="code" href="classopengv_1_1point__cloud_1_1PointCloudAdapter.html#acadbf39125780a2b45e03861e9fab8c0">matches_t</a>;
-<a name="l00072"></a>00072 
-<a name="l00076"></a>00076   <a class="code" href="classopengv_1_1point__cloud_1_1PointCloudAdapter.html#a95d68d5545cb31896d0fc7c3e09eed73" title="Constructor. See protected class-members to understand parameters.">PointCloudAdapter</a>(
-<a name="l00077"></a>00077       <span class="keyword">const</span> <a class="code" href="namespaceopengv.html#af8401472562fad9602cc449b312e5092">points_t</a> &amp; points1,
-<a name="l00078"></a>00078       <span class="keyword">const</span> <a class="code" href="namespaceopengv.html#af8401472562fad9602cc449b312e5092">points_t</a> &amp; points2,
-<a name="l00079"></a>00079       <span class="keyword">const</span> <a class="code" href="classopengv_1_1point__cloud_1_1PointCloudAdapter.html#acadbf39125780a2b45e03861e9fab8c0">matches_t</a> &amp; matches );
-<a name="l00083"></a>00083   <a class="code" href="classopengv_1_1point__cloud_1_1PointCloudAdapter.html#a95d68d5545cb31896d0fc7c3e09eed73" title="Constructor. See protected class-members to understand parameters.">PointCloudAdapter</a>(
-<a name="l00084"></a>00084       <span class="keyword">const</span> <a class="code" href="namespaceopengv.html#af8401472562fad9602cc449b312e5092">points_t</a> &amp; points1,
-<a name="l00085"></a>00085       <span class="keyword">const</span> <a class="code" href="namespaceopengv.html#af8401472562fad9602cc449b312e5092">points_t</a> &amp; points2,
-<a name="l00086"></a>00086       <span class="keyword">const</span> <a class="code" href="classopengv_1_1point__cloud_1_1PointCloudAdapter.html#acadbf39125780a2b45e03861e9fab8c0">matches_t</a> &amp; matches,
-<a name="l00087"></a>00087       <span class="keyword">const</span> <a class="code" href="namespaceopengv.html#a8df9be48bee2fbd07982bb70084f7743">rotation_t</a> &amp; R12 );
-<a name="l00091"></a>00091   <a class="code" href="classopengv_1_1point__cloud_1_1PointCloudAdapter.html#a95d68d5545cb31896d0fc7c3e09eed73" title="Constructor. See protected class-members to understand parameters.">PointCloudAdapter</a>(
-<a name="l00092"></a>00092       <span class="keyword">const</span> <a class="code" href="namespaceopengv.html#af8401472562fad9602cc449b312e5092">points_t</a> &amp; points1,
-<a name="l00093"></a>00093       <span class="keyword">const</span> <a class="code" href="namespaceopengv.html#af8401472562fad9602cc449b312e5092">points_t</a> &amp; points2,
-<a name="l00094"></a>00094       <span class="keyword">const</span> <a class="code" href="classopengv_1_1point__cloud_1_1PointCloudAdapter.html#acadbf39125780a2b45e03861e9fab8c0">matches_t</a> &amp; matches,
-<a name="l00095"></a>00095       <span class="keyword">const</span> <a class="code" href="namespaceopengv.html#abba454dc7125a489191f32645216a1a5">translation_t</a> &amp; t12,
-<a name="l00096"></a>00096       <span class="keyword">const</span> <a class="code" href="namespaceopengv.html#a8df9be48bee2fbd07982bb70084f7743">rotation_t</a> &amp; R12 );
-<a name="l00100"></a>00100   <span class="keyword">virtual</span> <a class="code" href="classopengv_1_1point__cloud_1_1PointCloudAdapter.html#a781d4efa2d84de06630eb026be74956b">~PointCloudAdapter</a>();
-<a name="l00101"></a>00101 
-<a name="l00102"></a>00102   <span class="comment">//Access of correspondences</span>
-<a name="l00103"></a>00103   
-<a name="l00105"></a>00105   <span class="keyword">virtual</span> <a class="code" href="namespaceopengv.html#a78ee8c281c2166f39efcf940f08aaecd">opengv::point_t</a> <a class="code" href="classopengv_1_1point__cloud_1_1PointCloudAdapter.html#a3525ac81d9c45a9cffe5f2e37a1bff24">getPoint1</a>( <span class="keywordtype">size_t</span> index ) <span class="keyword">const</span>;
-<a name="l00107"></a>00107   <span class="keyword">virtual</span> <a class="code" href="namespaceopengv.html#a78ee8c281c2166f39efcf940f08aaecd">opengv::point_t</a> <a class="code" href="classopengv_1_1point__cloud_1_1PointCloudAdapter.html#af348aa8c3a156d1357b6be4befcb7734">getPoint2</a>( <span class="keywordtype">size_t</span> index ) <span class="keyword">const</span>;
-<a name="l00109"></a>00109   <span class="keyword">virtual</span> <span class="keywordtype">double</span> <a class="code" href="classopengv_1_1point__cloud_1_1PointCloudAdapter.html#abff2615fde91776fa68d1610a313ccb9">getWeight</a>( <span class="keywordtype">size_t</span> index ) <span class="keyword">const</span>;
-<a name="l00111"></a>00111   <span class="keyword">virtual</span> <span class="keywordtype">size_t</span> <a class="code" href="classopengv_1_1point__cloud_1_1PointCloudAdapter.html#a5de05b0d0a2e63c9917c10d2a03d716c">getNumberCorrespondences</a>() <span class="keyword">const</span>;
-<a name="l00112"></a>00112 
-<a name="l00113"></a>00113 <span class="keyword">private</span>:
-<a name="l00115"></a>00115   <span class="keyword">const</span> <a class="code" href="namespaceopengv.html#af8401472562fad9602cc449b312e5092">points_t</a> &amp; _points1;
-<a name="l00117"></a>00117   <span class="keyword">const</span> <a class="code" href="namespaceopengv.html#af8401472562fad9602cc449b312e5092">points_t</a> &amp; _points2;
-<a name="l00122"></a>00122   <span class="keyword">const</span> <a class="code" href="classopengv_1_1point__cloud_1_1PointCloudAdapter.html#acadbf39125780a2b45e03861e9fab8c0">matches_t</a> &amp; _matches;
-<a name="l00123"></a>00123 };
-<a name="l00124"></a>00124 
-<a name="l00125"></a>00125 }
-<a name="l00126"></a>00126 }
-<a name="l00127"></a>00127 
-<a name="l00128"></a>00128 <span class="preprocessor">#endif </span><span class="comment">/* OPENGV_POINTCLOUDADAPTER_HPP_ */</span>
+<a name="l00073"></a>00073   <a class="code" href="classopengv_1_1point__cloud_1_1PointCloudAdapter.html#acae551459bb9982e2e05c12800482b66" title="Constructor. See protected class-members to understand parameters.">PointCloudAdapter</a>(
+<a name="l00074"></a>00074       <span class="keyword">const</span> <a class="code" href="namespaceopengv.html#af8401472562fad9602cc449b312e5092">points_t</a> &amp; points1,
+<a name="l00075"></a>00075       <span class="keyword">const</span> <a class="code" href="namespaceopengv.html#af8401472562fad9602cc449b312e5092">points_t</a> &amp; points2 );
+<a name="l00079"></a>00079   <a class="code" href="classopengv_1_1point__cloud_1_1PointCloudAdapter.html#acae551459bb9982e2e05c12800482b66" title="Constructor. See protected class-members to understand parameters.">PointCloudAdapter</a>(
+<a name="l00080"></a>00080       <span class="keyword">const</span> <a class="code" href="namespaceopengv.html#af8401472562fad9602cc449b312e5092">points_t</a> &amp; points1,
+<a name="l00081"></a>00081       <span class="keyword">const</span> <a class="code" href="namespaceopengv.html#af8401472562fad9602cc449b312e5092">points_t</a> &amp; points2,
+<a name="l00082"></a>00082       <span class="keyword">const</span> <a class="code" href="namespaceopengv.html#a8df9be48bee2fbd07982bb70084f7743">rotation_t</a> &amp; R12 );
+<a name="l00086"></a>00086   <a class="code" href="classopengv_1_1point__cloud_1_1PointCloudAdapter.html#acae551459bb9982e2e05c12800482b66" title="Constructor. See protected class-members to understand parameters.">PointCloudAdapter</a>(
+<a name="l00087"></a>00087       <span class="keyword">const</span> <a class="code" href="namespaceopengv.html#af8401472562fad9602cc449b312e5092">points_t</a> &amp; points1,
+<a name="l00088"></a>00088       <span class="keyword">const</span> <a class="code" href="namespaceopengv.html#af8401472562fad9602cc449b312e5092">points_t</a> &amp; points2,
+<a name="l00089"></a>00089       <span class="keyword">const</span> <a class="code" href="namespaceopengv.html#abba454dc7125a489191f32645216a1a5">translation_t</a> &amp; t12,
+<a name="l00090"></a>00090       <span class="keyword">const</span> <a class="code" href="namespaceopengv.html#a8df9be48bee2fbd07982bb70084f7743">rotation_t</a> &amp; R12 );
+<a name="l00094"></a>00094   <span class="keyword">virtual</span> <a class="code" href="classopengv_1_1point__cloud_1_1PointCloudAdapter.html#a781d4efa2d84de06630eb026be74956b">~PointCloudAdapter</a>();
+<a name="l00095"></a>00095 
+<a name="l00096"></a>00096   <span class="comment">//Access of correspondences</span>
+<a name="l00097"></a>00097   
+<a name="l00099"></a>00099   <span class="keyword">virtual</span> <a class="code" href="namespaceopengv.html#a78ee8c281c2166f39efcf940f08aaecd">opengv::point_t</a> <a class="code" href="classopengv_1_1point__cloud_1_1PointCloudAdapter.html#a3525ac81d9c45a9cffe5f2e37a1bff24">getPoint1</a>( <span class="keywordtype">size_t</span> index ) <span class="keyword">const</span>;
+<a name="l00101"></a>00101   <span class="keyword">virtual</span> <a class="code" href="namespaceopengv.html#a78ee8c281c2166f39efcf940f08aaecd">opengv::point_t</a> <a class="code" href="classopengv_1_1point__cloud_1_1PointCloudAdapter.html#af348aa8c3a156d1357b6be4befcb7734">getPoint2</a>( <span class="keywordtype">size_t</span> index ) <span class="keyword">const</span>;
+<a name="l00103"></a>00103   <span class="keyword">virtual</span> <span class="keywordtype">double</span> <a class="code" href="classopengv_1_1point__cloud_1_1PointCloudAdapter.html#abff2615fde91776fa68d1610a313ccb9">getWeight</a>( <span class="keywordtype">size_t</span> index ) <span class="keyword">const</span>;
+<a name="l00105"></a>00105   <span class="keyword">virtual</span> <span class="keywordtype">size_t</span> <a class="code" href="classopengv_1_1point__cloud_1_1PointCloudAdapter.html#a5de05b0d0a2e63c9917c10d2a03d716c">getNumberCorrespondences</a>() <span class="keyword">const</span>;
+<a name="l00106"></a>00106 
+<a name="l00107"></a>00107 <span class="keyword">private</span>:
+<a name="l00109"></a>00109   <span class="keyword">const</span> <a class="code" href="namespaceopengv.html#af8401472562fad9602cc449b312e5092">points_t</a> &amp; _points1;
+<a name="l00111"></a>00111   <span class="keyword">const</span> <a class="code" href="namespaceopengv.html#af8401472562fad9602cc449b312e5092">points_t</a> &amp; _points2;
+<a name="l00112"></a>00112 };
+<a name="l00113"></a>00113 
+<a name="l00114"></a>00114 }
+<a name="l00115"></a>00115 }
+<a name="l00116"></a>00116 
+<a name="l00117"></a>00117 <span class="preprocessor">#endif </span><span class="comment">/* OPENGV_POINTCLOUDADAPTER_HPP_ */</span>
 </pre></div></div><!-- contents -->
 </div>
 <!-- window showing the filter options -->
@@ -194,7 +188,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul>
       <li class="navelem"><a class="el" href="PointCloudAdapter_8hpp.html">PointCloudAdapter.hpp</a>      </li>
 
-    <li class="footer">Generated on Wed Oct 16 2013 10:55:40 for OpenGV by
+    <li class="footer">Generated on Tue Feb 18 2014 15:31:57 for OpenGV by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
    </ul>

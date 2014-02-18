@@ -9,6 +9,8 @@ var annotated =
     [ "opengv::relative_pose::CentralRelativeWeightingAdapter", "classopengv_1_1relative__pose_1_1CentralRelativeWeightingAdapter.html", "classopengv_1_1relative__pose_1_1CentralRelativeWeightingAdapter" ],
     [ "opengv::EigensolverOutput", "structopengv_1_1EigensolverOutput.html", "structopengv_1_1EigensolverOutput" ],
     [ "opengv::sac_problems::relative_pose::EigensolverSacProblem", "classopengv_1_1sac__problems_1_1relative__pose_1_1EigensolverSacProblem.html", "classopengv_1_1sac__problems_1_1relative__pose_1_1EigensolverSacProblem" ],
+    [ "opengv::GeOutput", "structopengv_1_1GeOutput.html", "structopengv_1_1GeOutput" ],
+    [ "opengv::Indices", "structopengv_1_1Indices.html", "structopengv_1_1Indices" ],
     [ "opengv::absolute_pose::MACentralAbsolute", "classopengv_1_1absolute__pose_1_1MACentralAbsolute.html", "classopengv_1_1absolute__pose_1_1MACentralAbsolute" ],
     [ "opengv::relative_pose::MACentralRelative", "classopengv_1_1relative__pose_1_1MACentralRelative.html", "classopengv_1_1relative__pose_1_1MACentralRelative" ],
     [ "opengv::absolute_pose::MANoncentralAbsolute", "classopengv_1_1absolute__pose_1_1MANoncentralAbsolute.html", "classopengv_1_1absolute__pose_1_1MANoncentralAbsolute" ],

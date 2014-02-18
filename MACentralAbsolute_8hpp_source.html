@@ -143,39 +143,30 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00076"></a>00076       <span class="keyword">const</span> <span class="keywordtype">double</span> * bearingVectors,
 <a name="l00077"></a>00077       <span class="keywordtype">int</span> numberPoints,
 <a name="l00078"></a>00078       <span class="keywordtype">int</span> numberBearingVectors );
-<a name="l00079"></a>00079   
-<a name="l00083"></a>00083   <a class="code" href="classopengv_1_1absolute__pose_1_1MACentralAbsolute.html#a1a28f9907b0abe4429e78f328a0950c9" title="Constructor. See protected class-members to understand parameters.">MACentralAbsolute</a>(
-<a name="l00084"></a>00084       <span class="keyword">const</span> <span class="keywordtype">double</span> * points,
-<a name="l00085"></a>00085       <span class="keyword">const</span> <span class="keywordtype">double</span> * bearingVectors,
-<a name="l00086"></a>00086       <span class="keyword">const</span> <span class="keywordtype">double</span> * matches,
-<a name="l00087"></a>00087       <span class="keywordtype">int</span> numberPoints,
-<a name="l00088"></a>00088       <span class="keywordtype">int</span> numberBearingVectors );
-<a name="l00089"></a>00089       
-<a name="l00093"></a>00093   <span class="keyword">virtual</span> <a class="code" href="classopengv_1_1absolute__pose_1_1MACentralAbsolute.html#a1f2f84eea3024e119188660258ea8365">~MACentralAbsolute</a>();
-<a name="l00094"></a>00094 
-<a name="l00095"></a>00095   <span class="comment">//Access of correspondences</span>
-<a name="l00096"></a>00096   
-<a name="l00098"></a>00098   <span class="keyword">virtual</span> <a class="code" href="namespaceopengv.html#abec89b050125b2ca9bc46a09a14656ea">opengv::bearingVector_t</a> <a class="code" href="classopengv_1_1absolute__pose_1_1MACentralAbsolute.html#a6e3c503af57d505387caeb5897793c25">getBearingVector</a>( <span class="keywordtype">size_t</span> index ) <span class="keyword">const</span>;
-<a name="l00100"></a>00100   <span class="keyword">virtual</span> <span class="keywordtype">double</span> <a class="code" href="classopengv_1_1absolute__pose_1_1MACentralAbsolute.html#ae173eb48f267bb62810aa89a99f17ffe">getWeight</a>( <span class="keywordtype">size_t</span> index ) <span class="keyword">const</span>;
-<a name="l00102"></a>00102   <span class="keyword">virtual</span> <a class="code" href="namespaceopengv.html#abba454dc7125a489191f32645216a1a5">opengv::translation_t</a> <a class="code" href="classopengv_1_1absolute__pose_1_1MACentralAbsolute.html#a1e21e4eb0943e2517089a9939adc2e16">getCamOffset</a>( <span class="keywordtype">size_t</span> index ) <span class="keyword">const</span>;
-<a name="l00104"></a>00104   <span class="keyword">virtual</span> <a class="code" href="namespaceopengv.html#a8df9be48bee2fbd07982bb70084f7743">opengv::rotation_t</a> <a class="code" href="classopengv_1_1absolute__pose_1_1MACentralAbsolute.html#a6a18c5dce7a2f2475edf9d97e6e1464d">getCamRotation</a>( <span class="keywordtype">size_t</span> index ) <span class="keyword">const</span>;
-<a name="l00106"></a>00106   <span class="keyword">virtual</span> <a class="code" href="namespaceopengv.html#a78ee8c281c2166f39efcf940f08aaecd">opengv::point_t</a> <a class="code" href="classopengv_1_1absolute__pose_1_1MACentralAbsolute.html#a46aa2d1430a2722dcb47ed803ad945d9">getPoint</a>( <span class="keywordtype">size_t</span> index ) <span class="keyword">const</span>;
-<a name="l00108"></a>00108   <span class="keyword">virtual</span> <span class="keywordtype">size_t</span> <a class="code" href="classopengv_1_1absolute__pose_1_1MACentralAbsolute.html#a248df4fdcfb86c3b4db0214d0d088b41">getNumberCorrespondences</a>() <span class="keyword">const</span>;
-<a name="l00109"></a>00109 
-<a name="l00110"></a>00110 <span class="keyword">protected</span>:
+<a name="l00079"></a>00079       
+<a name="l00083"></a>00083   <span class="keyword">virtual</span> <a class="code" href="classopengv_1_1absolute__pose_1_1MACentralAbsolute.html#a1f2f84eea3024e119188660258ea8365">~MACentralAbsolute</a>();
+<a name="l00084"></a>00084 
+<a name="l00085"></a>00085   <span class="comment">//Access of correspondences</span>
+<a name="l00086"></a>00086   
+<a name="l00088"></a>00088   <span class="keyword">virtual</span> <a class="code" href="namespaceopengv.html#abec89b050125b2ca9bc46a09a14656ea">opengv::bearingVector_t</a> <a class="code" href="classopengv_1_1absolute__pose_1_1MACentralAbsolute.html#a6e3c503af57d505387caeb5897793c25">getBearingVector</a>( <span class="keywordtype">size_t</span> index ) <span class="keyword">const</span>;
+<a name="l00090"></a>00090   <span class="keyword">virtual</span> <span class="keywordtype">double</span> <a class="code" href="classopengv_1_1absolute__pose_1_1MACentralAbsolute.html#ae173eb48f267bb62810aa89a99f17ffe">getWeight</a>( <span class="keywordtype">size_t</span> index ) <span class="keyword">const</span>;
+<a name="l00092"></a>00092   <span class="keyword">virtual</span> <a class="code" href="namespaceopengv.html#abba454dc7125a489191f32645216a1a5">opengv::translation_t</a> <a class="code" href="classopengv_1_1absolute__pose_1_1MACentralAbsolute.html#a1e21e4eb0943e2517089a9939adc2e16">getCamOffset</a>( <span class="keywordtype">size_t</span> index ) <span class="keyword">const</span>;
+<a name="l00094"></a>00094   <span class="keyword">virtual</span> <a class="code" href="namespaceopengv.html#a8df9be48bee2fbd07982bb70084f7743">opengv::rotation_t</a> <a class="code" href="classopengv_1_1absolute__pose_1_1MACentralAbsolute.html#a6a18c5dce7a2f2475edf9d97e6e1464d">getCamRotation</a>( <span class="keywordtype">size_t</span> index ) <span class="keyword">const</span>;
+<a name="l00096"></a>00096   <span class="keyword">virtual</span> <a class="code" href="namespaceopengv.html#a78ee8c281c2166f39efcf940f08aaecd">opengv::point_t</a> <a class="code" href="classopengv_1_1absolute__pose_1_1MACentralAbsolute.html#a46aa2d1430a2722dcb47ed803ad945d9">getPoint</a>( <span class="keywordtype">size_t</span> index ) <span class="keyword">const</span>;
+<a name="l00098"></a>00098   <span class="keyword">virtual</span> <span class="keywordtype">size_t</span> <a class="code" href="classopengv_1_1absolute__pose_1_1MACentralAbsolute.html#a248df4fdcfb86c3b4db0214d0d088b41">getNumberCorrespondences</a>() <span class="keyword">const</span>;
+<a name="l00099"></a>00099 
+<a name="l00100"></a>00100 <span class="keyword">protected</span>:
+<a name="l00101"></a>00101 
+<a name="l00103"></a><a class="code" href="classopengv_1_1absolute__pose_1_1MACentralAbsolute.html#ad8c62670e7f8cf41a75e3ed946055cee">00103</a>   <span class="keyword">const</span> <span class="keywordtype">double</span> * <a class="code" href="classopengv_1_1absolute__pose_1_1MACentralAbsolute.html#ad8c62670e7f8cf41a75e3ed946055cee">_points</a>;
+<a name="l00105"></a><a class="code" href="classopengv_1_1absolute__pose_1_1MACentralAbsolute.html#a9d7501e1d0d624e6321a335fdb4a8f82">00105</a>   <span class="keyword">const</span> <span class="keywordtype">double</span> * <a class="code" href="classopengv_1_1absolute__pose_1_1MACentralAbsolute.html#a9d7501e1d0d624e6321a335fdb4a8f82">_bearingVectors</a>;
+<a name="l00107"></a><a class="code" href="classopengv_1_1absolute__pose_1_1MACentralAbsolute.html#a1eaace6cd5cdef1d4a3f7369e29d3d16">00107</a>   <span class="keywordtype">int</span> <a class="code" href="classopengv_1_1absolute__pose_1_1MACentralAbsolute.html#a1eaace6cd5cdef1d4a3f7369e29d3d16">_numberPoints</a>;
+<a name="l00109"></a><a class="code" href="classopengv_1_1absolute__pose_1_1MACentralAbsolute.html#a9a85a1bc00584e0600d0fc065518446e">00109</a>   <span class="keywordtype">int</span> <a class="code" href="classopengv_1_1absolute__pose_1_1MACentralAbsolute.html#a9a85a1bc00584e0600d0fc065518446e">_numberBearingVectors</a>;
+<a name="l00110"></a>00110 };
 <a name="l00111"></a>00111 
-<a name="l00113"></a><a class="code" href="classopengv_1_1absolute__pose_1_1MACentralAbsolute.html#ad8c62670e7f8cf41a75e3ed946055cee">00113</a>   <span class="keyword">const</span> <span class="keywordtype">double</span> * <a class="code" href="classopengv_1_1absolute__pose_1_1MACentralAbsolute.html#ad8c62670e7f8cf41a75e3ed946055cee">_points</a>;
-<a name="l00115"></a><a class="code" href="classopengv_1_1absolute__pose_1_1MACentralAbsolute.html#a9d7501e1d0d624e6321a335fdb4a8f82">00115</a>   <span class="keyword">const</span> <span class="keywordtype">double</span> * <a class="code" href="classopengv_1_1absolute__pose_1_1MACentralAbsolute.html#a9d7501e1d0d624e6321a335fdb4a8f82">_bearingVectors</a>;
-<a name="l00117"></a><a class="code" href="classopengv_1_1absolute__pose_1_1MACentralAbsolute.html#aceaa555fa107701bbe3265a9d9f7cd05">00117</a>   <span class="keyword">const</span> <span class="keywordtype">double</span> * <a class="code" href="classopengv_1_1absolute__pose_1_1MACentralAbsolute.html#aceaa555fa107701bbe3265a9d9f7cd05">_matches</a>;
-<a name="l00119"></a><a class="code" href="classopengv_1_1absolute__pose_1_1MACentralAbsolute.html#a1eaace6cd5cdef1d4a3f7369e29d3d16">00119</a>   <span class="keywordtype">int</span> <a class="code" href="classopengv_1_1absolute__pose_1_1MACentralAbsolute.html#a1eaace6cd5cdef1d4a3f7369e29d3d16">_numberPoints</a>;
-<a name="l00121"></a><a class="code" href="classopengv_1_1absolute__pose_1_1MACentralAbsolute.html#a9a85a1bc00584e0600d0fc065518446e">00121</a>   <span class="keywordtype">int</span> <a class="code" href="classopengv_1_1absolute__pose_1_1MACentralAbsolute.html#a9a85a1bc00584e0600d0fc065518446e">_numberBearingVectors</a>;
-<a name="l00123"></a><a class="code" href="classopengv_1_1absolute__pose_1_1MACentralAbsolute.html#aef293b35387e7876ef9718bb09459e4e">00123</a>   <span class="keywordtype">bool</span> <a class="code" href="classopengv_1_1absolute__pose_1_1MACentralAbsolute.html#aef293b35387e7876ef9718bb09459e4e">_useMatches</a>;
-<a name="l00124"></a>00124 };
-<a name="l00125"></a>00125 
-<a name="l00126"></a>00126 }
-<a name="l00127"></a>00127 }
-<a name="l00128"></a>00128 
-<a name="l00129"></a>00129 <span class="preprocessor">#endif </span><span class="comment">/* OPENGV_ABSOLUTE_POSE_MACENTRALABSOLUTE_HPP_ */</span>
+<a name="l00112"></a>00112 }
+<a name="l00113"></a>00113 }
+<a name="l00114"></a>00114 
+<a name="l00115"></a>00115 <span class="preprocessor">#endif </span><span class="comment">/* OPENGV_ABSOLUTE_POSE_MACENTRALABSOLUTE_HPP_ */</span>
 </pre></div></div><!-- contents -->
 </div>
 <!-- window showing the filter options -->
@@ -196,7 +187,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul>
       <li class="navelem"><a class="el" href="MACentralAbsolute_8hpp.html">MACentralAbsolute.hpp</a>      </li>
 
-    <li class="footer">Generated on Wed Oct 16 2013 10:55:40 for OpenGV by
+    <li class="footer">Generated on Tue Feb 18 2014 15:31:57 for OpenGV by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
    </ul>

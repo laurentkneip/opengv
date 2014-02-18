@@ -108,9 +108,6 @@ Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac031b7364ed60fd4c5f98ead5a81c5a1"></a><!-- doxytag: member="opengv::relative_pose::MANoncentralRelative::MANoncentralRelative" ref="ac031b7364ed60fd4c5f98ead5a81c5a1" args="(const double *bearingVectors1, const double *bearingVectors2, int numberBearingVectors1, int numberBearingVectors2)" -->
 EIGEN_MAKE_ALIGNED_OPERATOR_NEW&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classopengv_1_1relative__pose_1_1MANoncentralRelative.html#ac031b7364ed60fd4c5f98ead5a81c5a1">MANoncentralRelative</a> (const double *bearingVectors1, const double *bearingVectors2, int numberBearingVectors1, int numberBearingVectors2)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor. See protected class-members to understand parameters. <br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9289ae694a019c94245a7d2e0729184a"></a><!-- doxytag: member="opengv::relative_pose::MANoncentralRelative::MANoncentralRelative" ref="a9289ae694a019c94245a7d2e0729184a" args="(const double *bearingVectors1, const double *bearingVectors2, const double *matches, int numberBearingVectors1, int numberBearingVectors2)" -->
-&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classopengv_1_1relative__pose_1_1MANoncentralRelative.html#a9289ae694a019c94245a7d2e0729184a">MANoncentralRelative</a> (const double *bearingVectors1, const double *bearingVectors2, const double *matches, int numberBearingVectors1, int numberBearingVectors2)</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor. See protected class-members to understand parameters. <br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a29d4291054bf54bfa4d5508ab1956ab4"></a><!-- doxytag: member="opengv::relative_pose::MANoncentralRelative::~MANoncentralRelative" ref="a29d4291054bf54bfa4d5508ab1956ab4" args="()" -->
 virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classopengv_1_1relative__pose_1_1MANoncentralRelative.html#a29d4291054bf54bfa4d5508ab1956ab4">~MANoncentralRelative</a> ()</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor. <br/></td></tr>
@@ -126,10 +123,8 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="c
 Protected Attributes</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">const double *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classopengv_1_1relative__pose_1_1MANoncentralRelative.html#a06b31826cfdbcf522d3aaeb0c324e9c4">_bearingVectors1</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">const double *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classopengv_1_1relative__pose_1_1MANoncentralRelative.html#a2287f06b5a361d5129ad22ea8c4c0387">_bearingVectors2</a></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">const double *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classopengv_1_1relative__pose_1_1MANoncentralRelative.html#ada43f6f228b5ecea7dc440bdd61e78f4">_matches</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classopengv_1_1relative__pose_1_1MANoncentralRelative.html#afdb0eb9b3c6f79184b8d5687b082d5dd">_numberBearingVectors1</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classopengv_1_1relative__pose_1_1MANoncentralRelative.html#a4ac3fc0b29e64e49041beea2eeabad93">_numberBearingVectors2</a></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classopengv_1_1relative__pose_1_1MANoncentralRelative.html#a8eb9d0783f0bd0395aaa0a0160913530">_useMatches</a></td></tr>
 </table>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
 <div class="textblock"><p>Check the documentation of the parent-class to understand the meaning of a RelativeAdapter. This child-class is for the non-central case and holds data in form of pointers to matlab-types. </p>
@@ -322,20 +317,6 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ada43f6f228b5ecea7dc440bdd61e78f4"></a><!-- doxytag: member="opengv::relative_pose::MANoncentralRelative::_matches" ref="ada43f6f228b5ecea7dc440bdd61e78f4" args="" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const double* <a class="el" href="classopengv_1_1relative__pose_1_1MANoncentralRelative.html#ada43f6f228b5ecea7dc440bdd61e78f4">opengv::relative_pose::MANoncentralRelative::_matches</a><code> [protected]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-<p>A pointer to the matches-vector </p>
-
-</div>
-</div>
 <a class="anchor" id="afdb0eb9b3c6f79184b8d5687b082d5dd"></a><!-- doxytag: member="opengv::relative_pose::MANoncentralRelative::_numberBearingVectors1" ref="afdb0eb9b3c6f79184b8d5687b082d5dd" args="" -->
 <div class="memitem">
 <div class="memproto">
@@ -364,20 +345,6 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a8eb9d0783f0bd0395aaa0a0160913530"></a><!-- doxytag: member="opengv::relative_pose::MANoncentralRelative::_useMatches" ref="a8eb9d0783f0bd0395aaa0a0160913530" args="" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool <a class="el" href="classopengv_1_1relative__pose_1_1MANoncentralRelative.html#a8eb9d0783f0bd0395aaa0a0160913530">opengv::relative_pose::MANoncentralRelative::_useMatches</a><code> [protected]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-<p>Use matches or not? </p>
-
-</div>
-</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
 <li>include/opengv/relative_pose/<a class="el" href="MANoncentralRelative_8hpp_source.html">MANoncentralRelative.hpp</a></li>
 </ul>
@@ -403,7 +370,7 @@ Protected Attributes</h2></td></tr>
       <li class="navelem"><a class="el" href="namespaceopengv_1_1relative__pose.html">relative_pose</a>      </li>
       <li class="navelem"><a class="el" href="classopengv_1_1relative__pose_1_1MANoncentralRelative.html">MANoncentralRelative</a>      </li>
 
-    <li class="footer">Generated on Wed Oct 16 2013 10:55:43 for OpenGV by
+    <li class="footer">Generated on Tue Feb 18 2014 15:32:01 for OpenGV by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
    </ul>

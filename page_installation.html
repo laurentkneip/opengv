@@ -100,7 +100,7 @@ git fork https://github.com/laurentkneip/opengv
 http://git-scm.com/
 </pre></div><p>Follow the "Try git" link for an amazing interactive tutorial.</p>
 <h2><a class="anchor" id="sec_installation_2"></a>
-Installation under Ubuntu</h2>
+Installation under Linux</h2>
 <ul>
 <li>
 <p class="startli">Setup the required tools for compilation of standard libraries under Linux (gcc compiler etc). Type:</p>
@@ -109,7 +109,7 @@ sudo apt-get install build-essential
 </pre></div><p class="endli"></p>
 </li>
 <li>
-<p class="startli">Install cmake and eigen3, those tools are required by the library. Type:</p>
+<p class="startli">Install cmake, eigen3 and boost, those tools are required by the library. Type:</p>
 <div class="fragment"><pre class="fragment">
 sudo apt-get install cmake eigen libboost-all-dev
 </pre></div><p class="endli">CMake is a cross-platform, open-source build system used for pretty much anything in the compilation process but the compilation/linking itself. Eigen3 is a powerful linear algebra library used for all computations in OpenGV. Boost is a powerful C++ library which extends the functionality of the Standard Library. </p>
@@ -147,7 +147,7 @@ Go to the opengv directory and add a build folder </li>
 <p class="startli">Now go to the</p>
 <div class="fragment"><pre class="fragment">
 opengv\build
-</pre></div><p> directory, and setup the build process by typing:</p>
+</pre></div><p>directory, and setup the build process by typing:</p>
 <div class="fragment"><pre class="fragment">
 cmake -G "Visual Studio 11" ..
 </pre></div><p class="endli">You need to add the correct generator for your Visual Studio version. I downloaded Visual Studio 2012, so it's 11 :) </p>
@@ -168,22 +168,22 @@ Installing the library under Matlab (Windows-version)</h2>
 <p class="startli">First setup the compiler from Matlab. Go to the matlab console and type</p>
 <div class="fragment"><pre class="fragment">
 mex -setup
-</pre></div><p>and chose the right compiler by following the instructions. You will have to chose the same compiler than the one you used for compiling the opengv library before-hand. Under windows you might also run into the following problem. Depending on the distribution (e.g. R2012b), Matlab does not yet "know" your compiler (e.g. Visual Studio 2012 Express), so you will have to additionally follow the following instructions</p>
+</pre></div><p>and chose the right compiler by following the instructions. You will have to chose the same compiler than the one you used for compiling the opengv library before-hand. Under windows you might also run into the following problem. Depending on the distribution (e.g. R2012b), Matlab does not yet "know" your compiler (e.g. Visual Studio 2012), so you will have to additionally follow the following instructions.</p>
 <div class="fragment"><pre class="fragment">
 http://jimdavid.blogspot.com.au/2012/12/matlab-2012b-mex-setup-with-vs2012.html
-</pre></div><p class="endli">to get things running. </p>
+</pre></div><p class="endli">to get things running. Also note that the Express compilers are not supported by Matlab, we ran into some issues when trying to use them. Please report if you have a solution to that. </p>
 </li>
 <li>
 <p class="startli">Once this is done, you can compile the mex-file by going to the opengv/matlab folder and typing in the console</p>
 <div class="fragment"><pre class="fragment">
 mex -I../include -I../third_party -I../third_party/eigen3 -L../lib/Release -lopengv opengv.cpp
-</pre></div><p class="endli">Note that you might need the -cxx option under Linux/Unix. Also note that ../lib/Release needs to point to the folder where your library has been compiled, which might depend on the system as well.Please report in case you found that out. </p>
+</pre></div><p class="endli"></p>
 </li>
 <li>
 <p class="startli">An additional note on 64-bit Windows/Matlab systems: If you have a Matlab version that is 64-bit, you will have to also compile OpenGV in 64-bit. You will have to follow two steps for this under Windows. The first one is to make sure that you open an x64 native tools command prompt to make the x64 Visual Studio compiler visible. The second one is to-when running cmake-extend the generator name by " Win64". The final command to run cmake finally looks as follows:</p>
 <div class="fragment"><pre class="fragment">
 cmake -G "Visual Studio 11 Win64" ..
-</pre></div><p class="endli">The actual build command stays the same. Under Linux, cmake will probably select the right compiler automatically. Please report in case you encounter any issues. </p>
+</pre></div><p class="endli">The actual build command stays the same. </p>
 </li>
 </ul>
 <h2><a class="anchor" id="sec_installation_5"></a>
@@ -227,7 +227,7 @@ Installing the library under Matlab (OSX-version)</h2>
   <div id="nav-path" class="navpath">
     <ul>
 
-    <li class="footer">Generated on Wed Oct 16 2013 10:55:40 for OpenGV by
+    <li class="footer">Generated on Tue Feb 18 2014 15:31:58 for OpenGV by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
    </ul>

@@ -119,8 +119,10 @@ Namespaces</h2></td></tr>
 <br/></td></tr>
 <tr><td colspan="2"><h2><a name="nested-classes"></a>
 Classes</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structopengv_1_1Indices.html">Indices</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structopengv_1_1OptimizationFunctor.html">OptimizationFunctor</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structopengv_1_1EigensolverOutput.html">EigensolverOutput</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structopengv_1_1GeOutput.html">GeOutput</a></td></tr>
 <tr><td colspan="2"><h2><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">typedef Eigen::Vector3d&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceopengv.html#abec89b050125b2ca9bc46a09a14656ea">bearingVector_t</a></td></tr>
@@ -144,6 +146,7 @@ Eigen::aligned_allocator<br class="typebreak"/>
 Eigen::aligned_allocator<br class="typebreak"/>
 &lt; <a class="el" href="namespaceopengv.html#ae4d7f4755df10d5729299c16fdc92711">transformation_t</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceopengv.html#a4522f06559d6c410add628fc4ba5c210">transformations_t</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">typedef Eigen::Vector3d&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceopengv.html#a8a10d9c72d061ead41138ffd0ef11d91">cayley_t</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">typedef Eigen::Vector4d&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceopengv.html#a0e2dd4f091ed164852f65de7b5ed545c">quaternion_t</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">typedef Eigen::Matrix3d&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceopengv.html#a7f4dd88a9902de918ad4f7841fc550d2">essential_t</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">typedef std::vector<br class="typebreak"/>
 &lt; <a class="el" href="namespaceopengv.html#a7f4dd88a9902de918ad4f7841fc550d2">essential_t</a>, <br class="typebreak"/>
@@ -162,6 +165,8 @@ Eigen::aligned_allocator<br class="typebreak"/>
 <tr><td class="memItemLeft" align="right" valign="top">typedef Eigen::Matrix3d&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceopengv.html#a16dc90b2265739036d5705e0529f10a2">eigenvectors_t</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">typedef struct <br class="typebreak"/>
 <a class="el" href="structopengv_1_1EigensolverOutput.html">opengv::EigensolverOutput</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceopengv.html#a00bd743dae7e93efdefbad9b7f3aaa31">eigensolverOutput_t</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2a6f7a963d928b515aacdfff17882899"></a><!-- doxytag: member="opengv::geOutput_t" ref="a2a6f7a963d928b515aacdfff17882899" args="" -->
+typedef struct <a class="el" href="structopengv_1_1GeOutput.html">opengv::GeOutput</a>&#160;</td><td class="memItemRight" valign="bottom"><b>geOutput_t</b></td></tr>
 </table>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
 <div class="textblock"><p>The namespace of this library. </p>
@@ -336,6 +341,20 @@ Eigen::aligned_allocator<br class="typebreak"/>
 
 </div>
 </div>
+<a class="anchor" id="a0e2dd4f091ed164852f65de7b5ed545c"></a><!-- doxytag: member="opengv::quaternion_t" ref="a0e2dd4f091ed164852f65de7b5ed545c" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef Eigen::Vector4d <a class="el" href="namespaceopengv.html#a0e2dd4f091ed164852f65de7b5ed545c">opengv::quaternion_t</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>A 4-vector containing the quaternion parameters of rotation matrix </p>
+
+</div>
+</div>
 <a class="anchor" id="a8df9be48bee2fbd07982bb70084f7743"></a><!-- doxytag: member="opengv::rotation_t" ref="a8df9be48bee2fbd07982bb70084f7743" args="" -->
 <div class="memitem">
 <div class="memproto">
@@ -440,7 +459,7 @@ Eigen::aligned_allocator<br class="typebreak"/>
     <ul>
       <li class="navelem"><a class="el" href="namespaceopengv.html">opengv</a>      </li>
 
-    <li class="footer">Generated on Wed Oct 16 2013 10:55:41 for OpenGV by
+    <li class="footer">Generated on Tue Feb 18 2014 15:31:58 for OpenGV by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
    </ul>

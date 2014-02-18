@@ -139,59 +139,60 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00076"></a>00076 
 <a name="l00078"></a><a class="code" href="classopengv_1_1sac__problems_1_1absolute__pose_1_1AbsolutePoseSacProblem.html#ab5be2e6e950f3614b54cbfbc3c80d8de">00078</a>   <span class="keyword">typedef</span> <span class="keyword">enum</span> <a class="code" href="classopengv_1_1sac__problems_1_1absolute__pose_1_1AbsolutePoseSacProblem.html#ab5be2e6e950f3614b54cbfbc3c80d8de">Algorithm</a>
 <a name="l00079"></a>00079   {
-<a name="l00080"></a>00080     KNEIP = 0,     <span class="comment">// central     [1]</span>
-<a name="l00081"></a>00081     GAO = 1,       <span class="comment">// central     [2]</span>
-<a name="l00082"></a>00082     EPNP = 2,      <span class="comment">// central     [4]</span>
-<a name="l00083"></a>00083     GP3P = 3       <span class="comment">// non-central [3]</span>
-<a name="l00084"></a>00084   } <a class="code" href="classopengv_1_1sac__problems_1_1absolute__pose_1_1AbsolutePoseSacProblem.html#a87468cf2ad8bfde00cde3228910a9f5c">algorithm_t</a>;
-<a name="l00085"></a>00085 
-<a name="l00091"></a><a class="code" href="classopengv_1_1sac__problems_1_1absolute__pose_1_1AbsolutePoseSacProblem.html#a4eb0c7e56b86b5976d5eb41321c1a834">00091</a>   <a class="code" href="classopengv_1_1sac__problems_1_1absolute__pose_1_1AbsolutePoseSacProblem.html#a4eb0c7e56b86b5976d5eb41321c1a834" title="Constructor.">AbsolutePoseSacProblem</a>(<a class="code" href="classopengv_1_1absolute__pose_1_1AbsoluteAdapterBase.html">adapter_t</a> &amp; adapter, <a class="code" href="classopengv_1_1sac__problems_1_1absolute__pose_1_1AbsolutePoseSacProblem.html#a87468cf2ad8bfde00cde3228910a9f5c">algorithm_t</a> algorithm) :
-<a name="l00092"></a>00092       <a class="code" href="classopengv_1_1sac_1_1SampleConsensusProblem.html#aaa5305ab43be731c64bfd64052e7bed0" title="Contructor.">SampleConsensusProblem</a>&lt;<a class="code" href="classopengv_1_1sac__problems_1_1absolute__pose_1_1AbsolutePoseSacProblem.html#a8985cc3ff0d7bc7a565015b3a8f19cf8">model_t</a>&gt; (),
-<a name="l00093"></a>00093       <a class="code" href="classopengv_1_1sac__problems_1_1absolute__pose_1_1AbsolutePoseSacProblem.html#ac3f9bab11c5a4273a2c4049c42c9f946">_adapter</a>(adapter),
-<a name="l00094"></a>00094       <a class="code" href="classopengv_1_1sac__problems_1_1absolute__pose_1_1AbsolutePoseSacProblem.html#a97efb2b189d237fad683aea642c2be60">_algorithm</a>(algorithm)
-<a name="l00095"></a>00095   {
-<a name="l00096"></a>00096     <a class="code" href="classopengv_1_1sac_1_1SampleConsensusProblem.html#a68d3290187996ca9185119bfc56c0c33" title="Use this method if you want to use all samples.">setUniformIndices</a>(adapter.<a class="code" href="classopengv_1_1absolute__pose_1_1AbsoluteAdapterBase.html#a3670e70271801d067c740eae5ee7711d" title="Retrieve the number of correspondences.">getNumberCorrespondences</a>());
-<a name="l00097"></a>00097   };
-<a name="l00098"></a>00098 
-<a name="l00106"></a><a class="code" href="classopengv_1_1sac__problems_1_1absolute__pose_1_1AbsolutePoseSacProblem.html#ab3328ed99f90e648a8657075025b08d0">00106</a>   <a class="code" href="classopengv_1_1sac__problems_1_1absolute__pose_1_1AbsolutePoseSacProblem.html#a4eb0c7e56b86b5976d5eb41321c1a834" title="Constructor.">AbsolutePoseSacProblem</a>(
-<a name="l00107"></a>00107       <a class="code" href="classopengv_1_1absolute__pose_1_1AbsoluteAdapterBase.html">adapter_t</a> &amp; adapter,
-<a name="l00108"></a>00108       <a class="code" href="classopengv_1_1sac__problems_1_1absolute__pose_1_1AbsolutePoseSacProblem.html#a87468cf2ad8bfde00cde3228910a9f5c">algorithm_t</a> algorithm,
-<a name="l00109"></a>00109       <span class="keyword">const</span> std::vector&lt;int&gt; &amp; indices) :
-<a name="l00110"></a>00110       <a class="code" href="classopengv_1_1sac_1_1SampleConsensusProblem.html#aaa5305ab43be731c64bfd64052e7bed0" title="Contructor.">SampleConsensusProblem</a>&lt;<a class="code" href="classopengv_1_1sac__problems_1_1absolute__pose_1_1AbsolutePoseSacProblem.html#a8985cc3ff0d7bc7a565015b3a8f19cf8">model_t</a>&gt; (),
-<a name="l00111"></a>00111       <a class="code" href="classopengv_1_1sac__problems_1_1absolute__pose_1_1AbsolutePoseSacProblem.html#ac3f9bab11c5a4273a2c4049c42c9f946">_adapter</a>(adapter),
-<a name="l00112"></a>00112       <a class="code" href="classopengv_1_1sac__problems_1_1absolute__pose_1_1AbsolutePoseSacProblem.html#a97efb2b189d237fad683aea642c2be60">_algorithm</a>(algorithm)
-<a name="l00113"></a>00113   {
-<a name="l00114"></a>00114     <a class="code" href="classopengv_1_1sac_1_1SampleConsensusProblem.html#a03289ee4bc04ce778df1c924da072d44" title="Set the indices_ variable (see member-description).">setIndices</a>(indices);
-<a name="l00115"></a>00115   };
-<a name="l00116"></a>00116 
-<a name="l00120"></a><a class="code" href="classopengv_1_1sac__problems_1_1absolute__pose_1_1AbsolutePoseSacProblem.html#afb3002d4533ea8fa13c7514bcec006b0">00120</a>   <span class="keyword">virtual</span> <a class="code" href="classopengv_1_1sac__problems_1_1absolute__pose_1_1AbsolutePoseSacProblem.html#afb3002d4533ea8fa13c7514bcec006b0">~AbsolutePoseSacProblem</a>() {};
-<a name="l00121"></a>00121 
-<a name="l00125"></a>00125   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classopengv_1_1sac__problems_1_1absolute__pose_1_1AbsolutePoseSacProblem.html#a9c681a3f66409e8bb108f1e25c857384" title="See parent-class.">computeModelCoefficients</a>(
-<a name="l00126"></a>00126       <span class="keyword">const</span> std::vector&lt;int&gt; &amp; indices,
-<a name="l00127"></a>00127       <a class="code" href="classopengv_1_1sac__problems_1_1absolute__pose_1_1AbsolutePoseSacProblem.html#a8985cc3ff0d7bc7a565015b3a8f19cf8">model_t</a> &amp; outModel) <span class="keyword">const</span>;
-<a name="l00128"></a>00128 
-<a name="l00132"></a>00132   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classopengv_1_1sac__problems_1_1absolute__pose_1_1AbsolutePoseSacProblem.html#a3555f3649d7947ba13f03d0f268b18c9" title="See parent-class.">getSelectedDistancesToModel</a>(
-<a name="l00133"></a>00133       <span class="keyword">const</span> <a class="code" href="classopengv_1_1sac__problems_1_1absolute__pose_1_1AbsolutePoseSacProblem.html#a8985cc3ff0d7bc7a565015b3a8f19cf8">model_t</a> &amp; model,
-<a name="l00134"></a>00134       <span class="keyword">const</span> std::vector&lt;int&gt; &amp; indices,
-<a name="l00135"></a>00135       std::vector&lt;double&gt; &amp; scores) <span class="keyword">const</span>;
-<a name="l00136"></a>00136 
-<a name="l00140"></a>00140   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classopengv_1_1sac__problems_1_1absolute__pose_1_1AbsolutePoseSacProblem.html#a09a501e7ab2d2ac005c1929b361bbd35" title="See parent-class.">optimizeModelCoefficients</a>(
-<a name="l00141"></a>00141       <span class="keyword">const</span> std::vector&lt;int&gt; &amp; inliers,
-<a name="l00142"></a>00142       <span class="keyword">const</span> <a class="code" href="classopengv_1_1sac__problems_1_1absolute__pose_1_1AbsolutePoseSacProblem.html#a8985cc3ff0d7bc7a565015b3a8f19cf8">model_t</a> &amp; model,
-<a name="l00143"></a>00143       <a class="code" href="classopengv_1_1sac__problems_1_1absolute__pose_1_1AbsolutePoseSacProblem.html#a8985cc3ff0d7bc7a565015b3a8f19cf8">model_t</a> &amp; optimized_model);
-<a name="l00144"></a>00144 
-<a name="l00148"></a>00148   <span class="keyword">virtual</span> <span class="keywordtype">int</span> <a class="code" href="classopengv_1_1sac__problems_1_1absolute__pose_1_1AbsolutePoseSacProblem.html#a06e8e7d76f8100fea60dcb568730d3b8" title="See parent-class.">getSampleSize</a>() <span class="keyword">const</span>;
-<a name="l00149"></a>00149 
-<a name="l00150"></a>00150 <span class="keyword">protected</span>:
-<a name="l00152"></a><a class="code" href="classopengv_1_1sac__problems_1_1absolute__pose_1_1AbsolutePoseSacProblem.html#ac3f9bab11c5a4273a2c4049c42c9f946">00152</a>   <a class="code" href="classopengv_1_1absolute__pose_1_1AbsoluteAdapterBase.html">adapter_t</a> &amp; <a class="code" href="classopengv_1_1sac__problems_1_1absolute__pose_1_1AbsolutePoseSacProblem.html#ac3f9bab11c5a4273a2c4049c42c9f946">_adapter</a>;
-<a name="l00154"></a><a class="code" href="classopengv_1_1sac__problems_1_1absolute__pose_1_1AbsolutePoseSacProblem.html#a97efb2b189d237fad683aea642c2be60">00154</a>   <a class="code" href="classopengv_1_1sac__problems_1_1absolute__pose_1_1AbsolutePoseSacProblem.html#a87468cf2ad8bfde00cde3228910a9f5c">algorithm_t</a> <a class="code" href="classopengv_1_1sac__problems_1_1absolute__pose_1_1AbsolutePoseSacProblem.html#a97efb2b189d237fad683aea642c2be60">_algorithm</a>;
-<a name="l00155"></a>00155 };
-<a name="l00156"></a>00156 
-<a name="l00157"></a>00157 }
+<a name="l00080"></a>00080     TWOPT = 0,     <span class="comment">// central, with rotation prior</span>
+<a name="l00081"></a>00081     KNEIP = 1,     <span class="comment">// central     [1]</span>
+<a name="l00082"></a>00082     GAO = 2,       <span class="comment">// central     [2]</span>
+<a name="l00083"></a>00083     EPNP = 3,      <span class="comment">// central     [4]</span>
+<a name="l00084"></a>00084     GP3P = 4       <span class="comment">// non-central [3]</span>
+<a name="l00085"></a>00085   } <a class="code" href="classopengv_1_1sac__problems_1_1absolute__pose_1_1AbsolutePoseSacProblem.html#a87468cf2ad8bfde00cde3228910a9f5c">algorithm_t</a>;
+<a name="l00086"></a>00086 
+<a name="l00092"></a><a class="code" href="classopengv_1_1sac__problems_1_1absolute__pose_1_1AbsolutePoseSacProblem.html#a4eb0c7e56b86b5976d5eb41321c1a834">00092</a>   <a class="code" href="classopengv_1_1sac__problems_1_1absolute__pose_1_1AbsolutePoseSacProblem.html#a4eb0c7e56b86b5976d5eb41321c1a834" title="Constructor.">AbsolutePoseSacProblem</a>(<a class="code" href="classopengv_1_1absolute__pose_1_1AbsoluteAdapterBase.html">adapter_t</a> &amp; adapter, <a class="code" href="classopengv_1_1sac__problems_1_1absolute__pose_1_1AbsolutePoseSacProblem.html#a87468cf2ad8bfde00cde3228910a9f5c">algorithm_t</a> algorithm) :
+<a name="l00093"></a>00093       <a class="code" href="classopengv_1_1sac_1_1SampleConsensusProblem.html#aaa5305ab43be731c64bfd64052e7bed0" title="Contructor.">SampleConsensusProblem</a>&lt;<a class="code" href="classopengv_1_1sac__problems_1_1absolute__pose_1_1AbsolutePoseSacProblem.html#a8985cc3ff0d7bc7a565015b3a8f19cf8">model_t</a>&gt; (),
+<a name="l00094"></a>00094       <a class="code" href="classopengv_1_1sac__problems_1_1absolute__pose_1_1AbsolutePoseSacProblem.html#ac3f9bab11c5a4273a2c4049c42c9f946">_adapter</a>(adapter),
+<a name="l00095"></a>00095       <a class="code" href="classopengv_1_1sac__problems_1_1absolute__pose_1_1AbsolutePoseSacProblem.html#a97efb2b189d237fad683aea642c2be60">_algorithm</a>(algorithm)
+<a name="l00096"></a>00096   {
+<a name="l00097"></a>00097     <a class="code" href="classopengv_1_1sac_1_1SampleConsensusProblem.html#a68d3290187996ca9185119bfc56c0c33" title="Use this method if you want to use all samples.">setUniformIndices</a>(adapter.<a class="code" href="classopengv_1_1absolute__pose_1_1AbsoluteAdapterBase.html#a3670e70271801d067c740eae5ee7711d" title="Retrieve the number of correspondences.">getNumberCorrespondences</a>());
+<a name="l00098"></a>00098   };
+<a name="l00099"></a>00099 
+<a name="l00107"></a><a class="code" href="classopengv_1_1sac__problems_1_1absolute__pose_1_1AbsolutePoseSacProblem.html#ab3328ed99f90e648a8657075025b08d0">00107</a>   <a class="code" href="classopengv_1_1sac__problems_1_1absolute__pose_1_1AbsolutePoseSacProblem.html#a4eb0c7e56b86b5976d5eb41321c1a834" title="Constructor.">AbsolutePoseSacProblem</a>(
+<a name="l00108"></a>00108       <a class="code" href="classopengv_1_1absolute__pose_1_1AbsoluteAdapterBase.html">adapter_t</a> &amp; adapter,
+<a name="l00109"></a>00109       <a class="code" href="classopengv_1_1sac__problems_1_1absolute__pose_1_1AbsolutePoseSacProblem.html#a87468cf2ad8bfde00cde3228910a9f5c">algorithm_t</a> algorithm,
+<a name="l00110"></a>00110       <span class="keyword">const</span> std::vector&lt;int&gt; &amp; indices) :
+<a name="l00111"></a>00111       <a class="code" href="classopengv_1_1sac_1_1SampleConsensusProblem.html#aaa5305ab43be731c64bfd64052e7bed0" title="Contructor.">SampleConsensusProblem</a>&lt;<a class="code" href="classopengv_1_1sac__problems_1_1absolute__pose_1_1AbsolutePoseSacProblem.html#a8985cc3ff0d7bc7a565015b3a8f19cf8">model_t</a>&gt; (),
+<a name="l00112"></a>00112       <a class="code" href="classopengv_1_1sac__problems_1_1absolute__pose_1_1AbsolutePoseSacProblem.html#ac3f9bab11c5a4273a2c4049c42c9f946">_adapter</a>(adapter),
+<a name="l00113"></a>00113       <a class="code" href="classopengv_1_1sac__problems_1_1absolute__pose_1_1AbsolutePoseSacProblem.html#a97efb2b189d237fad683aea642c2be60">_algorithm</a>(algorithm)
+<a name="l00114"></a>00114   {
+<a name="l00115"></a>00115     <a class="code" href="classopengv_1_1sac_1_1SampleConsensusProblem.html#a03289ee4bc04ce778df1c924da072d44" title="Set the indices_ variable (see member-description).">setIndices</a>(indices);
+<a name="l00116"></a>00116   };
+<a name="l00117"></a>00117 
+<a name="l00121"></a><a class="code" href="classopengv_1_1sac__problems_1_1absolute__pose_1_1AbsolutePoseSacProblem.html#afb3002d4533ea8fa13c7514bcec006b0">00121</a>   <span class="keyword">virtual</span> <a class="code" href="classopengv_1_1sac__problems_1_1absolute__pose_1_1AbsolutePoseSacProblem.html#afb3002d4533ea8fa13c7514bcec006b0">~AbsolutePoseSacProblem</a>() {};
+<a name="l00122"></a>00122 
+<a name="l00126"></a>00126   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classopengv_1_1sac__problems_1_1absolute__pose_1_1AbsolutePoseSacProblem.html#a9c681a3f66409e8bb108f1e25c857384" title="See parent-class.">computeModelCoefficients</a>(
+<a name="l00127"></a>00127       <span class="keyword">const</span> std::vector&lt;int&gt; &amp; indices,
+<a name="l00128"></a>00128       <a class="code" href="classopengv_1_1sac__problems_1_1absolute__pose_1_1AbsolutePoseSacProblem.html#a8985cc3ff0d7bc7a565015b3a8f19cf8">model_t</a> &amp; outModel) <span class="keyword">const</span>;
+<a name="l00129"></a>00129 
+<a name="l00133"></a>00133   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classopengv_1_1sac__problems_1_1absolute__pose_1_1AbsolutePoseSacProblem.html#a3555f3649d7947ba13f03d0f268b18c9" title="See parent-class.">getSelectedDistancesToModel</a>(
+<a name="l00134"></a>00134       <span class="keyword">const</span> <a class="code" href="classopengv_1_1sac__problems_1_1absolute__pose_1_1AbsolutePoseSacProblem.html#a8985cc3ff0d7bc7a565015b3a8f19cf8">model_t</a> &amp; model,
+<a name="l00135"></a>00135       <span class="keyword">const</span> std::vector&lt;int&gt; &amp; indices,
+<a name="l00136"></a>00136       std::vector&lt;double&gt; &amp; scores) <span class="keyword">const</span>;
+<a name="l00137"></a>00137 
+<a name="l00141"></a>00141   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classopengv_1_1sac__problems_1_1absolute__pose_1_1AbsolutePoseSacProblem.html#a09a501e7ab2d2ac005c1929b361bbd35" title="See parent-class.">optimizeModelCoefficients</a>(
+<a name="l00142"></a>00142       <span class="keyword">const</span> std::vector&lt;int&gt; &amp; inliers,
+<a name="l00143"></a>00143       <span class="keyword">const</span> <a class="code" href="classopengv_1_1sac__problems_1_1absolute__pose_1_1AbsolutePoseSacProblem.html#a8985cc3ff0d7bc7a565015b3a8f19cf8">model_t</a> &amp; model,
+<a name="l00144"></a>00144       <a class="code" href="classopengv_1_1sac__problems_1_1absolute__pose_1_1AbsolutePoseSacProblem.html#a8985cc3ff0d7bc7a565015b3a8f19cf8">model_t</a> &amp; optimized_model);
+<a name="l00145"></a>00145 
+<a name="l00149"></a>00149   <span class="keyword">virtual</span> <span class="keywordtype">int</span> <a class="code" href="classopengv_1_1sac__problems_1_1absolute__pose_1_1AbsolutePoseSacProblem.html#a06e8e7d76f8100fea60dcb568730d3b8" title="See parent-class.">getSampleSize</a>() <span class="keyword">const</span>;
+<a name="l00150"></a>00150 
+<a name="l00151"></a>00151 <span class="keyword">protected</span>:
+<a name="l00153"></a><a class="code" href="classopengv_1_1sac__problems_1_1absolute__pose_1_1AbsolutePoseSacProblem.html#ac3f9bab11c5a4273a2c4049c42c9f946">00153</a>   <a class="code" href="classopengv_1_1absolute__pose_1_1AbsoluteAdapterBase.html">adapter_t</a> &amp; <a class="code" href="classopengv_1_1sac__problems_1_1absolute__pose_1_1AbsolutePoseSacProblem.html#ac3f9bab11c5a4273a2c4049c42c9f946">_adapter</a>;
+<a name="l00155"></a><a class="code" href="classopengv_1_1sac__problems_1_1absolute__pose_1_1AbsolutePoseSacProblem.html#a97efb2b189d237fad683aea642c2be60">00155</a>   <a class="code" href="classopengv_1_1sac__problems_1_1absolute__pose_1_1AbsolutePoseSacProblem.html#a87468cf2ad8bfde00cde3228910a9f5c">algorithm_t</a> <a class="code" href="classopengv_1_1sac__problems_1_1absolute__pose_1_1AbsolutePoseSacProblem.html#a97efb2b189d237fad683aea642c2be60">_algorithm</a>;
+<a name="l00156"></a>00156 };
+<a name="l00157"></a>00157 
 <a name="l00158"></a>00158 }
 <a name="l00159"></a>00159 }
-<a name="l00160"></a>00160 
-<a name="l00161"></a>00161 <span class="preprocessor">#endif  //#ifndef OPENGV_SAC_PROBLEMS_ABSOLUTE_POSE_ABSOLUTEPOSESACPROBLEM_HPP_</span>
+<a name="l00160"></a>00160 }
+<a name="l00161"></a>00161 
+<a name="l00162"></a>00162 <span class="preprocessor">#endif  //#ifndef OPENGV_SAC_PROBLEMS_ABSOLUTE_POSE_ABSOLUTEPOSESACPROBLEM_HPP_</span>
 </pre></div></div><!-- contents -->
 </div>
 <!-- window showing the filter options -->
@@ -212,7 +213,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul>
       <li class="navelem"><a class="el" href="AbsolutePoseSacProblem_8hpp.html">AbsolutePoseSacProblem.hpp</a>      </li>
 
-    <li class="footer">Generated on Wed Oct 16 2013 10:55:40 for OpenGV by
+    <li class="footer">Generated on Tue Feb 18 2014 15:31:57 for OpenGV by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
    </ul>

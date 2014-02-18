@@ -137,53 +137,65 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00073"></a><a class="code" href="classopengv_1_1sac__problems_1_1relative__pose_1_1NoncentralRelativePoseSacProblem.html#a4af91a979c919c40ad5784d7d46272d0">00073</a>   <span class="keyword">typedef</span> <a class="code" href="namespaceopengv.html#ae4d7f4755df10d5729299c16fdc92711">transformation_t</a> <a class="code" href="classopengv_1_1sac__problems_1_1relative__pose_1_1NoncentralRelativePoseSacProblem.html#a4af91a979c919c40ad5784d7d46272d0">model_t</a>;
 <a name="l00075"></a><a class="code" href="classopengv_1_1sac__problems_1_1relative__pose_1_1NoncentralRelativePoseSacProblem.html#a0907f45e17985594bb073b72b2f3946f">00075</a>   <span class="keyword">typedef</span> <a class="code" href="classopengv_1_1relative__pose_1_1RelativeAdapterBase.html">opengv::relative_pose::RelativeAdapterBase</a> <a class="code" href="classopengv_1_1sac__problems_1_1relative__pose_1_1NoncentralRelativePoseSacProblem.html#a0907f45e17985594bb073b72b2f3946f">adapter_t</a>;
 <a name="l00076"></a>00076 
-<a name="l00082"></a><a class="code" href="classopengv_1_1sac__problems_1_1relative__pose_1_1NoncentralRelativePoseSacProblem.html#a5f3026d871712a57fc9b59d31f51c989">00082</a>   <a class="code" href="classopengv_1_1sac__problems_1_1relative__pose_1_1NoncentralRelativePoseSacProblem.html#a5f3026d871712a57fc9b59d31f51c989" title="Constructor.">NoncentralRelativePoseSacProblem</a>(<a class="code" href="classopengv_1_1relative__pose_1_1RelativeAdapterBase.html">adapter_t</a> &amp; adapter, <span class="keywordtype">bool</span> asCentral = <span class="keyword">false</span> ) :
-<a name="l00083"></a>00083     <a class="code" href="classopengv_1_1sac_1_1SampleConsensusProblem.html#aaa5305ab43be731c64bfd64052e7bed0" title="Contructor.">SampleConsensusProblem</a>&lt;<a class="code" href="classopengv_1_1sac__problems_1_1relative__pose_1_1NoncentralRelativePoseSacProblem.html#a4af91a979c919c40ad5784d7d46272d0">model_t</a>&gt; (),
-<a name="l00084"></a>00084     <a class="code" href="classopengv_1_1sac__problems_1_1relative__pose_1_1NoncentralRelativePoseSacProblem.html#a7837fa0fabe5115461ac64241aaccb80">_adapter</a>(adapter),
-<a name="l00085"></a>00085     <a class="code" href="classopengv_1_1sac__problems_1_1relative__pose_1_1NoncentralRelativePoseSacProblem.html#af199c4e83fb122e081f4f1d5d2c6646a">_asCentral</a>(asCentral)
-<a name="l00086"></a>00086   {
-<a name="l00087"></a>00087     <a class="code" href="classopengv_1_1sac_1_1SampleConsensusProblem.html#a68d3290187996ca9185119bfc56c0c33" title="Use this method if you want to use all samples.">setUniformIndices</a>(adapter.<a class="code" href="classopengv_1_1relative__pose_1_1RelativeAdapterBase.html#a9f92259c07df05a5e722a2107dc7da2c" title="Retrieve the number of correspondences.">getNumberCorrespondences</a>());
-<a name="l00088"></a>00088   };
-<a name="l00089"></a>00089 
-<a name="l00097"></a><a class="code" href="classopengv_1_1sac__problems_1_1relative__pose_1_1NoncentralRelativePoseSacProblem.html#a6cecb669f489cdde08e27e16945a9d99">00097</a>   <a class="code" href="classopengv_1_1sac__problems_1_1relative__pose_1_1NoncentralRelativePoseSacProblem.html#a5f3026d871712a57fc9b59d31f51c989" title="Constructor.">NoncentralRelativePoseSacProblem</a>(
-<a name="l00098"></a>00098       <a class="code" href="classopengv_1_1relative__pose_1_1RelativeAdapterBase.html">adapter_t</a> &amp; adapter,
-<a name="l00099"></a>00099       <span class="keyword">const</span> std::vector&lt;int&gt; &amp; indices,
-<a name="l00100"></a>00100       <span class="keywordtype">bool</span> asCentral = <span class="keyword">false</span> ) :
-<a name="l00101"></a>00101       <a class="code" href="classopengv_1_1sac_1_1SampleConsensusProblem.html#aaa5305ab43be731c64bfd64052e7bed0" title="Contructor.">SampleConsensusProblem</a>&lt;<a class="code" href="classopengv_1_1sac__problems_1_1relative__pose_1_1NoncentralRelativePoseSacProblem.html#a4af91a979c919c40ad5784d7d46272d0">model_t</a>&gt; (),
-<a name="l00102"></a>00102       <a class="code" href="classopengv_1_1sac__problems_1_1relative__pose_1_1NoncentralRelativePoseSacProblem.html#a7837fa0fabe5115461ac64241aaccb80">_adapter</a>(adapter),
-<a name="l00103"></a>00103       <a class="code" href="classopengv_1_1sac__problems_1_1relative__pose_1_1NoncentralRelativePoseSacProblem.html#af199c4e83fb122e081f4f1d5d2c6646a">_asCentral</a>(asCentral)
-<a name="l00104"></a>00104   {
-<a name="l00105"></a>00105     <a class="code" href="classopengv_1_1sac_1_1SampleConsensusProblem.html#a03289ee4bc04ce778df1c924da072d44" title="Set the indices_ variable (see member-description).">setIndices</a>(indices);
-<a name="l00106"></a>00106   };
-<a name="l00107"></a>00107 
-<a name="l00111"></a><a class="code" href="classopengv_1_1sac__problems_1_1relative__pose_1_1NoncentralRelativePoseSacProblem.html#aebdf16b122002de6cd7c35b1f36bae94">00111</a>   <span class="keyword">virtual</span> <a class="code" href="classopengv_1_1sac__problems_1_1relative__pose_1_1NoncentralRelativePoseSacProblem.html#aebdf16b122002de6cd7c35b1f36bae94">~NoncentralRelativePoseSacProblem</a>() {};
-<a name="l00112"></a>00112 
-<a name="l00116"></a>00116   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classopengv_1_1sac__problems_1_1relative__pose_1_1NoncentralRelativePoseSacProblem.html#aed9848d4518843a10e907af5e3b074f4" title="See parent-class.">computeModelCoefficients</a>(
-<a name="l00117"></a>00117       <span class="keyword">const</span> std::vector&lt;int&gt; &amp; indices,
-<a name="l00118"></a>00118       <a class="code" href="classopengv_1_1sac__problems_1_1relative__pose_1_1NoncentralRelativePoseSacProblem.html#a4af91a979c919c40ad5784d7d46272d0">model_t</a> &amp; outModel) <span class="keyword">const</span>;
-<a name="l00119"></a>00119 
-<a name="l00123"></a>00123   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classopengv_1_1sac__problems_1_1relative__pose_1_1NoncentralRelativePoseSacProblem.html#ae36130dd7fa648a3fd9628a9bfb79ae8" title="See parent-class.">getSelectedDistancesToModel</a>(
-<a name="l00124"></a>00124       <span class="keyword">const</span> <a class="code" href="classopengv_1_1sac__problems_1_1relative__pose_1_1NoncentralRelativePoseSacProblem.html#a4af91a979c919c40ad5784d7d46272d0">model_t</a> &amp; model,
-<a name="l00125"></a>00125       <span class="keyword">const</span> std::vector&lt;int&gt; &amp; indices,
-<a name="l00126"></a>00126       std::vector&lt;double&gt; &amp; scores) <span class="keyword">const</span>;
-<a name="l00127"></a>00127 
-<a name="l00131"></a>00131   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classopengv_1_1sac__problems_1_1relative__pose_1_1NoncentralRelativePoseSacProblem.html#a1d9eeb5a07c66c2e3411f0bc3d67ca76" title="See parent-class.">optimizeModelCoefficients</a>(
-<a name="l00132"></a>00132       <span class="keyword">const</span> std::vector&lt;int&gt; &amp; inliers,
-<a name="l00133"></a>00133       <span class="keyword">const</span> <a class="code" href="classopengv_1_1sac__problems_1_1relative__pose_1_1NoncentralRelativePoseSacProblem.html#a4af91a979c919c40ad5784d7d46272d0">model_t</a> &amp; model,
-<a name="l00134"></a>00134       <a class="code" href="classopengv_1_1sac__problems_1_1relative__pose_1_1NoncentralRelativePoseSacProblem.html#a4af91a979c919c40ad5784d7d46272d0">model_t</a> &amp; optimized_model);
-<a name="l00135"></a>00135 
-<a name="l00139"></a>00139   <span class="keyword">virtual</span> <span class="keywordtype">int</span> <a class="code" href="classopengv_1_1sac__problems_1_1relative__pose_1_1NoncentralRelativePoseSacProblem.html#ac867f580b7d163a8c26ae248fff5af21" title="See parent-class.">getSampleSize</a>() <span class="keyword">const</span>;
-<a name="l00140"></a>00140 
-<a name="l00141"></a>00141 <span class="keyword">protected</span>:
-<a name="l00143"></a><a class="code" href="classopengv_1_1sac__problems_1_1relative__pose_1_1NoncentralRelativePoseSacProblem.html#a7837fa0fabe5115461ac64241aaccb80">00143</a>   <a class="code" href="classopengv_1_1relative__pose_1_1RelativeAdapterBase.html">adapter_t</a> &amp; <a class="code" href="classopengv_1_1sac__problems_1_1relative__pose_1_1NoncentralRelativePoseSacProblem.html#a7837fa0fabe5115461ac64241aaccb80">_adapter</a>;
-<a name="l00145"></a><a class="code" href="classopengv_1_1sac__problems_1_1relative__pose_1_1NoncentralRelativePoseSacProblem.html#af199c4e83fb122e081f4f1d5d2c6646a">00145</a>   <span class="keywordtype">bool</span> <a class="code" href="classopengv_1_1sac__problems_1_1relative__pose_1_1NoncentralRelativePoseSacProblem.html#af199c4e83fb122e081f4f1d5d2c6646a">_asCentral</a>;
-<a name="l00146"></a>00146 };
-<a name="l00147"></a>00147 
-<a name="l00148"></a>00148 }
-<a name="l00149"></a>00149 }
-<a name="l00150"></a>00150 }
-<a name="l00151"></a>00151 
-<a name="l00152"></a>00152 <span class="preprocessor">#endif  //#ifndef OPENGV_SAC_PROBLEMS_RELATIVE_POSE_NONCENTRALRELATIVEPOSESACPROBLEM_HPP_</span>
+<a name="l00078"></a><a class="code" href="classopengv_1_1sac__problems_1_1relative__pose_1_1NoncentralRelativePoseSacProblem.html#a43bbc9a5fa30b109c5bc1dffcf33385a">00078</a>   <span class="keyword">typedef</span> <span class="keyword">enum</span> <a class="code" href="classopengv_1_1sac__problems_1_1relative__pose_1_1NoncentralRelativePoseSacProblem.html#a43bbc9a5fa30b109c5bc1dffcf33385a">Algorithm</a>
+<a name="l00079"></a>00079   {
+<a name="l00080"></a>00080     SIXPT = 0,      <span class="comment">// [16]</span>
+<a name="l00081"></a>00081     GE = 1,         <span class="comment">// []</span>
+<a name="l00082"></a>00082     SEVENTEENPT = 2 <span class="comment">// [12]</span>
+<a name="l00083"></a>00083   } <a class="code" href="classopengv_1_1sac__problems_1_1relative__pose_1_1NoncentralRelativePoseSacProblem.html#a6ab2899f79289ab2e302139f96637547">algorithm_t</a>;
+<a name="l00084"></a>00084 
+<a name="l00091"></a><a class="code" href="classopengv_1_1sac__problems_1_1relative__pose_1_1NoncentralRelativePoseSacProblem.html#aa767e9359377384db9c028a56cc9b849">00091</a>   <a class="code" href="classopengv_1_1sac__problems_1_1relative__pose_1_1NoncentralRelativePoseSacProblem.html#aa767e9359377384db9c028a56cc9b849" title="Constructor.">NoncentralRelativePoseSacProblem</a>(
+<a name="l00092"></a>00092       <a class="code" href="classopengv_1_1relative__pose_1_1RelativeAdapterBase.html">adapter_t</a> &amp; adapter, <a class="code" href="classopengv_1_1sac__problems_1_1relative__pose_1_1NoncentralRelativePoseSacProblem.html#a6ab2899f79289ab2e302139f96637547">algorithm_t</a> algorithm, <span class="keywordtype">bool</span> asCentral = <span class="keyword">false</span> ) :
+<a name="l00093"></a>00093       <a class="code" href="classopengv_1_1sac_1_1SampleConsensusProblem.html#aaa5305ab43be731c64bfd64052e7bed0" title="Contructor.">SampleConsensusProblem</a>&lt;<a class="code" href="classopengv_1_1sac__problems_1_1relative__pose_1_1NoncentralRelativePoseSacProblem.html#a4af91a979c919c40ad5784d7d46272d0">model_t</a>&gt; (),
+<a name="l00094"></a>00094       <a class="code" href="classopengv_1_1sac__problems_1_1relative__pose_1_1NoncentralRelativePoseSacProblem.html#a7837fa0fabe5115461ac64241aaccb80">_adapter</a>(adapter),
+<a name="l00095"></a>00095       <a class="code" href="classopengv_1_1sac__problems_1_1relative__pose_1_1NoncentralRelativePoseSacProblem.html#a2f80ae075cb88074f31387d3ded97757">_algorithm</a>(algorithm),
+<a name="l00096"></a>00096       <a class="code" href="classopengv_1_1sac__problems_1_1relative__pose_1_1NoncentralRelativePoseSacProblem.html#af199c4e83fb122e081f4f1d5d2c6646a">_asCentral</a>(asCentral)
+<a name="l00097"></a>00097   {
+<a name="l00098"></a>00098     <a class="code" href="classopengv_1_1sac_1_1SampleConsensusProblem.html#a68d3290187996ca9185119bfc56c0c33" title="Use this method if you want to use all samples.">setUniformIndices</a>(adapter.<a class="code" href="classopengv_1_1relative__pose_1_1RelativeAdapterBase.html#a9f92259c07df05a5e722a2107dc7da2c" title="Retrieve the number of correspondences.">getNumberCorrespondences</a>());
+<a name="l00099"></a>00099   };
+<a name="l00100"></a>00100 
+<a name="l00109"></a><a class="code" href="classopengv_1_1sac__problems_1_1relative__pose_1_1NoncentralRelativePoseSacProblem.html#a2b132e760cd4161bf9fbf032dda4c9e4">00109</a>   <a class="code" href="classopengv_1_1sac__problems_1_1relative__pose_1_1NoncentralRelativePoseSacProblem.html#aa767e9359377384db9c028a56cc9b849" title="Constructor.">NoncentralRelativePoseSacProblem</a>(
+<a name="l00110"></a>00110       <a class="code" href="classopengv_1_1relative__pose_1_1RelativeAdapterBase.html">adapter_t</a> &amp; adapter,
+<a name="l00111"></a>00111       <a class="code" href="classopengv_1_1sac__problems_1_1relative__pose_1_1NoncentralRelativePoseSacProblem.html#a6ab2899f79289ab2e302139f96637547">algorithm_t</a> algorithm,
+<a name="l00112"></a>00112       <span class="keyword">const</span> std::vector&lt;int&gt; &amp; indices,
+<a name="l00113"></a>00113       <span class="keywordtype">bool</span> asCentral = <span class="keyword">false</span> ) :
+<a name="l00114"></a>00114       <a class="code" href="classopengv_1_1sac_1_1SampleConsensusProblem.html#aaa5305ab43be731c64bfd64052e7bed0" title="Contructor.">SampleConsensusProblem</a>&lt;<a class="code" href="classopengv_1_1sac__problems_1_1relative__pose_1_1NoncentralRelativePoseSacProblem.html#a4af91a979c919c40ad5784d7d46272d0">model_t</a>&gt; (),
+<a name="l00115"></a>00115       <a class="code" href="classopengv_1_1sac__problems_1_1relative__pose_1_1NoncentralRelativePoseSacProblem.html#a7837fa0fabe5115461ac64241aaccb80">_adapter</a>(adapter),
+<a name="l00116"></a>00116       <a class="code" href="classopengv_1_1sac__problems_1_1relative__pose_1_1NoncentralRelativePoseSacProblem.html#a2f80ae075cb88074f31387d3ded97757">_algorithm</a>(algorithm),
+<a name="l00117"></a>00117       <a class="code" href="classopengv_1_1sac__problems_1_1relative__pose_1_1NoncentralRelativePoseSacProblem.html#af199c4e83fb122e081f4f1d5d2c6646a">_asCentral</a>(asCentral)
+<a name="l00118"></a>00118   {
+<a name="l00119"></a>00119     <a class="code" href="classopengv_1_1sac_1_1SampleConsensusProblem.html#a03289ee4bc04ce778df1c924da072d44" title="Set the indices_ variable (see member-description).">setIndices</a>(indices);
+<a name="l00120"></a>00120   };
+<a name="l00121"></a>00121 
+<a name="l00125"></a><a class="code" href="classopengv_1_1sac__problems_1_1relative__pose_1_1NoncentralRelativePoseSacProblem.html#aebdf16b122002de6cd7c35b1f36bae94">00125</a>   <span class="keyword">virtual</span> <a class="code" href="classopengv_1_1sac__problems_1_1relative__pose_1_1NoncentralRelativePoseSacProblem.html#aebdf16b122002de6cd7c35b1f36bae94">~NoncentralRelativePoseSacProblem</a>() {};
+<a name="l00126"></a>00126 
+<a name="l00130"></a>00130   <span class="keyword">virtual</span> <span class="keywordtype">bool</span> <a class="code" href="classopengv_1_1sac__problems_1_1relative__pose_1_1NoncentralRelativePoseSacProblem.html#aed9848d4518843a10e907af5e3b074f4" title="See parent-class.">computeModelCoefficients</a>(
+<a name="l00131"></a>00131       <span class="keyword">const</span> std::vector&lt;int&gt; &amp; indices,
+<a name="l00132"></a>00132       <a class="code" href="classopengv_1_1sac__problems_1_1relative__pose_1_1NoncentralRelativePoseSacProblem.html#a4af91a979c919c40ad5784d7d46272d0">model_t</a> &amp; outModel) <span class="keyword">const</span>;
+<a name="l00133"></a>00133 
+<a name="l00137"></a>00137   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classopengv_1_1sac__problems_1_1relative__pose_1_1NoncentralRelativePoseSacProblem.html#ae36130dd7fa648a3fd9628a9bfb79ae8" title="See parent-class.">getSelectedDistancesToModel</a>(
+<a name="l00138"></a>00138       <span class="keyword">const</span> <a class="code" href="classopengv_1_1sac__problems_1_1relative__pose_1_1NoncentralRelativePoseSacProblem.html#a4af91a979c919c40ad5784d7d46272d0">model_t</a> &amp; model,
+<a name="l00139"></a>00139       <span class="keyword">const</span> std::vector&lt;int&gt; &amp; indices,
+<a name="l00140"></a>00140       std::vector&lt;double&gt; &amp; scores) <span class="keyword">const</span>;
+<a name="l00141"></a>00141 
+<a name="l00145"></a>00145   <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classopengv_1_1sac__problems_1_1relative__pose_1_1NoncentralRelativePoseSacProblem.html#a1d9eeb5a07c66c2e3411f0bc3d67ca76" title="See parent-class.">optimizeModelCoefficients</a>(
+<a name="l00146"></a>00146       <span class="keyword">const</span> std::vector&lt;int&gt; &amp; inliers,
+<a name="l00147"></a>00147       <span class="keyword">const</span> <a class="code" href="classopengv_1_1sac__problems_1_1relative__pose_1_1NoncentralRelativePoseSacProblem.html#a4af91a979c919c40ad5784d7d46272d0">model_t</a> &amp; model,
+<a name="l00148"></a>00148       <a class="code" href="classopengv_1_1sac__problems_1_1relative__pose_1_1NoncentralRelativePoseSacProblem.html#a4af91a979c919c40ad5784d7d46272d0">model_t</a> &amp; optimized_model);
+<a name="l00149"></a>00149 
+<a name="l00153"></a>00153   <span class="keyword">virtual</span> <span class="keywordtype">int</span> <a class="code" href="classopengv_1_1sac__problems_1_1relative__pose_1_1NoncentralRelativePoseSacProblem.html#ac867f580b7d163a8c26ae248fff5af21" title="See parent-class.">getSampleSize</a>() <span class="keyword">const</span>;
+<a name="l00154"></a>00154 
+<a name="l00155"></a>00155 <span class="keyword">protected</span>:
+<a name="l00157"></a><a class="code" href="classopengv_1_1sac__problems_1_1relative__pose_1_1NoncentralRelativePoseSacProblem.html#a7837fa0fabe5115461ac64241aaccb80">00157</a>   <a class="code" href="classopengv_1_1relative__pose_1_1RelativeAdapterBase.html">adapter_t</a> &amp; <a class="code" href="classopengv_1_1sac__problems_1_1relative__pose_1_1NoncentralRelativePoseSacProblem.html#a7837fa0fabe5115461ac64241aaccb80">_adapter</a>;
+<a name="l00159"></a><a class="code" href="classopengv_1_1sac__problems_1_1relative__pose_1_1NoncentralRelativePoseSacProblem.html#a2f80ae075cb88074f31387d3ded97757">00159</a>   <a class="code" href="classopengv_1_1sac__problems_1_1relative__pose_1_1NoncentralRelativePoseSacProblem.html#a6ab2899f79289ab2e302139f96637547">algorithm_t</a> <a class="code" href="classopengv_1_1sac__problems_1_1relative__pose_1_1NoncentralRelativePoseSacProblem.html#a2f80ae075cb88074f31387d3ded97757">_algorithm</a>;
+<a name="l00161"></a><a class="code" href="classopengv_1_1sac__problems_1_1relative__pose_1_1NoncentralRelativePoseSacProblem.html#af199c4e83fb122e081f4f1d5d2c6646a">00161</a>   <span class="keywordtype">bool</span> <a class="code" href="classopengv_1_1sac__problems_1_1relative__pose_1_1NoncentralRelativePoseSacProblem.html#af199c4e83fb122e081f4f1d5d2c6646a">_asCentral</a>;
+<a name="l00162"></a>00162 };
+<a name="l00163"></a>00163 
+<a name="l00164"></a>00164 }
+<a name="l00165"></a>00165 }
+<a name="l00166"></a>00166 }
+<a name="l00167"></a>00167 
+<a name="l00168"></a>00168 <span class="preprocessor">#endif  </span><span class="comment">/* OPENGV_SAC_PROBLEMS_RELATIVE_POSE_NONCENTRALRELATIVEPOSESACPROBLEM_HPP_ */</span>
 </pre></div></div><!-- contents -->
 </div>
 <!-- window showing the filter options -->
@@ -204,7 +216,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul>
       <li class="navelem"><a class="el" href="NoncentralRelativePoseSacProblem_8hpp.html">NoncentralRelativePoseSacProblem.hpp</a>      </li>
 
-    <li class="footer">Generated on Wed Oct 16 2013 10:55:40 for OpenGV by
+    <li class="footer">Generated on Tue Feb 18 2014 15:31:57 for OpenGV by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
    </ul>

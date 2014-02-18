@@ -3,6 +3,7 @@ var searchData=
   ['absolute_5fpose',['absolute_pose',['../namespaceopengv_1_1absolute__pose.html',1,'opengv']]],
   ['absolute_5fpose',['absolute_pose',['../namespaceopengv_1_1sac__problems_1_1absolute__pose.html',1,'opengv::sac_problems']]],
   ['math',['math',['../namespaceopengv_1_1math.html',1,'opengv']]],
+  ['o3_5froots',['o3_roots',['../namespaceopengv_1_1math.html#a03cf38cc8ce57d6ce28edde94e6958a6',1,'opengv::math']]],
   ['o4_5froots',['o4_roots',['../namespaceopengv_1_1math.html#a6aab176e6709a4ea7ef43c7f137f3b59',1,'opengv::math::o4_roots(const Eigen::MatrixXd &amp;p)'],['../namespaceopengv_1_1math.html#afede3bc0278f38b3928f599c66b39d39',1,'opengv::math::o4_roots(const std::vector&lt; double &gt; &amp;p)']]],
   ['opengv',['opengv',['../namespaceopengv.html',1,'']]],
   ['optimizationfunctor',['OptimizationFunctor',['../structopengv_1_1OptimizationFunctor.html',1,'opengv']]],

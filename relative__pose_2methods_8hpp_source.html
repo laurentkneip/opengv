@@ -183,42 +183,67 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00280"></a>00280     <span class="keyword">const</span> RelativeAdapterBase &amp; adapter,
 <a name="l00281"></a>00281     <span class="keyword">const</span> std::vector&lt;int&gt; &amp; indices );
 <a name="l00282"></a>00282 
-<a name="l00293"></a>00293 <a class="code" href="namespaceopengv.html#a8df9be48bee2fbd07982bb70084f7743">rotation_t</a> <a class="code" href="namespaceopengv_1_1relative__pose.html#a6e61c0982d5ce4ad6ff4a82a3b2bd0f2" title="Compute the rotation matrix between two central viewpoints as an iterative eigenproblem [11]...">eigensolver</a>(
-<a name="l00294"></a>00294     <span class="keyword">const</span> RelativeAdapterBase &amp; adapter,
-<a name="l00295"></a>00295     <a class="code" href="namespaceopengv.html#a00bd743dae7e93efdefbad9b7f3aaa31">eigensolverOutput_t</a> &amp; output );
-<a name="l00296"></a>00296 
-<a name="l00309"></a>00309 <a class="code" href="namespaceopengv.html#a8df9be48bee2fbd07982bb70084f7743">rotation_t</a> <a class="code" href="namespaceopengv_1_1relative__pose.html#a6e61c0982d5ce4ad6ff4a82a3b2bd0f2" title="Compute the rotation matrix between two central viewpoints as an iterative eigenproblem [11]...">eigensolver</a>(
-<a name="l00310"></a>00310     <span class="keyword">const</span> RelativeAdapterBase &amp; adapter,
-<a name="l00311"></a>00311     <span class="keyword">const</span> std::vector&lt;int&gt; &amp; indices,
-<a name="l00312"></a>00312     <a class="code" href="namespaceopengv.html#a00bd743dae7e93efdefbad9b7f3aaa31">eigensolverOutput_t</a> &amp; output );
-<a name="l00313"></a>00313 
-<a name="l00328"></a>00328 <a class="code" href="namespaceopengv.html#a8df9be48bee2fbd07982bb70084f7743">rotation_t</a> <a class="code" href="namespaceopengv_1_1relative__pose.html#a5c8b8a06e801aa56dd73721ecef95a47" title="Compute the rotation matrix between two central viewpoints as an iterative eigenproblem [11]...">eigensolverWithWeights</a>(
+<a name="l00294"></a>00294 <a class="code" href="namespaceopengv.html#a8df9be48bee2fbd07982bb70084f7743">rotation_t</a> <a class="code" href="namespaceopengv_1_1relative__pose.html#a707cb10ea9be0f204d5d09487642d326" title="Compute the rotation matrix between two central viewpoints as an iterative eigenproblem [11]...">eigensolver</a>(
+<a name="l00295"></a>00295     <span class="keyword">const</span> RelativeAdapterBase &amp; adapter,
+<a name="l00296"></a>00296     <a class="code" href="namespaceopengv.html#a00bd743dae7e93efdefbad9b7f3aaa31">eigensolverOutput_t</a> &amp; output,
+<a name="l00297"></a>00297     <span class="keywordtype">bool</span> useWeights = <span class="keyword">false</span> );
+<a name="l00298"></a>00298 
+<a name="l00312"></a>00312 <a class="code" href="namespaceopengv.html#a8df9be48bee2fbd07982bb70084f7743">rotation_t</a> <a class="code" href="namespaceopengv_1_1relative__pose.html#a707cb10ea9be0f204d5d09487642d326" title="Compute the rotation matrix between two central viewpoints as an iterative eigenproblem [11]...">eigensolver</a>(
+<a name="l00313"></a>00313     <span class="keyword">const</span> RelativeAdapterBase &amp; adapter,
+<a name="l00314"></a>00314     <span class="keyword">const</span> std::vector&lt;int&gt; &amp; indices,
+<a name="l00315"></a>00315     <a class="code" href="namespaceopengv.html#a00bd743dae7e93efdefbad9b7f3aaa31">eigensolverOutput_t</a> &amp; output,
+<a name="l00316"></a>00316     <span class="keywordtype">bool</span> useWeights = <span class="keyword">false</span> );
+<a name="l00317"></a>00317 
+<a name="l00328"></a>00328 <a class="code" href="namespaceopengv.html#a8df9be48bee2fbd07982bb70084f7743">rotation_t</a> <a class="code" href="namespaceopengv_1_1relative__pose.html#a707cb10ea9be0f204d5d09487642d326" title="Compute the rotation matrix between two central viewpoints as an iterative eigenproblem [11]...">eigensolver</a>(
 <a name="l00329"></a>00329     <span class="keyword">const</span> RelativeAdapterBase &amp; adapter,
-<a name="l00330"></a>00330     <span class="keyword">const</span> std::vector&lt;int&gt; &amp; indices,
-<a name="l00331"></a>00331     <a class="code" href="namespaceopengv.html#a00bd743dae7e93efdefbad9b7f3aaa31">eigensolverOutput_t</a> &amp; output );
-<a name="l00332"></a>00332 
-<a name="l00342"></a>00342 <a class="code" href="namespaceopengv.html#a8df9be48bee2fbd07982bb70084f7743">rotation_t</a> <a class="code" href="namespaceopengv_1_1relative__pose.html#a6e61c0982d5ce4ad6ff4a82a3b2bd0f2" title="Compute the rotation matrix between two central viewpoints as an iterative eigenproblem [11]...">eigensolver</a>( <span class="keyword">const</span> RelativeAdapterBase &amp; adapter );
-<a name="l00343"></a>00343 
-<a name="l00354"></a>00354 <a class="code" href="namespaceopengv.html#a8df9be48bee2fbd07982bb70084f7743">rotation_t</a> <a class="code" href="namespaceopengv_1_1relative__pose.html#a6e61c0982d5ce4ad6ff4a82a3b2bd0f2" title="Compute the rotation matrix between two central viewpoints as an iterative eigenproblem [11]...">eigensolver</a>(
-<a name="l00355"></a>00355     <span class="keyword">const</span> RelativeAdapterBase &amp; adapter,
-<a name="l00356"></a>00356     <span class="keyword">const</span> std::vector&lt;int&gt; &amp; indices );
-<a name="l00357"></a>00357 
-<a name="l00370"></a>00370 <a class="code" href="namespaceopengv.html#ae4d7f4755df10d5729299c16fdc92711">transformation_t</a> <a class="code" href="namespaceopengv_1_1relative__pose.html#abaaa4113792696718aad66bce3629148" title="Compute the relative pose between two non-central viewpoints following Li&#39;s method [12]...">seventeenpt</a>( <span class="keyword">const</span> RelativeAdapterBase &amp; adapter );
-<a name="l00371"></a>00371 
-<a name="l00386"></a>00386 <a class="code" href="namespaceopengv.html#ae4d7f4755df10d5729299c16fdc92711">transformation_t</a> <a class="code" href="namespaceopengv_1_1relative__pose.html#abaaa4113792696718aad66bce3629148" title="Compute the relative pose between two non-central viewpoints following Li&#39;s method [12]...">seventeenpt</a>(
-<a name="l00387"></a>00387     <span class="keyword">const</span> RelativeAdapterBase &amp; adapter,
-<a name="l00388"></a>00388     <span class="keyword">const</span> std::vector&lt;int&gt; &amp; indices );
+<a name="l00330"></a>00330     <span class="keywordtype">bool</span> useWeights = <span class="keyword">false</span> );
+<a name="l00331"></a>00331 
+<a name="l00343"></a>00343 <a class="code" href="namespaceopengv.html#a8df9be48bee2fbd07982bb70084f7743">rotation_t</a> <a class="code" href="namespaceopengv_1_1relative__pose.html#a707cb10ea9be0f204d5d09487642d326" title="Compute the rotation matrix between two central viewpoints as an iterative eigenproblem [11]...">eigensolver</a>(
+<a name="l00344"></a>00344     <span class="keyword">const</span> RelativeAdapterBase &amp; adapter,
+<a name="l00345"></a>00345     <span class="keyword">const</span> std::vector&lt;int&gt; &amp; indices,
+<a name="l00346"></a>00346     <span class="keywordtype">bool</span> useWeights = <span class="keyword">false</span> );
+<a name="l00347"></a>00347 
+<a name="l00356"></a>00356 <a class="code" href="namespaceopengv.html#ac71d0e5d870c93b3a320a283f20a8d4a">rotations_t</a> <a class="code" href="namespaceopengv_1_1relative__pose.html#af5935af73d282ad4c8c5134ed0572436" title="Compute the relative rotation between two non-central viewpoints following Stewenius&#39; method [16]...">sixpt</a>(
+<a name="l00357"></a>00357     <span class="keyword">const</span> RelativeAdapterBase &amp; adapter );
+<a name="l00358"></a>00358 
+<a name="l00369"></a>00369 <a class="code" href="namespaceopengv.html#ac71d0e5d870c93b3a320a283f20a8d4a">rotations_t</a> <a class="code" href="namespaceopengv_1_1relative__pose.html#af5935af73d282ad4c8c5134ed0572436" title="Compute the relative rotation between two non-central viewpoints following Stewenius&#39; method [16]...">sixpt</a>(
+<a name="l00370"></a>00370     <span class="keyword">const</span> RelativeAdapterBase &amp; adapter,
+<a name="l00371"></a>00371     <span class="keyword">const</span> std::vector&lt;int&gt; &amp; indices );
+<a name="l00372"></a>00372 
+<a name="l00385"></a>00385 <a class="code" href="namespaceopengv.html#a8df9be48bee2fbd07982bb70084f7743">rotation_t</a> <a class="code" href="namespaceopengv_1_1relative__pose.html#ae01b9e51d594cbd963645464174e762a" title="Compute the rotation matrix between two non-central viewpoints as an iterative eigenproblem. Using all available correspondences.">ge</a>(
+<a name="l00386"></a>00386     <span class="keyword">const</span> RelativeAdapterBase &amp; adapter,
+<a name="l00387"></a>00387     geOutput_t &amp; output,
+<a name="l00388"></a>00388     <span class="keywordtype">bool</span> useWeights = <span class="keyword">false</span> );
 <a name="l00389"></a>00389 
-<a name="l00403"></a>00403 <a class="code" href="namespaceopengv.html#ae4d7f4755df10d5729299c16fdc92711">transformation_t</a> <a class="code" href="namespaceopengv_1_1relative__pose.html#a80523c09f1517f2d0a1f663d8e0916b5" title="Compute the pose between two viewpoints using nonlinear optimization. Using all available corresponde...">optimize_nonlinear</a>( RelativeAdapterBase &amp; adapter );
-<a name="l00404"></a>00404 
-<a name="l00418"></a>00418 <a class="code" href="namespaceopengv.html#ae4d7f4755df10d5729299c16fdc92711">transformation_t</a> <a class="code" href="namespaceopengv_1_1relative__pose.html#a80523c09f1517f2d0a1f663d8e0916b5" title="Compute the pose between two viewpoints using nonlinear optimization. Using all available corresponde...">optimize_nonlinear</a>(
-<a name="l00419"></a>00419     RelativeAdapterBase &amp; adapter,
-<a name="l00420"></a>00420     <span class="keyword">const</span> std::vector&lt;int&gt; &amp; indices );
-<a name="l00421"></a>00421 
-<a name="l00422"></a>00422 }
-<a name="l00423"></a>00423 }
-<a name="l00424"></a>00424 
-<a name="l00425"></a>00425 <span class="preprocessor">#endif </span><span class="comment">/* OPENGV_RELATIVE_POSE_METHODS_HPP_ */</span>
+<a name="l00404"></a>00404 <a class="code" href="namespaceopengv.html#a8df9be48bee2fbd07982bb70084f7743">rotation_t</a> <a class="code" href="namespaceopengv_1_1relative__pose.html#ae01b9e51d594cbd963645464174e762a" title="Compute the rotation matrix between two non-central viewpoints as an iterative eigenproblem. Using all available correspondences.">ge</a>(
+<a name="l00405"></a>00405     <span class="keyword">const</span> RelativeAdapterBase &amp; adapter,
+<a name="l00406"></a>00406     <span class="keyword">const</span> std::vector&lt;int&gt; &amp; indices,
+<a name="l00407"></a>00407     geOutput_t &amp; output,
+<a name="l00408"></a>00408     <span class="keywordtype">bool</span> useWeights = <span class="keyword">false</span> );
+<a name="l00409"></a>00409 
+<a name="l00421"></a>00421 <a class="code" href="namespaceopengv.html#a8df9be48bee2fbd07982bb70084f7743">rotation_t</a> <a class="code" href="namespaceopengv_1_1relative__pose.html#ae01b9e51d594cbd963645464174e762a" title="Compute the rotation matrix between two non-central viewpoints as an iterative eigenproblem. Using all available correspondences.">ge</a>( <span class="keyword">const</span> RelativeAdapterBase &amp; adapter, <span class="keywordtype">bool</span> useWeights = <span class="keyword">false</span> );
+<a name="l00422"></a>00422 
+<a name="l00435"></a>00435 <a class="code" href="namespaceopengv.html#a8df9be48bee2fbd07982bb70084f7743">rotation_t</a> <a class="code" href="namespaceopengv_1_1relative__pose.html#ae01b9e51d594cbd963645464174e762a" title="Compute the rotation matrix between two non-central viewpoints as an iterative eigenproblem. Using all available correspondences.">ge</a>(
+<a name="l00436"></a>00436     <span class="keyword">const</span> RelativeAdapterBase &amp; adapter,
+<a name="l00437"></a>00437     <span class="keyword">const</span> std::vector&lt;int&gt; &amp; indices,
+<a name="l00438"></a>00438     <span class="keywordtype">bool</span> useWeights = <span class="keyword">false</span> );
+<a name="l00439"></a>00439 
+<a name="l00452"></a>00452 <a class="code" href="namespaceopengv.html#ae4d7f4755df10d5729299c16fdc92711">transformation_t</a> <a class="code" href="namespaceopengv_1_1relative__pose.html#abaaa4113792696718aad66bce3629148" title="Compute the relative pose between two non-central viewpoints following Li&#39;s method [12]...">seventeenpt</a>( <span class="keyword">const</span> RelativeAdapterBase &amp; adapter );
+<a name="l00453"></a>00453 
+<a name="l00468"></a>00468 <a class="code" href="namespaceopengv.html#ae4d7f4755df10d5729299c16fdc92711">transformation_t</a> <a class="code" href="namespaceopengv_1_1relative__pose.html#abaaa4113792696718aad66bce3629148" title="Compute the relative pose between two non-central viewpoints following Li&#39;s method [12]...">seventeenpt</a>(
+<a name="l00469"></a>00469     <span class="keyword">const</span> RelativeAdapterBase &amp; adapter,
+<a name="l00470"></a>00470     <span class="keyword">const</span> std::vector&lt;int&gt; &amp; indices );
+<a name="l00471"></a>00471 
+<a name="l00485"></a>00485 <a class="code" href="namespaceopengv.html#ae4d7f4755df10d5729299c16fdc92711">transformation_t</a> <a class="code" href="namespaceopengv_1_1relative__pose.html#a80523c09f1517f2d0a1f663d8e0916b5" title="Compute the pose between two viewpoints using nonlinear optimization. Using all available corresponde...">optimize_nonlinear</a>( RelativeAdapterBase &amp; adapter );
+<a name="l00486"></a>00486 
+<a name="l00500"></a>00500 <a class="code" href="namespaceopengv.html#ae4d7f4755df10d5729299c16fdc92711">transformation_t</a> <a class="code" href="namespaceopengv_1_1relative__pose.html#a80523c09f1517f2d0a1f663d8e0916b5" title="Compute the pose between two viewpoints using nonlinear optimization. Using all available corresponde...">optimize_nonlinear</a>(
+<a name="l00501"></a>00501     RelativeAdapterBase &amp; adapter,
+<a name="l00502"></a>00502     <span class="keyword">const</span> std::vector&lt;int&gt; &amp; indices );
+<a name="l00503"></a>00503 
+<a name="l00504"></a>00504 }
+<a name="l00505"></a>00505 }
+<a name="l00506"></a>00506 
+<a name="l00507"></a>00507 <span class="preprocessor">#endif </span><span class="comment">/* OPENGV_RELATIVE_POSE_METHODS_HPP_ */</span>
 </pre></div></div><!-- contents -->
 </div>
 <!-- window showing the filter options -->
@@ -239,7 +264,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul>
       <li class="navelem"><a class="el" href="relative__pose_2methods_8hpp.html">methods.hpp</a>      </li>
 
-    <li class="footer">Generated on Wed Oct 16 2013 10:55:40 for OpenGV by
+    <li class="footer">Generated on Tue Feb 18 2014 15:31:57 for OpenGV by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
    </ul>

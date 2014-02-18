@@ -108,6 +108,14 @@ Functions</h2></td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute a fake rotation matrix from Cayley-parameters, following [14]. The rotation matrix is missing the scaling parameter of the Cayley-transform. This short form is useful for the Jacobian-based iterative rotation optimization of the eigensolver [11].  <a href="#a55cd18a70a99b064f5f624d216e5a476"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceopengv.html#a8a10d9c72d061ead41138ffd0ef11d91">cayley_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceopengv_1_1math.html#a5fff725c79e2f1fc80cc4d49e22523cb">rot2cayley</a> (const <a class="el" href="namespaceopengv.html#a8df9be48bee2fbd07982bb70084f7743">rotation_t</a> &amp;R)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the Cayley-parameters of a rotation matrix, following [14].  <a href="#a5fff725c79e2f1fc80cc4d49e22523cb"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceopengv_1_1math.html#ad51e30698f712ca60e9882f002af39d5">gauss_jordan</a> (std::vector&lt; std::vector&lt; double &gt; * &gt; &amp;matrix, int exitCondition=0)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Sparse, fast Gauss Jordan elimination on matrices with a left square invertible block.  <a href="#ad51e30698f712ca60e9882f002af39d5"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceopengv.html#a8df9be48bee2fbd07982bb70084f7743">rotation_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceopengv_1_1math.html#a4f3417e3cb24b6ef4f4c2579c8de2d4f">quaternion2rot</a> (const <a class="el" href="namespaceopengv.html#a0e2dd4f091ed164852f65de7b5ed545c">quaternion_t</a> &amp;quaternion)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute a rotation matrix from quaternion-parameters. Assumes that the quaternion has unit norm.  <a href="#a4f3417e3cb24b6ef4f4c2579c8de2d4f"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceopengv.html#a0e2dd4f091ed164852f65de7b5ed545c">quaternion_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceopengv_1_1math.html#aa434976a0b93505926704062753475e4">rot2quaternion</a> (const <a class="el" href="namespaceopengv.html#a8df9be48bee2fbd07982bb70084f7743">rotation_t</a> &amp;R)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the quaternion-parameters of a rotation matrix.  <a href="#aa434976a0b93505926704062753475e4"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceopengv_1_1math.html#a03cf38cc8ce57d6ce28edde94e6958a6">o3_roots</a> (const std::vector&lt; double &gt; &amp;p)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">The roots of a third-order polynomial.  <a href="#a03cf38cc8ce57d6ce28edde94e6958a6"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceopengv_1_1math.html#a6aab176e6709a4ea7ef43c7f137f3b59">o4_roots</a> (const Eigen::MatrixXd &amp;p)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Ferrari's method for computing the roots of a fourth order polynomial.  <a href="#a6aab176e6709a4ea7ef43c7f137f3b59"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceopengv_1_1math.html#afede3bc0278f38b3928f599c66b39d39">o4_roots</a> (const std::vector&lt; double &gt; &amp;p)</td></tr>
@@ -231,6 +239,68 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="ad51e30698f712ca60e9882f002af39d5"></a><!-- doxytag: member="opengv::math::gauss_jordan" ref="ad51e30698f712ca60e9882f002af39d5" args="(std::vector&lt; std::vector&lt; double &gt; * &gt; &amp;matrix, int exitCondition=0)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="namespaceopengv_1_1math.html#ad51e30698f712ca60e9882f002af39d5">opengv::math::gauss_jordan</a> </td>
+          <td>(</td>
+          <td class="paramtype">std::vector&lt; std::vector&lt; double &gt; * &gt; &amp;&#160;</td>
+          <td class="paramname"><em>matrix</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>exitCondition</em> = <code>0</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Sparse, fast Gauss Jordan elimination on matrices with a left square invertible block. </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">matrix</td><td>The matrix. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">exitCondition</td><td>The last row we process when stepping up. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a03cf38cc8ce57d6ce28edde94e6958a6"></a><!-- doxytag: member="opengv::math::o3_roots" ref="a03cf38cc8ce57d6ce28edde94e6958a6" args="(const std::vector&lt; double &gt; &amp;p)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;double&gt; <a class="el" href="namespaceopengv_1_1math.html#a03cf38cc8ce57d6ce28edde94e6958a6">opengv::math::o3_roots</a> </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; double &gt; &amp;&#160;</td>
+          <td class="paramname"><em>p</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>The roots of a third-order polynomial. </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">p</td><td>The polynomial coefficients (poly = p[0]*x^3 + p[1]*x^2 ...). </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>The roots of the polynomial (only real ones). </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="a6aab176e6709a4ea7ef43c7f137f3b59"></a><!-- doxytag: member="opengv::math::o4_roots" ref="a6aab176e6709a4ea7ef43c7f137f3b59" args="(const Eigen::MatrixXd &amp;p)" -->
 <div class="memitem">
 <div class="memproto">
@@ -275,11 +345,37 @@ Functions</h2></td></tr>
 <p>Ferrari's method for computing the roots of a fourth order polynomial. With a different interface. </p>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">p</td><td>The polynomial coefficients (poly = p[0]*x^4 + p[0]*x^3 ...). </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">p</td><td>The polynomial coefficients (poly = p[0]*x^4 + p[1]*x^3 ...). </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>The roots of the polynomial (only real ones). </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a4f3417e3cb24b6ef4f4c2579c8de2d4f"></a><!-- doxytag: member="opengv::math::quaternion2rot" ref="a4f3417e3cb24b6ef4f4c2579c8de2d4f" args="(const quaternion_t &amp;quaternion)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespaceopengv.html#a8df9be48bee2fbd07982bb70084f7743">rotation_t</a> <a class="el" href="namespaceopengv_1_1math.html#a4f3417e3cb24b6ef4f4c2579c8de2d4f">opengv::math::quaternion2rot</a> </td>
+          <td>(</td>
+          <td class="paramtype">const quaternion_t &amp;&#160;</td>
+          <td class="paramname"><em>quaternion</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Compute a rotation matrix from quaternion-parameters. Assumes that the quaternion has unit norm. </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">quaternion</td><td>The quaternion-parameters of a rotation. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>The 3x3 rotation matrix. </dd></dl>
 
 </div>
 </div>
@@ -309,6 +405,32 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="aa434976a0b93505926704062753475e4"></a><!-- doxytag: member="opengv::math::rot2quaternion" ref="aa434976a0b93505926704062753475e4" args="(const rotation_t &amp;R)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespaceopengv.html#a0e2dd4f091ed164852f65de7b5ed545c">quaternion_t</a> <a class="el" href="namespaceopengv_1_1math.html#aa434976a0b93505926704062753475e4">opengv::math::rot2quaternion</a> </td>
+          <td>(</td>
+          <td class="paramtype">const rotation_t &amp;&#160;</td>
+          <td class="paramname"><em>R</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Compute the quaternion-parameters of a rotation matrix. </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">R</td><td>The 3x3 rotation matrix. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>The quaternion-parameters. </dd></dl>
+
+</div>
+</div>
 </div><!-- contents -->
 </div>
 <!-- window showing the filter options -->
@@ -330,7 +452,7 @@ Functions</h2></td></tr>
       <li class="navelem"><a class="el" href="namespaceopengv.html">opengv</a>      </li>
       <li class="navelem"><a class="el" href="namespaceopengv_1_1math.html">math</a>      </li>
 
-    <li class="footer">Generated on Wed Oct 16 2013 10:55:41 for OpenGV by
+    <li class="footer">Generated on Tue Feb 18 2014 15:32:00 for OpenGV by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
    </ul>

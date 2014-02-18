@@ -106,15 +106,21 @@ Inheritance diagram for opengv::sac_problems::relative_pose::MultiNoncentralRela
 <table class="memberdecls">
 <tr><td colspan="2"><h2><a name="pub-types"></a>
 Public Types</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classopengv_1_1sac__problems_1_1relative__pose_1_1MultiNoncentralRelativePoseSacProblem.html#a9560deaaefef51167e15c26721f11a14">Algorithm</a> { <b>SIXPT</b> =  0, 
+<b>GE</b> =  1, 
+<b>SEVENTEENPT</b> =  2
+ }</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="namespaceopengv.html#ae4d7f4755df10d5729299c16fdc92711">transformation_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classopengv_1_1sac__problems_1_1relative__pose_1_1MultiNoncentralRelativePoseSacProblem.html#a461034d7de6fa7f7ff4d9e9042bd280f">model_t</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">typedef <br class="typebreak"/>
 <a class="el" href="classopengv_1_1relative__pose_1_1RelativeMultiAdapterBase.html">opengv::relative_pose::RelativeMultiAdapterBase</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classopengv_1_1sac__problems_1_1relative__pose_1_1MultiNoncentralRelativePoseSacProblem.html#abc02de53a9290e4d4acdfe9e8693ce0e">adapter_t</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">typedef enum <br class="typebreak"/>
+<a class="el" href="classopengv_1_1sac__problems_1_1relative__pose_1_1MultiNoncentralRelativePoseSacProblem.html#a9560deaaefef51167e15c26721f11a14">opengv::sac_problems::relative_pose::MultiNoncentralRelativePoseSacProblem::Algorithm</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classopengv_1_1sac__problems_1_1relative__pose_1_1MultiNoncentralRelativePoseSacProblem.html#a7362114cbdf0347c82039fe8af6cbb9f">algorithm_t</a></td></tr>
 <tr><td colspan="2"><h2><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classopengv_1_1sac__problems_1_1relative__pose_1_1MultiNoncentralRelativePoseSacProblem.html#ab907901e2b0c8a936ba8cb9e18273b10">MultiNoncentralRelativePoseSacProblem</a> (<a class="el" href="classopengv_1_1sac__problems_1_1relative__pose_1_1MultiNoncentralRelativePoseSacProblem.html#abc02de53a9290e4d4acdfe9e8693ce0e">adapter_t</a> &amp;adapter, bool asCentral=false)</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="#ab907901e2b0c8a936ba8cb9e18273b10"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classopengv_1_1sac__problems_1_1relative__pose_1_1MultiNoncentralRelativePoseSacProblem.html#a01b2d4a1ae3167c6c33b6b7eace17fde">MultiNoncentralRelativePoseSacProblem</a> (<a class="el" href="classopengv_1_1sac__problems_1_1relative__pose_1_1MultiNoncentralRelativePoseSacProblem.html#abc02de53a9290e4d4acdfe9e8693ce0e">adapter_t</a> &amp;adapter, const std::vector&lt; std::vector&lt; int &gt; &gt; &amp;indices, bool asCentral=false)</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="#a01b2d4a1ae3167c6c33b6b7eace17fde"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classopengv_1_1sac__problems_1_1relative__pose_1_1MultiNoncentralRelativePoseSacProblem.html#a1be870b4988fae4e8fc424093290fb9c">MultiNoncentralRelativePoseSacProblem</a> (<a class="el" href="classopengv_1_1sac__problems_1_1relative__pose_1_1MultiNoncentralRelativePoseSacProblem.html#abc02de53a9290e4d4acdfe9e8693ce0e">adapter_t</a> &amp;adapter, <a class="el" href="classopengv_1_1sac__problems_1_1relative__pose_1_1MultiNoncentralRelativePoseSacProblem.html#a7362114cbdf0347c82039fe8af6cbb9f">algorithm_t</a> algorithm, bool asCentral=false)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="#a1be870b4988fae4e8fc424093290fb9c"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classopengv_1_1sac__problems_1_1relative__pose_1_1MultiNoncentralRelativePoseSacProblem.html#ab6ee74b4218f9c559349787972bc00b3">MultiNoncentralRelativePoseSacProblem</a> (<a class="el" href="classopengv_1_1sac__problems_1_1relative__pose_1_1MultiNoncentralRelativePoseSacProblem.html#abc02de53a9290e4d4acdfe9e8693ce0e">adapter_t</a> &amp;adapter, <a class="el" href="classopengv_1_1sac__problems_1_1relative__pose_1_1MultiNoncentralRelativePoseSacProblem.html#a7362114cbdf0347c82039fe8af6cbb9f">algorithm_t</a> algorithm, const std::vector&lt; std::vector&lt; int &gt; &gt; &amp;indices, bool asCentral=false)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="#ab6ee74b4218f9c559349787972bc00b3"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classopengv_1_1sac__problems_1_1relative__pose_1_1MultiNoncentralRelativePoseSacProblem.html#ac6c810755a8dff8f8a8970faa75a756e">~MultiNoncentralRelativePoseSacProblem</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aaf7a5f59454eef9aad788c35ad5fad43"></a><!-- doxytag: member="opengv::sac_problems::relative_pose::MultiNoncentralRelativePoseSacProblem::computeModelCoefficients" ref="aaf7a5f59454eef9aad788c35ad5fad43" args="(const std::vector&lt; std::vector&lt; int &gt; &gt; &amp;indices, model_t &amp;outModel) const " -->
 virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classopengv_1_1sac__problems_1_1relative__pose_1_1MultiNoncentralRelativePoseSacProblem.html#aaf7a5f59454eef9aad788c35ad5fad43">computeModelCoefficients</a> (const std::vector&lt; std::vector&lt; int &gt; &gt; &amp;indices, <a class="el" href="classopengv_1_1sac__problems_1_1relative__pose_1_1MultiNoncentralRelativePoseSacProblem.html#a461034d7de6fa7f7ff4d9e9042bd280f">model_t</a> &amp;outModel) const </td></tr>
@@ -131,6 +137,7 @@ virtual std::vector&lt; int &gt;&#160;</td><td class="memItemRight" valign="bott
 <tr><td colspan="2"><h2><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="classopengv_1_1sac__problems_1_1relative__pose_1_1MultiNoncentralRelativePoseSacProblem.html#abc02de53a9290e4d4acdfe9e8693ce0e">adapter_t</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classopengv_1_1sac__problems_1_1relative__pose_1_1MultiNoncentralRelativePoseSacProblem.html#aacabfeb1c04d1f47c98db891b2e34dd6">_adapter</a></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="classopengv_1_1sac__problems_1_1relative__pose_1_1MultiNoncentralRelativePoseSacProblem.html#a7362114cbdf0347c82039fe8af6cbb9f">algorithm_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classopengv_1_1sac__problems_1_1relative__pose_1_1MultiNoncentralRelativePoseSacProblem.html#a3750115c86064f972a0b9d86ebe6308b">_algorithm</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classopengv_1_1sac__problems_1_1relative__pose_1_1MultiNoncentralRelativePoseSacProblem.html#a19f073820bfeaabb908949deaddb101e">_asCentral</a></td></tr>
 </table>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
@@ -150,6 +157,20 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="a7362114cbdf0347c82039fe8af6cbb9f"></a><!-- doxytag: member="opengv::sac_problems::relative_pose::MultiNoncentralRelativePoseSacProblem::algorithm_t" ref="a7362114cbdf0347c82039fe8af6cbb9f" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef enum <a class="el" href="classopengv_1_1sac__problems_1_1relative__pose_1_1MultiNoncentralRelativePoseSacProblem.html#a9560deaaefef51167e15c26721f11a14">opengv::sac_problems::relative_pose::MultiNoncentralRelativePoseSacProblem::Algorithm</a>  <a class="el" href="classopengv_1_1sac__problems_1_1relative__pose_1_1MultiNoncentralRelativePoseSacProblem.html#a7362114cbdf0347c82039fe8af6cbb9f">opengv::sac_problems::relative_pose::MultiNoncentralRelativePoseSacProblem::algorithm_t</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>The possible algorithms for solving this problem </p>
+
+</div>
+</div>
 <a class="anchor" id="a461034d7de6fa7f7ff4d9e9042bd280f"></a><!-- doxytag: member="opengv::sac_problems::relative_pose::MultiNoncentralRelativePoseSacProblem::model_t" ref="a461034d7de6fa7f7ff4d9e9042bd280f" args="" -->
 <div class="memitem">
 <div class="memproto">
@@ -166,16 +187,37 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<hr/><h2>Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="ab907901e2b0c8a936ba8cb9e18273b10"></a><!-- doxytag: member="opengv::sac_problems::relative_pose::MultiNoncentralRelativePoseSacProblem::MultiNoncentralRelativePoseSacProblem" ref="ab907901e2b0c8a936ba8cb9e18273b10" args="(adapter_t &amp;adapter, bool asCentral=false)" -->
+<hr/><h2>Member Enumeration Documentation</h2>
+<a class="anchor" id="a9560deaaefef51167e15c26721f11a14"></a><!-- doxytag: member="opengv::sac_problems::relative_pose::MultiNoncentralRelativePoseSacProblem::Algorithm" ref="a9560deaaefef51167e15c26721f11a14" args="" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classopengv_1_1sac__problems_1_1relative__pose_1_1MultiNoncentralRelativePoseSacProblem.html#ab907901e2b0c8a936ba8cb9e18273b10">opengv::sac_problems::relative_pose::MultiNoncentralRelativePoseSacProblem::MultiNoncentralRelativePoseSacProblem</a> </td>
+          <td class="memname">enum <a class="el" href="classopengv_1_1sac__problems_1_1relative__pose_1_1MultiNoncentralRelativePoseSacProblem.html#a9560deaaefef51167e15c26721f11a14">opengv::sac_problems::relative_pose::MultiNoncentralRelativePoseSacProblem::Algorithm</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>The possible algorithms for solving this problem </p>
+
+</div>
+</div>
+<hr/><h2>Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="a1be870b4988fae4e8fc424093290fb9c"></a><!-- doxytag: member="opengv::sac_problems::relative_pose::MultiNoncentralRelativePoseSacProblem::MultiNoncentralRelativePoseSacProblem" ref="a1be870b4988fae4e8fc424093290fb9c" args="(adapter_t &amp;adapter, algorithm_t algorithm, bool asCentral=false)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classopengv_1_1sac__problems_1_1relative__pose_1_1MultiNoncentralRelativePoseSacProblem.html#a1be870b4988fae4e8fc424093290fb9c">opengv::sac_problems::relative_pose::MultiNoncentralRelativePoseSacProblem::MultiNoncentralRelativePoseSacProblem</a> </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classopengv_1_1sac__problems_1_1relative__pose_1_1MultiNoncentralRelativePoseSacProblem.html#abc02de53a9290e4d4acdfe9e8693ce0e">adapter_t</a> &amp;&#160;</td>
           <td class="paramname"><em>adapter</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classopengv_1_1sac__problems_1_1relative__pose_1_1MultiNoncentralRelativePoseSacProblem.html#a7362114cbdf0347c82039fe8af6cbb9f">algorithm_t</a>&#160;</td>
+          <td class="paramname"><em>algorithm</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -196,6 +238,7 @@ Protected Attributes</h2></td></tr>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">adapter</td><td>Visitor holding bearing vector correspondences etc. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">algorithm</td><td>The algorithm to use. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">asCentral</td><td>Solve problem with only one camera? </td></tr>
   </table>
   </dd>
@@ -203,15 +246,21 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a01b2d4a1ae3167c6c33b6b7eace17fde"></a><!-- doxytag: member="opengv::sac_problems::relative_pose::MultiNoncentralRelativePoseSacProblem::MultiNoncentralRelativePoseSacProblem" ref="a01b2d4a1ae3167c6c33b6b7eace17fde" args="(adapter_t &amp;adapter, const std::vector&lt; std::vector&lt; int &gt; &gt; &amp;indices, bool asCentral=false)" -->
+<a class="anchor" id="ab6ee74b4218f9c559349787972bc00b3"></a><!-- doxytag: member="opengv::sac_problems::relative_pose::MultiNoncentralRelativePoseSacProblem::MultiNoncentralRelativePoseSacProblem" ref="ab6ee74b4218f9c559349787972bc00b3" args="(adapter_t &amp;adapter, algorithm_t algorithm, const std::vector&lt; std::vector&lt; int &gt; &gt; &amp;indices, bool asCentral=false)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classopengv_1_1sac__problems_1_1relative__pose_1_1MultiNoncentralRelativePoseSacProblem.html#ab907901e2b0c8a936ba8cb9e18273b10">opengv::sac_problems::relative_pose::MultiNoncentralRelativePoseSacProblem::MultiNoncentralRelativePoseSacProblem</a> </td>
+          <td class="memname"><a class="el" href="classopengv_1_1sac__problems_1_1relative__pose_1_1MultiNoncentralRelativePoseSacProblem.html#a1be870b4988fae4e8fc424093290fb9c">opengv::sac_problems::relative_pose::MultiNoncentralRelativePoseSacProblem::MultiNoncentralRelativePoseSacProblem</a> </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classopengv_1_1sac__problems_1_1relative__pose_1_1MultiNoncentralRelativePoseSacProblem.html#abc02de53a9290e4d4acdfe9e8693ce0e">adapter_t</a> &amp;&#160;</td>
           <td class="paramname"><em>adapter</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classopengv_1_1sac__problems_1_1relative__pose_1_1MultiNoncentralRelativePoseSacProblem.html#a7362114cbdf0347c82039fe8af6cbb9f">algorithm_t</a>&#160;</td>
+          <td class="paramname"><em>algorithm</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -238,6 +287,7 @@ Protected Attributes</h2></td></tr>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">adapter</td><td>Visitor holding bearing vector correspondences etc. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">algorithm</td><td>The algorithm to use. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">indices</td><td>A vector of multi-indices to be used from all available correspondences. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">asCentral</td><td>Solve problem with only one camera? </td></tr>
   </table>
@@ -275,6 +325,20 @@ Protected Attributes</h2></td></tr>
 </div>
 <div class="memdoc">
 <p>The adapter holding all input data. </p>
+
+</div>
+</div>
+<a class="anchor" id="a3750115c86064f972a0b9d86ebe6308b"></a><!-- doxytag: member="opengv::sac_problems::relative_pose::MultiNoncentralRelativePoseSacProblem::_algorithm" ref="a3750115c86064f972a0b9d86ebe6308b" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classopengv_1_1sac__problems_1_1relative__pose_1_1MultiNoncentralRelativePoseSacProblem.html#a7362114cbdf0347c82039fe8af6cbb9f">algorithm_t</a> <a class="el" href="classopengv_1_1sac__problems_1_1relative__pose_1_1MultiNoncentralRelativePoseSacProblem.html#a3750115c86064f972a0b9d86ebe6308b">opengv::sac_problems::relative_pose::MultiNoncentralRelativePoseSacProblem::_algorithm</a><code> [protected]</code></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+<p>The algorithm we are using. </p>
 
 </div>
 </div>
@@ -318,7 +382,7 @@ Protected Attributes</h2></td></tr>
       <li class="navelem"><a class="el" href="namespaceopengv_1_1sac__problems_1_1relative__pose.html">relative_pose</a>      </li>
       <li class="navelem"><a class="el" href="classopengv_1_1sac__problems_1_1relative__pose_1_1MultiNoncentralRelativePoseSacProblem.html">MultiNoncentralRelativePoseSacProblem</a>      </li>
 
-    <li class="footer">Generated on Wed Oct 16 2013 10:55:45 for OpenGV by
+    <li class="footer">Generated on Tue Feb 18 2014 15:32:03 for OpenGV by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
    </ul>

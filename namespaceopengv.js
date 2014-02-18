@@ -1,7 +1,9 @@
 var namespaceopengv =
 [
+    [ "Indices", "structopengv_1_1Indices.html", null ],
     [ "OptimizationFunctor", "structopengv_1_1OptimizationFunctor.html", null ],
     [ "EigensolverOutput", "structopengv_1_1EigensolverOutput.html", null ],
+    [ "GeOutput", "structopengv_1_1GeOutput.html", null ],
     [ "bearingVector_t", "namespaceopengv.html#abec89b050125b2ca9bc46a09a14656ea", null ],
     [ "bearingVectors_t", "namespaceopengv.html#a11583d4884d49a407ea3f4d092817a1a", null ],
     [ "cayley_t", "namespaceopengv.html#a8a10d9c72d061ead41138ffd0ef11d91", null ],
@@ -12,8 +14,10 @@ var namespaceopengv =
     [ "eigenvectors_t", "namespaceopengv.html#a16dc90b2265739036d5705e0529f10a2", null ],
     [ "essential_t", "namespaceopengv.html#a7f4dd88a9902de918ad4f7841fc550d2", null ],
     [ "essentials_t", "namespaceopengv.html#a03bfb3c00437217d2e81e19a21afacf5", null ],
+    [ "geOutput_t", "namespaceopengv.html#a2a6f7a963d928b515aacdfff17882899", null ],
     [ "point_t", "namespaceopengv.html#a78ee8c281c2166f39efcf940f08aaecd", null ],
     [ "points_t", "namespaceopengv.html#af8401472562fad9602cc449b312e5092", null ],
+    [ "quaternion_t", "namespaceopengv.html#a0e2dd4f091ed164852f65de7b5ed545c", null ],
     [ "rotation_t", "namespaceopengv.html#a8df9be48bee2fbd07982bb70084f7743", null ],
     [ "rotations_t", "namespaceopengv.html#ac71d0e5d870c93b3a320a283f20a8d4a", null ],
     [ "transformation_t", "namespaceopengv.html#ae4d7f4755df10d5729299c16fdc92711", null ],

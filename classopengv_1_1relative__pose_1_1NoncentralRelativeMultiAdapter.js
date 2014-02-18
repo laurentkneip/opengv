@@ -1,6 +1,6 @@
 var classopengv_1_1relative__pose_1_1NoncentralRelativeMultiAdapter =
 [
-    [ "NoncentralRelativeMultiAdapter", "classopengv_1_1relative__pose_1_1NoncentralRelativeMultiAdapter.html#ab77aae38732774cb08b19ed876748e9a", null ],
+    [ "NoncentralRelativeMultiAdapter", "classopengv_1_1relative__pose_1_1NoncentralRelativeMultiAdapter.html#a1b05dbe57fe284a18dc8f3328428a8e7", null ],
     [ "~NoncentralRelativeMultiAdapter", "classopengv_1_1relative__pose_1_1NoncentralRelativeMultiAdapter.html#a0cbb87457e20f3d603af54a2166f17c2", null ],
     [ "convertMultiIndex", "classopengv_1_1relative__pose_1_1NoncentralRelativeMultiAdapter.html#ac90dc6d4f8693443a48c3af676947ffd", null ],
     [ "convertMultiIndices", "classopengv_1_1relative__pose_1_1NoncentralRelativeMultiAdapter.html#a7853ef76c36120ba1a0a6fc00f5e4096", null ],
@@ -17,8 +17,6 @@ var classopengv_1_1relative__pose_1_1NoncentralRelativeMultiAdapter =
     [ "_bearingVectors2", "classopengv_1_1relative__pose_1_1NoncentralRelativeMultiAdapter.html#aebe7e7f73c6883754907a4fe4b4a95dc", null ],
     [ "_camOffsets", "classopengv_1_1relative__pose_1_1NoncentralRelativeMultiAdapter.html#ad89e75ec147163f5720447b1b6e5cf75", null ],
     [ "_camRotations", "classopengv_1_1relative__pose_1_1NoncentralRelativeMultiAdapter.html#a25aaf6d6b9085b98bd700d8a30783463", null ],
-    [ "_matches", "classopengv_1_1relative__pose_1_1NoncentralRelativeMultiAdapter.html#a295448263182fb1b2db86c7365b84010", null ],
-    [ "matches_t", "classopengv_1_1relative__pose_1_1NoncentralRelativeMultiAdapter.html#a52c8a481750b69c5109b86ba29397bc8", null ],
     [ "multiKeypointIndices", "classopengv_1_1relative__pose_1_1NoncentralRelativeMultiAdapter.html#adcf45e51392921d9bf04b4c3928d27fe", null ],
     [ "multiPairIndices", "classopengv_1_1relative__pose_1_1NoncentralRelativeMultiAdapter.html#a9af4b0976df7862e0c21e405131fed21", null ],
     [ "singleIndexOffsets", "classopengv_1_1relative__pose_1_1NoncentralRelativeMultiAdapter.html#af5d19b8ca5fe5038cf5bc2ba2992cd01", null ]

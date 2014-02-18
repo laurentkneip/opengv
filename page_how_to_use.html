@@ -86,7 +86,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">How to use </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>This page gives an introduction to the usage of OpenGV including a description of the interface and explicit examples. However, in order to have a smooth communication and full understanding of the functionality and documentation of the library, we first need to clearly define the meaning of a couple of words in the present context.</p>
+<div class="textblock"><p>This page gives an introduction to the usage of OpenGV including a description of the interface and explicit examples. More information can be found in [17]. However, in order to have a smooth communication and full understanding of the functionality and documentation of the library, we first need to clearly define the meaning of a couple of words in the present context.</p>
 <h2><a class="anchor" id="sec_vocabulary"></a>
 Vocabulary</h2>
 <ul>
@@ -157,14 +157,14 @@ Conventions, problem types, and examples</h2>
 <p>As already mentioned, the entire library is assuming calibrated cameras/viewpoints, and operating with 3D unit bearing vectors expressed in the camera frame. Calibrated means that the configuration of the multi-camera system (i.e. the inter-camera transformations) is known. The following introduces the different problems that can be solved with the library, and outlines the conventions for transformations (translations and rotations) in their context. <b>Note that all problems have solutions for both the minimal and non-minimal cases, and may also be solved as sample-consensus or non-linear optimization problems</b>.</p>
 <ul>
 <li>
-<p class="startli"><b>Central absolute pose:</b> The central absolute pose problem consists of finding the pose of a camera (e.g. viewpoint with a single camera) given a number of 2D-3D correspondences between bearing vectors in the camera frame and points in the world frame. The seeked transformation is given by the position <img class="formulaInl" alt="$ \mathbf{t}_{c} $" src="form_11.png"/> of the camera seen from the world frame and the rotation <img class="formulaInl" alt="$ \mathbf{R}_{c} $" src="form_12.png"/> from the camera to the world frame. This is what the algorithms return (or part of it), and what the adapters can hold as known or prior information.</p>
+<p class="startli"><b>Central absolute pose:</b> The central absolute pose problem consists of finding the pose of a camera (e.g. viewpoint with a single camera) given a number of 2D-3D correspondences between bearing vectors in the camera frame and points in the world frame. The seeked transformation is given by the position <img class="formulaInl" alt="$ \mathbf{t}_{c} $" src="form_12.png"/> of the camera seen from the world frame and the rotation <img class="formulaInl" alt="$ \mathbf{R}_{c} $" src="form_13.png"/> from the camera to the world frame. This is what the algorithms return (or part of it), and what the adapters can hold as known or prior information.</p>
 <div class="image">
 <img src="absolute_central.png" alt="absolute_central.png"/>
 </div>
  <p>The minimal variants are p2p (a solution for position if rotation is known), p3p_kneip [1], and p3p_gao [2]. The non-minimal variant is epnp [4]. The non-linear optimization variant is called optimize_nonlinear. Here's how to use them:</p>
 <div class="fragment"><pre class="fragment"><span class="comment">// create the central adapter</span>
 absolute_pose::CentralAbsoluteAdapter adapter(
-    bearingVectors, points, matches );
+    bearingVectors, points );
 
 <span class="comment">// Kneip&#39;s P2P (uses rotation from adapter)</span>
 adapter.setR( knownRotation );
@@ -191,7 +191,7 @@ adapter.setR(initial_rotation);
 </pre></div><p>p3p_kneip, p3p_gao, and epnp can also be used within a sample consensus context. The following shows how to do it:</p>
 <div class="fragment"><pre class="fragment"><span class="comment">// create the central adapter</span>
 absolute_pose::CentralAbsoluteAdapter adapter(
-    bearingVectors, points, matches );
+    bearingVectors, points );
 
 <span class="comment">// create a Ransac object</span>
 sac::Ransac&lt;sac_problems::absolute_pose::AbsolutePoseSacProblem&gt; ransac;
@@ -216,7 +216,7 @@ ransac.computeModel();
 <p class="endli"></p>
 </li>
 <li>
-<p class="startli"><b>Non-central absolute pose:</b> The non-central absolute pose problem consists of finding the pose of a viewpoint given a number of 2D-3D correspondences between bearing vectors in multiple camera frames and points in the world frame. The seeked transformation is given by the position <img class="formulaInl" alt="$ \mathbf{t}_{vp} $" src="form_13.png"/> of the viewpoint seen from the world frame and the rotation <img class="formulaInl" alt="$ \mathbf{R}_{vp} $" src="form_14.png"/> from the viewpoint to the world frame. This is what the algorithms return, and what the adapters can hold as known or prior information.</p>
+<p class="startli"><b>Non-central absolute pose:</b> The non-central absolute pose problem consists of finding the pose of a viewpoint given a number of 2D-3D correspondences between bearing vectors in multiple camera frames and points in the world frame. The seeked transformation is given by the position <img class="formulaInl" alt="$ \mathbf{t}_{vp} $" src="form_14.png"/> of the viewpoint seen from the world frame and the rotation <img class="formulaInl" alt="$ \mathbf{R}_{vp} $" src="form_15.png"/> from the viewpoint to the world frame. This is what the algorithms return, and what the adapters can hold as known or prior information.</p>
 <div class="image">
 <img src="absolute_noncentral.png" alt="absolute_noncentral.png"/>
 </div>
@@ -226,7 +226,6 @@ absolute_pose::NoncentralAbsoluteAdapter adapter(
     bearingVectors,
     camCorrespondences,
     points,
-    matches,
     camOffsets,
     camRotations );
 
@@ -249,7 +248,6 @@ absolute_pose::NoncentralAbsoluteAdapter adapter(
     bearingVectors,
     camCorrespondences,
     points,
-    matches,
     camOffsets,
     camRotations );
 
@@ -275,14 +273,14 @@ ransac.computeModel();
 <p class="endli"></p>
 </li>
 <li>
-<p class="startli"><b>Central relative pose:</b> The central relative pose problem consists of finding the pose of a camera (e.g. viewpoint with a single camera) with respect to a different camera given a number of 2D-2D correspondences between bearing vectors in the camera frames. The seeked transformation is given by the position <img class="formulaInl" alt="$ \mathbf{t}_{c'}^{c} $" src="form_15.png"/> of the second camera seen from the first one and the rotation <img class="formulaInl" alt="$ \mathbf{R}_{c'}^{c} $" src="form_16.png"/> from the second camera back to the first camera frame. This is what the algorithms return (or part of it), and what the adapters can hold as known or prior information.</p>
+<p class="startli"><b>Central relative pose:</b> The central relative pose problem consists of finding the pose of a camera (e.g. viewpoint with a single camera) with respect to a different camera given a number of 2D-2D correspondences between bearing vectors in the camera frames. The seeked transformation is given by the position <img class="formulaInl" alt="$ \mathbf{t}_{c'}^{c} $" src="form_16.png"/> of the second camera seen from the first one and the rotation <img class="formulaInl" alt="$ \mathbf{R}_{c'}^{c} $" src="form_17.png"/> from the second camera back to the first camera frame. This is what the algorithms return (or part of it), and what the adapters can hold as known or prior information.</p>
 <div class="image">
 <img src="relative_central.png" alt="relative_central.png"/>
 </div>
  <p>There are many central relative-pose algorithms in the library. The minimal variants are twopt (in case the rotation is known), twopt_rotationOnly (in case there is only rotational change, and using only two points), fivept_stewenius [5], fivept_nister [6], and fivept_kneip [7]. The libary also contains non-minimal variants, namely rotationOnly (in case of pure-rotation change), sevenpt [8], eightpt [9,10] and the new eigensolver [11] methods. All of them except twopt, twopt_rotationOnly, and fivept_kneip can be used for an arbitrary number of correspondences (of course at least the minimal number). The non-linear optimization variant is again called optimize_nonlinear. Here's how to use most of them (we assume a regular situation here, and thus omit the rotationOnly algorithms):</p>
 <div class="fragment"><pre class="fragment"><span class="comment">// create the central relative adapter</span>
 relative_pose::CentralRelativeAdapter adapter(
-    bearingVectors1, bearingVectors2, matches );
+    bearingVectors1, bearingVectors2 );
 
 <span class="comment">// Relative translation with only two point-correspondences</span>
 <span class="comment">// (no or known rotation)</span>
@@ -313,7 +311,7 @@ adapter.setR(knownRotation);
 <span class="comment">// Kneip&#39;s eigensolver</span>
 adapter.setR(initial_rotation);
 eigensolver_rotation =
-    <a class="code" href="namespaceopengv_1_1relative__pose.html#a6e61c0982d5ce4ad6ff4a82a3b2bd0f2" title="Compute the rotation matrix between two central viewpoints as an iterative eigenproblem [11]...">relative_pose::eigensolver</a>( adapter, indices5 );
+    <a class="code" href="namespaceopengv_1_1relative__pose.html#a707cb10ea9be0f204d5d09487642d326" title="Compute the rotation matrix between two central viewpoints as an iterative eigenproblem [11]...">relative_pose::eigensolver</a>( adapter, indices5 );
 
 <span class="comment">// non-linear optimization (using all available correspondences)</span>
 adapter.sett(initial_translation);
@@ -323,7 +321,7 @@ adapter.setR(initial_rotation);
 </pre></div><p>fivept_nister, fivept_stewenius, sevenpt, and eigthpt can also be used within a random-sample consensus scheme. It is done as follows:</p>
 <div class="fragment"><pre class="fragment"><span class="comment">// create the central relative adapter</span>
 relative_pose::CentralRelativeAdapter adapter(
-    bearingVectors1, bearingVectors2, matches );
+    bearingVectors1, bearingVectors2 );
 
 <span class="comment">// create a RANSAC object</span>
 sac::Ransac&lt;sac_problems::relative_pose::CentralRelativePoseSacProblem&gt; ransac;
@@ -349,20 +347,29 @@ ransac.computeModel();
 <p class="endli"></p>
 </li>
 <li>
-<p class="startli"><b>Non-central relative pose:</b> The non-central relative pose problem consists of finding the pose of a viewpoint with respect to a different viewpoint given a number of 2D-2D correspondences between bearing vectors in multiple camera frames. The seeked transformation is given by the position <img class="formulaInl" alt="$ \mathbf{t}_{vp'}^{vp} $" src="form_17.png"/> of the second viewpoint seen from the first one and the rotation <img class="formulaInl" alt="$ \mathbf{R}_{vp'}^{vp} $" src="form_18.png"/> from the second viewpoint back to the first viewpoint frame. This is what the algorithms return (or part of it), and what the adapters can hold as known or prior information.</p>
+<p class="startli"><b>Non-central relative pose:</b> The non-central relative pose problem consists of finding the pose of a viewpoint with respect to a different viewpoint given a number of 2D-2D correspondences between bearing vectors in multiple camera frames. The seeked transformation is given by the position <img class="formulaInl" alt="$ \mathbf{t}_{vp'}^{vp} $" src="form_18.png"/> of the second viewpoint seen from the first one and the rotation <img class="formulaInl" alt="$ \mathbf{R}_{vp'}^{vp} $" src="form_19.png"/> from the second viewpoint back to the first viewpoint frame. This is what the algorithms return (or part of it), and what the adapters can hold as known or prior information.</p>
 <div class="image">
 <img src="relative_noncentral.png" alt="relative_noncentral.png"/>
 </div>
- <p>There is only one non-central relative pose method in the library for the moment, the 17-point algorithm by Li [12]. It can be used with an arbitrary number of points. "optimize_nonlinear" is again able to also handle the non-central case. Here's how to use these methods:</p>
+ <p>There are three non-central relative pose methods in the library, the 17-point algorithm by Li [12], the 6-point method by Stewenius [16], and the new generalized eigensolver. The 17-point algorithm as well as the generalized eigensolver can be used with an arbitrary number of points. The 6-point algorithm is usable with only 6-points exactly. "optimize_nonlinear" is again able to also handle the non-central case. Here's how to use these methods:</p>
 <div class="fragment"><pre class="fragment"><span class="comment">// create the non-central relative adapter</span>
 relative_pose::NoncentralRelativeAdapter adapter(
     bearingVectors1,
     bearingVectors2,
     camCorrespondences1,
     camCorrespondences2,
-    matches,
     camOffsets,
     camRotations );
+
+<span class="comment">// 6-point algorithm</span>
+<a class="code" href="namespaceopengv.html#ac71d0e5d870c93b3a320a283f20a8d4a">rotations_t</a> sixpt_rotations =
+    <a class="code" href="namespaceopengv_1_1relative__pose.html#af5935af73d282ad4c8c5134ed0572436" title="Compute the relative rotation between two non-central viewpoints following Stewenius&#39; method [16]...">relative_pose::sixpt</a>( adapter, indices );
+
+<span class="comment">// generalized eigensolver (over all points)</span>
+geOutput_t output;
+<a class="code" href="namespaceopengv_1_1relative__pose.html#ae01b9e51d594cbd963645464174e762a" title="Compute the rotation matrix between two non-central viewpoints as an iterative eigenproblem. Using all available correspondences.">relative_pose::ge</a>(adapter,output);
+<a class="code" href="namespaceopengv.html#abba454dc7125a489191f32645216a1a5">translation_t</a> ge_translation = output.translation.block&lt;3,1&gt;(0,0);
+<a class="code" href="namespaceopengv.html#a8df9be48bee2fbd07982bb70084f7743">rotation_t</a> ge_rotation = output.rotation;
 
 <span class="comment">// 17-point algorithm</span>
 <a class="code" href="namespaceopengv.html#ae4d7f4755df10d5729299c16fdc92711">transformation_t</a> seventeenpt_transformation =
@@ -373,14 +380,13 @@ adapter.sett(initial_translation);
 adapter.setR(initial_rotation);
 <a class="code" href="namespaceopengv.html#ae4d7f4755df10d5729299c16fdc92711">transformation_t</a> nonlinear_transformation =
     <a class="code" href="namespaceopengv_1_1absolute__pose.html#aa1e4b9c37be32dab978dd88ef72bc6f8" title="Compute the pose of a viewpoint using nonlinear optimization. Using all available correspondences...">relative_pose::optimize_nonlinear</a>(adapter);
-</pre></div><p>The 17-point algorithm is also available in a sample-consensus scheme:</p>
+</pre></div><p>All algorithms are also available in a sample-consensus scheme:</p>
 <div class="fragment"><pre class="fragment"><span class="comment">// create the non-central relative adapter</span>
 relative_pose::NoncentralRelativeAdapter adapter(
     bearingVectors1,
     bearingVectors2,
     camCorrespondences1,
     camCorrespondences2,
-    matches,
     camOffsets,
     camRotations );
 
@@ -392,7 +398,9 @@ sac::Ransac&lt;sac_problems::relative_pose::NoncentralRelativePoseSacProblem&gt;
 boost::shared_ptr&lt;
     sac_problems::relative_pose::NoncentralRelativePoseSacProblem&gt;
     relposeproblem_ptr(
-    <span class="keyword">new</span> sac_problems::relative_pose::NoncentralRelativePoseSacProblem(adapter)
+    <span class="keyword">new</span> sac_problems::relative_pose::NoncentralRelativePoseSacProblem(
+    adapter,
+    sac_problems::relative_pose::NoncentralRelativePoseSacProblem::SEVENTEENPT)
     );
 
 <span class="comment">// run ransac</span>
@@ -404,11 +412,11 @@ ransac.computeModel();
 <span class="comment">// get the result</span>
 <a class="code" href="namespaceopengv.html#ae4d7f4755df10d5729299c16fdc92711">transformation_t</a> best_transformation =
     ransac.model_coefficients_;
-</pre></div><p>These examples are taken from test_noncentral_relative_pose.cpp and test_noncentral_relative_pose_sac.cpp.</p>
+</pre></div><p>These examples are taken from test_noncentral_relative_pose.cpp and test_noncentral_relative_pose_sac.cpp. Simply set SEVENTEENPT to GE or SIXPT in order to use the alternative algorithms.</p>
 <p class="endli"></p>
 </li>
 <li>
-<p class="startli"><b>Triangulation of points:</b> OpenGV contains two methods for triangulating points. They are currently only designed for the central case, and compute the position of a point expressed in the first camera given a 2D-2D correspondence between bearing vectors from two cameras. The methods reuse the relative adapter, which need to hold the transformation between the cameras given by the position <img class="formulaInl" alt="$ \mathbf{t}_{c'}^{c} $" src="form_15.png"/> of the second camera seen from the first one and the rotation <img class="formulaInl" alt="$ \mathbf{R}_{c'}^{c} $" src="form_16.png"/> from the second camera back to the first camera frame.</p>
+<p class="startli"><b>Triangulation of points:</b> OpenGV contains two methods for triangulating points. They are currently only designed for the central case, and compute the position of a point expressed in the first camera given a 2D-2D correspondence between bearing vectors from two cameras. The methods reuse the relative adapter, which need to hold the transformation between the cameras given by the position <img class="formulaInl" alt="$ \mathbf{t}_{c'}^{c} $" src="form_16.png"/> of the second camera seen from the first one and the rotation <img class="formulaInl" alt="$ \mathbf{R}_{c'}^{c} $" src="form_17.png"/> from the second camera back to the first camera frame.</p>
 <div class="image">
 <img src="triangulation_central.png" alt="triangulation_central.png"/>
 </div>
@@ -418,7 +426,6 @@ ransac.computeModel();
 relative_pose::CentralRelativeAdapter adapter(
     bearingVectors1,
     bearingVectors2,
-    matches,
     translation,
     rotation );
 
@@ -433,14 +440,14 @@ relative_pose::CentralRelativeAdapter adapter(
 <p class="endli"></p>
 </li>
 <li>
-<p class="startli"><b>Alignment of two point-clouds:</b> OpenGV also contains a method for aligning point-clouds. It is currently only designed for the central case, and computes the transformation between two frames given 3D-3D correspondences between points expressed in the two frames (here denoted by c and c', although it ain't necessarily need to be cameras anymore). The method returns the transformation between the frames given by the position <img class="formulaInl" alt="$ \mathbf{t}_{c'}^{c} $" src="form_15.png"/> of the second frame seen from the first one and the rotation <img class="formulaInl" alt="$ \mathbf{R}_{c'}^{c} $" src="form_16.png"/> from the second frame back to the first frame.</p>
+<p class="startli"><b>Alignment of two point-clouds:</b> OpenGV also contains a method for aligning point-clouds. It is currently only designed for the central case, and computes the transformation between two frames given 3D-3D correspondences between points expressed in the two frames (here denoted by c and c', although it ain't necessarily need to be cameras anymore). The method returns the transformation between the frames given by the position <img class="formulaInl" alt="$ \mathbf{t}_{c'}^{c} $" src="form_16.png"/> of the second frame seen from the first one and the rotation <img class="formulaInl" alt="$ \mathbf{R}_{c'}^{c} $" src="form_17.png"/> from the second frame back to the first frame.</p>
 <div class="image">
 <img src="point_cloud.png" alt="point_cloud.png"/>
 </div>
  <p>The method is called threept_arun, and it can be used for an arbitrary number of points (minimum three). There is also a non-linear optimization method again called optimize_nonlinear. The methods are used as follows:</p>
 <div class="fragment"><pre class="fragment"><span class="comment">// create the 3D-3D adapter</span>
 point_cloud::PointCloudAdapter adapter(
-    points1, points2, matches );
+    points1, points2 );
 
 <span class="comment">// run threept_arun</span>
 <a class="code" href="namespaceopengv.html#ae4d7f4755df10d5729299c16fdc92711">transformation_t</a> threept_transformation =
@@ -452,7 +459,7 @@ point_cloud::PointCloudAdapter adapter(
 </pre></div><p>There is also a sample-consensus problem for the point-cloud alignment. It is set up as follows:</p>
 <div class="fragment"><pre class="fragment"><span class="comment">// create a 3D-3D adapter</span>
 point_cloud::PointCloudAdapter adapter(
-    points1, points2, matches );
+    points1, points2 );
 
 <span class="comment">// create a RANSAC object</span>
 sac::Ransac&lt;sac_problems::point_cloud::PointCloudSacProblem&gt; ransac;
@@ -481,13 +488,13 @@ Some words about the sample-consensus-classes</h2>
 <p>All the above mentioned Ransac-methods make use of a number of super-classes such that only the basic functions need to be implemented in the derived SacProblem (SampleConsensusProblem). The basic functions are responsible for getting valid samples for model instantiation, model instantiation itself, as well as model verification. <b>SamplesConsensusProblem</b> is the base-class for any problem we want to solve, and contains a virtual interface for the basic methods that need to be implemented. The base-class <b>SampleConsensus</b> is then for the sample-consensus method itself, calling the basic functions. So far only the <b>Ransac</b> is implemented [15].</p>
 <h3><a class="anchor" id="sec_ransac"></a>
 Ransac threshold</h3>
-<p>Since the entire library is operating in 3D, we also need a way to compute and threshold reprojection errors in 3D. What we are looking at is the angle <img class="formulaInl" alt="$ q $" src="form_19.png"/> between the original bearing-vector <img class="formulaInl" alt="$ \mathbf{f}_{meas} $" src="form_20.png"/> and the reprojected one <img class="formulaInl" alt="$ \mathbf{f}_{repr} $" src="form_21.png"/>. By adopting a certain threshold angle <img class="formulaInl" alt="$ q_{threshold} $" src="form_22.png"/>, we hence constrain the <img class="formulaInl" alt="$ \mathbf{f}_{repr} $" src="form_21.png"/> to lie within a cone of axis <img class="formulaInl" alt="$ \mathbf{f}_{meas} $" src="form_20.png"/> and of opening angle <img class="formulaInl" alt="$ q_{threshold} $" src="form_22.png"/>.</p>
+<p>Since the entire library is operating in 3D, we also need a way to compute and threshold reprojection errors in 3D. What we are looking at is the angle <img class="formulaInl" alt="$ q $" src="form_20.png"/> between the original bearing-vector <img class="formulaInl" alt="$ \mathbf{f}_{meas} $" src="form_21.png"/> and the reprojected one <img class="formulaInl" alt="$ \mathbf{f}_{repr} $" src="form_22.png"/>. By adopting a certain threshold angle <img class="formulaInl" alt="$ q_{threshold} $" src="form_23.png"/>, we hence constrain the <img class="formulaInl" alt="$ \mathbf{f}_{repr} $" src="form_22.png"/> to lie within a cone of axis <img class="formulaInl" alt="$ \mathbf{f}_{meas} $" src="form_21.png"/> and of opening angle <img class="formulaInl" alt="$ q_{threshold} $" src="form_23.png"/>.</p>
 <div class="image">
 <img src="reprojectionError.png" alt="reprojectionError.png"/>
 </div>
- <p>The threshold-angle <img class="formulaInl" alt="$ q_{threshold} $" src="form_22.png"/> can be easily obtained from classical reprojection error-thresholds expressed in pixels <img class="formulaInl" alt="$ \psi $" src="form_23.png"/> by assuming a certain focal length <img class="formulaInl" alt="$ l $" src="form_24.png"/>. We then have <img class="formulaInl" alt="$ q_{threshold} = \arctan{\frac{\psi}{l}} $" src="form_25.png"/>.</p>
-<p>The threshold we are using in the end is still not quite this one, but a value derived from it in analogy with the computation of reprojection errors. The most efficient way to compute a "reprojection error" is given by taking the scalar product of <img class="formulaInl" alt="$ \mathbf{f}_{meas} $" src="form_20.png"/> and <img class="formulaInl" alt="$ \mathbf{f}_{repr} $" src="form_21.png"/>, which equals to <img class="formulaInl" alt="$ \cos q $" src="form_26.png"/>. Since this value is between -1 and 1, and we actually want an error that minimizes to 0, we take <img class="formulaInl" alt="$ \epsilon = 1 - \mathbf{f}_{meas}^{T}\mathbf{f}_{repr} = 1 - \cos q $" src="form_27.png"/>. The threshold error is therefore given by</p>
-<p><img class="formulaInl" alt="$ \epsilon_{threshold} = 1 - \cos{q_{threshold}} = 1 - \cos({\arctan{\frac{\psi}{l}}}) $" src="form_28.png"/></p>
+ <p>The threshold-angle <img class="formulaInl" alt="$ q_{threshold} $" src="form_23.png"/> can be easily obtained from classical reprojection error-thresholds expressed in pixels <img class="formulaInl" alt="$ \psi $" src="form_24.png"/> by assuming a certain focal length <img class="formulaInl" alt="$ l $" src="form_25.png"/>. We then have <img class="formulaInl" alt="$ q_{threshold} = \arctan{\frac{\psi}{l}} $" src="form_26.png"/>.</p>
+<p>The threshold we are using in the end is still not quite this one, but a value derived from it in analogy with the computation of reprojection errors. The most efficient way to compute a "reprojection error" is given by taking the scalar product of <img class="formulaInl" alt="$ \mathbf{f}_{meas} $" src="form_21.png"/> and <img class="formulaInl" alt="$ \mathbf{f}_{repr} $" src="form_22.png"/>, which equals to <img class="formulaInl" alt="$ \cos q $" src="form_27.png"/>. Since this value is between -1 and 1, and we actually want an error that minimizes to 0, we take <img class="formulaInl" alt="$ \epsilon = 1 - \mathbf{f}_{meas}^{T}\mathbf{f}_{repr} = 1 - \cos q $" src="form_28.png"/>. The threshold error is therefore given by</p>
+<p><img class="formulaInl" alt="$ \epsilon_{threshold} = 1 - \cos{q_{threshold}} = 1 - \cos({\arctan{\frac{\psi}{l}}}) $" src="form_29.png"/></p>
 <p>In the ransac-examples in the test-folder, you will often see something like this.</p>
 <div class="fragment"><pre class="fragment">ransac.threshold_ = 1.0 - cos(atan(sqrt(2.0)*0.5/800.0));
 </pre></div><p>This notably corresponds to the above computation of our "reprojection-error"-threshold, with a focal length of 800.0 and a reprojection error in pixels of 0.5*sqrt(2.0).</p>
@@ -520,7 +527,77 @@ The <b>MultiNoncentralRelativePoseSacProblem</b> is for non-central, non-overlap
 <li>
 In the multi viewpoint case, one could of course solve a central relative pose problem for each camera-pair individually. The idea of <b>MultiCentralRelativePoseSacProblem</b> is to benefit from a joint solution of multiple relative-pose problems. In the above three-view problem for instance, we can exploit additional constraints around the individual transformations such as cycles of rotations returning identity, and cycles of translations returning zero. The corresponding adapter is called <b>CentralRelativeMultiAdapter</b>. </li>
 </ul>
-<p>All this stuff is highly experimental, so you probably shouldn't pay too much attention to it for the moment ;) </p>
+<p>All this stuff is highly experimental, so you probably shouldn't pay too much attention to it for the moment ;)</p>
+<h2><a class="anchor" id="sec_matlab_syntax"></a>
+The Matlab-sytax</h2>
+<p>All algorithms are ported to Matlab via one interface file only. The syntax is as follows:</p>
+<ul>
+<li>
+X = opengv ( method, data1, data2 ) </li>
+<li>
+X = opengv ( method, indices, data1, data2 ) </li>
+<li>
+X = opengv ( method, indices, data1, data2, prior ) </li>
+</ul>
+<p>where </p>
+<ul>
+<li>
+<p class="startli">method is a string that characterizes the algorithm to use. It can be one of the following:</p>
+<div class="fragment"><pre class="fragment">
+absolute pose methods:
+'p2p', 'p3p_kneip', 'p3p_gao', 'epnp', 'p3p_kneip_ransac', 'p3p_gao_ransac', 'epnp_ransac', 'abs_nonlin_central', 'gp3p', 'gp3p_ransac', 'gpnp', 'abs_nonlin_noncentral'.
+
+relative pose methods:
+'twopt', 'twopt_rotationOnly', 'rotationOnly', 'fivept_stewenius', 'fivept_nister', 'fivept_kneip', 'sevenpt', 'eightpt', 'eigensolver', 'rotationOnly_ransac',
+'fivept_stewenius_ransac', 'fivept_nister_ransac', 'sevenpt_ransac', 'eightpt_ransac', 'eigensolver_ransac', 'rel_nonlin_central', 'sixpt', 'seventeenpt',
+'ge', 'sixpt_ransac', 'seventeenpt_ransac', 'ge_ransac', 'rel_nonlin_noncentral'.
+
+point_cloud methods:
+'threept_arun', 'threept_arun_ransac'.
+</pre></div><p class="endli"></p>
+</li>
+<li>
+data1, data2 are matched points (each one of dimension 3xn or 6xn). They are 3xn in the central case (only containing normalized bearing vectors), or 6xn in the non-central case, where they then also contain the position of the camera in the body frame in rows 4:6. Note that there is no camera orientation in the matlab syntax, the bearing vectors are supposed to be prerotated into the body frame (only rotated!). </li>
+<li>
+indices is a subset of correspondences that we plan to use for the computation. </li>
+<li>
+prior is a 3x1 (translation), 3x3 (rotation), or 3x4 ([R t]-transformation) holding a prior value for the transformation to compute. </li>
+<li>
+The return value X is a 3xnxm-matrix, where n is the second dimensionality of the solution space, and m is the number of solutions. </li>
+</ul>
+<p>The Matlab wrapper includes rather exhaustive checking of command validity. More algorithms are planned for inclusion.</p>
+<h2><a class="anchor" id="sec_benchmarks"></a>
+Automatic benchmarking of algorithms</h2>
+<p>Perhaps the nicest thing about the Matlab-code is that it includes automatic benchmarks for all algorithms. The subfolder matlab/helpers contains useful functions for the benchmarks. The most important ones are:</p>
+<ul>
+<li>
+create2D2DExperiment.m: Lets you create a random relative pose problem, meaning correspondences in two viewpoints using desired number of cameras, number of correspondences, outlier ratio, and noise. It returns the observations in both viewpoints, plus the ground truth values for the relative transformation parameters. It automatically returns measurement data for the central or the noncentral case depending on how many cameras are configured. </li>
+<li>
+create2D3DExperiment.m: Does pretty much the same thing, however for the absolute pose situation. </li>
+<li>
+evaluateRotationError.m/evaluateTransformationError.m: Computes the rotation/transformation error of multiple hypotheses by selecting the one that is closest to ground truth. </li>
+<li>
+perturb.m: puts a random perturbation on a transformation </li>
+<li>
+rodrigues.m / cayley2rot.m / rot2cayley.m: back and forth transformation to minimal rotation representations. </li>
+<li>
+transformEssentials.m: Transforms a set of multiple essential matrices into rotations. </li>
+<li>
+addNoise.m: Adds noise to a bearing vector by assuming a spherical camera and extracting the corresponding tangential plane. </li>
+</ul>
+<p>The main benchmark files are finally given by:</p>
+<ul>
+<li>
+benchmark_absolute_pose.m </li>
+<li>
+benchmark_absolute_pose_noncentral.m </li>
+<li>
+benchmark_relative_pose.m </li>
+<li>
+benchmark_relative_pose_noncentral.m </li>
+</ul>
+<p>opengv.cpp contains the interface itself. Some other files like opengv_donotuse.cpp are used for timing experiments (named benchmark_xxx_timing.m). They execute each problem 20 times so time can be measured sufficiently accurate without overhead from Matlab. opengv_experimental1.cpp and opengv_experimental2.cpp are used for some specific ransac experiments, they are not as important.</p>
+<p>The benchmarks are fairly well documented and self-explaining. They simply run multiple tests for each algorithm while going through increasing noise-levels, and finally plot the resulting mean and median errors. Adding an algorithm or changing the set of algorithms for comparison is very easy, you simply have to modify the cell-arrays algorithms, indices, and names. They contain the internal names of the algorithms that are being evaluated, the indices of the points to use from the experiment (allowing to use different (numbers of) points for each algorithm and random experiment), and the names of the algorithms for the final plots. Comparing your new algorithm has never been easier :) </p>
 </div></div><!-- contents -->
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
@@ -540,7 +617,7 @@ In the multi viewpoint case, one could of course solve a central relative pose p
   <div id="nav-path" class="navpath">
     <ul>
 
-    <li class="footer">Generated on Wed Oct 16 2013 10:55:41 for OpenGV by
+    <li class="footer">Generated on Tue Feb 18 2014 15:31:58 for OpenGV by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
    </ul>

@@ -9,21 +9,22 @@
 \form#8:$\mathbf{t}$
 \form#9:$\mathbf{R}$
 \form#10:$ \mathbf{M} $
-\form#11:$ \mathbf{t}_{c} $
-\form#12:$ \mathbf{R}_{c} $
-\form#13:$ \mathbf{t}_{vp} $
-\form#14:$ \mathbf{R}_{vp} $
-\form#15:$ \mathbf{t}_{c'}^{c} $
-\form#16:$ \mathbf{R}_{c'}^{c} $
-\form#17:$ \mathbf{t}_{vp'}^{vp} $
-\form#18:$ \mathbf{R}_{vp'}^{vp} $
-\form#19:$ q $
-\form#20:$ \mathbf{f}_{meas} $
-\form#21:$ \mathbf{f}_{repr} $
-\form#22:$ q_{threshold} $
-\form#23:$ \psi $
-\form#24:$ l $
-\form#25:$ q_{threshold} = \arctan{\frac{\psi}{l}} $
-\form#26:$ \cos q $
-\form#27:$ \epsilon = 1 - \mathbf{f}_{meas}^{T}\mathbf{f}_{repr} = 1 - \cos q $
-\form#28:$ \epsilon_{threshold} = 1 - \cos{q_{threshold}} = 1 - \cos({\arctan{\frac{\psi}{l}}}) $
+\form#11:$ \mathbf{G} $
+\form#12:$ \mathbf{t}_{c} $
+\form#13:$ \mathbf{R}_{c} $
+\form#14:$ \mathbf{t}_{vp} $
+\form#15:$ \mathbf{R}_{vp} $
+\form#16:$ \mathbf{t}_{c'}^{c} $
+\form#17:$ \mathbf{R}_{c'}^{c} $
+\form#18:$ \mathbf{t}_{vp'}^{vp} $
+\form#19:$ \mathbf{R}_{vp'}^{vp} $
+\form#20:$ q $
+\form#21:$ \mathbf{f}_{meas} $
+\form#22:$ \mathbf{f}_{repr} $
+\form#23:$ q_{threshold} $
+\form#24:$ \psi $
+\form#25:$ l $
+\form#26:$ q_{threshold} = \arctan{\frac{\psi}{l}} $
+\form#27:$ \cos q $
+\form#28:$ \epsilon = 1 - \mathbf{f}_{meas}^{T}\mathbf{f}_{repr} = 1 - \cos q $
+\form#29:$ \epsilon_{threshold} = 1 - \cos{q_{threshold}} = 1 - \cos({\arctan{\frac{\psi}{l}}}) $

@@ -137,16 +137,26 @@ Functions</h2></td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the essential matrix between two central viewpoints using the eight-point algorithm [9,10]. Using all available correspondences.  <a href="#aebfc0d783d1dcadab2028e0b7ccfb528"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceopengv.html#a7f4dd88a9902de918ad4f7841fc550d2">essential_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceopengv_1_1relative__pose.html#a171e1c5b0b655c7c741cf08e13dbaed3">eightpt</a> (const <a class="el" href="classopengv_1_1relative__pose_1_1RelativeAdapterBase.html">RelativeAdapterBase</a> &amp;adapter, const std::vector&lt; int &gt; &amp;indices)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the essential matrix between two central viewpoints using the eight-point algorithm [9,10].  <a href="#a171e1c5b0b655c7c741cf08e13dbaed3"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceopengv.html#a8df9be48bee2fbd07982bb70084f7743">rotation_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceopengv_1_1relative__pose.html#a6e61c0982d5ce4ad6ff4a82a3b2bd0f2">eigensolver</a> (const <a class="el" href="classopengv_1_1relative__pose_1_1RelativeAdapterBase.html">RelativeAdapterBase</a> &amp;adapter, <a class="el" href="namespaceopengv.html#a00bd743dae7e93efdefbad9b7f3aaa31">eigensolverOutput_t</a> &amp;output)</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the rotation matrix between two central viewpoints as an iterative eigenproblem [11]. Using all available correspondences.  <a href="#a6e61c0982d5ce4ad6ff4a82a3b2bd0f2"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceopengv.html#a8df9be48bee2fbd07982bb70084f7743">rotation_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceopengv_1_1relative__pose.html#af6004a79ce4a426154a11bc6a95cadb0">eigensolver</a> (const <a class="el" href="classopengv_1_1relative__pose_1_1RelativeAdapterBase.html">RelativeAdapterBase</a> &amp;adapter, const std::vector&lt; int &gt; &amp;indices, <a class="el" href="namespaceopengv.html#a00bd743dae7e93efdefbad9b7f3aaa31">eigensolverOutput_t</a> &amp;output)</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the rotation matrix between two central viewpoints as an iterative eigenproblem [11].  <a href="#af6004a79ce4a426154a11bc6a95cadb0"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceopengv.html#a8df9be48bee2fbd07982bb70084f7743">rotation_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceopengv_1_1relative__pose.html#a5c8b8a06e801aa56dd73721ecef95a47">eigensolverWithWeights</a> (const <a class="el" href="classopengv_1_1relative__pose_1_1RelativeAdapterBase.html">RelativeAdapterBase</a> &amp;adapter, const std::vector&lt; int &gt; &amp;indices, <a class="el" href="namespaceopengv.html#a00bd743dae7e93efdefbad9b7f3aaa31">eigensolverOutput_t</a> &amp;output)</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the rotation matrix between two central viewpoints as an iterative eigenproblem [11]. Using weights reflecting the quality of correspondences.  <a href="#a5c8b8a06e801aa56dd73721ecef95a47"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceopengv.html#a8df9be48bee2fbd07982bb70084f7743">rotation_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceopengv_1_1relative__pose.html#a232e706f906dcdf02ce4e5064defdcf5">eigensolver</a> (const <a class="el" href="classopengv_1_1relative__pose_1_1RelativeAdapterBase.html">RelativeAdapterBase</a> &amp;adapter)</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the rotation matrix between two central viewpoints as an iterative eigenproblem [11]. Using all available correspondences. Outputs only the rotation.  <a href="#a232e706f906dcdf02ce4e5064defdcf5"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceopengv.html#a8df9be48bee2fbd07982bb70084f7743">rotation_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceopengv_1_1relative__pose.html#a7100c5df19d19d436709868f516bdf88">eigensolver</a> (const <a class="el" href="classopengv_1_1relative__pose_1_1RelativeAdapterBase.html">RelativeAdapterBase</a> &amp;adapter, const std::vector&lt; int &gt; &amp;indices)</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the rotation matrix between two central viewpoints as an iterative eigenproblem [11]. Outputs only the rotation.  <a href="#a7100c5df19d19d436709868f516bdf88"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceopengv.html#a8df9be48bee2fbd07982bb70084f7743">rotation_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceopengv_1_1relative__pose.html#a707cb10ea9be0f204d5d09487642d326">eigensolver</a> (const <a class="el" href="classopengv_1_1relative__pose_1_1RelativeAdapterBase.html">RelativeAdapterBase</a> &amp;adapter, <a class="el" href="namespaceopengv.html#a00bd743dae7e93efdefbad9b7f3aaa31">eigensolverOutput_t</a> &amp;output, bool useWeights=false)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the rotation matrix between two central viewpoints as an iterative eigenproblem [11]. Using all available correspondences.  <a href="#a707cb10ea9be0f204d5d09487642d326"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceopengv.html#a8df9be48bee2fbd07982bb70084f7743">rotation_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceopengv_1_1relative__pose.html#ad3413b7fd3ada1a155fd8789cad87131">eigensolver</a> (const <a class="el" href="classopengv_1_1relative__pose_1_1RelativeAdapterBase.html">RelativeAdapterBase</a> &amp;adapter, const std::vector&lt; int &gt; &amp;indices, <a class="el" href="namespaceopengv.html#a00bd743dae7e93efdefbad9b7f3aaa31">eigensolverOutput_t</a> &amp;output, bool useWeights=false)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the rotation matrix between two central viewpoints as an iterative eigenproblem [11].  <a href="#ad3413b7fd3ada1a155fd8789cad87131"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceopengv.html#a8df9be48bee2fbd07982bb70084f7743">rotation_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceopengv_1_1relative__pose.html#aaad8caaa8ab04e74e7fc71874bb1222d">eigensolver</a> (const <a class="el" href="classopengv_1_1relative__pose_1_1RelativeAdapterBase.html">RelativeAdapterBase</a> &amp;adapter, bool useWeights=false)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the rotation matrix between two central viewpoints as an iterative eigenproblem [11]. Using all available correspondences. Outputs only the rotation.  <a href="#aaad8caaa8ab04e74e7fc71874bb1222d"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceopengv.html#a8df9be48bee2fbd07982bb70084f7743">rotation_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceopengv_1_1relative__pose.html#aafb7a80edfffa788d7abcb217dd33bfe">eigensolver</a> (const <a class="el" href="classopengv_1_1relative__pose_1_1RelativeAdapterBase.html">RelativeAdapterBase</a> &amp;adapter, const std::vector&lt; int &gt; &amp;indices, bool useWeights=false)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the rotation matrix between two central viewpoints as an iterative eigenproblem [11]. Outputs only the rotation.  <a href="#aafb7a80edfffa788d7abcb217dd33bfe"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceopengv.html#ac71d0e5d870c93b3a320a283f20a8d4a">rotations_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceopengv_1_1relative__pose.html#af5935af73d282ad4c8c5134ed0572436">sixpt</a> (const <a class="el" href="classopengv_1_1relative__pose_1_1RelativeAdapterBase.html">RelativeAdapterBase</a> &amp;adapter)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the relative rotation between two non-central viewpoints following Stewenius' method [16]. Assuming exactly 6 correspondences.  <a href="#af5935af73d282ad4c8c5134ed0572436"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceopengv.html#ac71d0e5d870c93b3a320a283f20a8d4a">rotations_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceopengv_1_1relative__pose.html#aec62ba344dd98bc99156f5d7c7c59445">sixpt</a> (const <a class="el" href="classopengv_1_1relative__pose_1_1RelativeAdapterBase.html">RelativeAdapterBase</a> &amp;adapter, const std::vector&lt; int &gt; &amp;indices)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the relative rotation between two non-central viewpoints following Stewenius' method using 6 correspondences [16].  <a href="#aec62ba344dd98bc99156f5d7c7c59445"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceopengv.html#a8df9be48bee2fbd07982bb70084f7743">rotation_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceopengv_1_1relative__pose.html#ae01b9e51d594cbd963645464174e762a">ge</a> (const <a class="el" href="classopengv_1_1relative__pose_1_1RelativeAdapterBase.html">RelativeAdapterBase</a> &amp;adapter, <a class="el" href="structopengv_1_1GeOutput.html">geOutput_t</a> &amp;output, bool useWeights=false)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the rotation matrix between two non-central viewpoints as an iterative eigenproblem. Using all available correspondences.  <a href="#ae01b9e51d594cbd963645464174e762a"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceopengv.html#a8df9be48bee2fbd07982bb70084f7743">rotation_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceopengv_1_1relative__pose.html#aea167f2d9e1be693921c6b05678c7922">ge</a> (const <a class="el" href="classopengv_1_1relative__pose_1_1RelativeAdapterBase.html">RelativeAdapterBase</a> &amp;adapter, const std::vector&lt; int &gt; &amp;indices, <a class="el" href="structopengv_1_1GeOutput.html">geOutput_t</a> &amp;output, bool useWeights=false)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the rotation matrix between two non-central viewpoints as an iterative eigenproblem.  <a href="#aea167f2d9e1be693921c6b05678c7922"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceopengv.html#a8df9be48bee2fbd07982bb70084f7743">rotation_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceopengv_1_1relative__pose.html#a86f2c36ef49f56b8baa9a696c7cd5528">ge</a> (const <a class="el" href="classopengv_1_1relative__pose_1_1RelativeAdapterBase.html">RelativeAdapterBase</a> &amp;adapter, bool useWeights=false)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the rotation matrix between two non-central viewpoints as an iterative eigenproblem. Using all available correspondences. Outputs only the rotation.  <a href="#a86f2c36ef49f56b8baa9a696c7cd5528"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceopengv.html#a8df9be48bee2fbd07982bb70084f7743">rotation_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceopengv_1_1relative__pose.html#a03f173a592c51643165103a3946edffd">ge</a> (const <a class="el" href="classopengv_1_1relative__pose_1_1RelativeAdapterBase.html">RelativeAdapterBase</a> &amp;adapter, const std::vector&lt; int &gt; &amp;indices, bool useWeights=false)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the rotation matrix between two non-central viewpoints as an iterative eigenproblem. Outputs only the rotation.  <a href="#a03f173a592c51643165103a3946edffd"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceopengv.html#ae4d7f4755df10d5729299c16fdc92711">transformation_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceopengv_1_1relative__pose.html#abaaa4113792696718aad66bce3629148">seventeenpt</a> (const <a class="el" href="classopengv_1_1relative__pose_1_1RelativeAdapterBase.html">RelativeAdapterBase</a> &amp;adapter)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the relative pose between two non-central viewpoints following Li's method [12]. Using all available correspondences.  <a href="#abaaa4113792696718aad66bce3629148"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceopengv.html#ae4d7f4755df10d5729299c16fdc92711">transformation_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceopengv_1_1relative__pose.html#af4eb5ff102fdc972c4c39b978646a805">seventeenpt</a> (const <a class="el" href="classopengv_1_1relative__pose_1_1RelativeAdapterBase.html">RelativeAdapterBase</a> &amp;adapter, const std::vector&lt; int &gt; &amp;indices)</td></tr>
@@ -159,12 +169,12 @@ Functions</h2></td></tr>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
 <div class="textblock"><p>The namespace for the relative pose methods. </p>
 </div><hr/><h2>Function Documentation</h2>
-<a class="anchor" id="a6e61c0982d5ce4ad6ff4a82a3b2bd0f2"></a><!-- doxytag: member="opengv::relative_pose::eigensolver" ref="a6e61c0982d5ce4ad6ff4a82a3b2bd0f2" args="(const RelativeAdapterBase &amp;adapter, eigensolverOutput_t &amp;output)" -->
+<a class="anchor" id="a707cb10ea9be0f204d5d09487642d326"></a><!-- doxytag: member="opengv::relative_pose::eigensolver" ref="a707cb10ea9be0f204d5d09487642d326" args="(const RelativeAdapterBase &amp;adapter, eigensolverOutput_t &amp;output, bool useWeights=false)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespaceopengv.html#a8df9be48bee2fbd07982bb70084f7743">rotation_t</a> <a class="el" href="namespaceopengv_1_1relative__pose.html#a6e61c0982d5ce4ad6ff4a82a3b2bd0f2">opengv::relative_pose::eigensolver</a> </td>
+          <td class="memname"><a class="el" href="namespaceopengv.html#a8df9be48bee2fbd07982bb70084f7743">rotation_t</a> <a class="el" href="namespaceopengv_1_1relative__pose.html#a707cb10ea9be0f204d5d09487642d326">opengv::relative_pose::eigensolver</a> </td>
           <td>(</td>
           <td class="paramtype">const RelativeAdapterBase &amp;&#160;</td>
           <td class="paramname"><em>adapter</em>, </td>
@@ -173,7 +183,13 @@ Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">eigensolverOutput_t &amp;&#160;</td>
-          <td class="paramname"><em>output</em>&#160;</td>
+          <td class="paramname"><em>output</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>useWeights</em> = <code>false</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -189,6 +205,7 @@ Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">adapter</td><td>Visitor holding bearing-vector correspondences, plus the initial rotation for the optimization. </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">output</td><td>Returns more complete information (position of viewpoint 2 seen from viewpoint 1, eigenvectors and eigenvalues) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">useWeights</td><td>Use weights to weight the summation terms? </td></tr>
   </table>
   </dd>
 </dl>
@@ -196,12 +213,12 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="af6004a79ce4a426154a11bc6a95cadb0"></a><!-- doxytag: member="opengv::relative_pose::eigensolver" ref="af6004a79ce4a426154a11bc6a95cadb0" args="(const RelativeAdapterBase &amp;adapter, const std::vector&lt; int &gt; &amp;indices, eigensolverOutput_t &amp;output)" -->
+<a class="anchor" id="ad3413b7fd3ada1a155fd8789cad87131"></a><!-- doxytag: member="opengv::relative_pose::eigensolver" ref="ad3413b7fd3ada1a155fd8789cad87131" args="(const RelativeAdapterBase &amp;adapter, const std::vector&lt; int &gt; &amp;indices, eigensolverOutput_t &amp;output, bool useWeights=false)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespaceopengv.html#a8df9be48bee2fbd07982bb70084f7743">rotation_t</a> <a class="el" href="namespaceopengv_1_1relative__pose.html#a6e61c0982d5ce4ad6ff4a82a3b2bd0f2">opengv::relative_pose::eigensolver</a> </td>
+          <td class="memname"><a class="el" href="namespaceopengv.html#a8df9be48bee2fbd07982bb70084f7743">rotation_t</a> <a class="el" href="namespaceopengv_1_1relative__pose.html#a707cb10ea9be0f204d5d09487642d326">opengv::relative_pose::eigensolver</a> </td>
           <td>(</td>
           <td class="paramtype">const RelativeAdapterBase &amp;&#160;</td>
           <td class="paramname"><em>adapter</em>, </td>
@@ -216,7 +233,13 @@ Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">eigensolverOutput_t &amp;&#160;</td>
-          <td class="paramname"><em>output</em>&#160;</td>
+          <td class="paramname"><em>output</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>useWeights</em> = <code>false</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -231,8 +254,9 @@ Functions</h2></td></tr>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">adapter</td><td>Visitor holding bearing-vector correspondences, plus the initial rotation for the optimization. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">indices</td><td>Indices of the correspondences used for deriving the rotation matrix. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">indices</td><td><a class="el" href="structopengv_1_1Indices.html">Indices</a> of the correspondences used for deriving the rotation matrix. </td></tr>
     <tr><td class="paramdir">[out]</td><td class="paramname">output</td><td>Returns more complete information (position of viewpoint 2 seen from viewpoint 1, eigenvectors and eigenvalues) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">useWeights</td><td>Use weights to weight the summation terms? </td></tr>
   </table>
   </dd>
 </dl>
@@ -240,16 +264,26 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a232e706f906dcdf02ce4e5064defdcf5"></a><!-- doxytag: member="opengv::relative_pose::eigensolver" ref="a232e706f906dcdf02ce4e5064defdcf5" args="(const RelativeAdapterBase &amp;adapter)" -->
+<a class="anchor" id="aaad8caaa8ab04e74e7fc71874bb1222d"></a><!-- doxytag: member="opengv::relative_pose::eigensolver" ref="aaad8caaa8ab04e74e7fc71874bb1222d" args="(const RelativeAdapterBase &amp;adapter, bool useWeights=false)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespaceopengv.html#a8df9be48bee2fbd07982bb70084f7743">rotation_t</a> <a class="el" href="namespaceopengv_1_1relative__pose.html#a6e61c0982d5ce4ad6ff4a82a3b2bd0f2">opengv::relative_pose::eigensolver</a> </td>
+          <td class="memname"><a class="el" href="namespaceopengv.html#a8df9be48bee2fbd07982bb70084f7743">rotation_t</a> <a class="el" href="namespaceopengv_1_1relative__pose.html#a707cb10ea9be0f204d5d09487642d326">opengv::relative_pose::eigensolver</a> </td>
           <td>(</td>
           <td class="paramtype">const RelativeAdapterBase &amp;&#160;</td>
-          <td class="paramname"><em>adapter</em></td><td>)</td>
+          <td class="paramname"><em>adapter</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>useWeights</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div>
@@ -259,6 +293,7 @@ Functions</h2></td></tr>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">adapter</td><td>Visitor holding bearing-vector correspondences, plus the initial rotation for the optimization. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">useWeights</td><td>Use weights to weight the summation terms? </td></tr>
   </table>
   </dd>
 </dl>
@@ -266,12 +301,12 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a7100c5df19d19d436709868f516bdf88"></a><!-- doxytag: member="opengv::relative_pose::eigensolver" ref="a7100c5df19d19d436709868f516bdf88" args="(const RelativeAdapterBase &amp;adapter, const std::vector&lt; int &gt; &amp;indices)" -->
+<a class="anchor" id="aafb7a80edfffa788d7abcb217dd33bfe"></a><!-- doxytag: member="opengv::relative_pose::eigensolver" ref="aafb7a80edfffa788d7abcb217dd33bfe" args="(const RelativeAdapterBase &amp;adapter, const std::vector&lt; int &gt; &amp;indices, bool useWeights=false)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="namespaceopengv.html#a8df9be48bee2fbd07982bb70084f7743">rotation_t</a> <a class="el" href="namespaceopengv_1_1relative__pose.html#a6e61c0982d5ce4ad6ff4a82a3b2bd0f2">opengv::relative_pose::eigensolver</a> </td>
+          <td class="memname"><a class="el" href="namespaceopengv.html#a8df9be48bee2fbd07982bb70084f7743">rotation_t</a> <a class="el" href="namespaceopengv_1_1relative__pose.html#a707cb10ea9be0f204d5d09487642d326">opengv::relative_pose::eigensolver</a> </td>
           <td>(</td>
           <td class="paramtype">const RelativeAdapterBase &amp;&#160;</td>
           <td class="paramname"><em>adapter</em>, </td>
@@ -280,7 +315,13 @@ Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const std::vector&lt; int &gt; &amp;&#160;</td>
-          <td class="paramname"><em>indices</em>&#160;</td>
+          <td class="paramname"><em>indices</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>useWeights</em> = <code>false</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -295,51 +336,8 @@ Functions</h2></td></tr>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">adapter</td><td>Visitor holding bearing-vector correspondences, plus the initial rotation for the optimization. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">indices</td><td>Indices of the correspondences used for deriving the rotation matrix. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>Rotation matrix from viewpoint 2 to viewpoint 1. </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="a5c8b8a06e801aa56dd73721ecef95a47"></a><!-- doxytag: member="opengv::relative_pose::eigensolverWithWeights" ref="a5c8b8a06e801aa56dd73721ecef95a47" args="(const RelativeAdapterBase &amp;adapter, const std::vector&lt; int &gt; &amp;indices, eigensolverOutput_t &amp;output)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="namespaceopengv.html#a8df9be48bee2fbd07982bb70084f7743">rotation_t</a> <a class="el" href="namespaceopengv_1_1relative__pose.html#a5c8b8a06e801aa56dd73721ecef95a47">opengv::relative_pose::eigensolverWithWeights</a> </td>
-          <td>(</td>
-          <td class="paramtype">const RelativeAdapterBase &amp;&#160;</td>
-          <td class="paramname"><em>adapter</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::vector&lt; int &gt; &amp;&#160;</td>
-          <td class="paramname"><em>indices</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">eigensolverOutput_t &amp;&#160;</td>
-          <td class="paramname"><em>output</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>Compute the rotation matrix between two central viewpoints as an iterative eigenproblem [11]. Using weights reflecting the quality of correspondences. </p>
-<dl class="params"><dt><b>Parameters:</b></dt><dd>
-  <table class="params">
-    <tr><td class="paramdir">[in]</td><td class="paramname">adapter</td><td>Visitor holding bearing-vector correspondences, weights reflecting their quality, plus the initial rotation for the optimization. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">indices</td><td>Indices of the correspondences used for deriving the rotation matrix. </td></tr>
-    <tr><td class="paramdir">[out]</td><td class="paramname">output</td><td>Returns more complete information (position of viewpoint 2 seen from viewpoint 1, eigenvectors and eigenvalues) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">indices</td><td><a class="el" href="structopengv_1_1Indices.html">Indices</a> of the correspondences used for deriving the rotation matrix. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">useWeights</td><td>Use weights to weight the summation terms? </td></tr>
   </table>
   </dd>
 </dl>
@@ -402,7 +400,7 @@ Functions</h2></td></tr>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">adapter</td><td>Visitor holding bearing-vector correspondences. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">indices</td><td>Indices of the correspondences used for deriving the essential matrix. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">indices</td><td><a class="el" href="structopengv_1_1Indices.html">Indices</a> of the correspondences used for deriving the essential matrix. </td></tr>
   </table>
   </dd>
 </dl>
@@ -439,7 +437,7 @@ Functions</h2></td></tr>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">adapter</td><td>Visitor holding bearing-vector correspondences. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">indices</td><td>Indices of the correspondences used for deriving the rotation matrices. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">indices</td><td><a class="el" href="structopengv_1_1Indices.html">Indices</a> of the correspondences used for deriving the rotation matrices. </td></tr>
   </table>
   </dd>
 </dl>
@@ -502,7 +500,7 @@ Functions</h2></td></tr>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">adapter</td><td>Visitor holding bearing-vector correspondences. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">indices</td><td>Indices of the correspondences used for deriving the essential matrices. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">indices</td><td><a class="el" href="structopengv_1_1Indices.html">Indices</a> of the correspondences used for deriving the essential matrices. </td></tr>
   </table>
   </dd>
 </dl>
@@ -565,11 +563,187 @@ Functions</h2></td></tr>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">adapter</td><td>Visitor holding bearing-vector correspondences. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">indices</td><td>Indices of the correspondences used for deriving the essential matrices. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">indices</td><td><a class="el" href="structopengv_1_1Indices.html">Indices</a> of the correspondences used for deriving the essential matrices. </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>Complex essential matrices ( <img class="formulaInl" alt="$ \mathbf{E}= $" src="form_3.png"/> skew <img class="formulaInl" alt="$(\mathbf{t})\mathbf{R}$" src="form_4.png"/>, where <img class="formulaInl" alt="$ \mathbf{t} $" src="form_1.png"/> is the position of viewpoint 2 seen from viewpoint 1, and <img class="formulaInl" alt="$ \mathbf{R} $" src="form_2.png"/> is the rotation from viewpoint 2 back to viewpoint 1, maximum of 10 solutions). </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ae01b9e51d594cbd963645464174e762a"></a><!-- doxytag: member="opengv::relative_pose::ge" ref="ae01b9e51d594cbd963645464174e762a" args="(const RelativeAdapterBase &amp;adapter, geOutput_t &amp;output, bool useWeights=false)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespaceopengv.html#a8df9be48bee2fbd07982bb70084f7743">rotation_t</a> <a class="el" href="namespaceopengv_1_1relative__pose.html#ae01b9e51d594cbd963645464174e762a">opengv::relative_pose::ge</a> </td>
+          <td>(</td>
+          <td class="paramtype">const RelativeAdapterBase &amp;&#160;</td>
+          <td class="paramname"><em>adapter</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">geOutput_t &amp;&#160;</td>
+          <td class="paramname"><em>output</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>useWeights</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Compute the rotation matrix between two non-central viewpoints as an iterative eigenproblem. Using all available correspondences. </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">adapter</td><td>Visitor holding bearing-vector correspondences, the multi- camera configuration, plus the initial rotation for the optimization. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">output</td><td>Returns more complete information (position of viewpoint 2 seen from viewpoint 1, eigenvectors and eigenvalues) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">useWeights</td><td>Use weights to weight the summation terms? </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>Rotation matrix from viewpoint 2 to viewpoint 1. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="aea167f2d9e1be693921c6b05678c7922"></a><!-- doxytag: member="opengv::relative_pose::ge" ref="aea167f2d9e1be693921c6b05678c7922" args="(const RelativeAdapterBase &amp;adapter, const std::vector&lt; int &gt; &amp;indices, geOutput_t &amp;output, bool useWeights=false)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespaceopengv.html#a8df9be48bee2fbd07982bb70084f7743">rotation_t</a> <a class="el" href="namespaceopengv_1_1relative__pose.html#ae01b9e51d594cbd963645464174e762a">opengv::relative_pose::ge</a> </td>
+          <td>(</td>
+          <td class="paramtype">const RelativeAdapterBase &amp;&#160;</td>
+          <td class="paramname"><em>adapter</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; int &gt; &amp;&#160;</td>
+          <td class="paramname"><em>indices</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">geOutput_t &amp;&#160;</td>
+          <td class="paramname"><em>output</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>useWeights</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Compute the rotation matrix between two non-central viewpoints as an iterative eigenproblem. </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">adapter</td><td>Visitor holding bearing-vector correspondences, the multi- camera configuration, plus the initial rotation for the optimization. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">indices</td><td><a class="el" href="structopengv_1_1Indices.html">Indices</a> of the correspondences used for deriving the rotation matrix. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">output</td><td>Returns more complete information (position of viewpoint 2 seen from viewpoint 1, eigenvectors and eigenvalues) </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">useWeights</td><td>Use weights to weight the summation terms? </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>Rotation matrix from viewpoint 2 to viewpoint 1. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a86f2c36ef49f56b8baa9a696c7cd5528"></a><!-- doxytag: member="opengv::relative_pose::ge" ref="a86f2c36ef49f56b8baa9a696c7cd5528" args="(const RelativeAdapterBase &amp;adapter, bool useWeights=false)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespaceopengv.html#a8df9be48bee2fbd07982bb70084f7743">rotation_t</a> <a class="el" href="namespaceopengv_1_1relative__pose.html#ae01b9e51d594cbd963645464174e762a">opengv::relative_pose::ge</a> </td>
+          <td>(</td>
+          <td class="paramtype">const RelativeAdapterBase &amp;&#160;</td>
+          <td class="paramname"><em>adapter</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>useWeights</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Compute the rotation matrix between two non-central viewpoints as an iterative eigenproblem. Using all available correspondences. Outputs only the rotation. </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">adapter</td><td>Visitor holding bearing-vector correspondences, the multi- camera configuration, plus the initial rotation for the optimization. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">useWeights</td><td>Use weights to weight the summation terms? </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>Rotation matrix from viewpoint 2 to viewpoint 1. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a03f173a592c51643165103a3946edffd"></a><!-- doxytag: member="opengv::relative_pose::ge" ref="a03f173a592c51643165103a3946edffd" args="(const RelativeAdapterBase &amp;adapter, const std::vector&lt; int &gt; &amp;indices, bool useWeights=false)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespaceopengv.html#a8df9be48bee2fbd07982bb70084f7743">rotation_t</a> <a class="el" href="namespaceopengv_1_1relative__pose.html#ae01b9e51d594cbd963645464174e762a">opengv::relative_pose::ge</a> </td>
+          <td>(</td>
+          <td class="paramtype">const RelativeAdapterBase &amp;&#160;</td>
+          <td class="paramname"><em>adapter</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; int &gt; &amp;&#160;</td>
+          <td class="paramname"><em>indices</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>useWeights</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Compute the rotation matrix between two non-central viewpoints as an iterative eigenproblem. Outputs only the rotation. </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">adapter</td><td>Visitor holding bearing-vector correspondences, the multi- camera configuration, plus the initial rotation for the optimization. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">indices</td><td><a class="el" href="structopengv_1_1Indices.html">Indices</a> of the correspondences used for deriving the rotation matrix. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">useWeights</td><td>Use weights to weight the summation terms? </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>Rotation matrix from viewpoint 2 to viewpoint 1. </dd></dl>
 
 </div>
 </div>
@@ -628,7 +802,7 @@ Functions</h2></td></tr>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">adapter</td><td>Visitor holding bearing-vector correspondences, the multi-camera configuration, plus the initial values. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">indices</td><td>Indices of the correspondences used for deriving the pose. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">indices</td><td><a class="el" href="structopengv_1_1Indices.html">Indices</a> of the correspondences used for deriving the pose. </td></tr>
   </table>
   </dd>
 </dl>
@@ -691,7 +865,7 @@ Functions</h2></td></tr>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">adapter</td><td>Visitor holding bearing-vector correspondences. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">indices</td><td>Indices of the correspondences used for deriving the rotation. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">indices</td><td><a class="el" href="structopengv_1_1Indices.html">Indices</a> of the correspondences used for deriving the rotation. </td></tr>
   </table>
   </dd>
 </dl>
@@ -754,7 +928,7 @@ Functions</h2></td></tr>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">adapter</td><td>Visitor holding bearing-vector correspondences. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">indices</td><td>Indices of the correspondences used for deriving the essential matrices. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">indices</td><td><a class="el" href="structopengv_1_1Indices.html">Indices</a> of the correspondences used for deriving the essential matrices. </td></tr>
   </table>
   </dd>
 </dl>
@@ -817,11 +991,74 @@ Functions</h2></td></tr>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">adapter</td><td>Visitor holding bearing-vector correspondences, plus the multi-camera configuration. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">indices</td><td>Indices of the correspondences used for deriving the rotation matrix. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">indices</td><td><a class="el" href="structopengv_1_1Indices.html">Indices</a> of the correspondences used for deriving the rotation matrix. </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="return"><dt><b>Returns:</b></dt><dd>Pose of viewpoint 2 seen from viewpoint 1 ( <img class="formulaInl" alt="$ \mathbf{T} = \left(\begin{array}{cc} \mathbf{R} &amp; \mathbf{t} \end{array}\right) $" src="form_0.png"/>, with <img class="formulaInl" alt="$ \mathbf{t} $" src="form_1.png"/> being the position of viewpoint 2 seen from viewpoint 1, and <img class="formulaInl" alt="$ \mathbf{R} $" src="form_2.png"/> being the rotation from viewpoint 2 to viewpoint 1). </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="af5935af73d282ad4c8c5134ed0572436"></a><!-- doxytag: member="opengv::relative_pose::sixpt" ref="af5935af73d282ad4c8c5134ed0572436" args="(const RelativeAdapterBase &amp;adapter)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespaceopengv.html#ac71d0e5d870c93b3a320a283f20a8d4a">rotations_t</a> <a class="el" href="namespaceopengv_1_1relative__pose.html#af5935af73d282ad4c8c5134ed0572436">opengv::relative_pose::sixpt</a> </td>
+          <td>(</td>
+          <td class="paramtype">const RelativeAdapterBase &amp;&#160;</td>
+          <td class="paramname"><em>adapter</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Compute the relative rotation between two non-central viewpoints following Stewenius' method [16]. Assuming exactly 6 correspondences. </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">adapter</td><td>Visitor holding bearing-vector correspondences, plus the multi-camera configuration. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>Rotations from viewpoint 2 back to viewpoint 1 </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="aec62ba344dd98bc99156f5d7c7c59445"></a><!-- doxytag: member="opengv::relative_pose::sixpt" ref="aec62ba344dd98bc99156f5d7c7c59445" args="(const RelativeAdapterBase &amp;adapter, const std::vector&lt; int &gt; &amp;indices)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespaceopengv.html#ac71d0e5d870c93b3a320a283f20a8d4a">rotations_t</a> <a class="el" href="namespaceopengv_1_1relative__pose.html#af5935af73d282ad4c8c5134ed0572436">opengv::relative_pose::sixpt</a> </td>
+          <td>(</td>
+          <td class="paramtype">const RelativeAdapterBase &amp;&#160;</td>
+          <td class="paramname"><em>adapter</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; int &gt; &amp;&#160;</td>
+          <td class="paramname"><em>indices</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Compute the relative rotation between two non-central viewpoints following Stewenius' method using 6 correspondences [16]. </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">adapter</td><td>Visitor holding bearing-vector correspondences, plus the multi-camera configuration. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">indices</td><td><a class="el" href="structopengv_1_1Indices.html">Indices</a> of the six correspondences used for deriving the rotation matrix. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>Rotations from viewpoint 2 back to viewpoint 1 </dd></dl>
 
 </div>
 </div>
@@ -861,7 +1098,7 @@ Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">adapter</td><td>Visitor holding bearing-vector correspondences and known relative rotation. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">unrotate</td><td>Set to true if known rotation should be used to unrotate bearing vectors from viewpoint 2 (not required in case of identity rotation). </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">indices</td><td>Indices of the two correspondences used for deriving the translation. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">indices</td><td><a class="el" href="structopengv_1_1Indices.html">Indices</a> of the two correspondences used for deriving the translation. </td></tr>
   </table>
   </dd>
 </dl>
@@ -949,7 +1186,7 @@ Functions</h2></td></tr>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">adapter</td><td>Visitor holding bearing-vector correspondences. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">indices</td><td>Indices of the two correspondences used for deriving the rotation. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">indices</td><td><a class="el" href="structopengv_1_1Indices.html">Indices</a> of the two correspondences used for deriving the rotation. </td></tr>
   </table>
   </dd>
 </dl>
@@ -1022,7 +1259,7 @@ Functions</h2></td></tr>
       <li class="navelem"><a class="el" href="namespaceopengv.html">opengv</a>      </li>
       <li class="navelem"><a class="el" href="namespaceopengv_1_1relative__pose.html">relative_pose</a>      </li>
 
-    <li class="footer">Generated on Wed Oct 16 2013 10:55:42 for OpenGV by
+    <li class="footer">Generated on Tue Feb 18 2014 15:32:00 for OpenGV by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
    </ul>

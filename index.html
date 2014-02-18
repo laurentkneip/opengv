@@ -87,6 +87,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><p>The OpenGV library aims at unifying geometric computer vision algorithms for calibrated camera pose computation within a single efficient C++-library. OpenGV stands for Open Geometric Vision. It contains classical central and more recent non-central absolute and relative camera pose computation algorithms, as well as triangulation and point-cloud alignment functionalities, all extended by non-linear optimization and RANSAC contexts. It contains a flexible C++-interface as well as a Matlab port, and eases the comparison of different geometric vision algorithms.</p>
+<p>The library is described in the paper:</p>
+<ul>
+<li>L. Kneip, P. Furgale, "OpenGV: A unified and generalized approach to real-time calibrated geometric vision", Proc. of The IEEE International Conference on Robotics and Automation (ICRA), Hong Kong, China. May 2014.</li>
+</ul>
 <p>The library has been developped in the context of the following papers. Please cite one of these papers if you use the library for your research.</p>
 <ul>
 <li>L. Kneip, D. Scaramuzza, R. Siegwart, "A Novel Parametrization of the Perspective-Three-Point Problem for a Direct Computation of Absolute Camera Position and Orientation", Proc. of The IEEE Conference on Computer Vision and Pattern Recognition (CVPR), Colorado Springs, USA. June 2011.</li>
@@ -134,6 +138,8 @@ n-point algorithm for deriving the rotation in a pure-rotation situation </li>
 7-point algorithm </li>
 <li>
 8-point algorithm by Longuet-Higgins </li>
+<li>
+6-point algorithm by Henrik Stewenius for generalized relative pose </li>
 <li>
 17-point algorithm by Hongdong Li </li>
 <li>
@@ -191,7 +197,7 @@ Matlab interface </li>
   <div id="nav-path" class="navpath">
     <ul>
 
-    <li class="footer">Generated on Wed Oct 16 2013 10:55:46 for OpenGV by
+    <li class="footer">Generated on Tue Feb 18 2014 15:32:04 for OpenGV by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
    </ul>

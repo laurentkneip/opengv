@@ -101,9 +101,7 @@ Todos:</h2>
 <p>The following is a non-exhaustive list of things that could be improved. You may also want to contact <a href="mailto:kneip.laurent@gmail.com">kneip.laurent@gmail.com</a> for further information, if you want to collaborate on one of these points.</p>
 <ul>
 <li>
-Add documentation of the Matlab-interface. </li>
-<li>
-The library now allows very easily further benchmarks, for instance all the special cases (e.g. planar structure etc.). </li>
+The library should easily permit further benchmarks, for instance all the special cases (e.g. planar structure etc.). </li>
 <li>
 The triangulation method needs to be able to handle non-central viewpoints. This would avoid some hacks here and there. Same accounts for the point-cloud alignment methods. </li>
 <li>
@@ -119,17 +117,17 @@ Add more adapters to increase the portability. Examples are: OpenCV, Gandalf, VX
 <li>
 There is an improved version of p3p_kneip lying around somewhere, which could be included. </li>
 <li>
-Nister remains too slow. The reason is likely to be the Sturm bracketing in OpenGV. </li>
+Richard Hartley's implementation of the five-point should be included (replacing the current one). </li>
 <li>
-Hongdong Li's five-point solver (SOTA) should be included. </li>
+Hongdong Li's five-point solver should be included. </li>
 <li>
 Kukelova's polynomial eigenvalue solution should be included. </li>
 <li>
-P4P should be included. </li>
+P4P and DLT should be included. </li>
 <li>
-RPnP and DLS for PnP (SOTA) should be included. </li>
+What about DLS and OPnP? Only Matlab versions are publically available. </li>
 <li>
-The six-point method for non-central relative pose should be included. </li>
+The 6-point by Stewenius is extremly difficult to reimplement. The reimplementation I provide is maybe not the best. </li>
 <li>
 Most of the current implementations treat the correspondences equally. The AdapterBase-classes however contain already a virtual function called "getWeight", which could be used to weight the correspondences differently for instance in a non-linear optimization. Most of the adapters currently simply return 1.0 for these calls. Only the CentralRelativeWeightingAdapter has contructors that include the weight of the correspondences. </li>
 <li>
@@ -160,7 +158,7 @@ Use vector.segment, block...topleftcorner etc. </li>
   <div id="nav-path" class="navpath">
     <ul>
 
-    <li class="footer">Generated on Wed Oct 16 2013 10:55:41 for OpenGV by
+    <li class="footer">Generated on Tue Feb 18 2014 15:31:58 for OpenGV by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
    </ul>

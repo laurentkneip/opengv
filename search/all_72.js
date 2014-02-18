@@ -15,11 +15,12 @@ var searchData=
   ['rng_5fgen_5f',['rng_gen_',['../classopengv_1_1sac_1_1MultiSampleConsensusProblem.html#aeaa60bc9055ec9640b25ccc9efc99cd4',1,'opengv::sac::MultiSampleConsensusProblem::rng_gen_()'],['../classopengv_1_1sac_1_1SampleConsensusProblem.html#afc509ba011a68cc22476678568b64e37',1,'opengv::sac::SampleConsensusProblem::rng_gen_()']]],
   ['roots_2ehpp',['roots.hpp',['../roots_8hpp.html',1,'']]],
   ['rot2cayley',['rot2cayley',['../namespaceopengv_1_1math.html#a5fff725c79e2f1fc80cc4d49e22523cb',1,'opengv::math']]],
-  ['rotation',['rotation',['../structopengv_1_1EigensolverOutput.html#a887abf6af811d8be52086f83ecc29dc5',1,'opengv::EigensolverOutput']]],
+  ['rot2quaternion',['rot2quaternion',['../namespaceopengv_1_1math.html#aa434976a0b93505926704062753475e4',1,'opengv::math']]],
+  ['rotation',['rotation',['../structopengv_1_1EigensolverOutput.html#a887abf6af811d8be52086f83ecc29dc5',1,'opengv::EigensolverOutput::rotation()'],['../structopengv_1_1GeOutput.html#a2f25259290b3780ae232e6460effed26',1,'opengv::GeOutput::rotation()']]],
   ['rotation_5ft',['rotation_t',['../namespaceopengv.html#a8df9be48bee2fbd07982bb70084f7743',1,'opengv']]],
   ['rotationonly',['rotationOnly',['../namespaceopengv_1_1relative__pose.html#a0b8a2366234c5ed949cc178df7d6a300',1,'opengv::relative_pose::rotationOnly(const RelativeAdapterBase &amp;adapter)'],['../namespaceopengv_1_1relative__pose.html#a23c56268a8554b483e442d1ded63862f',1,'opengv::relative_pose::rotationOnly(const RelativeAdapterBase &amp;adapter, const std::vector&lt; int &gt; &amp;indices)']]],
-  ['rotationonlysacproblem',['RotationOnlySacProblem',['../classopengv_1_1sac__problems_1_1relative__pose_1_1RotationOnlySacProblem.html',1,'opengv::sac_problems::relative_pose']]],
   ['rotationonlysacproblem',['RotationOnlySacProblem',['../classopengv_1_1sac__problems_1_1relative__pose_1_1RotationOnlySacProblem.html#ac2d2b734e1038a058453f4389824024d',1,'opengv::sac_problems::relative_pose::RotationOnlySacProblem::RotationOnlySacProblem(adapter_t &amp;adapter)'],['../classopengv_1_1sac__problems_1_1relative__pose_1_1RotationOnlySacProblem.html#adb7045e8efe38617c365054baa578263',1,'opengv::sac_problems::relative_pose::RotationOnlySacProblem::RotationOnlySacProblem(adapter_t &amp;adapter, const std::vector&lt; int &gt; &amp;indices)']]],
+  ['rotationonlysacproblem',['RotationOnlySacProblem',['../classopengv_1_1sac__problems_1_1relative__pose_1_1RotationOnlySacProblem.html',1,'opengv::sac_problems::relative_pose']]],
   ['rotationonlysacproblem_2ehpp',['RotationOnlySacProblem.hpp',['../RotationOnlySacProblem_8hpp.html',1,'']]],
   ['rotations_5ft',['rotations_t',['../namespaceopengv.html#ac71d0e5d870c93b3a320a283f20a8d4a',1,'opengv']]]
 ];

@@ -18,5 +18,7 @@ var namespaceopengv_1_1absolute__pose =
     [ "p3p_gao", "namespaceopengv_1_1absolute__pose.html#ac24accca1fcfc200928f64b7bb440ec3", null ],
     [ "p3p_gao", "namespaceopengv_1_1absolute__pose.html#a8157f22e2dc12c116deeed512d69f3a6", null ],
     [ "p3p_kneip", "namespaceopengv_1_1absolute__pose.html#a8777034ec5609303f7cca9fb9eab598d", null ],
-    [ "p3p_kneip", "namespaceopengv_1_1absolute__pose.html#aa45b7076a0469519529bf879e55dbf3e", null ]
+    [ "p3p_kneip", "namespaceopengv_1_1absolute__pose.html#aa45b7076a0469519529bf879e55dbf3e", null ],
+    [ "upnp", "namespaceopengv_1_1absolute__pose.html#af5b8a22250c87666eea6b3aac4a60163", null ],
+    [ "upnp", "namespaceopengv_1_1absolute__pose.html#a7a7c07204fa474c087fa5d2b9785c85e", null ]
 ];

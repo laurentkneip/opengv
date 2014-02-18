@@ -180,16 +180,22 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00259"></a>00259     <span class="keyword">const</span> AbsoluteAdapterBase &amp; adapter,
 <a name="l00260"></a>00260     <span class="keyword">const</span> std::vector&lt;int&gt; &amp; indices );
 <a name="l00261"></a>00261 
-<a name="l00273"></a>00273 <a class="code" href="namespaceopengv.html#ae4d7f4755df10d5729299c16fdc92711">transformation_t</a> <a class="code" href="namespaceopengv_1_1absolute__pose.html#aa1e4b9c37be32dab978dd88ef72bc6f8" title="Compute the pose of a viewpoint using nonlinear optimization. Using all available correspondences...">optimize_nonlinear</a>( <span class="keyword">const</span> AbsoluteAdapterBase &amp; adapter );
-<a name="l00274"></a>00274 
-<a name="l00288"></a>00288 <a class="code" href="namespaceopengv.html#ae4d7f4755df10d5729299c16fdc92711">transformation_t</a> <a class="code" href="namespaceopengv_1_1absolute__pose.html#aa1e4b9c37be32dab978dd88ef72bc6f8" title="Compute the pose of a viewpoint using nonlinear optimization. Using all available correspondences...">optimize_nonlinear</a>(
-<a name="l00289"></a>00289     <span class="keyword">const</span> AbsoluteAdapterBase &amp; adapter,
-<a name="l00290"></a>00290     <span class="keyword">const</span> std::vector&lt;int&gt; &amp; indices );
-<a name="l00291"></a>00291 
-<a name="l00292"></a>00292 }
-<a name="l00293"></a>00293 }
-<a name="l00294"></a>00294 
-<a name="l00295"></a>00295 <span class="preprocessor">#endif </span><span class="comment">/* OPENGV_ABSOLUTE_POSE_METHODS_HPP_ */</span>
+<a name="l00272"></a>00272 <a class="code" href="namespaceopengv.html#a4522f06559d6c410add628fc4ba5c210">transformations_t</a> <a class="code" href="namespaceopengv_1_1absolute__pose.html#af5b8a22250c87666eea6b3aac4a60163" title="Compute the poses of a non-central viewpoint using the uPnP method. Using all available correspondenc...">upnp</a>( <span class="keyword">const</span> AbsoluteAdapterBase &amp; adapter );
+<a name="l00273"></a>00273 
+<a name="l00285"></a>00285 <a class="code" href="namespaceopengv.html#a4522f06559d6c410add628fc4ba5c210">transformations_t</a> <a class="code" href="namespaceopengv_1_1absolute__pose.html#af5b8a22250c87666eea6b3aac4a60163" title="Compute the poses of a non-central viewpoint using the uPnP method. Using all available correspondenc...">upnp</a>(
+<a name="l00286"></a>00286     <span class="keyword">const</span> AbsoluteAdapterBase &amp; adapter,
+<a name="l00287"></a>00287     <span class="keyword">const</span> std::vector&lt;int&gt; &amp; indices );
+<a name="l00288"></a>00288 
+<a name="l00300"></a>00300 <a class="code" href="namespaceopengv.html#ae4d7f4755df10d5729299c16fdc92711">transformation_t</a> <a class="code" href="namespaceopengv_1_1absolute__pose.html#aa1e4b9c37be32dab978dd88ef72bc6f8" title="Compute the pose of a viewpoint using nonlinear optimization. Using all available correspondences...">optimize_nonlinear</a>( <span class="keyword">const</span> AbsoluteAdapterBase &amp; adapter );
+<a name="l00301"></a>00301 
+<a name="l00315"></a>00315 <a class="code" href="namespaceopengv.html#ae4d7f4755df10d5729299c16fdc92711">transformation_t</a> <a class="code" href="namespaceopengv_1_1absolute__pose.html#aa1e4b9c37be32dab978dd88ef72bc6f8" title="Compute the pose of a viewpoint using nonlinear optimization. Using all available correspondences...">optimize_nonlinear</a>(
+<a name="l00316"></a>00316     <span class="keyword">const</span> AbsoluteAdapterBase &amp; adapter,
+<a name="l00317"></a>00317     <span class="keyword">const</span> std::vector&lt;int&gt; &amp; indices );
+<a name="l00318"></a>00318 
+<a name="l00319"></a>00319 }
+<a name="l00320"></a>00320 }
+<a name="l00321"></a>00321 
+<a name="l00322"></a>00322 <span class="preprocessor">#endif </span><span class="comment">/* OPENGV_ABSOLUTE_POSE_METHODS_HPP_ */</span>
 </pre></div></div><!-- contents -->
 </div>
 <!-- window showing the filter options -->
@@ -210,7 +216,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul>
       <li class="navelem"><a class="el" href="absolute__pose_2methods_8hpp.html">methods.hpp</a>      </li>
 
-    <li class="footer">Generated on Wed Oct 16 2013 10:55:40 for OpenGV by
+    <li class="footer">Generated on Tue Feb 18 2014 15:31:57 for OpenGV by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
    </ul>

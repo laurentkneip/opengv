@@ -7,6 +7,8 @@ var hierarchy =
       [ "opengv::absolute_pose::NoncentralAbsoluteAdapter", "classopengv_1_1absolute__pose_1_1NoncentralAbsoluteAdapter.html", null ]
     ] ],
     [ "opengv::EigensolverOutput", "structopengv_1_1EigensolverOutput.html", null ],
+    [ "opengv::GeOutput", "structopengv_1_1GeOutput.html", null ],
+    [ "opengv::Indices", "structopengv_1_1Indices.html", null ],
     [ "opengv::sac::MultiSampleConsensus< PROBLEM_T >", "classopengv_1_1sac_1_1MultiSampleConsensus.html", [
       [ "opengv::sac::MultiRansac< PROBLEM_T >", "classopengv_1_1sac_1_1MultiRansac.html", null ]
     ] ],

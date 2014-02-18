@@ -138,46 +138,40 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00068"></a>00068 <span class="keyword">public</span>:
 <a name="l00069"></a>00069   EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 <a name="l00070"></a>00070 
-<a name="l00072"></a><a class="code" href="classopengv_1_1relative__pose_1_1CentralRelativeAdapter.html#a181b201e89df835aa61c3173f6a0c275">00072</a>   <span class="keyword">typedef</span> std::vector&lt;int&gt; <a class="code" href="classopengv_1_1relative__pose_1_1CentralRelativeAdapter.html#a181b201e89df835aa61c3173f6a0c275">matches_t</a>;
-<a name="l00073"></a>00073 
-<a name="l00077"></a>00077   <a class="code" href="classopengv_1_1relative__pose_1_1CentralRelativeAdapter.html#aa9e63131d30d7499d2da5b21799c67d1" title="Constructor. See protected class-members to understand parameters.">CentralRelativeAdapter</a>(
-<a name="l00078"></a>00078       <span class="keyword">const</span> <a class="code" href="namespaceopengv.html#a11583d4884d49a407ea3f4d092817a1a">bearingVectors_t</a> &amp; bearingVectors1,
-<a name="l00079"></a>00079       <span class="keyword">const</span> <a class="code" href="namespaceopengv.html#a11583d4884d49a407ea3f4d092817a1a">bearingVectors_t</a> &amp; bearingVectors2,
-<a name="l00080"></a>00080       <span class="keyword">const</span> <a class="code" href="classopengv_1_1relative__pose_1_1CentralRelativeAdapter.html#a181b201e89df835aa61c3173f6a0c275">matches_t</a> &amp; matches );
-<a name="l00084"></a>00084   <a class="code" href="classopengv_1_1relative__pose_1_1CentralRelativeAdapter.html#aa9e63131d30d7499d2da5b21799c67d1" title="Constructor. See protected class-members to understand parameters.">CentralRelativeAdapter</a>(
-<a name="l00085"></a>00085       <span class="keyword">const</span> <a class="code" href="namespaceopengv.html#a11583d4884d49a407ea3f4d092817a1a">bearingVectors_t</a> &amp; bearingVectors1,
-<a name="l00086"></a>00086       <span class="keyword">const</span> <a class="code" href="namespaceopengv.html#a11583d4884d49a407ea3f4d092817a1a">bearingVectors_t</a> &amp; bearingVectors2,
-<a name="l00087"></a>00087       <span class="keyword">const</span> <a class="code" href="classopengv_1_1relative__pose_1_1CentralRelativeAdapter.html#a181b201e89df835aa61c3173f6a0c275">matches_t</a> &amp; matches,
-<a name="l00088"></a>00088       <span class="keyword">const</span> <a class="code" href="namespaceopengv.html#a8df9be48bee2fbd07982bb70084f7743">rotation_t</a> &amp; R12 );
-<a name="l00092"></a>00092   <a class="code" href="classopengv_1_1relative__pose_1_1CentralRelativeAdapter.html#aa9e63131d30d7499d2da5b21799c67d1" title="Constructor. See protected class-members to understand parameters.">CentralRelativeAdapter</a>(
-<a name="l00093"></a>00093       <span class="keyword">const</span> <a class="code" href="namespaceopengv.html#a11583d4884d49a407ea3f4d092817a1a">bearingVectors_t</a> &amp; bearingVectors1,
-<a name="l00094"></a>00094       <span class="keyword">const</span> <a class="code" href="namespaceopengv.html#a11583d4884d49a407ea3f4d092817a1a">bearingVectors_t</a> &amp; bearingVectors2,
-<a name="l00095"></a>00095       <span class="keyword">const</span> <a class="code" href="classopengv_1_1relative__pose_1_1CentralRelativeAdapter.html#a181b201e89df835aa61c3173f6a0c275">matches_t</a> &amp; matches,
-<a name="l00096"></a>00096       <span class="keyword">const</span> <a class="code" href="namespaceopengv.html#abba454dc7125a489191f32645216a1a5">translation_t</a> &amp; t12,
-<a name="l00097"></a>00097       <span class="keyword">const</span> <a class="code" href="namespaceopengv.html#a8df9be48bee2fbd07982bb70084f7743">rotation_t</a> &amp; R12 );
-<a name="l00101"></a>00101   <span class="keyword">virtual</span> <a class="code" href="classopengv_1_1relative__pose_1_1CentralRelativeAdapter.html#af0273008acd9c2278eb9f3575d5f3547" title="Destructor.">~CentralRelativeAdapter</a>();
-<a name="l00102"></a>00102 
-<a name="l00103"></a>00103   <span class="comment">//Access of correspondences</span>
-<a name="l00104"></a>00104   
-<a name="l00106"></a>00106   <span class="keyword">virtual</span> <a class="code" href="namespaceopengv.html#abec89b050125b2ca9bc46a09a14656ea">bearingVector_t</a> <a class="code" href="classopengv_1_1relative__pose_1_1CentralRelativeAdapter.html#a2ff7274839fd0bde0f1d67a2353a33b3">getBearingVector1</a>( <span class="keywordtype">size_t</span> index ) <span class="keyword">const</span>;
-<a name="l00108"></a>00108   <span class="keyword">virtual</span> <a class="code" href="namespaceopengv.html#abec89b050125b2ca9bc46a09a14656ea">bearingVector_t</a> <a class="code" href="classopengv_1_1relative__pose_1_1CentralRelativeAdapter.html#ab2183638a16c233b478eeca1e1f21f59">getBearingVector2</a>( <span class="keywordtype">size_t</span> index ) <span class="keyword">const</span>;
-<a name="l00110"></a>00110   <span class="keyword">virtual</span> <span class="keywordtype">double</span> <a class="code" href="classopengv_1_1relative__pose_1_1CentralRelativeAdapter.html#a12e8939ba49183ba2a153575d4d3deb5">getWeight</a>( <span class="keywordtype">size_t</span> index ) <span class="keyword">const</span>;
-<a name="l00112"></a>00112   <span class="keyword">virtual</span> <a class="code" href="namespaceopengv.html#abba454dc7125a489191f32645216a1a5">translation_t</a> <a class="code" href="classopengv_1_1relative__pose_1_1CentralRelativeAdapter.html#ab1618287b75d2fbcde52a06a1b66f88d">getCamOffset1</a>( <span class="keywordtype">size_t</span> index ) <span class="keyword">const</span>;
-<a name="l00114"></a>00114   <span class="keyword">virtual</span> <a class="code" href="namespaceopengv.html#a8df9be48bee2fbd07982bb70084f7743">rotation_t</a> <a class="code" href="classopengv_1_1relative__pose_1_1CentralRelativeAdapter.html#a98a81588bf82be524472769cf792777e">getCamRotation1</a>( <span class="keywordtype">size_t</span> index ) <span class="keyword">const</span>;
-<a name="l00116"></a>00116   <span class="keyword">virtual</span> <a class="code" href="namespaceopengv.html#abba454dc7125a489191f32645216a1a5">translation_t</a> <a class="code" href="classopengv_1_1relative__pose_1_1CentralRelativeAdapter.html#a9ad1243c0d57d426339901b25ce397dc">getCamOffset2</a>( <span class="keywordtype">size_t</span> index ) <span class="keyword">const</span>;
-<a name="l00118"></a>00118   <span class="keyword">virtual</span> <a class="code" href="namespaceopengv.html#a8df9be48bee2fbd07982bb70084f7743">rotation_t</a> <a class="code" href="classopengv_1_1relative__pose_1_1CentralRelativeAdapter.html#a16ce4c39007444fb044024d6aef89513">getCamRotation2</a>( <span class="keywordtype">size_t</span> index ) <span class="keyword">const</span>;
-<a name="l00120"></a>00120   <span class="keyword">virtual</span> <span class="keywordtype">size_t</span> <a class="code" href="classopengv_1_1relative__pose_1_1CentralRelativeAdapter.html#abe9374d5da1cf9afcdc08dfe7e38ce72">getNumberCorrespondences</a>() <span class="keyword">const</span>;
-<a name="l00121"></a>00121 
-<a name="l00122"></a>00122 <span class="keyword">protected</span>:
-<a name="l00124"></a><a class="code" href="classopengv_1_1relative__pose_1_1CentralRelativeAdapter.html#ac5bb334247840f6779a4a240854ac68b">00124</a>   <span class="keyword">const</span> <a class="code" href="namespaceopengv.html#a11583d4884d49a407ea3f4d092817a1a">bearingVectors_t</a> &amp; <a class="code" href="classopengv_1_1relative__pose_1_1CentralRelativeAdapter.html#ac5bb334247840f6779a4a240854ac68b">_bearingVectors1</a>;
-<a name="l00126"></a><a class="code" href="classopengv_1_1relative__pose_1_1CentralRelativeAdapter.html#a0a470bc0f8f3ec43937029969f950249">00126</a>   <span class="keyword">const</span> <a class="code" href="namespaceopengv.html#a11583d4884d49a407ea3f4d092817a1a">bearingVectors_t</a> &amp; <a class="code" href="classopengv_1_1relative__pose_1_1CentralRelativeAdapter.html#a0a470bc0f8f3ec43937029969f950249">_bearingVectors2</a>;
-<a name="l00131"></a><a class="code" href="classopengv_1_1relative__pose_1_1CentralRelativeAdapter.html#a7a8e75806d99aff3e79a9df6e516a42d">00131</a>   <span class="keyword">const</span> <a class="code" href="classopengv_1_1relative__pose_1_1CentralRelativeAdapter.html#a181b201e89df835aa61c3173f6a0c275">matches_t</a> &amp; <a class="code" href="classopengv_1_1relative__pose_1_1CentralRelativeAdapter.html#a7a8e75806d99aff3e79a9df6e516a42d">_matches</a>;
-<a name="l00132"></a>00132 };
-<a name="l00133"></a>00133 
-<a name="l00134"></a>00134 }
-<a name="l00135"></a>00135 }
-<a name="l00136"></a>00136 
-<a name="l00137"></a>00137 <span class="preprocessor">#endif </span><span class="comment">/* OPENGV_RELATIVE_POSE_CENTRALRELATIVEADAPTER_HPP_ */</span>
+<a name="l00074"></a>00074   <a class="code" href="classopengv_1_1relative__pose_1_1CentralRelativeAdapter.html#a38d3462d1dec927575879421b4d6656b" title="Constructor. See protected class-members to understand parameters.">CentralRelativeAdapter</a>(
+<a name="l00075"></a>00075       <span class="keyword">const</span> <a class="code" href="namespaceopengv.html#a11583d4884d49a407ea3f4d092817a1a">bearingVectors_t</a> &amp; bearingVectors1,
+<a name="l00076"></a>00076       <span class="keyword">const</span> <a class="code" href="namespaceopengv.html#a11583d4884d49a407ea3f4d092817a1a">bearingVectors_t</a> &amp; bearingVectors2 );
+<a name="l00080"></a>00080   <a class="code" href="classopengv_1_1relative__pose_1_1CentralRelativeAdapter.html#a38d3462d1dec927575879421b4d6656b" title="Constructor. See protected class-members to understand parameters.">CentralRelativeAdapter</a>(
+<a name="l00081"></a>00081       <span class="keyword">const</span> <a class="code" href="namespaceopengv.html#a11583d4884d49a407ea3f4d092817a1a">bearingVectors_t</a> &amp; bearingVectors1,
+<a name="l00082"></a>00082       <span class="keyword">const</span> <a class="code" href="namespaceopengv.html#a11583d4884d49a407ea3f4d092817a1a">bearingVectors_t</a> &amp; bearingVectors2,
+<a name="l00083"></a>00083       <span class="keyword">const</span> <a class="code" href="namespaceopengv.html#a8df9be48bee2fbd07982bb70084f7743">rotation_t</a> &amp; R12 );
+<a name="l00087"></a>00087   <a class="code" href="classopengv_1_1relative__pose_1_1CentralRelativeAdapter.html#a38d3462d1dec927575879421b4d6656b" title="Constructor. See protected class-members to understand parameters.">CentralRelativeAdapter</a>(
+<a name="l00088"></a>00088       <span class="keyword">const</span> <a class="code" href="namespaceopengv.html#a11583d4884d49a407ea3f4d092817a1a">bearingVectors_t</a> &amp; bearingVectors1,
+<a name="l00089"></a>00089       <span class="keyword">const</span> <a class="code" href="namespaceopengv.html#a11583d4884d49a407ea3f4d092817a1a">bearingVectors_t</a> &amp; bearingVectors2,
+<a name="l00090"></a>00090       <span class="keyword">const</span> <a class="code" href="namespaceopengv.html#abba454dc7125a489191f32645216a1a5">translation_t</a> &amp; t12,
+<a name="l00091"></a>00091       <span class="keyword">const</span> <a class="code" href="namespaceopengv.html#a8df9be48bee2fbd07982bb70084f7743">rotation_t</a> &amp; R12 );
+<a name="l00095"></a>00095   <span class="keyword">virtual</span> <a class="code" href="classopengv_1_1relative__pose_1_1CentralRelativeAdapter.html#af0273008acd9c2278eb9f3575d5f3547" title="Destructor.">~CentralRelativeAdapter</a>();
+<a name="l00096"></a>00096 
+<a name="l00097"></a>00097   <span class="comment">//Access of correspondences</span>
+<a name="l00098"></a>00098   
+<a name="l00100"></a>00100   <span class="keyword">virtual</span> <a class="code" href="namespaceopengv.html#abec89b050125b2ca9bc46a09a14656ea">bearingVector_t</a> <a class="code" href="classopengv_1_1relative__pose_1_1CentralRelativeAdapter.html#a2ff7274839fd0bde0f1d67a2353a33b3">getBearingVector1</a>( <span class="keywordtype">size_t</span> index ) <span class="keyword">const</span>;
+<a name="l00102"></a>00102   <span class="keyword">virtual</span> <a class="code" href="namespaceopengv.html#abec89b050125b2ca9bc46a09a14656ea">bearingVector_t</a> <a class="code" href="classopengv_1_1relative__pose_1_1CentralRelativeAdapter.html#ab2183638a16c233b478eeca1e1f21f59">getBearingVector2</a>( <span class="keywordtype">size_t</span> index ) <span class="keyword">const</span>;
+<a name="l00104"></a>00104   <span class="keyword">virtual</span> <span class="keywordtype">double</span> <a class="code" href="classopengv_1_1relative__pose_1_1CentralRelativeAdapter.html#a12e8939ba49183ba2a153575d4d3deb5">getWeight</a>( <span class="keywordtype">size_t</span> index ) <span class="keyword">const</span>;
+<a name="l00106"></a>00106   <span class="keyword">virtual</span> <a class="code" href="namespaceopengv.html#abba454dc7125a489191f32645216a1a5">translation_t</a> <a class="code" href="classopengv_1_1relative__pose_1_1CentralRelativeAdapter.html#ab1618287b75d2fbcde52a06a1b66f88d">getCamOffset1</a>( <span class="keywordtype">size_t</span> index ) <span class="keyword">const</span>;
+<a name="l00108"></a>00108   <span class="keyword">virtual</span> <a class="code" href="namespaceopengv.html#a8df9be48bee2fbd07982bb70084f7743">rotation_t</a> <a class="code" href="classopengv_1_1relative__pose_1_1CentralRelativeAdapter.html#a98a81588bf82be524472769cf792777e">getCamRotation1</a>( <span class="keywordtype">size_t</span> index ) <span class="keyword">const</span>;
+<a name="l00110"></a>00110   <span class="keyword">virtual</span> <a class="code" href="namespaceopengv.html#abba454dc7125a489191f32645216a1a5">translation_t</a> <a class="code" href="classopengv_1_1relative__pose_1_1CentralRelativeAdapter.html#a9ad1243c0d57d426339901b25ce397dc">getCamOffset2</a>( <span class="keywordtype">size_t</span> index ) <span class="keyword">const</span>;
+<a name="l00112"></a>00112   <span class="keyword">virtual</span> <a class="code" href="namespaceopengv.html#a8df9be48bee2fbd07982bb70084f7743">rotation_t</a> <a class="code" href="classopengv_1_1relative__pose_1_1CentralRelativeAdapter.html#a16ce4c39007444fb044024d6aef89513">getCamRotation2</a>( <span class="keywordtype">size_t</span> index ) <span class="keyword">const</span>;
+<a name="l00114"></a>00114   <span class="keyword">virtual</span> <span class="keywordtype">size_t</span> <a class="code" href="classopengv_1_1relative__pose_1_1CentralRelativeAdapter.html#abe9374d5da1cf9afcdc08dfe7e38ce72">getNumberCorrespondences</a>() <span class="keyword">const</span>;
+<a name="l00115"></a>00115 
+<a name="l00116"></a>00116 <span class="keyword">protected</span>:
+<a name="l00118"></a><a class="code" href="classopengv_1_1relative__pose_1_1CentralRelativeAdapter.html#ac5bb334247840f6779a4a240854ac68b">00118</a>   <span class="keyword">const</span> <a class="code" href="namespaceopengv.html#a11583d4884d49a407ea3f4d092817a1a">bearingVectors_t</a> &amp; <a class="code" href="classopengv_1_1relative__pose_1_1CentralRelativeAdapter.html#ac5bb334247840f6779a4a240854ac68b">_bearingVectors1</a>;
+<a name="l00120"></a><a class="code" href="classopengv_1_1relative__pose_1_1CentralRelativeAdapter.html#a0a470bc0f8f3ec43937029969f950249">00120</a>   <span class="keyword">const</span> <a class="code" href="namespaceopengv.html#a11583d4884d49a407ea3f4d092817a1a">bearingVectors_t</a> &amp; <a class="code" href="classopengv_1_1relative__pose_1_1CentralRelativeAdapter.html#a0a470bc0f8f3ec43937029969f950249">_bearingVectors2</a>;
+<a name="l00121"></a>00121 };
+<a name="l00122"></a>00122 
+<a name="l00123"></a>00123 }
+<a name="l00124"></a>00124 }
+<a name="l00125"></a>00125 
+<a name="l00126"></a>00126 <span class="preprocessor">#endif </span><span class="comment">/* OPENGV_RELATIVE_POSE_CENTRALRELATIVEADAPTER_HPP_ */</span>
 </pre></div></div><!-- contents -->
 </div>
 <!-- window showing the filter options -->
@@ -198,7 +192,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul>
       <li class="navelem"><a class="el" href="CentralRelativeAdapter_8hpp.html">CentralRelativeAdapter.hpp</a>      </li>
 
-    <li class="footer">Generated on Wed Oct 16 2013 10:55:40 for OpenGV by
+    <li class="footer">Generated on Tue Feb 18 2014 15:31:57 for OpenGV by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
    </ul>

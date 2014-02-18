@@ -1,8 +1,8 @@
 var classopengv_1_1relative__pose_1_1CentralRelativeWeightingAdapter =
 [
-    [ "CentralRelativeWeightingAdapter", "classopengv_1_1relative__pose_1_1CentralRelativeWeightingAdapter.html#a4dac20c3735ae2258f891bd4431814e6", null ],
-    [ "CentralRelativeWeightingAdapter", "classopengv_1_1relative__pose_1_1CentralRelativeWeightingAdapter.html#a50551124313c2bba089e5b9a8e9d64ca", null ],
-    [ "CentralRelativeWeightingAdapter", "classopengv_1_1relative__pose_1_1CentralRelativeWeightingAdapter.html#afb29c88e7ed514ab3929a3a2f079a2e1", null ],
+    [ "CentralRelativeWeightingAdapter", "classopengv_1_1relative__pose_1_1CentralRelativeWeightingAdapter.html#a1166429be64271883fffbae5310ce6f9", null ],
+    [ "CentralRelativeWeightingAdapter", "classopengv_1_1relative__pose_1_1CentralRelativeWeightingAdapter.html#a93b768755c9119c76e974940120c13dc", null ],
+    [ "CentralRelativeWeightingAdapter", "classopengv_1_1relative__pose_1_1CentralRelativeWeightingAdapter.html#ad86423494a16ad4eebcc3d7c6e20a926", null ],
     [ "~CentralRelativeWeightingAdapter", "classopengv_1_1relative__pose_1_1CentralRelativeWeightingAdapter.html#aad35be01b7c26a4ebb7155d822ecafd3", null ],
     [ "getBearingVector1", "classopengv_1_1relative__pose_1_1CentralRelativeWeightingAdapter.html#a46f99df024dd58f1fb6204f60ce6b9ad", null ],
     [ "getBearingVector2", "classopengv_1_1relative__pose_1_1CentralRelativeWeightingAdapter.html#a8d3854caadebae587bdf465707cb3506", null ],
@@ -14,7 +14,5 @@ var classopengv_1_1relative__pose_1_1CentralRelativeWeightingAdapter =
     [ "getWeight", "classopengv_1_1relative__pose_1_1CentralRelativeWeightingAdapter.html#a49139bd412e2d29a9e337b02aa2eb0e8", null ],
     [ "_bearingVectors1", "classopengv_1_1relative__pose_1_1CentralRelativeWeightingAdapter.html#a9b52af90a38f1265047359378dc9ef05", null ],
     [ "_bearingVectors2", "classopengv_1_1relative__pose_1_1CentralRelativeWeightingAdapter.html#a37117dd13516f9cd5eaba7f9f83cca6c", null ],
-    [ "_matches", "classopengv_1_1relative__pose_1_1CentralRelativeWeightingAdapter.html#ad5243be99041e4ad32457b4293c4dcf3", null ],
-    [ "_weights", "classopengv_1_1relative__pose_1_1CentralRelativeWeightingAdapter.html#ae70ece6f96e51a9980b8ec3e8eebe8d5", null ],
-    [ "matches_t", "classopengv_1_1relative__pose_1_1CentralRelativeWeightingAdapter.html#ae170d3c755aafc50d5a403e8dd2d8bd2", null ]
+    [ "_weights", "classopengv_1_1relative__pose_1_1CentralRelativeWeightingAdapter.html#ae70ece6f96e51a9980b8ec3e8eebe8d5", null ]
 ];

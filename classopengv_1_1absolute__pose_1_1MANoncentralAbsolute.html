@@ -108,9 +108,6 @@ Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad5b173fc9c1833fcda3efe832f103ece"></a><!-- doxytag: member="opengv::absolute_pose::MANoncentralAbsolute::MANoncentralAbsolute" ref="ad5b173fc9c1833fcda3efe832f103ece" args="(const double *points, const double *bearingVectors, int numberPoints, int numberBearingVectors)" -->
 EIGEN_MAKE_ALIGNED_OPERATOR_NEW&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classopengv_1_1absolute__pose_1_1MANoncentralAbsolute.html#ad5b173fc9c1833fcda3efe832f103ece">MANoncentralAbsolute</a> (const double *points, const double *bearingVectors, int numberPoints, int numberBearingVectors)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor. See protected class-members to understand parameters. <br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a70041dc5f514c093f94ed1ad78f9aca7"></a><!-- doxytag: member="opengv::absolute_pose::MANoncentralAbsolute::MANoncentralAbsolute" ref="a70041dc5f514c093f94ed1ad78f9aca7" args="(const double *points, const double *bearingVectors, const double *matches, int numberPoints, int numberBearingVectors)" -->
-&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classopengv_1_1absolute__pose_1_1MANoncentralAbsolute.html#a70041dc5f514c093f94ed1ad78f9aca7">MANoncentralAbsolute</a> (const double *points, const double *bearingVectors, const double *matches, int numberPoints, int numberBearingVectors)</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor. See protected class-members to understand parameters. <br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classopengv_1_1absolute__pose_1_1MANoncentralAbsolute.html#abaf0c7c1dee929036c2678ac30aa6c68">~MANoncentralAbsolute</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="namespaceopengv.html#abec89b050125b2ca9bc46a09a14656ea">opengv::bearingVector_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classopengv_1_1absolute__pose_1_1MANoncentralAbsolute.html#a63151be1a4106bd01eba1de433647505">getBearingVector</a> (size_t index) const </td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classopengv_1_1absolute__pose_1_1MANoncentralAbsolute.html#aee71678231e138cffbdd3e9ad1a28178">getWeight</a> (size_t index) const </td></tr>
@@ -122,10 +119,8 @@ EIGEN_MAKE_ALIGNED_OPERATOR_NEW&#160;</td><td class="memItemRight" valign="botto
 Protected Attributes</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">const double *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classopengv_1_1absolute__pose_1_1MANoncentralAbsolute.html#a752569d7e245473a56f73c3caf670f9b">_points</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">const double *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classopengv_1_1absolute__pose_1_1MANoncentralAbsolute.html#af48d43350b1aa9a4c7e7051453432b01">_bearingVectors</a></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">const double *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classopengv_1_1absolute__pose_1_1MANoncentralAbsolute.html#ad58ea363fa59add08f4614e3cb1c5903">_matches</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classopengv_1_1absolute__pose_1_1MANoncentralAbsolute.html#a0a6c34edf3a06da2e67297cf0331f98c">_numberPoints</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classopengv_1_1absolute__pose_1_1MANoncentralAbsolute.html#a4b0fe67b5e979423547defeeac28e9b6">_numberBearingVectors</a></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classopengv_1_1absolute__pose_1_1MANoncentralAbsolute.html#aeb967eb3f28c6ffc4f5723eb83d6db65">_useMatches</a></td></tr>
 </table>
 <hr/><a name="details" id="details"></a><h2>Detailed Description</h2>
 <div class="textblock"><p>Check the documentation of the parent-class to understand the meaning of an AbsoluteAdapter. This child-class is for the non-central case and holds data in form of pointers to matlab-data. </p>
@@ -282,20 +277,6 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ad58ea363fa59add08f4614e3cb1c5903"></a><!-- doxytag: member="opengv::absolute_pose::MANoncentralAbsolute::_matches" ref="ad58ea363fa59add08f4614e3cb1c5903" args="" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const double* <a class="el" href="classopengv_1_1absolute__pose_1_1MANoncentralAbsolute.html#ad58ea363fa59add08f4614e3cb1c5903">opengv::absolute_pose::MANoncentralAbsolute::_matches</a><code> [protected]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-<p>A pointer to the matches-vector </p>
-
-</div>
-</div>
 <a class="anchor" id="a4b0fe67b5e979423547defeeac28e9b6"></a><!-- doxytag: member="opengv::absolute_pose::MANoncentralAbsolute::_numberBearingVectors" ref="a4b0fe67b5e979423547defeeac28e9b6" args="" -->
 <div class="memitem">
 <div class="memproto">
@@ -338,20 +319,6 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="aeb967eb3f28c6ffc4f5723eb83d6db65"></a><!-- doxytag: member="opengv::absolute_pose::MANoncentralAbsolute::_useMatches" ref="aeb967eb3f28c6ffc4f5723eb83d6db65" args="" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool <a class="el" href="classopengv_1_1absolute__pose_1_1MANoncentralAbsolute.html#aeb967eb3f28c6ffc4f5723eb83d6db65">opengv::absolute_pose::MANoncentralAbsolute::_useMatches</a><code> [protected]</code></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-<p>Use matches or not? </p>
-
-</div>
-</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
 <li>include/opengv/absolute_pose/<a class="el" href="MANoncentralAbsolute_8hpp_source.html">MANoncentralAbsolute.hpp</a></li>
 </ul>
@@ -377,7 +344,7 @@ Protected Attributes</h2></td></tr>
       <li class="navelem"><a class="el" href="namespaceopengv_1_1absolute__pose.html">absolute_pose</a>      </li>
       <li class="navelem"><a class="el" href="classopengv_1_1absolute__pose_1_1MANoncentralAbsolute.html">MANoncentralAbsolute</a>      </li>
 
-    <li class="footer">Generated on Wed Oct 16 2013 10:55:41 for OpenGV by
+    <li class="footer">Generated on Tue Feb 18 2014 15:31:59 for OpenGV by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
    </ul>

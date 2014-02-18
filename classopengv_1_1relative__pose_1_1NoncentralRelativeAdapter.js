@@ -1,9 +1,8 @@
 var classopengv_1_1relative__pose_1_1NoncentralRelativeAdapter =
 [
-    [ "camCorrespondences_t", "classopengv_1_1relative__pose_1_1NoncentralRelativeAdapter.html#a6724fcd5ed88606d4bedac99b8c5b35e", null ],
-    [ "NoncentralRelativeAdapter", "classopengv_1_1relative__pose_1_1NoncentralRelativeAdapter.html#a75a862850271e3f8fde59c710d5fd325", null ],
-    [ "NoncentralRelativeAdapter", "classopengv_1_1relative__pose_1_1NoncentralRelativeAdapter.html#a907b64eef86dd337410b8236466ac0fd", null ],
-    [ "NoncentralRelativeAdapter", "classopengv_1_1relative__pose_1_1NoncentralRelativeAdapter.html#a0f09de32be1972d85fac5160b5fb4a13", null ],
+    [ "NoncentralRelativeAdapter", "classopengv_1_1relative__pose_1_1NoncentralRelativeAdapter.html#aced3f7cd25979ce64388e1df487375c8", null ],
+    [ "NoncentralRelativeAdapter", "classopengv_1_1relative__pose_1_1NoncentralRelativeAdapter.html#a0b63142ea028542d2cb33923450d06aa", null ],
+    [ "NoncentralRelativeAdapter", "classopengv_1_1relative__pose_1_1NoncentralRelativeAdapter.html#af5ebb933d903289188fb5d7d505650ae", null ],
     [ "~NoncentralRelativeAdapter", "classopengv_1_1relative__pose_1_1NoncentralRelativeAdapter.html#a0439fdd161b078ac5942d0e324b706bc", null ],
     [ "getBearingVector1", "classopengv_1_1relative__pose_1_1NoncentralRelativeAdapter.html#af1ac17412d0a4820e011a11c23ec3f93", null ],
     [ "getBearingVector2", "classopengv_1_1relative__pose_1_1NoncentralRelativeAdapter.html#a9484a89e5a87bf31a74181b80e998325", null ],
@@ -19,6 +18,5 @@ var classopengv_1_1relative__pose_1_1NoncentralRelativeAdapter =
     [ "_camCorrespondences2", "classopengv_1_1relative__pose_1_1NoncentralRelativeAdapter.html#a4b2fb70956195cf50d05a0ebfb2eb0d3", null ],
     [ "_camOffsets", "classopengv_1_1relative__pose_1_1NoncentralRelativeAdapter.html#a6bbc4d2705c9c422a10ea85b6b83daaf", null ],
     [ "_camRotations", "classopengv_1_1relative__pose_1_1NoncentralRelativeAdapter.html#a7c748f536eeba6b81de888171f2bf2ed", null ],
-    [ "_matches", "classopengv_1_1relative__pose_1_1NoncentralRelativeAdapter.html#a39759589b9e8a25bb26851f4c76889b9", null ],
-    [ "matches_t", "classopengv_1_1relative__pose_1_1NoncentralRelativeAdapter.html#acfbb83ae083fda697bcdbb3165e7491b", null ]
+    [ "camCorrespondences_t", "classopengv_1_1relative__pose_1_1NoncentralRelativeAdapter.html#a5aa2085e9700b68c5e761287b90e56bf", null ]
 ];

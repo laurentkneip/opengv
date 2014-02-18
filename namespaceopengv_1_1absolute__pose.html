@@ -126,6 +126,10 @@ Functions</h2></td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the pose of a non-central viewpoint using the gPnP method [3]. Using all available correspondences.  <a href="#a669fcacb5fe45f5c6eeac1da20eebf95"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceopengv.html#ae4d7f4755df10d5729299c16fdc92711">transformation_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceopengv_1_1absolute__pose.html#adcaa325abd2a3162869426cf59398416">gpnp</a> (const <a class="el" href="classopengv_1_1absolute__pose_1_1AbsoluteAdapterBase.html">AbsoluteAdapterBase</a> &amp;adapter, const std::vector&lt; int &gt; &amp;indices)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the pose of a non-central viewpoint using the gPnP method [3].  <a href="#adcaa325abd2a3162869426cf59398416"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceopengv.html#a4522f06559d6c410add628fc4ba5c210">transformations_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceopengv_1_1absolute__pose.html#af5b8a22250c87666eea6b3aac4a60163">upnp</a> (const <a class="el" href="classopengv_1_1absolute__pose_1_1AbsoluteAdapterBase.html">AbsoluteAdapterBase</a> &amp;adapter)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the poses of a non-central viewpoint using the uPnP method. Using all available correspondences.  <a href="#af5b8a22250c87666eea6b3aac4a60163"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceopengv.html#a4522f06559d6c410add628fc4ba5c210">transformations_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceopengv_1_1absolute__pose.html#a7a7c07204fa474c087fa5d2b9785c85e">upnp</a> (const <a class="el" href="classopengv_1_1absolute__pose_1_1AbsoluteAdapterBase.html">AbsoluteAdapterBase</a> &amp;adapter, const std::vector&lt; int &gt; &amp;indices)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the poses of a non-central viewpoint using the uPnP method.  <a href="#a7a7c07204fa474c087fa5d2b9785c85e"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceopengv.html#ae4d7f4755df10d5729299c16fdc92711">transformation_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceopengv_1_1absolute__pose.html#aa1e4b9c37be32dab978dd88ef72bc6f8">optimize_nonlinear</a> (const <a class="el" href="classopengv_1_1absolute__pose_1_1AbsoluteAdapterBase.html">AbsoluteAdapterBase</a> &amp;adapter)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the pose of a viewpoint using nonlinear optimization. Using all available correspondences. Works for central and non-central case.  <a href="#aa1e4b9c37be32dab978dd88ef72bc6f8"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceopengv.html#ae4d7f4755df10d5729299c16fdc92711">transformation_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceopengv_1_1absolute__pose.html#ad971f421f065da4619f6bdd5633f6bc1">optimize_nonlinear</a> (const <a class="el" href="classopengv_1_1absolute__pose_1_1AbsoluteAdapterBase.html">AbsoluteAdapterBase</a> &amp;adapter, const std::vector&lt; int &gt; &amp;indices)</td></tr>
@@ -189,7 +193,7 @@ Functions</h2></td></tr>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">adapter</td><td>Visitor holding bearing vector to world point correspondences. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">indices</td><td>Indices of the n correspondences that are used for deriving the pose. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">indices</td><td><a class="el" href="structopengv_1_1Indices.html">Indices</a> of the n correspondences that are used for deriving the pose. </td></tr>
   </table>
   </dd>
 </dl>
@@ -226,7 +230,7 @@ Functions</h2></td></tr>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">adapter</td><td>Visitor holding bearing vector to world point correspondences, plus the multi-camera configuration. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">indices</td><td>Indices of the three correspondences that are used for deriving the pose. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">indices</td><td><a class="el" href="structopengv_1_1Indices.html">Indices</a> of the three correspondences that are used for deriving the pose. </td></tr>
   </table>
   </dd>
 </dl>
@@ -340,7 +344,7 @@ Functions</h2></td></tr>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">adapter</td><td>Visitor holding bearing vector to world point correspondences, plus the multi-camera configuration. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">indices</td><td>Indices of the n correspondences that are used for deriving the pose. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">indices</td><td><a class="el" href="structopengv_1_1Indices.html">Indices</a> of the n correspondences that are used for deriving the pose. </td></tr>
   </table>
   </dd>
 </dl>
@@ -403,7 +407,7 @@ Functions</h2></td></tr>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">adapter</td><td>Visitor holding bearing vector to world point correspondences, the multi-camera configuration, plus the initial values. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">indices</td><td>Indices of the n correspondences that are used for deriving the pose. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">indices</td><td><a class="el" href="structopengv_1_1Indices.html">Indices</a> of the n correspondences that are used for deriving the pose. </td></tr>
   </table>
   </dd>
 </dl>
@@ -440,7 +444,7 @@ Functions</h2></td></tr>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">adapter</td><td>Visitor holding bearing vectors, world points, and known rotation. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">indices</td><td>Indices of the two correspondences that are used for deriving the translation. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">indices</td><td><a class="el" href="structopengv_1_1Indices.html">Indices</a> of the two correspondences that are used for deriving the translation. </td></tr>
   </table>
   </dd>
 </dl>
@@ -521,7 +525,7 @@ Functions</h2></td></tr>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">adapter</td><td>Visitor holding bearing vector to world point correspondences. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">indices</td><td>Indices of the three correspondences that are used for deriving the pose. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">indices</td><td><a class="el" href="structopengv_1_1Indices.html">Indices</a> of the three correspondences that are used for deriving the pose. </td></tr>
   </table>
   </dd>
 </dl>
@@ -609,11 +613,11 @@ Functions</h2></td></tr>
 <dl class="params"><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">adapter</td><td>Visitor holding bearing vector to world point correspondences. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">indices</td><td>Indices of the three correspondences that are used for deriving the pose. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">indices</td><td><a class="el" href="structopengv_1_1Indices.html">Indices</a> of the three correspondences that are used for deriving the pose. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>Poses of viewpoint (position seen from world frame and orientation from viewpoint to world frame, transforms points from viewpoint to world frame, maximum 4 solutions). </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>Poses of viewpoint (position seen from world frame and orientation from viewpoint to world frame, transforms points from viewpoint to world, frame, maximum 4 solutions). </dd></dl>
 
 </div>
 </div>
@@ -668,6 +672,69 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="af5b8a22250c87666eea6b3aac4a60163"></a><!-- doxytag: member="opengv::absolute_pose::upnp" ref="af5b8a22250c87666eea6b3aac4a60163" args="(const AbsoluteAdapterBase &amp;adapter)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespaceopengv.html#a4522f06559d6c410add628fc4ba5c210">transformations_t</a> <a class="el" href="namespaceopengv_1_1absolute__pose.html#af5b8a22250c87666eea6b3aac4a60163">opengv::absolute_pose::upnp</a> </td>
+          <td>(</td>
+          <td class="paramtype">const AbsoluteAdapterBase &amp;&#160;</td>
+          <td class="paramname"><em>adapter</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Compute the poses of a non-central viewpoint using the uPnP method. Using all available correspondences. </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">adapter</td><td>Visitor holding bearing vector to world point correspondences, plus the multi-camera configuration. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>Poses of viewpoint (position seen from world frame and orientation from viewpoint to world frame, transforms points from viewpoint to world frame). </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a7a7c07204fa474c087fa5d2b9785c85e"></a><!-- doxytag: member="opengv::absolute_pose::upnp" ref="a7a7c07204fa474c087fa5d2b9785c85e" args="(const AbsoluteAdapterBase &amp;adapter, const std::vector&lt; int &gt; &amp;indices)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespaceopengv.html#a4522f06559d6c410add628fc4ba5c210">transformations_t</a> <a class="el" href="namespaceopengv_1_1absolute__pose.html#af5b8a22250c87666eea6b3aac4a60163">opengv::absolute_pose::upnp</a> </td>
+          <td>(</td>
+          <td class="paramtype">const AbsoluteAdapterBase &amp;&#160;</td>
+          <td class="paramname"><em>adapter</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; int &gt; &amp;&#160;</td>
+          <td class="paramname"><em>indices</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Compute the poses of a non-central viewpoint using the uPnP method. </p>
+<dl class="params"><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">adapter</td><td>Visitor holding bearing vector to world point correspondences, plus the multi-camera configuration. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">indices</td><td><a class="el" href="structopengv_1_1Indices.html">Indices</a> of the n correspondences that are used for deriving the pose. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>Poses of viewpoint (position seen from world frame and orientation from viewpoint to world frame, transforms points from viewpoint to world frame). </dd></dl>
+
+</div>
+</div>
 </div><!-- contents -->
 </div>
 <!-- window showing the filter options -->
@@ -689,7 +756,7 @@ Functions</h2></td></tr>
       <li class="navelem"><a class="el" href="namespaceopengv.html">opengv</a>      </li>
       <li class="navelem"><a class="el" href="namespaceopengv_1_1absolute__pose.html">absolute_pose</a>      </li>
 
-    <li class="footer">Generated on Wed Oct 16 2013 10:55:41 for OpenGV by
+    <li class="footer">Generated on Tue Feb 18 2014 15:31:58 for OpenGV by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
    </ul>

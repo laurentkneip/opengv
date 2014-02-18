@@ -1,5 +1,6 @@
 var files =
 [
+    [ "include/opengv/Indices.hpp", "Indices_8hpp.html", null ],
     [ "include/opengv/OptimizationFunctor.hpp", "OptimizationFunctor_8hpp.html", null ],
     [ "include/opengv/types.hpp", "types_8hpp.html", "types_8hpp" ],
     [ "include/opengv/absolute_pose/AbsoluteAdapterBase.hpp", "AbsoluteAdapterBase_8hpp.html", null ],
@@ -10,6 +11,8 @@ var files =
     [ "include/opengv/absolute_pose/NoncentralAbsoluteAdapter.hpp", "NoncentralAbsoluteAdapter_8hpp.html", null ],
     [ "include/opengv/math/arun.hpp", "arun_8hpp.html", "arun_8hpp" ],
     [ "include/opengv/math/cayley.hpp", "cayley_8hpp.html", "cayley_8hpp" ],
+    [ "include/opengv/math/gauss_jordan.hpp", "gauss__jordan_8hpp.html", "gauss__jordan_8hpp" ],
+    [ "include/opengv/math/quaternion.hpp", "quaternion_8hpp.html", "quaternion_8hpp" ],
     [ "include/opengv/math/roots.hpp", "roots_8hpp.html", "roots_8hpp" ],
     [ "include/opengv/math/Sturm.hpp", "Sturm_8hpp.html", null ],
     [ "include/opengv/point_cloud/MAPointCloud.hpp", "MAPointCloud_8hpp.html", null ],

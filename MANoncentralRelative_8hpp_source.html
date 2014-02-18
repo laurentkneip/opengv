@@ -143,40 +143,31 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00076"></a>00076       <span class="keyword">const</span> <span class="keywordtype">double</span> * bearingVectors2,
 <a name="l00077"></a>00077       <span class="keywordtype">int</span> numberBearingVectors1,
 <a name="l00078"></a>00078       <span class="keywordtype">int</span> numberBearingVectors2 );
-<a name="l00079"></a>00079   
-<a name="l00083"></a>00083   <a class="code" href="classopengv_1_1relative__pose_1_1MANoncentralRelative.html#ac031b7364ed60fd4c5f98ead5a81c5a1" title="Constructor. See protected class-members to understand parameters.">MANoncentralRelative</a>(
-<a name="l00084"></a>00084       <span class="keyword">const</span> <span class="keywordtype">double</span> * bearingVectors1,
-<a name="l00085"></a>00085       <span class="keyword">const</span> <span class="keywordtype">double</span> * bearingVectors2,
-<a name="l00086"></a>00086       <span class="keyword">const</span> <span class="keywordtype">double</span> * matches,
-<a name="l00087"></a>00087       <span class="keywordtype">int</span> numberBearingVectors1,
-<a name="l00088"></a>00088       <span class="keywordtype">int</span> numberBearingVectors2 );
-<a name="l00089"></a>00089 
-<a name="l00093"></a>00093   <span class="keyword">virtual</span> <a class="code" href="classopengv_1_1relative__pose_1_1MANoncentralRelative.html#a29d4291054bf54bfa4d5508ab1956ab4" title="Destructor.">~MANoncentralRelative</a>();
-<a name="l00094"></a>00094 
-<a name="l00095"></a>00095   <span class="comment">//Access of correspondences</span>
-<a name="l00096"></a>00096   
-<a name="l00098"></a>00098   <span class="keyword">virtual</span> <a class="code" href="namespaceopengv.html#abec89b050125b2ca9bc46a09a14656ea">bearingVector_t</a> <a class="code" href="classopengv_1_1relative__pose_1_1MANoncentralRelative.html#a732c2836f5be778069d673eb00c69ec8">getBearingVector1</a>( <span class="keywordtype">size_t</span> index ) <span class="keyword">const</span>;
-<a name="l00100"></a>00100   <span class="keyword">virtual</span> <a class="code" href="namespaceopengv.html#abec89b050125b2ca9bc46a09a14656ea">bearingVector_t</a> <a class="code" href="classopengv_1_1relative__pose_1_1MANoncentralRelative.html#a3d5fa5808cd1a8cdfc8d606e24f4f91f">getBearingVector2</a>( <span class="keywordtype">size_t</span> index ) <span class="keyword">const</span>;
-<a name="l00102"></a>00102   <span class="keyword">virtual</span> <span class="keywordtype">double</span> <a class="code" href="classopengv_1_1relative__pose_1_1MANoncentralRelative.html#a1fb22033a70f96cfc6f12cbb7bc2600c">getWeight</a>( <span class="keywordtype">size_t</span> index ) <span class="keyword">const</span>;
-<a name="l00104"></a>00104   <span class="keyword">virtual</span> <a class="code" href="namespaceopengv.html#abba454dc7125a489191f32645216a1a5">translation_t</a> <a class="code" href="classopengv_1_1relative__pose_1_1MANoncentralRelative.html#a0504bf6d78d057dbc204628b68eaeb01">getCamOffset1</a>( <span class="keywordtype">size_t</span> index ) <span class="keyword">const</span>;
-<a name="l00106"></a>00106   <span class="keyword">virtual</span> <a class="code" href="namespaceopengv.html#a8df9be48bee2fbd07982bb70084f7743">rotation_t</a> <a class="code" href="classopengv_1_1relative__pose_1_1MANoncentralRelative.html#a2ec1b174139eb319fcb4561c223f6830">getCamRotation1</a>( <span class="keywordtype">size_t</span> index ) <span class="keyword">const</span>;
-<a name="l00108"></a>00108   <span class="keyword">virtual</span> <a class="code" href="namespaceopengv.html#abba454dc7125a489191f32645216a1a5">translation_t</a> <a class="code" href="classopengv_1_1relative__pose_1_1MANoncentralRelative.html#a0f9e419068e03f8e784a8bea94109219">getCamOffset2</a>( <span class="keywordtype">size_t</span> index ) <span class="keyword">const</span>;
-<a name="l00110"></a>00110   <span class="keyword">virtual</span> <a class="code" href="namespaceopengv.html#a8df9be48bee2fbd07982bb70084f7743">rotation_t</a> <a class="code" href="classopengv_1_1relative__pose_1_1MANoncentralRelative.html#a15ef1b4c89dd52b9e696660e9422218c">getCamRotation2</a>( <span class="keywordtype">size_t</span> index ) <span class="keyword">const</span>;
-<a name="l00112"></a>00112   <span class="keyword">virtual</span> <span class="keywordtype">size_t</span> <a class="code" href="classopengv_1_1relative__pose_1_1MANoncentralRelative.html#af6d0ec5315893a826af2df5af9ff984d">getNumberCorrespondences</a>() <span class="keyword">const</span>;
-<a name="l00113"></a>00113 
-<a name="l00114"></a>00114 <span class="keyword">protected</span>:
-<a name="l00116"></a><a class="code" href="classopengv_1_1relative__pose_1_1MANoncentralRelative.html#a06b31826cfdbcf522d3aaeb0c324e9c4">00116</a>   <span class="keyword">const</span> <span class="keywordtype">double</span> * <a class="code" href="classopengv_1_1relative__pose_1_1MANoncentralRelative.html#a06b31826cfdbcf522d3aaeb0c324e9c4">_bearingVectors1</a>;
-<a name="l00118"></a><a class="code" href="classopengv_1_1relative__pose_1_1MANoncentralRelative.html#a2287f06b5a361d5129ad22ea8c4c0387">00118</a>   <span class="keyword">const</span> <span class="keywordtype">double</span> * <a class="code" href="classopengv_1_1relative__pose_1_1MANoncentralRelative.html#a2287f06b5a361d5129ad22ea8c4c0387">_bearingVectors2</a>;
-<a name="l00120"></a><a class="code" href="classopengv_1_1relative__pose_1_1MANoncentralRelative.html#ada43f6f228b5ecea7dc440bdd61e78f4">00120</a>   <span class="keyword">const</span> <span class="keywordtype">double</span> * <a class="code" href="classopengv_1_1relative__pose_1_1MANoncentralRelative.html#ada43f6f228b5ecea7dc440bdd61e78f4">_matches</a>;
-<a name="l00122"></a><a class="code" href="classopengv_1_1relative__pose_1_1MANoncentralRelative.html#afdb0eb9b3c6f79184b8d5687b082d5dd">00122</a>   <span class="keywordtype">int</span> <a class="code" href="classopengv_1_1relative__pose_1_1MANoncentralRelative.html#afdb0eb9b3c6f79184b8d5687b082d5dd">_numberBearingVectors1</a>;
-<a name="l00124"></a><a class="code" href="classopengv_1_1relative__pose_1_1MANoncentralRelative.html#a4ac3fc0b29e64e49041beea2eeabad93">00124</a>   <span class="keywordtype">int</span> <a class="code" href="classopengv_1_1relative__pose_1_1MANoncentralRelative.html#a4ac3fc0b29e64e49041beea2eeabad93">_numberBearingVectors2</a>;
-<a name="l00126"></a><a class="code" href="classopengv_1_1relative__pose_1_1MANoncentralRelative.html#a8eb9d0783f0bd0395aaa0a0160913530">00126</a>   <span class="keywordtype">bool</span> <a class="code" href="classopengv_1_1relative__pose_1_1MANoncentralRelative.html#a8eb9d0783f0bd0395aaa0a0160913530">_useMatches</a>;
-<a name="l00127"></a>00127 };
-<a name="l00128"></a>00128 
-<a name="l00129"></a>00129 }
-<a name="l00130"></a>00130 }
-<a name="l00131"></a>00131 
-<a name="l00132"></a>00132 <span class="preprocessor">#endif </span><span class="comment">/* OPENGV_RELATIVE_POSE_MANONCENTRALRELATIVE_HPP_ */</span>
+<a name="l00079"></a>00079 
+<a name="l00083"></a>00083   <span class="keyword">virtual</span> <a class="code" href="classopengv_1_1relative__pose_1_1MANoncentralRelative.html#a29d4291054bf54bfa4d5508ab1956ab4" title="Destructor.">~MANoncentralRelative</a>();
+<a name="l00084"></a>00084 
+<a name="l00085"></a>00085   <span class="comment">//Access of correspondences</span>
+<a name="l00086"></a>00086   
+<a name="l00088"></a>00088   <span class="keyword">virtual</span> <a class="code" href="namespaceopengv.html#abec89b050125b2ca9bc46a09a14656ea">bearingVector_t</a> <a class="code" href="classopengv_1_1relative__pose_1_1MANoncentralRelative.html#a732c2836f5be778069d673eb00c69ec8">getBearingVector1</a>( <span class="keywordtype">size_t</span> index ) <span class="keyword">const</span>;
+<a name="l00090"></a>00090   <span class="keyword">virtual</span> <a class="code" href="namespaceopengv.html#abec89b050125b2ca9bc46a09a14656ea">bearingVector_t</a> <a class="code" href="classopengv_1_1relative__pose_1_1MANoncentralRelative.html#a3d5fa5808cd1a8cdfc8d606e24f4f91f">getBearingVector2</a>( <span class="keywordtype">size_t</span> index ) <span class="keyword">const</span>;
+<a name="l00092"></a>00092   <span class="keyword">virtual</span> <span class="keywordtype">double</span> <a class="code" href="classopengv_1_1relative__pose_1_1MANoncentralRelative.html#a1fb22033a70f96cfc6f12cbb7bc2600c">getWeight</a>( <span class="keywordtype">size_t</span> index ) <span class="keyword">const</span>;
+<a name="l00094"></a>00094   <span class="keyword">virtual</span> <a class="code" href="namespaceopengv.html#abba454dc7125a489191f32645216a1a5">translation_t</a> <a class="code" href="classopengv_1_1relative__pose_1_1MANoncentralRelative.html#a0504bf6d78d057dbc204628b68eaeb01">getCamOffset1</a>( <span class="keywordtype">size_t</span> index ) <span class="keyword">const</span>;
+<a name="l00096"></a>00096   <span class="keyword">virtual</span> <a class="code" href="namespaceopengv.html#a8df9be48bee2fbd07982bb70084f7743">rotation_t</a> <a class="code" href="classopengv_1_1relative__pose_1_1MANoncentralRelative.html#a2ec1b174139eb319fcb4561c223f6830">getCamRotation1</a>( <span class="keywordtype">size_t</span> index ) <span class="keyword">const</span>;
+<a name="l00098"></a>00098   <span class="keyword">virtual</span> <a class="code" href="namespaceopengv.html#abba454dc7125a489191f32645216a1a5">translation_t</a> <a class="code" href="classopengv_1_1relative__pose_1_1MANoncentralRelative.html#a0f9e419068e03f8e784a8bea94109219">getCamOffset2</a>( <span class="keywordtype">size_t</span> index ) <span class="keyword">const</span>;
+<a name="l00100"></a>00100   <span class="keyword">virtual</span> <a class="code" href="namespaceopengv.html#a8df9be48bee2fbd07982bb70084f7743">rotation_t</a> <a class="code" href="classopengv_1_1relative__pose_1_1MANoncentralRelative.html#a15ef1b4c89dd52b9e696660e9422218c">getCamRotation2</a>( <span class="keywordtype">size_t</span> index ) <span class="keyword">const</span>;
+<a name="l00102"></a>00102   <span class="keyword">virtual</span> <span class="keywordtype">size_t</span> <a class="code" href="classopengv_1_1relative__pose_1_1MANoncentralRelative.html#af6d0ec5315893a826af2df5af9ff984d">getNumberCorrespondences</a>() <span class="keyword">const</span>;
+<a name="l00103"></a>00103 
+<a name="l00104"></a>00104 <span class="keyword">protected</span>:
+<a name="l00106"></a><a class="code" href="classopengv_1_1relative__pose_1_1MANoncentralRelative.html#a06b31826cfdbcf522d3aaeb0c324e9c4">00106</a>   <span class="keyword">const</span> <span class="keywordtype">double</span> * <a class="code" href="classopengv_1_1relative__pose_1_1MANoncentralRelative.html#a06b31826cfdbcf522d3aaeb0c324e9c4">_bearingVectors1</a>;
+<a name="l00108"></a><a class="code" href="classopengv_1_1relative__pose_1_1MANoncentralRelative.html#a2287f06b5a361d5129ad22ea8c4c0387">00108</a>   <span class="keyword">const</span> <span class="keywordtype">double</span> * <a class="code" href="classopengv_1_1relative__pose_1_1MANoncentralRelative.html#a2287f06b5a361d5129ad22ea8c4c0387">_bearingVectors2</a>;
+<a name="l00110"></a><a class="code" href="classopengv_1_1relative__pose_1_1MANoncentralRelative.html#afdb0eb9b3c6f79184b8d5687b082d5dd">00110</a>   <span class="keywordtype">int</span> <a class="code" href="classopengv_1_1relative__pose_1_1MANoncentralRelative.html#afdb0eb9b3c6f79184b8d5687b082d5dd">_numberBearingVectors1</a>;
+<a name="l00112"></a><a class="code" href="classopengv_1_1relative__pose_1_1MANoncentralRelative.html#a4ac3fc0b29e64e49041beea2eeabad93">00112</a>   <span class="keywordtype">int</span> <a class="code" href="classopengv_1_1relative__pose_1_1MANoncentralRelative.html#a4ac3fc0b29e64e49041beea2eeabad93">_numberBearingVectors2</a>;
+<a name="l00113"></a>00113 };
+<a name="l00114"></a>00114 
+<a name="l00115"></a>00115 }
+<a name="l00116"></a>00116 }
+<a name="l00117"></a>00117 
+<a name="l00118"></a>00118 <span class="preprocessor">#endif </span><span class="comment">/* OPENGV_RELATIVE_POSE_MANONCENTRALRELATIVE_HPP_ */</span>
 </pre></div></div><!-- contents -->
 </div>
 <!-- window showing the filter options -->
@@ -197,7 +188,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul>
       <li class="navelem"><a class="el" href="MANoncentralRelative_8hpp.html">MANoncentralRelative.hpp</a>      </li>
 
-    <li class="footer">Generated on Wed Oct 16 2013 10:55:40 for OpenGV by
+    <li class="footer">Generated on Tue Feb 18 2014 15:31:57 for OpenGV by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
    </ul>
