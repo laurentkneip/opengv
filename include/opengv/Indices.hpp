@@ -55,26 +55,46 @@ namespace opengv
  */
 struct Indices
 {
+  /** Indexing into vector of indices? */
   bool _useIndices;
+  /** Pointer to a vector of indices (if used) */
   const std::vector<int> * _indices;
+  /** The number of correspondences */
   size_t _numberCorrespondences;
 
+  /**
+   * \brief Constructor using index-vector.
+   * \param[in] indices The index-vector.
+   */
   Indices( const std::vector<int> & indices) :
     _useIndices(true),
     _indices(&indices),
     _numberCorrespondences(indices.size())
   {}
 
+  /**
+   * \brief Constructor without index-vector (uses all correspondences).
+   * \param[in] numberCorrespondences The number of correspondences.
+   */
   Indices(size_t numberCorrespondences) :
       _useIndices(false),
       _numberCorrespondences(numberCorrespondences)
   {}
 
+  /**
+   * \brief Get the number of correspondences.
+   * \return The number of correspondences.
+   */
   size_t size() const
   {
     return _numberCorrespondences;
   }
 
+  /**
+   * \brief Get an index.
+   * \param[in] i The index.
+   * \return The index (either directly or from the index-vector).
+   */
   int operator[](int i) const
   {
     if( _useIndices )

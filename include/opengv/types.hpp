@@ -154,6 +154,8 @@ typedef struct EigensolverOutput
   eigenvectors_t  eigenvectors;
 } eigensolverOutput_t;
 
+/** GeOutput holds the output-parameters of ge
+ */
 typedef struct GeOutput
 {
   EIGEN_MAKE_ALIGNED_OPERATOR_NEW
