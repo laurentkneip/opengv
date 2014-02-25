@@ -116,7 +116,7 @@ int main( int argc, char** argv )
   gettimeofday( &toc, 0 );
   double ransac_time = TIMETODOUBLE(timeval_minus(toc,tic));
 
-  //do final pollishing of the model over all inliers
+  //do final polishing of the model over all inliers
   sac_problems::relative_pose::EigensolverSacProblem::model_t optimizedModel;
   eigenproblem_ptr->optimizeModelCoefficients(
       ransac.inliers_,
