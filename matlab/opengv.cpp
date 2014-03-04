@@ -113,7 +113,6 @@ static const char* methods[]=
   "sixpt",                    //  5
   "seventeenpt",              // 11
   "ge",                       //  2
-  "ge2",                      //  3
   "sixpt_ransac",             // 12
   "seventeenpt_ransac",       // 18
   "ge_ransac",                //  9
@@ -127,7 +126,7 @@ static const char* methods[]=
 // The length of the method strings (needed for comparison)
 static const int methodsLengths[] =
     { 3,9,7,4,16,14,11,18,4,11,4,21,5,18,12,16,13,12,
-	  7,7,11,19,23,20,14,14,18,18,5,11,2,3,12,18,9,21,12,19 };
+	  7,7,11,19,23,20,14,14,18,18,5,11,2,12,18,9,21,12,19 };
 
 static const int absCentralFirst    =  0;
 static const int absCentralLast     =  7;
@@ -136,9 +135,9 @@ static const int absNoncentralLast  = 11;
 static const int relCentralFirst    = 12;
 static const int relCentralLast     = 27;
 static const int relNoncentralFirst = 28;
-static const int relNoncentralLast  = 35;
-static const int pointCloudFirst    = 36;
-static const int pointCloudLast     = 37;
+static const int relNoncentralLast  = 34;
+static const int pointCloudFirst    = 35;
+static const int pointCloudLast     = 36;
 
 // The number of methods (needed for comparison)
 static const int numberMethods = pointCloudLast + 1;
@@ -176,7 +175,6 @@ enum Method
   SIXPT,
   SEVENTEENPT,
   GE,
-  GE2,
   SIXPT_RANSAC,
   SEVENTEENPT_RANSAC,
   GE_RANSAC,
@@ -1172,23 +1170,6 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
       dims[1] = 3;
       plhs[0] = mxCreateNumericArray(2, dims, mxDOUBLE_CLASS, mxREAL);
       memcpy(mxGetData(plhs[0]),temp.data(), 9*sizeof(double));
-      break;
-    }
-    case GE2:
-    {
-      Eigen::Matrix<double,4,5> temp;
-      opengv::geOutput_t output;
-      output.rotation = relativeAdapter->getR12();
-      opengv::rotation_t solution = opengv::relative_pose::ge2(*relativeAdapter,indices,output);
-      
-      temp.block<4,4>(0,0) = output.eigenvectors;
-      temp.block<3,3>(0,0) = solution;
-      temp.col(4) = output.eigenvalues;
-      int dims[2];
-      dims[0] = 4;
-      dims[1] = 5;
-      plhs[0] = mxCreateNumericArray(2, dims, mxDOUBLE_CLASS, mxREAL);
-      memcpy(mxGetData(plhs[0]),temp.data(), 20*sizeof(double));
       break;
     }
     case SIXPT_RANSAC:
