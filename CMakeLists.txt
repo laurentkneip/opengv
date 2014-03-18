@@ -28,8 +28,9 @@ IF(WIN32)
   set(ADDITIONAL_INCLUDE_DIRS ${Eigen_INCLUDE_DIRS}
                               ${PROJECT_SOURCE_DIR}/third_party/boost )
 ELSE()
+  list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
   find_package(Eigen REQUIRED)
-  set(ADDITIONAL_INCLUDE_DIRS ${Eigen_INCLUDE_DIRS} )
+  set(ADDITIONAL_INCLUDE_DIRS ${EIGEN_INCLUDE_DIRS} )
 ENDIF()
 
 include_directories(${ADDITIONAL_INCLUDE_DIRS} ${PROJECT_SOURCE_DIR}/include)
