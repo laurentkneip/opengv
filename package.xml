@@ -1,0 +1,22 @@
+
+<package>
+  <name>opengv</name>
+  <version>1.0.0</version>
+  <description>
+
+    opengv
+
+  </description>
+  
+  <maintainer email="laurent.kneip@anu.edu.au">Laurent Kneip</maintainer>
+  <license>FreeBSD</license>
+
+  <author>Laurent Kneip</author>
+  <url>http://ros.org/wiki/opengv</url>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>roscpp</build_depend>
+  <run_depend>roscpp</run_depend>
+
+</package>

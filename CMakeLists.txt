@@ -12,12 +12,18 @@ set (OPENGV_VERSION_MINOR 0)
 #  RelWithDebInfo (CMAKE_C_FLAGS_RELWITHDEBINFO or CMAKE_CXX_FLAGS_RELWITHDEBINFO
 #  MinSizeRel (CMAKE_C_FLAGS_MINSIZEREL or CMAKE_CXX_FLAGS_MINSIZEREL) 
 
+FIND_PACKAGE(catkin REQUIRED COMPONENTS roscpp)
 set(CMAKE_BUILD_TYPE Release)
-
+catkin_package(
+    DEPENDS Eigen
+    CATKIN_DEPENDS roscpp
+    INCLUDE_DIRS include
+    LIBRARIES opengv
+)
 #set the default path for built executables to the "bin" directory
-set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
+#set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 #set the default path for built libraries to the "lib" directory
-set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
+#set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 
 add_definitions (-Wall -march=native -O3) #TODO use correct c++11 def once everybody has moved to gcc 4.7 # for now I even removed std=gnu++0x
 
