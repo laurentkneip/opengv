@@ -54,6 +54,7 @@ opengv::sac_problems::
     solution.block<3,3>(0,0) = rotation * R_bc.transpose();
 
     solutions.push_back(solution);
+    break;
   }
   case KNEIP:
   {
