@@ -54,6 +54,7 @@ opengv::sac_problems::
     solution.block<3,3>(0,0) = rotation * R_bc.transpose();
 
     solutions.push_back(solution);
+    break;
   }
   case KNEIP:
   {
@@ -105,6 +106,7 @@ opengv::sac_problems::
     solution.block<3,3>(0,0) = rotation * R_bc.transpose();
 
     solutions.push_back(solution);
+    break;
   }
   case GP3P:
   {
@@ -112,7 +114,13 @@ opengv::sac_problems::
     break;
   }
   }
-
+  
+  if( solutions.size() == 1 )
+  {
+    outModel = solutions[0];
+    return true;
+  }
+  
   //now compute reprojection error of fourth point, in order to find the right one
   double minScore = 1000000.0;
   int minIndex = -1;

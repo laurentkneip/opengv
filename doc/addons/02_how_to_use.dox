@@ -1,6 +1,6 @@
 /** \page page_how_to_use How to use
  *
- * This page gives an introduction to the usage of OpenGV including a description of the interface and explicit examples. However, in order to have a smooth communication and full understanding of the functionality and documentation of the library, we first need to clearly define the meaning of a couple of words in the present context. 
+ * This page gives an introduction to the usage of OpenGV including a description of the interface and explicit examples. More information can be found in [17]. However, in order to have a smooth communication and full understanding of the functionality and documentation of the library, we first need to clearly define the meaning of a couple of words in the present context. 
  *
  * \section sec_vocabulary Vocabulary
  * 
@@ -69,7 +69,7 @@
 \code
 // create the central adapter
 absolute_pose::CentralAbsoluteAdapter adapter(
-    bearingVectors, points, matches );
+    bearingVectors, points );
 
 // Kneip's P2P (uses rotation from adapter)
 adapter.setR( knownRotation );
@@ -100,7 +100,7 @@ transformation_t nonlinear_transformation =
 \code
 // create the central adapter
 absolute_pose::CentralAbsoluteAdapter adapter(
-    bearingVectors, points, matches );
+    bearingVectors, points );
 
 // create a Ransac object
 sac::Ransac<sac_problems::absolute_pose::AbsolutePoseSacProblem> ransac;
@@ -138,7 +138,6 @@ absolute_pose::NoncentralAbsoluteAdapter adapter(
     bearingVectors,
     camCorrespondences,
     points,
-    matches,
     camOffsets,
     camRotations );
 
@@ -165,7 +164,6 @@ absolute_pose::NoncentralAbsoluteAdapter adapter(
     bearingVectors,
     camCorrespondences,
     points,
-    matches,
     camOffsets,
     camRotations );
 
@@ -201,7 +199,7 @@ transformation_t best_transformation =
 \code
 // create the central relative adapter
 relative_pose::CentralRelativeAdapter adapter(
-    bearingVectors1, bearingVectors2, matches );
+    bearingVectors1, bearingVectors2 );
 
 // Relative translation with only two point-correspondences
 // (no or known rotation)
@@ -246,7 +244,7 @@ transformation_t nonlinear_transformation =
 \code
 // create the central relative adapter
 relative_pose::CentralRelativeAdapter adapter(
-    bearingVectors1, bearingVectors2, matches );
+    bearingVectors1, bearingVectors2 );
 
 // create a RANSAC object
 sac::Ransac<sac_problems::relative_pose::CentralRelativePoseSacProblem> ransac;
@@ -277,7 +275,7 @@ transformation_t best_transformation =
  * \image html relative_noncentral.png
  * \image latex relative_noncentral.pdf "" width=0.8\columnwidth
  *
- * There is only one non-central relative pose method in the library for the moment, the 17-point algorithm by Li [12]. It can be used with an arbitrary number of points. "optimize_nonlinear" is again able to also handle the non-central case. Here's how to use these methods:
+ * There are three non-central relative pose methods in the library, the 17-point algorithm by Li [12], the 6-point method by Stewenius [16], and the new generalized eigensolver. The 17-point algorithm as well as the generalized eigensolver can be used with an arbitrary number of points. The 6-point algorithm is usable with only 6-points exactly. "optimize_nonlinear" is again able to also handle the non-central case. Here's how to use these methods:
  *
 \code
 // create the non-central relative adapter
@@ -286,9 +284,18 @@ relative_pose::NoncentralRelativeAdapter adapter(
     bearingVectors2,
     camCorrespondences1,
     camCorrespondences2,
-    matches,
     camOffsets,
     camRotations );
+
+// 6-point algorithm
+rotations_t sixpt_rotations =
+    relative_pose::sixpt( adapter, indices );
+
+// generalized eigensolver (over all points)
+geOutput_t output;
+relative_pose::ge(adapter,output);
+translation_t ge_translation = output.translation.block<3,1>(0,0);
+rotation_t ge_rotation = output.rotation;
 
 // 17-point algorithm
 transformation_t seventeenpt_transformation =
@@ -301,7 +308,7 @@ transformation_t nonlinear_transformation =
     relative_pose::optimize_nonlinear(adapter);
 \endcode
  *
- * The 17-point algorithm is also available in a sample-consensus scheme:
+ * All algorithms are also available in a sample-consensus scheme:
  *
 \code
 // create the non-central relative adapter
@@ -310,7 +317,6 @@ relative_pose::NoncentralRelativeAdapter adapter(
     bearingVectors2,
     camCorrespondences1,
     camCorrespondences2,
-    matches,
     camOffsets,
     camRotations );
 
@@ -322,7 +328,9 @@ sac::Ransac<sac_problems::relative_pose::NoncentralRelativePoseSacProblem>
 boost::shared_ptr<
     sac_problems::relative_pose::NoncentralRelativePoseSacProblem>
     relposeproblem_ptr(
-    new sac_problems::relative_pose::NoncentralRelativePoseSacProblem(adapter)
+    new sac_problems::relative_pose::NoncentralRelativePoseSacProblem(
+    adapter,
+    sac_problems::relative_pose::NoncentralRelativePoseSacProblem::SEVENTEENPT)
     );
 
 // run ransac
@@ -336,7 +344,7 @@ transformation_t best_transformation =
     ransac.model_coefficients_;
 \endcode
  *
- * These examples are taken from test_noncentral_relative_pose.cpp and test_noncentral_relative_pose_sac.cpp.
+ * These examples are taken from test_noncentral_relative_pose.cpp and test_noncentral_relative_pose_sac.cpp. Simply set SEVENTEENPT to GE or SIXPT in order to use the alternative algorithms.
  *
  * <li> <b>Triangulation of points:</b> OpenGV contains two methods for triangulating points. They are currently only designed for the central case, and compute the position of a point expressed in the first camera given a 2D-2D correspondence between bearing vectors from two cameras. The methods reuse the relative adapter, which need to hold the transformation between the cameras given by the position \f$ \mathbf{t}_{c'}^{c} \f$ of the second camera seen from the first one and the rotation \f$ \mathbf{R}_{c'}^{c} \f$ from the second camera back to the first camera frame.
  *
@@ -351,7 +359,6 @@ transformation_t best_transformation =
 relative_pose::CentralRelativeAdapter adapter(
     bearingVectors1,
     bearingVectors2,
-    matches,
     translation,
     rotation );
 
@@ -376,7 +383,7 @@ point_t point =
 \code
 // create the 3D-3D adapter
 point_cloud::PointCloudAdapter adapter(
-    points1, points2, matches );
+    points1, points2 );
 
 // run threept_arun
 transformation_t threept_transformation =
@@ -392,7 +399,7 @@ transformation_t nonlinear_transformation =
 \code
 // create a 3D-3D adapter
 point_cloud::PointCloudAdapter adapter(
-    points1, points2, matches );
+    points1, points2 );
 
 // create a RANSAC object
 sac::Ransac<sac_problems::point_cloud::PointCloudSacProblem> ransac;
@@ -472,5 +479,75 @@ ransac.threshold_ = 1.0 - cos(atan(sqrt(2.0)*0.5/800.0));
  * </ul>
  *
  * All this stuff is highly experimental, so you probably shouldn't pay too much attention to it for the moment ;)
+ *
+ * \section sec_matlab_syntax The Matlab-sytax
+ *
+ * All algorithms are ported to Matlab via one interface file only. The syntax is as follows:
+ *
+ * <ul>
+ * <li>X = opengv ( method, data1, data2 )
+ * <li>X = opengv ( method, indices, data1, data2 )
+ * <li>X = opengv ( method, indices, data1, data2, prior )
+ * </ul>
+ *
+ * where
+ * <ul>
+ * <li> method is a string that characterizes the algorithm to use. It can be one of the following:
+ *
+\verbatim
+absolute pose methods:
+'p2p', 'p3p_kneip', 'p3p_gao', 'epnp', 'p3p_kneip_ransac', 'p3p_gao_ransac', 'epnp_ransac', 'abs_nonlin_central', 'gp3p', 'gp3p_ransac', 'gpnp', 'abs_nonlin_noncentral'.
+
+relative pose methods:
+'twopt', 'twopt_rotationOnly', 'rotationOnly', 'fivept_stewenius', 'fivept_nister', 'fivept_kneip', 'sevenpt', 'eightpt', 'eigensolver', 'rotationOnly_ransac',
+'fivept_stewenius_ransac', 'fivept_nister_ransac', 'sevenpt_ransac', 'eightpt_ransac', 'eigensolver_ransac', 'rel_nonlin_central', 'sixpt', 'seventeenpt',
+'ge', 'sixpt_ransac', 'seventeenpt_ransac', 'ge_ransac', 'rel_nonlin_noncentral'.
+
+point_cloud methods:
+'threept_arun', 'threept_arun_ransac'.
+\endverbatim
+ *
+ * <li> data1, data2 are matched points (each one of dimension 3xn or 6xn). They are 3xn in the central case (only containing normalized bearing vectors), or 6xn in the non-central case,
+ *      where they then also contain the position of the camera in the body frame in rows 4:6. Note that there is no camera orientation in the matlab syntax, the bearing vectors are
+ *      supposed to be prerotated into the body frame (only rotated!).
+ * <li> indices is a subset of correspondences that we plan to use for the computation.
+ * <li> prior is a 3x1 (translation), 3x3 (rotation), or 3x4 ([R t]-transformation) holding a prior value for the transformation to compute.
+ * <li> The return value X is a 3xnxm-matrix, where n is the second dimensionality of the solution space, and m is the number of solutions.
+ * </ul>
+ *
+ * The Matlab wrapper includes rather exhaustive checking of command validity. More algorithms are planned for inclusion.
+ * 
+ * \section sec_benchmarks Automatic benchmarking of algorithms
+ *
+ * Perhaps the nicest thing about the Matlab-code is that it includes automatic benchmarks for all algorithms. The subfolder matlab/helpers contains useful functions for the benchmarks.
+ * The most important ones are:
+ *
+ * <ul>
+ * <li> create2D2DExperiment.m: Lets you create a random relative pose problem, meaning correspondences in two viewpoints using desired number of cameras, number of correspondences,
+ *      outlier ratio, and noise. It returns the observations in both viewpoints, plus the ground truth values for the relative transformation parameters. It automatically returns
+ *      measurement data for the central or the noncentral case depending on how many cameras are configured.
+ * <li> create2D3DExperiment.m: Does pretty much the same thing, however for the absolute pose situation.
+ * <li> evaluateRotationError.m/evaluateTransformationError.m: Computes the rotation/transformation error of multiple hypotheses by selecting the one that is closest to ground truth.
+ * <li> perturb.m: puts a random perturbation on a transformation
+ * <li> rodrigues.m / cayley2rot.m / rot2cayley.m: back and forth transformation to minimal rotation representations.
+ * <li> transformEssentials.m: Transforms a set of multiple essential matrices into rotations.
+ * <li> addNoise.m: Adds noise to a bearing vector by assuming a spherical camera and extracting the corresponding tangential plane.
+ * </ul>
+ *
+ * The main benchmark files are finally given by:
+ *
+ * <ul>
+ * <li> benchmark_absolute_pose.m
+ * <li> benchmark_absolute_pose_noncentral.m
+ * <li> benchmark_relative_pose.m
+ * <li> benchmark_relative_pose_noncentral.m
+ * </ul>
+ *
+ * opengv.cpp contains the interface itself. Some other files like opengv_donotuse.cpp are used for timing experiments (named benchmark_xxx_timing.m). They execute each problem 20 times so time can be measured sufficiently accurate without overhead from Matlab. opengv_experimental1.cpp and opengv_experimental2.cpp are used for some specific ransac experiments, they are not as important.
+ *
+ * The benchmarks are fairly well documented and self-explaining. They simply run multiple tests for each algorithm while going through increasing noise-levels, and finally plot the resulting mean and
+ * median errors. Adding an algorithm or changing the set of algorithms for comparison is very easy, you simply have to modify the cell-arrays algorithms, indices, and names. They contain the internal
+ * names of the algorithms that are being evaluated, the indices of the points to use from the experiment (allowing to use different (numbers of) points for each algorithm and random experiment), and
+ * the names of the algorithms for the final plots. Comparing your new algorithm has never been easier :)
  *
  */

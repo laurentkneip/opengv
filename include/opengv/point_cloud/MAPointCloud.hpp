@@ -77,15 +77,6 @@ public:
       int numberPoints2 );
 
   /**
-   * \brief Constructor. See protected class-members to understand parameters
-   */
-  MAPointCloud(
-      const double * points1,
-      const double * points2,
-      const double * matches,
-      int numberPoints1,
-      int numberPoints2 );
-  /**
    * Destructor
    */
   virtual ~MAPointCloud();
@@ -106,14 +97,10 @@ private:
   const double * _points1;
   /** A pointer to the points in frame 2 */
   const double * _points2;
-  /** A pointer to the matches-vector */
-  const double * _matches;
   /** The number of points in frame 1 */
   int _numberPoints1;
   /** The number of points in frame 2 */
   int _numberPoints2;
-  /** Use matching vector? */
-  bool _useMatches;
 };
 
 }

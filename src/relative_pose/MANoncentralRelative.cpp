@@ -39,22 +39,7 @@ opengv::relative_pose::MANoncentralRelative::MANoncentralRelative(
       _bearingVectors1(bearingVectors1),
       _bearingVectors2(bearingVectors2),
       _numberBearingVectors1(numberBearingVectors1),
-      _numberBearingVectors2(numberBearingVectors2),
-      _useMatches(false)
-{}
-
-opengv::relative_pose::MANoncentralRelative::MANoncentralRelative(
-    const double * bearingVectors1,
-    const double * bearingVectors2,
-    const double * matches,
-    int numberBearingVectors1,
-    int numberBearingVectors2 ) :
-    _bearingVectors1(bearingVectors1),
-    _bearingVectors2(bearingVectors2),
-    _matches(matches),
-    _numberBearingVectors1(numberBearingVectors1),
-    _numberBearingVectors2(numberBearingVectors2),
-    _useMatches(true)
+      _numberBearingVectors2(numberBearingVectors2)
 {}
 
 opengv::relative_pose::MANoncentralRelative::~MANoncentralRelative()
@@ -65,22 +50,10 @@ opengv::relative_pose::MANoncentralRelative::
     getBearingVector1( size_t index ) const
 {
   bearingVector_t bearingVector;
-  if( _useMatches )
-  {
-    assert(index < _numberBearingVectors2);
-    int i = floor(_matches[index] + 0.01);
-    assert(i < _numberBearingVectors1);
-    bearingVector[0] = _bearingVectors1[i * 6];
-    bearingVector[1] = _bearingVectors1[i * 6 + 1];
-    bearingVector[2] = _bearingVectors1[i * 6 + 2];
-  }
-  else
-  {
-    assert(index < _numberBearingVectors1);
-    bearingVector[0] = _bearingVectors1[index * 6];
-    bearingVector[1] = _bearingVectors1[index * 6 + 1];
-    bearingVector[2] = _bearingVectors1[index * 6 + 2];
-  }
+  assert(index < _numberBearingVectors1);
+  bearingVector[0] = _bearingVectors1[index * 6];
+  bearingVector[1] = _bearingVectors1[index * 6 + 1];
+  bearingVector[2] = _bearingVectors1[index * 6 + 2];
   return bearingVector;
 }
 
@@ -108,22 +81,10 @@ opengv::relative_pose::MANoncentralRelative::
     getCamOffset1( size_t index ) const
 {
   translation_t camOffset;
-  if( _useMatches )
-  {
-    assert(index < _numberBearingVectors2);
-    int i = floor(_matches[index] + 0.01);
-    assert(i < _numberBearingVectors1);
-    camOffset[0] = _bearingVectors1[i * 6 + 3];
-    camOffset[1] = _bearingVectors1[i * 6 + 4];
-    camOffset[2] = _bearingVectors1[i * 6 + 5];
-  }
-  else
-  {
-    assert(index < _numberBearingVectors1);
-    camOffset[0] = _bearingVectors1[index * 6 + 3];
-    camOffset[1] = _bearingVectors1[index * 6 + 4];
-    camOffset[2] = _bearingVectors1[index * 6 + 5];
-  }
+  assert(index < _numberBearingVectors1);
+  camOffset[0] = _bearingVectors1[index * 6 + 3];
+  camOffset[1] = _bearingVectors1[index * 6 + 4];
+  camOffset[2] = _bearingVectors1[index * 6 + 5];
   return camOffset;
 }
 
@@ -131,8 +92,6 @@ opengv::rotation_t
 opengv::relative_pose::MANoncentralRelative::
     getCamRotation1( size_t index ) const
 {
-  //We could also check here for camIndex being 0, because this adapter is made
-  //for a single camera only
   return Eigen::Matrix3d::Identity();
 }
 
@@ -152,8 +111,6 @@ opengv::rotation_t
 opengv::relative_pose::MANoncentralRelative::
     getCamRotation2( size_t index ) const
 {
-  //We could also check here for camIndex being 0, because this adapter is made
-  //for a single camera only
   return Eigen::Matrix3d::Identity();
 }
 

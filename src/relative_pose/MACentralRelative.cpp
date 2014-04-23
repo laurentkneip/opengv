@@ -39,22 +39,7 @@ opengv::relative_pose::MACentralRelative::MACentralRelative(
     _bearingVectors1(bearingVectors1),
     _bearingVectors2(bearingVectors2),
     _numberBearingVectors1(numberBearingVectors1),
-    _numberBearingVectors2(numberBearingVectors2),
-    _useMatches(false)
-{}
-
-opengv::relative_pose::MACentralRelative::MACentralRelative(
-    const double * bearingVectors1,
-    const double * bearingVectors2,
-    const double * matches,
-    int numberBearingVectors1,
-    int numberBearingVectors2 ) :
-    _bearingVectors1(bearingVectors1),
-    _bearingVectors2(bearingVectors2),
-    _matches(matches),
-    _numberBearingVectors1(numberBearingVectors1),
-    _numberBearingVectors2(numberBearingVectors2),
-    _useMatches(true)
+    _numberBearingVectors2(numberBearingVectors2)
 {}
 
 opengv::relative_pose::MACentralRelative::~MACentralRelative()
@@ -64,23 +49,11 @@ opengv::bearingVector_t
 opengv::relative_pose::MACentralRelative::
     getBearingVector1( size_t index ) const
 {
-  bearingVector_t bearingVector;
-  if( _useMatches )
-  {
-    assert(index < _numberBearingVectors2);
-    int i = floor(_matches[index] + 0.01);
-    assert(i < _numberBearingVectors1);
-    bearingVector[0] = _bearingVectors1[i * 3];
-    bearingVector[1] = _bearingVectors1[i * 3 + 1];
-    bearingVector[2] = _bearingVectors1[i * 3 + 2];
-  }
-  else
-  {
-    assert(index < _numberBearingVectors1);
-    bearingVector[0] = _bearingVectors1[index * 3];
-    bearingVector[1] = _bearingVectors1[index * 3 + 1];
-    bearingVector[2] = _bearingVectors1[index * 3 + 2];
-  }
+  bearingVector_t bearingVector;  
+  assert(index < _numberBearingVectors1);
+  bearingVector[0] = _bearingVectors1[index * 3];
+  bearingVector[1] = _bearingVectors1[index * 3 + 1];
+  bearingVector[2] = _bearingVectors1[index * 3 + 2];
   return bearingVector;
 }
 

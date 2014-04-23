@@ -287,12 +287,14 @@ essential_t eightpt(
  * \param[in] adapter Visitor holding bearing-vector correspondences, plus the
  *                    initial rotation for the optimization.
  * \param[out] output Returns more complete information (position of viewpoint
-               2 seen from viewpoint 1, eigenvectors and eigenvalues)
+ *                    2 seen from viewpoint 1, eigenvectors and eigenvalues)
+ * \param[in] useWeights Use weights to weight the summation terms?
  * \return Rotation matrix from viewpoint 2 to viewpoint 1.
  */
 rotation_t eigensolver(
     const RelativeAdapterBase & adapter,
-    eigensolverOutput_t & output );
+    eigensolverOutput_t & output,
+    bool useWeights = false );
 
 /**
  * \brief Compute the rotation matrix between two central viewpoints as an
@@ -303,32 +305,15 @@ rotation_t eigensolver(
  * \param[in] indices Indices of the correspondences used for deriving
  *                    the rotation matrix.
  * \param[out] output Returns more complete information (position of viewpoint
-               2 seen from viewpoint 1, eigenvectors and eigenvalues)
+ *                    2 seen from viewpoint 1, eigenvectors and eigenvalues)
+ * \param[in] useWeights Use weights to weight the summation terms?
  * \return Rotation matrix from viewpoint 2 to viewpoint 1.
  */
 rotation_t eigensolver(
     const RelativeAdapterBase & adapter,
     const std::vector<int> & indices,
-    eigensolverOutput_t & output );
-
-/**
- * \brief Compute the rotation matrix between two central viewpoints as an
- *        iterative eigenproblem [11]. Using weights reflecting the quality
- *        of correspondences.
- *
- * \param[in] adapter Visitor holding bearing-vector correspondences, weights
- *                    reflecting their quality, plus the initial rotation for
- *                    the optimization.
- * \param[in] indices Indices of the correspondences used for deriving
- *                    the rotation matrix.
- * \param[out] output Returns more complete information (position of viewpoint
-               2 seen from viewpoint 1, eigenvectors and eigenvalues)
- * \return Rotation matrix from viewpoint 2 to viewpoint 1.
- */
-rotation_t eigensolverWithWeights(
-    const RelativeAdapterBase & adapter,
-    const std::vector<int> & indices,
-    eigensolverOutput_t & output );
+    eigensolverOutput_t & output,
+    bool useWeights = false );
 
 /**
  * \brief Compute the rotation matrix between two central viewpoints as an
@@ -337,9 +322,12 @@ rotation_t eigensolverWithWeights(
  *
  * \param[in] adapter Visitor holding bearing-vector correspondences, plus the
  *                    initial rotation for the optimization.
+ * \param[in] useWeights Use weights to weight the summation terms?
  * \return Rotation matrix from viewpoint 2 to viewpoint 1.
  */
-rotation_t eigensolver( const RelativeAdapterBase & adapter );
+rotation_t eigensolver(
+    const RelativeAdapterBase & adapter,
+    bool useWeights = false );
 
 /**
  * \brief Compute the rotation matrix between two central viewpoints as an
@@ -349,11 +337,105 @@ rotation_t eigensolver( const RelativeAdapterBase & adapter );
  *                    initial rotation for the optimization.
  * \param[in] indices Indices of the correspondences used for deriving
  *                    the rotation matrix.
+ * \param[in] useWeights Use weights to weight the summation terms?
  * \return Rotation matrix from viewpoint 2 to viewpoint 1.
  */
 rotation_t eigensolver(
     const RelativeAdapterBase & adapter,
+    const std::vector<int> & indices,
+    bool useWeights = false );
+
+/**
+ * \brief Compute the relative rotation between two non-central viewpoints
+ *        following Stewenius' method [16]. Assuming exactly 6 correspondences.
+ *
+ * \param[in] adapter Visitor holding bearing-vector correspondences, plus the
+ *                    multi-camera configuration.
+ * \return Rotations from viewpoint 2 back to viewpoint 1
+ */
+rotations_t sixpt(
+    const RelativeAdapterBase & adapter );
+
+/**
+ * \brief Compute the relative rotation between two non-central viewpoints
+ *        following Stewenius' method using 6 correspondences [16].
+ *
+ * \param[in] adapter Visitor holding bearing-vector correspondences, plus the
+ *                    multi-camera configuration.
+ * \param[in] indices Indices of the six correspondences used for deriving
+ *                    the rotation matrix.
+ * \return Rotations from viewpoint 2 back to viewpoint 1
+ */
+rotations_t sixpt(
+    const RelativeAdapterBase & adapter,
     const std::vector<int> & indices );
+
+/**
+ * \brief Compute the rotation matrix between two non-central viewpoints as an
+ *        iterative eigenproblem. Using all available correspondences.
+ *
+ * \param[in] adapter Visitor holding bearing-vector correspondences, the multi-
+ *                    camera configuration, plus the initial rotation for the
+ *                    optimization.
+ * \param[out] output Returns more complete information (position of viewpoint
+ *                    2 seen from viewpoint 1, eigenvectors and eigenvalues)
+ * \param[in] useWeights Use weights to weight the summation terms?
+ * \return Rotation matrix from viewpoint 2 to viewpoint 1.
+ */
+rotation_t ge(
+    const RelativeAdapterBase & adapter,
+    geOutput_t & output,
+    bool useWeights = false );
+
+/**
+ * \brief Compute the rotation matrix between two non-central viewpoints as an
+ *        iterative eigenproblem.
+ *
+ * \param[in] adapter Visitor holding bearing-vector correspondences, the multi-
+ *                    camera configuration, plus the initial rotation for the
+ *                    optimization.
+ * \param[in] indices Indices of the correspondences used for deriving
+ *                    the rotation matrix.
+ * \param[out] output Returns more complete information (position of viewpoint
+ *                    2 seen from viewpoint 1, eigenvectors and eigenvalues)
+ * \param[in] useWeights Use weights to weight the summation terms?
+ * \return Rotation matrix from viewpoint 2 to viewpoint 1.
+ */
+rotation_t ge(
+    const RelativeAdapterBase & adapter,
+    const std::vector<int> & indices,
+    geOutput_t & output,
+    bool useWeights = false );
+
+/**
+ * \brief Compute the rotation matrix between two non-central viewpoints as an
+ *        iterative eigenproblem. Using all available correspondences.
+ *        Outputs only the rotation.
+ *
+ * \param[in] adapter Visitor holding bearing-vector correspondences, the multi-
+ *                    camera configuration, plus the initial rotation for the
+ *                    optimization.
+ * \param[in] useWeights Use weights to weight the summation terms?
+ * \return Rotation matrix from viewpoint 2 to viewpoint 1.
+ */
+rotation_t ge( const RelativeAdapterBase & adapter, bool useWeights = false );
+
+/**
+ * \brief Compute the rotation matrix between two non-central viewpoints as an
+ *        iterative eigenproblem. Outputs only the rotation.
+ *
+ * \param[in] adapter Visitor holding bearing-vector correspondences, the multi-
+ *                    camera configuration, plus the initial rotation for the
+ *                    optimization.
+ * \param[in] indices Indices of the correspondences used for deriving
+ *                    the rotation matrix.
+ * \param[in] useWeights Use weights to weight the summation terms?
+ * \return Rotation matrix from viewpoint 2 to viewpoint 1.
+ */
+rotation_t ge(
+    const RelativeAdapterBase & adapter,
+    const std::vector<int> & indices,
+    bool useWeights = false );
 
 /**
  * \brief Compute the relative pose between two non-central viewpoints

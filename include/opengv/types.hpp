@@ -88,6 +88,10 @@ typedef std::vector<transformation_t, Eigen::aligned_allocator<transformation_t>
 typedef Eigen::Vector3d
     cayley_t;
 
+/** A 4-vector containing the quaternion parameters of rotation matrix */
+typedef Eigen::Vector4d
+    quaternion_t;
+
 /** Essential matrix \f$ \mathbf{E} \f$ between two viewpoints:
  *
  *  \f$ \mathbf{E} = \f$ skew(\f$\mathbf{t}\f$) \f$ \mathbf{R} \f$,
@@ -149,6 +153,22 @@ typedef struct EigensolverOutput
   /** The eigenvectors of matrix matrix \f$ \mathbf{M} \f$ */
   eigenvectors_t  eigenvectors;
 } eigensolverOutput_t;
+
+/** GeOutput holds the output-parameters of ge
+ */
+typedef struct GeOutput
+{
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
+  
+  /** Homogeneous position of viewpoint 2 seen from viewpoint 1 */
+  Eigen::Vector4d   translation;
+  /** Rotation from viewpoint 2 back to viewpoint 1 */
+  rotation_t        rotation;
+  /** The eigenvalues of matrix \f$ \mathbf{G} \f$ */
+  Eigen::Vector4d   eigenvalues;
+  /** The eigenvectors of matrix matrix \f$ \mathbf{G} \f$ */
+  Eigen::Matrix4d   eigenvectors;
+} geOutput_t;
 
 }
 

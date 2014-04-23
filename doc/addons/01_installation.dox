@@ -23,7 +23,7 @@ http://git-scm.com/
  *
  * Follow the "Try git" link for an amazing interactive tutorial.
  *
- * \section sec_installation_2 Installation under Ubuntu
+ * \section sec_installation_2 Installation under Linux
  *
  *  <ul>
  *  <li>Setup the required tools for compilation of standard libraries under Linux (gcc compiler etc). Type:
@@ -32,7 +32,7 @@ http://git-scm.com/
 sudo apt-get install build-essential
 \endverbatim
  *
- *  <li>Install cmake and eigen3, those tools are required by the library. Type:
+ *  <li>Install cmake, eigen3 and boost, those tools are required by the library. Type:
  *
 \verbatim
 sudo apt-get install cmake eigen libboost-all-dev
@@ -72,6 +72,7 @@ PATH=%PATH%;%cd%;
 \verbatim
 opengv\build
 \endverbatim
+ *
  * directory, and setup the build process by typing:
  *
 \verbatim
@@ -99,14 +100,14 @@ mex -setup
 \endverbatim
  *
  * and chose the right compiler by following the instructions. You will have to chose the same compiler than the one you used for compiling the opengv library before-hand. Under windows you might also
- * run into the following problem. Depending on the distribution (e.g. R2012b), Matlab does not yet "know" your compiler, so you will have to additionally follow the
- * following instructions
+ * run into the following problem. Depending on the distribution (e.g. R2012b), Matlab does not yet "know" your compiler (e.g. Visual Studio 2012), so you will have to additionally follow the
+ * following instructions.
  *
 \verbatim
 http://jimdavid.blogspot.com.au/2012/12/matlab-2012b-mex-setup-with-vs2012.html
 \endverbatim
  *
- * to get things running. Also note that Visual Studio Express is difficult to use together with Matlab. It is not listed as a supported compiler.
+ * to get things running. Also note that the Express compilers are not supported by Matlab, we ran into some issues when trying to use them. Please report if you have a solution to that.
  * <li>Once this is done, you can compile the mex-file by going to the opengv/matlab folder and typing in the console
  *
 \verbatim

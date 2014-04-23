@@ -34,12 +34,10 @@
 opengv::relative_pose::CentralRelativeWeightingAdapter::CentralRelativeWeightingAdapter(
     const bearingVectors_t & bearingVectors1,
     const bearingVectors_t & bearingVectors2,
-    const std::vector<double> & weights,
-    const matches_t & matches ) :
+    const std::vector<double> & weights ) :
     RelativeAdapterBase(),
     _bearingVectors1(bearingVectors1),
     _bearingVectors2(bearingVectors2),
-    _matches(matches),
     _weights(weights)
 {}
 
@@ -47,12 +45,10 @@ opengv::relative_pose::CentralRelativeWeightingAdapter::CentralRelativeWeighting
     const bearingVectors_t & bearingVectors1,
     const bearingVectors_t & bearingVectors2,
     const std::vector<double> & weights,
-    const matches_t & matches,
     const rotation_t & R12 ) :
     RelativeAdapterBase(R12),
     _bearingVectors1(bearingVectors1),
     _bearingVectors2(bearingVectors2),
-    _matches(matches),
     _weights(weights)
 {}
 
@@ -60,13 +56,11 @@ opengv::relative_pose::CentralRelativeWeightingAdapter::CentralRelativeWeighting
     const bearingVectors_t & bearingVectors1,
     const bearingVectors_t & bearingVectors2,
     const std::vector<double> & weights,
-    const matches_t & matches,
     const translation_t & t12,
     const rotation_t & R12 ) :
     RelativeAdapterBase(t12,R12),
     _bearingVectors1(bearingVectors1),
     _bearingVectors2(bearingVectors2),
-    _matches(matches),
     _weights(weights)
 {}
 
@@ -77,9 +71,8 @@ opengv::bearingVector_t
 opengv::relative_pose::CentralRelativeWeightingAdapter::
     getBearingVector1( size_t index ) const
 {
-  assert(index < _bearingVectors2.size());
-  assert(_matches[index] < _bearingVectors1.size());
-  return _bearingVectors1[_matches[index]];
+  assert(index < _bearingVectors1.size());
+  return _bearingVectors1[index];
 }
 
 opengv::bearingVector_t
@@ -138,5 +131,5 @@ size_t
 opengv::relative_pose::CentralRelativeWeightingAdapter::
     getNumberCorrespondences() const
 {
-  return _matches.size();
+  return _bearingVectors2.size();
 }

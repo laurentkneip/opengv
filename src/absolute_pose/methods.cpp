@@ -30,6 +30,7 @@
 
 
 #include <opengv/absolute_pose/methods.hpp>
+#include <opengv/Indices.hpp>
 
 #include <eigen3/unsupported/Eigen/NonLinearOptimization>
 #include <eigen3/unsupported/Eigen/NumericalDiff>
@@ -38,6 +39,10 @@
 #include <opengv/absolute_pose/modules/Epnp.hpp>
 #include <opengv/OptimizationFunctor.hpp>
 #include <opengv/math/cayley.hpp>
+#include <opengv/math/quaternion.hpp>
+#include <opengv/math/roots.hpp>
+
+#include <iostream>
 
 opengv::translation_t
 opengv::absolute_pose::p2p(
@@ -225,53 +230,14 @@ opengv::absolute_pose::gp3p(
   return gp3p(adapter,indices);
 }
 
-opengv::transformation_t
-opengv::absolute_pose::epnp( const AbsoluteAdapterBase & adapter )
+namespace opengv
 {
-  //starting from 4 points, we have a unique solution
-  assert(adapter.getNumberCorrespondences() > 5);
+namespace absolute_pose
+{
 
-  modules::Epnp PnP;
-  PnP.set_maximum_number_of_correspondences(adapter.getNumberCorrespondences());
-  PnP.reset_correspondences();
-
-  for( size_t i = 0; i < adapter.getNumberCorrespondences(); i++ )
-  {
-    point_t p = adapter.getPoint(i);
-    bearingVector_t f = adapter.getBearingVector(i);
-    PnP.add_correspondence(p[0], p[1], p[2], f[0], f[1], f[2]);
-  }
-
-  double R_epnp[3][3], t_epnp[3];
-  PnP.compute_pose(R_epnp, t_epnp);
-
-  rotation_t rotation;
-  translation_t translation;
-
-  for(int r = 0; r < 3; r++)
-  {
-    for(int c = 0; c < 3; c++)
-      rotation(r,c) = R_epnp[r][c];
-  }
-
-  translation[0] = t_epnp[0];
-  translation[1] = t_epnp[1];
-  translation[2] = t_epnp[2];
-
-  //take inverse transformation
-  rotation.transposeInPlace();
-  translation = -rotation * translation;
-
-  transformation_t transformation;
-  transformation.col(3) = translation;
-  transformation.block<3,3>(0,0) = rotation;
-  return transformation;
-}
-
-opengv::transformation_t
-opengv::absolute_pose::epnp(
+transformation_t epnp(
     const AbsoluteAdapterBase & adapter,
-    const std::vector<int> & indices )
+    const Indices & indices )
 {
   //starting from 4 points, we have a unique solution
   assert(indices.size() > 5);
@@ -313,127 +279,33 @@ opengv::absolute_pose::epnp(
   return transformation;
 }
 
-opengv::transformation_t
-opengv::absolute_pose::gpnp( const AbsoluteAdapterBase & adapter )
-{
-  assert( adapter.getNumberCorrespondences() > 5 );
-
-  //compute the centroid
-  point_t c0 = Eigen::Vector3d::Zero();
-  for( size_t i = 0; i < adapter.getNumberCorrespondences(); i++ )
-    c0 = c0 + adapter.getPoint(i);
-  c0 = c0 / adapter.getNumberCorrespondences();
-
-  //compute the point-cloud
-  Eigen::MatrixXd p(3,adapter.getNumberCorrespondences());
-  for( size_t i = 0; i < adapter.getNumberCorrespondences(); i++ )
-    p.col(i) = adapter.getPoint(i) - c0;
-
-  //compute the moment
-  Eigen::JacobiSVD< Eigen::MatrixXd > SVD(
-      p,
-      Eigen::ComputeThinU | Eigen::ComputeThinV );
-
-  //define the control points
-  points_t c;
-  c.push_back(c0);
-  //c.push_back(c0 + SVD.singularValues()[0] * SVD.matrixU().col(0));
-  //c.push_back(c0 + SVD.singularValues()[1] * SVD.matrixU().col(1));
-  //c.push_back(c0 + SVD.singularValues()[2] * SVD.matrixU().col(2));
-  c.push_back(c0 + 15.0 * SVD.matrixU().col(0));
-  c.push_back(c0 + 15.0 * SVD.matrixU().col(1));
-  c.push_back(c0 + 15.0 * SVD.matrixU().col(2));
-
-  //derive the barycentric frame
-  Eigen::Vector3d e1 = c[1]-c0;
-  double e1dote1 = e1.dot(e1);
-  Eigen::Vector3d e2 = c[2]-c0;
-  double e2dote2 = e2.dot(e2);
-  Eigen::Vector3d e3 = c[3]-c0;
-  double e3dote3 = e3.dot(e3);
-
-  //derive the weighting factors
-  Eigen::MatrixXd weights(4,adapter.getNumberCorrespondences());
-  for( size_t i = 0; i < adapter.getNumberCorrespondences(); i++ )
-  {
-    Eigen::Vector3d temp = p.col(i);
-    weights(1,i) = temp.dot(e1)/e1dote1;
-    weights(2,i) = temp.dot(e2)/e2dote2;
-    weights(3,i) = temp.dot(e3)/e3dote3;
-    weights(0,i) = 1.0-(weights(1,i)+weights(2,i)+weights(3,i));
-  }
-
-  //setup matrix A and vector b
-  Eigen::MatrixXd A = Eigen::MatrixXd::Zero(
-      2*adapter.getNumberCorrespondences(),
-      12);
-  Eigen::MatrixXd b = Eigen::MatrixXd::Zero(
-      2*adapter.getNumberCorrespondences(),
-      1);
-  for( size_t i = 0; i < adapter.getNumberCorrespondences(); i++ )
-  {
-    translation_t camOffset = adapter.getCamOffset(i);
-    rotation_t camRotation = adapter.getCamRotation(i);
-    //respect the rotation
-    bearingVector_t f = camRotation * adapter.getBearingVector(i);
-
-    A(2*i,0)  =  weights(0,i)*f[2];
-    A(2*i,2)  = -weights(0,i)*f[0];
-    A(2*i,3)  =  weights(1,i)*f[2];
-    A(2*i,5)  = -weights(1,i)*f[0];
-    A(2*i,6)  =  weights(2,i)*f[2];
-    A(2*i,8)  = -weights(2,i)*f[0];
-    A(2*i,9)  =  weights(3,i)*f[2];
-    A(2*i,11) = -weights(3,i)*f[0];
-
-    A(2*i+1,1)  =  weights(0,i)*f[2];
-    A(2*i+1,2)  = -weights(0,i)*f[1];
-    A(2*i+1,4)  =  weights(1,i)*f[2];
-    A(2*i+1,5)  = -weights(1,i)*f[1];
-    A(2*i+1,7)  =  weights(2,i)*f[2];
-    A(2*i+1,8)  = -weights(2,i)*f[1];
-    A(2*i+1,10) =  weights(3,i)*f[2];
-    A(2*i+1,11) = -weights(3,i)*f[1];
-
-    b(2*i,0)   = f[2]*camOffset[0]-f[0]*camOffset[2];
-    b(2*i+1,0) = f[2]*camOffset[1]-f[1]*camOffset[2];
-  }
-
-  //computing the SVD
-  Eigen::JacobiSVD< Eigen::MatrixXd > SVD2(
-      A,
-      Eigen::ComputeThinV | Eigen::ComputeThinU );
-
-  //computing the pseudoinverse
-  Eigen::MatrixXd invD = Eigen::MatrixXd::Zero(12,12);
-  Eigen::MatrixXd D = SVD2.singularValues();
-  for( size_t i = 0; i < 12; i++ )
-  {
-    if( D(i,0) > 1.e-6 )
-      invD(i,i) = 1.0/D(i,0);
-    else
-      invD(i,i) = 0.0;
-  }
-
-  //Extract the nullsapce vectors;
-  Eigen::MatrixXd V = SVD2.matrixV();
-
-  //computing the nullspace intercept
-  Eigen::MatrixXd pinvA = V * invD * SVD2.matrixU().transpose();
-
-  //compute the intercept
-  Eigen::Matrix<double,12,1> a = pinvA * b;
-
-  //compute the solution
-  transformation_t transformation;
-  modules::gpnp_main( a, V, c, transformation );
-  return transformation;
+}
 }
 
 opengv::transformation_t
-opengv::absolute_pose::gpnp(
+opengv::absolute_pose::epnp( const AbsoluteAdapterBase & adapter )
+{
+  Indices idx(adapter.getNumberCorrespondences());
+  return epnp(adapter,idx);
+}
+
+opengv::transformation_t
+opengv::absolute_pose::epnp(
     const AbsoluteAdapterBase & adapter,
     const std::vector<int> & indices )
+{
+  Indices idx(indices);
+  return epnp(adapter,idx);
+}
+
+namespace opengv
+{
+namespace absolute_pose
+{
+
+transformation_t gpnp(
+    const AbsoluteAdapterBase & adapter,
+    const Indices & indices )
 {
   assert( indices.size() > 5 );
 
@@ -545,6 +417,25 @@ opengv::absolute_pose::gpnp(
   return transformation;
 }
 
+}
+}
+
+opengv::transformation_t
+opengv::absolute_pose::gpnp( const AbsoluteAdapterBase & adapter )
+{
+  Indices idx(adapter.getNumberCorrespondences());
+  return gpnp(adapter,idx);
+}
+
+opengv::transformation_t
+opengv::absolute_pose::gpnp(
+    const AbsoluteAdapterBase & adapter,
+    const std::vector<int> & indices )
+{
+  Indices idx(indices);
+  return gpnp(adapter,idx);
+}
+
 namespace opengv
 {
 namespace absolute_pose
@@ -553,59 +444,11 @@ namespace absolute_pose
 struct OptimizeNonlinearFunctor1 : OptimizationFunctor<double>
 {
   const AbsoluteAdapterBase & _adapter;
+  const Indices & _indices;
 
-  OptimizeNonlinearFunctor1( const AbsoluteAdapterBase & adapter ) :
-      OptimizationFunctor<double>(6,adapter.getNumberCorrespondences()),
-      _adapter(adapter) {}
-
-  int operator()(const VectorXd &x, VectorXd &fvec) const
-  {
-    assert( x.size() == 6 );
-    assert( (unsigned int) fvec.size() == _adapter.getNumberCorrespondences());
-
-    //compute the current position
-    translation_t translation = x.block<3,1>(0,0);
-    cayley_t cayley = x.block<3,1>(3,0);
-    rotation_t rotation = math::cayley2rot(cayley);
-
-    //compute inverse transformation
-    transformation_t inverseSolution;
-    inverseSolution.block<3,3>(0,0) = rotation.transpose();
-    inverseSolution.col(3) = -inverseSolution.block<3,3>(0,0)*translation;
-
-    Eigen::Matrix<double,4,1> p_hom;
-    p_hom[3] = 1.0;
-
-    for(size_t i = 0; i < _adapter.getNumberCorrespondences(); i++)
-    {
-      //get point in homogeneous form
-      p_hom.block<3,1>(0,0) = _adapter.getPoint(i);
-
-      //compute the reprojection (this is working for both central and
-      //non-central case)
-      point_t bodyReprojection = inverseSolution * p_hom;
-      point_t reprojection = _adapter.getCamRotation(i).transpose() *
-          (bodyReprojection - _adapter.getCamOffset(i));
-      reprojection = reprojection / reprojection.norm();
-
-      //compute the score
-      double factor = 1.0;
-      fvec[i] = factor *
-          (1.0 - (reprojection.transpose() * _adapter.getBearingVector(i)));
-    }
-
-    return 0;
-  }
-};
-
-struct OptimizeNonlinearFunctor2 : OptimizationFunctor<double>
-{
-  const AbsoluteAdapterBase & _adapter;
-  const std::vector<int> & _indices;
-
-  OptimizeNonlinearFunctor2(
+  OptimizeNonlinearFunctor1(
       const AbsoluteAdapterBase & adapter,
-      const std::vector<int> & indices ) :
+      const Indices & indices ) :
       OptimizationFunctor<double>(6,indices.size()),
       _adapter(adapter),
       _indices(indices) {}
@@ -651,11 +494,9 @@ struct OptimizeNonlinearFunctor2 : OptimizationFunctor<double>
   }
 };
 
-}
-}
-
-opengv::transformation_t
-opengv::absolute_pose::optimize_nonlinear( const AbsoluteAdapterBase & adapter )
+transformation_t optimize_nonlinear(
+    const AbsoluteAdapterBase & adapter,
+    const Indices & indices )
 {
   const int n=6;
   VectorXd x(n);
@@ -663,7 +504,7 @@ opengv::absolute_pose::optimize_nonlinear( const AbsoluteAdapterBase & adapter )
   x.block<3,1>(0,0) = adapter.gett();
   x.block<3,1>(3,0) = math::rot2cayley(adapter.getR());
 
-  OptimizeNonlinearFunctor1 functor( adapter );
+  OptimizeNonlinearFunctor1 functor( adapter, indices );
   NumericalDiff<OptimizeNonlinearFunctor1> numDiff(functor);
   LevenbergMarquardt< NumericalDiff<OptimizeNonlinearFunctor1> > lm(numDiff);
 
@@ -679,29 +520,21 @@ opengv::absolute_pose::optimize_nonlinear( const AbsoluteAdapterBase & adapter )
   return transformation;
 }
 
+}
+}
+
+opengv::transformation_t
+opengv::absolute_pose::optimize_nonlinear( const AbsoluteAdapterBase & adapter )
+{
+  Indices idx(adapter.getNumberCorrespondences());
+  return optimize_nonlinear(adapter,idx);
+}
+
 opengv::transformation_t
 opengv::absolute_pose::optimize_nonlinear(
     const AbsoluteAdapterBase & adapter,
     const std::vector<int> & indices )
 {
-  const int n=6;
-  VectorXd x(n);
-
-  x.block<3,1>(0,0) = adapter.gett();
-  x.block<3,1>(3,0) = math::rot2cayley(adapter.getR());
-
-  OptimizeNonlinearFunctor2 functor( adapter, indices );
-  NumericalDiff<OptimizeNonlinearFunctor2> numDiff(functor);
-  LevenbergMarquardt< NumericalDiff<OptimizeNonlinearFunctor2> > lm(numDiff);
-
-  lm.resetParameters();
-  lm.parameters.ftol = 1.E1*NumTraits<double>::epsilon();
-  lm.parameters.xtol = 1.E1*NumTraits<double>::epsilon();
-  lm.parameters.maxfev = 1000;
-  lm.minimize(x);
-
-  transformation_t transformation;
-  transformation.col(3) = x.block<3,1>(0,0);
-  transformation.block<3,3>(0,0) = math::cayley2rot(x.block<3,1>(3,0));
-  return transformation;
+  Indices idx(indices);
+  return optimize_nonlinear(adapter,idx);
 }

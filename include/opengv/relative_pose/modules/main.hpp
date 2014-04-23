@@ -61,7 +61,63 @@ void eigensolver_main(
     const Eigen::Matrix3d & yzF,
     const Eigen::Matrix3d & zxF,
     eigensolverOutput_t & output );
-
+void sixpt_main(
+    Eigen::Matrix<double,6,6> & L1,
+    Eigen::Matrix<double,6,6> & L2,
+    rotations_t & solutions);
+void ge_main(
+    const Eigen::Matrix3d & xxF,
+    const Eigen::Matrix3d & yyF,
+    const Eigen::Matrix3d & zzF,
+    const Eigen::Matrix3d & xyF,
+    const Eigen::Matrix3d & yzF,
+    const Eigen::Matrix3d & zxF,
+    const Eigen::Matrix<double,3,9> & x1P,
+    const Eigen::Matrix<double,3,9> & y1P,
+    const Eigen::Matrix<double,3,9> & z1P,
+    const Eigen::Matrix<double,3,9> & x2P,
+    const Eigen::Matrix<double,3,9> & y2P,
+    const Eigen::Matrix<double,3,9> & z2P,
+    const Eigen::Matrix<double,9,9> & m11P,
+    const Eigen::Matrix<double,9,9> & m12P,
+    const Eigen::Matrix<double,9,9> & m22P,
+    const cayley_t & startingPoint,
+    geOutput_t & output );
+void ge_main2(
+    const Eigen::Matrix3d & xxF,
+    const Eigen::Matrix3d & yyF,
+    const Eigen::Matrix3d & zzF,
+    const Eigen::Matrix3d & xyF,
+    const Eigen::Matrix3d & yzF,
+    const Eigen::Matrix3d & zxF,
+    const Eigen::Matrix<double,3,9> & x1P,
+    const Eigen::Matrix<double,3,9> & y1P,
+    const Eigen::Matrix<double,3,9> & z1P,
+    const Eigen::Matrix<double,3,9> & x2P,
+    const Eigen::Matrix<double,3,9> & y2P,
+    const Eigen::Matrix<double,3,9> & z2P,
+    const Eigen::Matrix<double,9,9> & m11P,
+    const Eigen::Matrix<double,9,9> & m12P,
+    const Eigen::Matrix<double,9,9> & m22P,
+    const cayley_t & startingPoint,
+    geOutput_t & output );
+void ge_plot(
+    const Eigen::Matrix3d & xxF,
+    const Eigen::Matrix3d & yyF,
+    const Eigen::Matrix3d & zzF,
+    const Eigen::Matrix3d & xyF,
+    const Eigen::Matrix3d & yzF,
+    const Eigen::Matrix3d & zxF,
+    const Eigen::Matrix<double,3,9> & x1P,
+    const Eigen::Matrix<double,3,9> & y1P,
+    const Eigen::Matrix<double,3,9> & z1P,
+    const Eigen::Matrix<double,3,9> & x2P,
+    const Eigen::Matrix<double,3,9> & y2P,
+    const Eigen::Matrix<double,3,9> & z2P,
+    const Eigen::Matrix<double,9,9> & m11P,
+    const Eigen::Matrix<double,9,9> & m12P,
+    const Eigen::Matrix<double,9,9> & m22P,
+    geOutput_t & output );
 }
 }
 }

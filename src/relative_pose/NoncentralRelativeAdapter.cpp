@@ -36,7 +36,6 @@ opengv::relative_pose::NoncentralRelativeAdapter::NoncentralRelativeAdapter(
     const bearingVectors_t & bearingVectors2,
     const camCorrespondences_t & camCorrespondences1,
     const camCorrespondences_t & camCorrespondences2,
-    const matches_t & matches,
     const translations_t & camOffsets,
     const rotations_t & camRotations ) :
     RelativeAdapterBase(),
@@ -44,7 +43,6 @@ opengv::relative_pose::NoncentralRelativeAdapter::NoncentralRelativeAdapter(
     _bearingVectors2(bearingVectors2),
     _camCorrespondences1(camCorrespondences1),
     _camCorrespondences2(camCorrespondences2),
-    _matches(matches),
     _camOffsets(camOffsets),
     _camRotations(camRotations)
 {}
@@ -54,7 +52,6 @@ opengv::relative_pose::NoncentralRelativeAdapter::NoncentralRelativeAdapter(
     const bearingVectors_t & bearingVectors2,
     const camCorrespondences_t & camCorrespondences1,
     const camCorrespondences_t & camCorrespondences2,
-    const matches_t & matches,
     const translations_t & camOffsets,
     const rotations_t & camRotations,
     const rotation_t & R12 ) :
@@ -63,7 +60,6 @@ opengv::relative_pose::NoncentralRelativeAdapter::NoncentralRelativeAdapter(
     _bearingVectors2(bearingVectors2),
     _camCorrespondences1(camCorrespondences1),
     _camCorrespondences2(camCorrespondences2),
-    _matches(matches),
     _camOffsets(camOffsets),
     _camRotations(camRotations)
 {}
@@ -73,7 +69,6 @@ opengv::relative_pose::NoncentralRelativeAdapter::NoncentralRelativeAdapter(
     const bearingVectors_t & bearingVectors2,
     const camCorrespondences_t & camCorrespondences1,
     const camCorrespondences_t & camCorrespondences2,
-    const matches_t & matches,
     const translations_t & camOffsets,
     const rotations_t & camRotations,
     const translation_t & t12,
@@ -83,7 +78,6 @@ opengv::relative_pose::NoncentralRelativeAdapter::NoncentralRelativeAdapter(
     _bearingVectors2(bearingVectors2),
     _camCorrespondences1(camCorrespondences1),
     _camCorrespondences2(camCorrespondences2),
-    _matches(matches),
     _camOffsets(camOffsets),
     _camRotations(camRotations)
 {}
@@ -95,9 +89,8 @@ opengv::bearingVector_t
 opengv::relative_pose::NoncentralRelativeAdapter::
     getBearingVector1( size_t index ) const
 {
-  assert(index < _bearingVectors2.size());
-  assert(_matches[index] < _bearingVectors1.size());
-  return _bearingVectors1[_matches[index]];
+  assert(index < _bearingVectors1.size());
+  return _bearingVectors1[index];
 }
 
 opengv::bearingVector_t
@@ -119,16 +112,16 @@ opengv::translation_t
 opengv::relative_pose::NoncentralRelativeAdapter::
     getCamOffset1( size_t index ) const
 {
-  assert(_camCorrespondences1[_matches[index]] < _camOffsets.size());
-  return _camOffsets[_camCorrespondences1[_matches[index]]];
+  assert(_camCorrespondences1[index] < _camOffsets.size());
+  return _camOffsets[_camCorrespondences1[index]];
 }
 
 opengv::rotation_t
 opengv::relative_pose::NoncentralRelativeAdapter::
     getCamRotation1( size_t index ) const
 {
-  assert(_camCorrespondences1[_matches[index]] < _camRotations.size());
-  return _camRotations[_camCorrespondences1[_matches[index]]];
+  assert(_camCorrespondences1[index] < _camRotations.size());
+  return _camRotations[_camCorrespondences1[index]];
 }
 
 opengv::translation_t
@@ -151,5 +144,5 @@ size_t
 opengv::relative_pose::NoncentralRelativeAdapter::
     getNumberCorrespondences() const
 {
-  return _matches.size();
+  return _bearingVectors2.size();
 }

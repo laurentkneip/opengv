@@ -28,8 +28,9 @@ IF(WIN32)
   set(ADDITIONAL_INCLUDE_DIRS ${Eigen_INCLUDE_DIRS}
                               ${PROJECT_SOURCE_DIR}/third_party/boost )
 ELSE()
+  list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
   find_package(Eigen REQUIRED)
-  set(ADDITIONAL_INCLUDE_DIRS ${Eigen_INCLUDE_DIRS} )
+  set(ADDITIONAL_INCLUDE_DIRS ${EIGEN_INCLUDE_DIRS} )
 ENDIF()
 
 include_directories(${ADDITIONAL_INCLUDE_DIRS} ${PROJECT_SOURCE_DIR}/include)
@@ -60,7 +61,7 @@ set( OPENGV_SOURCE_FILES
   src/absolute_pose/modules/gpnp5/code.cpp
   src/absolute_pose/modules/gpnp5/init.cpp
   src/absolute_pose/modules/gpnp5/reductors.cpp
-  src/absolute_pose/modules/gpnp5/spolynomials.cpp	
+  src/absolute_pose/modules/gpnp5/spolynomials.cpp
   src/relative_pose/modules/main.cpp
   src/relative_pose/modules/fivept_nister/modules.cpp
   src/relative_pose/modules/fivept_stewenius/modules.cpp
@@ -68,11 +69,15 @@ set( OPENGV_SOURCE_FILES
   src/relative_pose/modules/fivept_kneip/init.cpp
   src/relative_pose/modules/fivept_kneip/reductors.cpp
   src/relative_pose/modules/fivept_kneip/spolynomials.cpp
+  src/relative_pose/modules/sixpt/modules2.cpp
   src/relative_pose/modules/eigensolver/modules.cpp
+  src/relative_pose/modules/ge/modules.cpp
   src/math/cayley.cpp
+  src/math/quaternion.cpp
   src/math/arun.cpp
   src/math/Sturm.cpp
   src/math/roots.cpp
+  src/math/gauss_jordan.cpp
   src/absolute_pose/methods.cpp
   src/absolute_pose/CentralAbsoluteAdapter.cpp
   src/absolute_pose/NoncentralAbsoluteAdapter.cpp
@@ -109,9 +114,11 @@ set( OPENGV_HEADER_FILES
   include/opengv/triangulation/methods.hpp
   include/opengv/point_cloud/methods.hpp
   include/opengv/math/cayley.hpp
+  include/opengv/math/quaternion.hpp
   include/opengv/math/arun.hpp
   include/opengv/math/Sturm.hpp
   include/opengv/math/roots.hpp
+  include/opengv/math/gauss_jordan.hpp
   include/opengv/absolute_pose/AbsoluteAdapterBase.hpp
   include/opengv/absolute_pose/CentralAbsoluteAdapter.hpp
   include/opengv/absolute_pose/NoncentralAbsoluteAdapter.hpp

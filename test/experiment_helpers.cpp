@@ -204,7 +204,6 @@ opengv::generateRandom2D3DCorrespondences(
     double outlierFraction,
     bearingVectors_t & bearingVectors,
     points_t & points,
-    std::vector<int> & matches,
     std::vector<int> & camCorrespondences,
     Eigen::MatrixXd & gt )
 {
@@ -240,9 +239,6 @@ opengv::generateRandom2D3DCorrespondences(
     //add noise
     if( noise > 0.0 )
       bearingVectors[i] = addNoise(noise,bearingVectors[i]);
-
-    //push back the index of the matching landmark
-    matches.push_back(i);
     
     //push back the camera correspondence
     camCorrespondences.push_back(camCorrespondence++);
@@ -287,7 +283,6 @@ opengv::generateRandom2D2DCorrespondences(
     double outlierFraction,
     bearingVectors_t & bearingVectors1,
     bearingVectors_t & bearingVectors2,
-    std::vector<int> & matches,
     std::vector<int> & camCorrespondences1,
     std::vector<int> & camCorrespondences2,
     Eigen::MatrixXd & gt )
@@ -332,9 +327,6 @@ opengv::generateRandom2D2DCorrespondences(
       bearingVectors2[i] = addNoise(noise,bearingVectors2[i]);
     }
 
-    //push back the index of the matching bearing-vector
-    matches.push_back(i);
-
     //push back the camera correspondences
     camCorrespondences1.push_back(camCorrespondence);
     camCorrespondences2.push_back(camCorrespondence++);
@@ -376,7 +368,6 @@ opengv::generateRandom3D3DCorrespondences(
     double outlierFraction,
     bearingVectors_t & points1,
     bearingVectors_t & points2,
-    std::vector<int> & matches,
     Eigen::MatrixXd & gt )
 {
   //initialize point-cloud
@@ -399,9 +390,6 @@ opengv::generateRandom3D3DCorrespondences(
       points1[i] = points1[i] + generateRandomTranslation(noise);
       points2[i] = points2[i] + generateRandomTranslation(noise);
     }
-
-    //push-back the matching point's index
-    matches.push_back(i);
   }
 
   //add outliers
@@ -429,7 +417,6 @@ opengv::generateMulti2D2DCorrespondences(
     double outlierFraction,
     std::vector<boost::shared_ptr<bearingVectors_t> > & multiBearingVectors1,
     std::vector<boost::shared_ptr<bearingVectors_t> > & multiBearingVectors2,
-    std::vector<boost::shared_ptr<std::vector<int> > > & multiMatches,
     std::vector<boost::shared_ptr<Eigen::MatrixXd> > & gt )
 {
   //initialize point-cloud
@@ -450,7 +437,6 @@ opengv::generateMulti2D2DCorrespondences(
     //create the bearing-vector arrays for this camera
     boost::shared_ptr<bearingVectors_t> bearingVectors1(new bearingVectors_t());
     boost::shared_ptr<bearingVectors_t> bearingVectors2(new bearingVectors_t());
-    boost::shared_ptr<std::vector<int> > matches(new std::vector<int>());
     
     //get the offset and rotation of this camera
     translation_t camOffset = camOffsets[cam];
@@ -477,15 +463,11 @@ opengv::generateMulti2D2DCorrespondences(
         (*bearingVectors1)[i] = addNoise(noise,(*bearingVectors1)[i]);
         (*bearingVectors2)[i] = addNoise(noise,(*bearingVectors2)[i]);
       }
-
-      //push back the match (index of vector in camera 1)
-      matches->push_back(i);
     }
 
     //push back the stuff for this camera
     multiBearingVectors1.push_back(bearingVectors1);
     multiBearingVectors2.push_back(bearingVectors2);
-    multiMatches.push_back(matches);
   }
 
   //add outliers

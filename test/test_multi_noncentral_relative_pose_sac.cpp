@@ -77,12 +77,11 @@ int main( int argc, char** argv )
   //derive correspondences based on random point-cloud
   std::vector<boost::shared_ptr<bearingVectors_t> > multiBearingVectors1;
   std::vector<boost::shared_ptr<bearingVectors_t> > multiBearingVectors2;
-  std::vector<boost::shared_ptr<std::vector<int> > > multiMatches;
   std::vector< boost::shared_ptr<Eigen::MatrixXd> > gt;
   generateMulti2D2DCorrespondences(
       position1, rotation1, position2, rotation2, camOffsets, camRotations,
       pointsPerCam, noise, outlierFraction,
-      multiBearingVectors1, multiBearingVectors2, multiMatches, gt );
+      multiBearingVectors1, multiBearingVectors2, gt );
 
   //Extract the relative pose
   translation_t position; rotation_t rotation;
@@ -96,7 +95,6 @@ int main( int argc, char** argv )
   relative_pose::NoncentralRelativeMultiAdapter adapter(
       multiBearingVectors1,
       multiBearingVectors2,
-      multiMatches,
       camOffsets,
       camRotations);
 
@@ -105,7 +103,9 @@ int main( int argc, char** argv )
       sac_problems::relative_pose::MultiNoncentralRelativePoseSacProblem> ransac;
   boost::shared_ptr<
       sac_problems::relative_pose::MultiNoncentralRelativePoseSacProblem> relposeproblem_ptr(
-      new sac_problems::relative_pose::MultiNoncentralRelativePoseSacProblem(adapter));
+      new sac_problems::relative_pose::MultiNoncentralRelativePoseSacProblem(
+      adapter,
+      sac_problems::relative_pose::MultiNoncentralRelativePoseSacProblem::SIXPT));
   ransac.sac_model_ = relposeproblem_ptr;
   ransac.threshold_ = 2.0*(1.0 - cos(atan(sqrt(2.0)*0.5/800.0)));
   ransac.max_iterations_ = 100;

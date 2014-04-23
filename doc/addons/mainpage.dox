@@ -6,6 +6,10 @@
  * by non-linear optimization and RANSAC contexts. It contains a flexible C++-interface as well as a Matlab port, and eases the
  * comparison of different geometric vision algorithms.
  *
+ * The library is described in the paper:
+ *
+ * - L. Kneip, P. Furgale, "OpenGV: A unified and generalized approach to real-time calibrated geometric vision", Proc. of The IEEE International Conference on Robotics and Automation (ICRA), Hong Kong, China. May 2014.
+ *
  * The library has been developped in the context of the following papers. Please cite one of these papers if you use the library for your research.
  *
  * - L. Kneip, D. Scaramuzza, R. Siegwart, "A Novel Parametrization of the Perspective-Three-Point Problem for a Direct Computation of Absolute Camera Position and Orientation", Proc. of The IEEE Conference on Computer Vision and Pattern Recognition (CVPR), Colorado Springs, USA. June 2011.
@@ -39,6 +43,7 @@
  *    <li>5-point algorithm to solve for rotations directly (by Kneip)
  *    <li>7-point algorithm
  *    <li>8-point algorithm by Longuet-Higgins
+ *    <li>6-point algorithm by Henrik Stewenius for generalized relative pose
  *    <li>17-point algorithm by Hongdong Li
  *    <li>non-linear optimization over n correspondences (both central and non-central)
  *    <li>relative rotation as an iterative eigenproblem (by Kneip)

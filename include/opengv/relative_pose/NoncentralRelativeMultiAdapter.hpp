@@ -73,16 +73,12 @@ protected:
 public:
   EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 
-  /** A type defined for the matches, see protected class-members */
-  typedef std::vector<int> matches_t;
-
   /**
    * \brief Constructor. See protected class-members to understand parameters
    */
   NoncentralRelativeMultiAdapter(
       std::vector<boost::shared_ptr<bearingVectors_t> > bearingVectors1,
       std::vector<boost::shared_ptr<bearingVectors_t> > bearingVectors2,
-      std::vector<boost::shared_ptr<matches_t> > matches,
       const translations_t & camOffsets,
       const rotations_t & camRotations );
   /**
@@ -131,12 +127,6 @@ protected:
    *  each pair, and expressed in there).
    */
   std::vector<boost::shared_ptr<bearingVectors_t> > _bearingVectors2;
-  /** References to arrays of matches between bearing-vectors from
-   *  camera 1 and 2 of each pair. Length of array always equals
-   *  to the number of observations in camera 2 of a camera-pair, and elements are
-   *  indices of corresponding observations in camera 1 of the same pair.
-   */
-  std::vector<boost::shared_ptr<matches_t> > _matches;
 
   /** Reference to positions of the different cameras seen from the
    *  viewpoints.

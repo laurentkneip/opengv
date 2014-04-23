@@ -40,22 +40,7 @@ opengv::absolute_pose::MACentralAbsolute::MACentralAbsolute(
     _points(points),
     _bearingVectors(bearingVectors),
     _numberPoints(numberPoints),
-    _numberBearingVectors(numberBearingVectors),
-    _useMatches(false)
-{}
-
-opengv::absolute_pose::MACentralAbsolute::MACentralAbsolute(
-    const double * points,
-    const double * bearingVectors,
-    const double * matches,
-    int numberPoints,
-    int numberBearingVectors ) :
-    _points(points),
-    _bearingVectors(bearingVectors),
-    _matches(matches),
-    _numberPoints(numberPoints),
-    _numberBearingVectors(numberBearingVectors),
-    _useMatches(true)
+    _numberBearingVectors(numberBearingVectors)
 {}
 
 opengv::absolute_pose::MACentralAbsolute::~MACentralAbsolute()
@@ -85,22 +70,10 @@ opengv::absolute_pose::MACentralAbsolute::
     getPoint( size_t index ) const
 {
   point_t point;
-  if( _useMatches )
-  {
-    assert(index < _numberBearingVectors);
-    int i = floor(_matches[index] + 0.01);
-    assert(i < _numberPoints);
-    point[0] = _points[i * 3];
-    point[1] = _points[i * 3 + 1];
-    point[2] = _points[i * 3 + 2];
-  }
-  else
-  {
-    assert(index < _numberPoints);
-    point[0] = _points[index * 3];
-    point[1] = _points[index * 3 + 1];
-    point[2] = _points[index * 3 + 2];
-  }
+  assert(index < _numberPoints);
+  point[0] = _points[index * 3];
+  point[1] = _points[index * 3 + 1];
+  point[2] = _points[index * 3 + 2];
   return point;
 }
 

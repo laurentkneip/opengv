@@ -29,7 +29,7 @@ function rotation_error = evaluateRotationError(R_gt,R)
         end
         
         %find the smallest error (we are the most "nice" to algorithms returning multiple solutions,
-        %and do the disambiguation by hand)
+        %and do the disambiguation by hand)        
         [~,minIndex] = min(rotation_errors(1,1:index));
         rotation_error = rotation_errors(1,minIndex);
         

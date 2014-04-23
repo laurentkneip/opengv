@@ -32,7 +32,7 @@ rotation2 = generateBoundedR(max_rotation);
 minDepth = 4.0;
 maxDepth = 8.0;
 
-p = cell([4 1]);
+p = cell([cam_number 1]);
 
 for cam=1:cam_number
 	normalizedPoints = 2.0*(rand(3,pt_per_cam)-repmat(0.5,3,pt_per_cam));
@@ -44,8 +44,8 @@ end
 %% Now create the correspondences by looping through the cameras
 
 focal_length = 800.0;
-v1 = cell([4 1]);
-v2 = cell([4 1]);
+v1 = cell([cam_number 1]);
+v2 = cell([cam_number 1]);
 
 for cam=1:cam_number
 

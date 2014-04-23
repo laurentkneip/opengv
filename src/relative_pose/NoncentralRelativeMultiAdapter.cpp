@@ -34,17 +34,16 @@
 opengv::relative_pose::NoncentralRelativeMultiAdapter::NoncentralRelativeMultiAdapter(
     std::vector<boost::shared_ptr<bearingVectors_t> > bearingVectors1,
     std::vector<boost::shared_ptr<bearingVectors_t> > bearingVectors2,
-    std::vector<boost::shared_ptr<matches_t> > matches,
     const translations_t & camOffsets,
     const rotations_t & camRotations ) :
     _bearingVectors1(bearingVectors1),
     _bearingVectors2(bearingVectors2),
-    _matches(matches),
     _camOffsets(camOffsets),
     _camRotations(camRotations)
 {
   // The following variables are needed for the serialization and
   // de-serialization of indices
+  
   size_t singleIndexOffset = 0;
   for( size_t pairIndex = 0; pairIndex < bearingVectors2.size(); pairIndex++ )
   {
@@ -69,25 +68,20 @@ opengv::relative_pose::NoncentralRelativeMultiAdapter::
     getBearingVector1( size_t pairIndex, size_t correspondenceIndex ) const
 {
   assert(pairIndex < _bearingVectors1.size());
-  assert(pairIndex < _bearingVectors2.size());
-  assert(pairIndex < _matches.size());
 
-  assert(correspondenceIndex < _bearingVectors2[pairIndex]->size());
-  assert((*_matches[pairIndex])[correspondenceIndex] <
-      _bearingVectors1[pairIndex]->size());
-  return
-      (*_bearingVectors1[pairIndex])[(*_matches[pairIndex])[correspondenceIndex]];
+  assert(correspondenceIndex < _bearingVectors1[pairIndex]->size());
+
+  return (*_bearingVectors1[pairIndex])[correspondenceIndex];
 }
 
 opengv::bearingVector_t
 opengv::relative_pose::NoncentralRelativeMultiAdapter::
     getBearingVector2( size_t pairIndex, size_t correspondenceIndex ) const
 {
-  assert(pairIndex < _bearingVectors1.size());
   assert(pairIndex < _bearingVectors2.size());
-  assert(pairIndex < _matches.size());
 
   assert(correspondenceIndex < _bearingVectors2[pairIndex]->size());
+  
   return (*_bearingVectors2[pairIndex])[correspondenceIndex];
 }
 
@@ -118,12 +112,9 @@ size_t
 opengv::relative_pose::NoncentralRelativeMultiAdapter::
     getNumberCorrespondences(size_t pairIndex) const
 {
-  assert(pairIndex < _bearingVectors1.size());
   assert(pairIndex < _bearingVectors2.size());
-  assert(pairIndex < _matches.size());
 
-  assert(_matches[pairIndex]->size() == _bearingVectors2[pairIndex]->size());
-  return _matches[pairIndex]->size();
+  return _bearingVectors2[pairIndex]->size();
 }
 
 size_t
@@ -140,13 +131,15 @@ opengv::relative_pose::NoncentralRelativeMultiAdapter::
 {
   std::vector<int> singleIndices;
   for(size_t pairIndex = 0; pairIndex < multiIndices.size(); pairIndex++)
-  {
+  {  
     for(
         size_t correspondenceIndex = 0;
-        correspondenceIndex < multiIndices[pairIndex].size(); 
+        correspondenceIndex < multiIndices[pairIndex].size();
         correspondenceIndex++ )
+    {      
       singleIndices.push_back(convertMultiIndex(
           pairIndex, multiIndices[pairIndex][correspondenceIndex] ));
+    }
   }
 
   return singleIndices;

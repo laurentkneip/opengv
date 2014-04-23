@@ -57,7 +57,7 @@ int main( int argc, char** argv )
 
   //set experiment parameters
   double noise = 0.3;
-  double outlierFraction = 0.1;
+  double outlierFraction = 0.3;
   size_t numberPoints = 100;
   int numberCameras = 4;
 
@@ -77,14 +77,13 @@ int main( int argc, char** argv )
   //derive correspondences based on random point-cloud
   bearingVectors_t bearingVectors1;
   bearingVectors_t bearingVectors2;
-  std::vector<int> matches;
   std::vector<int> camCorrespondences1;
   std::vector<int> camCorrespondences2;
   Eigen::MatrixXd gt(3,numberPoints);
   generateRandom2D2DCorrespondences(
       position1, rotation1, position2, rotation2,
       camOffsets, camRotations, numberPoints, noise, outlierFraction,
-      bearingVectors1, bearingVectors2, matches,
+      bearingVectors1, bearingVectors2,
       camCorrespondences1, camCorrespondences2, gt );
 
   //Extract the relative pose
@@ -101,7 +100,6 @@ int main( int argc, char** argv )
       bearingVectors2,
       camCorrespondences1,
       camCorrespondences2,
-      matches,
       camOffsets,
       camRotations,
       position,
@@ -114,10 +112,11 @@ int main( int argc, char** argv )
       sac_problems::relative_pose::NoncentralRelativePoseSacProblem>
       relposeproblem_ptr(
       new sac_problems::relative_pose::NoncentralRelativePoseSacProblem(
-      adapter));
+      adapter,
+      sac_problems::relative_pose::NoncentralRelativePoseSacProblem::SIXPT));
   ransac.sac_model_ = relposeproblem_ptr;
   ransac.threshold_ = 2.0*(1.0 - cos(atan(sqrt(2.0)*0.5/800.0)));
-  ransac.max_iterations_ = 100;
+  ransac.max_iterations_ = 10000;
 
   //Run the experiment
   struct timeval tic;
