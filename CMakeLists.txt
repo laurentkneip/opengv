@@ -2,28 +2,25 @@ cmake_minimum_required(VERSION 2.4.6)
 project(opengv)
 
 # Set to true if used with ROS
-set (ROS false)
+set (ROS true)
+set (catkin_FOUND false)
 
 set (OPENGV_VERSION_MAJOR 1)
 set (OPENGV_VERSION_MINOR 0)
 
-# Set the build type.  Options are:
-#
-#  None (CMAKE_C_FLAGS or CMAKE_CXX_FLAGS used)
-#  Debug (CMAKE_C_FLAGS_DEBUG or CMAKE_CXX_FLAGS_DEBUG)
-#  Release (CMAKE_C_FLAGS_RELEASE or CMAKE_CXX_FLAGS_RELEASE)
-#  RelWithDebInfo (CMAKE_C_FLAGS_RELWITHDEBINFO or CMAKE_CXX_FLAGS_RELWITHDEBINFO
-#  MinSizeRel (CMAKE_C_FLAGS_MINSIZEREL or CMAKE_CXX_FLAGS_MINSIZEREL) 
 
 IF(ROS)
-  FIND_PACKAGE(catkin REQUIRED COMPONENTS roscpp)
-  set(CMAKE_BUILD_TYPE Release)
-  catkin_package(
-      DEPENDS Eigen
-      CATKIN_DEPENDS roscpp
-      INCLUDE_DIRS include
-      LIBRARIES opengv
-)
+  find_package(catkin)
+  IF (catkin_FOUND)
+    message("Found catkin. Creating opengv package with catkin")
+    
+    find_package(catkin_simple REQUIRED)
+    catkin_simple()
+  ELSE()
+    message("No catkin found. Creating opengv package with rosbuild")
+    set(CMAKE_BUILD_TYPE Release)
+  ENDIF() 
+
 ELSE()
   #set the default path for built executables to the "bin" directory
   set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
@@ -47,7 +44,7 @@ ENDIF()
 
 include_directories(${ADDITIONAL_INCLUDE_DIRS} ${PROJECT_SOURCE_DIR}/include)
 
-set( OPENGV_SOURCE_FILES
+set(OPENGV_SOURCE_FILES
   src/absolute_pose/modules/main.cpp
   src/absolute_pose/modules/gp3p/code.cpp
   src/absolute_pose/modules/gp3p/init.cpp
@@ -118,7 +115,7 @@ set( OPENGV_SOURCE_FILES
   src/relative_pose/MANoncentralRelativeMulti.cpp
   src/point_cloud/MAPointCloud.cpp )
 
-set( OPENGV_HEADER_FILES
+set(OPENGV_HEADER_FILES
   include/opengv/types.hpp
   include/opengv/OptimizationFunctor.hpp
   include/opengv/absolute_pose/methods.hpp
@@ -163,56 +160,129 @@ IF(WIN32)
   add_library( opengv ${OPENGV_SOURCE_FILES} ${OPENGV_HEADER_FILES} )
   add_library( random_generators test/random_generators.cpp test/random_generators.hpp test/experiment_helpers.cpp test/experiment_helpers.hpp test/time_measurement.cpp test/time_measurement.hpp )
 ELSE()
-  add_library( opengv SHARED ${OPENGV_SOURCE_FILES} ${OPENGV_HEADER_FILES} )
-  add_library( random_generators SHARED test/random_generators.cpp test/random_generators.hpp test/experiment_helpers.cpp test/experiment_helpers.hpp test/time_measurement.cpp test/time_measurement.hpp )
-  target_link_libraries(random_generators opengv)
+  IF( catkin_FOUND )
+      message(STATUS "Building opengv with catkin!")
+
+      #include_directories(${EIGEN_INCLUDE_DIRS})
+
+      #message(WARNING "Eigen: " ${EIGEN_INCLUDE_DIRS})
+      
+      cs_add_library(${PROJECT_NAME} SHARED ${OPENGV_SOURCE_FILES} ${OPENGV_HEADER_FILES})
+
+      cs_add_library(random_generators SHARED 
+        test/random_generators.cpp 
+        test/random_generators.hpp 
+        test/experiment_helpers.cpp 
+        test/experiment_helpers.hpp 
+        test/time_measurement.cpp 
+        test/time_measurement.hpp)
+      target_link_libraries(random_generators ${PROJECT_NAME})
+
+      cs_add_executable( test_absolute_pose test/test_absolute_pose.cpp )
+      target_link_libraries( test_absolute_pose ${PROJECT_NAME} random_generators )
+
+      cs_add_executable( test_absolute_pose_sac test/test_absolute_pose_sac.cpp )
+      target_link_libraries( test_absolute_pose_sac ${PROJECT_NAME} random_generators )
+
+      cs_add_executable( test_noncentral_absolute_pose test/test_noncentral_absolute_pose.cpp )
+      target_link_libraries( test_noncentral_absolute_pose ${PROJECT_NAME} random_generators )
+
+      cs_add_executable( test_noncentral_absolute_pose_sac test/test_noncentral_absolute_pose_sac.cpp )
+      target_link_libraries( test_noncentral_absolute_pose_sac ${PROJECT_NAME} random_generators )
+
+      cs_add_executable( test_relative_pose test/test_relative_pose.cpp )
+      target_link_libraries( test_relative_pose ${PROJECT_NAME} random_generators )
+
+      cs_add_executable( test_relative_pose_rotationOnly test/test_relative_pose_rotationOnly.cpp )
+      target_link_libraries( test_relative_pose_rotationOnly ${PROJECT_NAME} random_generators )
+
+      cs_add_executable( test_relative_pose_rotationOnly_sac test/test_relative_pose_rotationOnly_sac.cpp )
+      target_link_libraries( test_relative_pose_rotationOnly_sac ${PROJECT_NAME} random_generators )
+
+      cs_add_executable( test_relative_pose_sac test/test_relative_pose_sac.cpp )
+      target_link_libraries( test_relative_pose_sac ${PROJECT_NAME} random_generators )
+
+      cs_add_executable( test_noncentral_relative_pose test/test_noncentral_relative_pose.cpp )
+      target_link_libraries( test_noncentral_relative_pose ${PROJECT_NAME} random_generators )
+
+      cs_add_executable( test_noncentral_relative_pose_sac test/test_noncentral_relative_pose_sac.cpp )
+      target_link_libraries( test_noncentral_relative_pose_sac ${PROJECT_NAME} random_generators )
+
+      cs_add_executable( test_multi_noncentral_relative_pose_sac test/test_multi_noncentral_relative_pose_sac.cpp )
+      target_link_libraries( test_multi_noncentral_relative_pose_sac ${PROJECT_NAME} random_generators )
+
+      cs_add_executable( test_eigensolver_sac test/test_eigensolver_sac.cpp )
+      target_link_libraries( test_eigensolver_sac ${PROJECT_NAME} random_generators )
+
+      cs_add_executable( test_triangulation test/test_triangulation.cpp )
+      target_link_libraries( test_triangulation ${PROJECT_NAME} random_generators )
+
+      cs_add_executable( test_eigensolver test/test_eigensolver.cpp )
+      target_link_libraries( test_eigensolver ${PROJECT_NAME} random_generators )
+
+      cs_add_executable( test_point_cloud test/test_point_cloud.cpp )
+      target_link_libraries( test_point_cloud ${PROJECT_NAME} random_generators )
+
+      cs_add_executable( test_point_cloud_sac test/test_point_cloud_sac.cpp )
+      target_link_libraries( test_point_cloud_sac ${PROJECT_NAME} random_generators )
+
+      cs_install()
+      cs_export()
+
+  ELSE()
+      add_library( ${PROJECT_NAME} SHARED ${OPENGV_SOURCE_FILES} ${OPENGV_HEADER_FILES} )
+      add_library( random_generators SHARED test/random_generators.cpp test/random_generators.hpp test/experiment_helpers.cpp test/experiment_helpers.hpp test/time_measurement.cpp test/time_measurement.hpp )
+      target_link_libraries(random_generators ${PROJECT_NAME})
+
+      add_executable( test_absolute_pose test/test_absolute_pose.cpp )
+      target_link_libraries( test_absolute_pose ${PROJECT_NAME} random_generators )
+
+      add_executable( test_absolute_pose_sac test/test_absolute_pose_sac.cpp )
+      target_link_libraries( test_absolute_pose_sac ${PROJECT_NAME} random_generators )
+
+      add_executable( test_noncentral_absolute_pose test/test_noncentral_absolute_pose.cpp )
+      target_link_libraries( test_noncentral_absolute_pose ${PROJECT_NAME} random_generators )
+
+      add_executable( test_noncentral_absolute_pose_sac test/test_noncentral_absolute_pose_sac.cpp )
+      target_link_libraries( test_noncentral_absolute_pose_sac ${PROJECT_NAME} random_generators )
+
+      add_executable( test_relative_pose test/test_relative_pose.cpp )
+      target_link_libraries( test_relative_pose ${PROJECT_NAME} random_generators )
+
+      add_executable( test_relative_pose_rotationOnly test/test_relative_pose_rotationOnly.cpp )
+      target_link_libraries( test_relative_pose_rotationOnly ${PROJECT_NAME} random_generators )
+
+      add_executable( test_relative_pose_rotationOnly_sac test/test_relative_pose_rotationOnly_sac.cpp )
+      target_link_libraries( test_relative_pose_rotationOnly_sac ${PROJECT_NAME} random_generators )
+
+      add_executable( test_relative_pose_sac test/test_relative_pose_sac.cpp )
+      target_link_libraries( test_relative_pose_sac ${PROJECT_NAME} random_generators )
+
+      add_executable( test_noncentral_relative_pose test/test_noncentral_relative_pose.cpp )
+      target_link_libraries( test_noncentral_relative_pose ${PROJECT_NAME} random_generators )
+
+      add_executable( test_noncentral_relative_pose_sac test/test_noncentral_relative_pose_sac.cpp )
+      target_link_libraries( test_noncentral_relative_pose_sac ${PROJECT_NAME} random_generators )
+
+      add_executable( test_multi_noncentral_relative_pose_sac test/test_multi_noncentral_relative_pose_sac.cpp )
+      target_link_libraries( test_multi_noncentral_relative_pose_sac ${PROJECT_NAME} random_generators )
+
+      add_executable( test_eigensolver_sac test/test_eigensolver_sac.cpp )
+      target_link_libraries( test_eigensolver_sac ${PROJECT_NAME} random_generators )
+
+      add_executable( test_triangulation test/test_triangulation.cpp )
+      target_link_libraries( test_triangulation ${PROJECT_NAME} random_generators )
+
+      add_executable( test_eigensolver test/test_eigensolver.cpp )
+      target_link_libraries( test_eigensolver ${PROJECT_NAME} random_generators )
+
+      add_executable( test_point_cloud test/test_point_cloud.cpp )
+      target_link_libraries( test_point_cloud ${PROJECT_NAME} random_generators )
+
+      add_Executable( test_point_cloud_sac test/test_point_cloud_sac.cpp )
+      target_link_libraries( test_point_cloud_sac ${PROJECT_NAME} random_generators )
+  ENDIF()
 ENDIF()
 
-add_executable( test_absolute_pose test/test_absolute_pose.cpp )
-target_link_libraries( test_absolute_pose opengv random_generators )
 
-add_executable( test_absolute_pose_sac test/test_absolute_pose_sac.cpp )
-target_link_libraries( test_absolute_pose_sac opengv random_generators )
-
-add_executable( test_noncentral_absolute_pose test/test_noncentral_absolute_pose.cpp )
-target_link_libraries( test_noncentral_absolute_pose opengv random_generators )
-
-add_executable( test_noncentral_absolute_pose_sac test/test_noncentral_absolute_pose_sac.cpp )
-target_link_libraries( test_noncentral_absolute_pose_sac opengv random_generators )
-
-add_executable( test_relative_pose test/test_relative_pose.cpp )
-target_link_libraries( test_relative_pose opengv random_generators )
-
-add_executable( test_relative_pose_rotationOnly test/test_relative_pose_rotationOnly.cpp )
-target_link_libraries( test_relative_pose_rotationOnly opengv random_generators )
-
-add_executable( test_relative_pose_rotationOnly_sac test/test_relative_pose_rotationOnly_sac.cpp )
-target_link_libraries( test_relative_pose_rotationOnly_sac opengv random_generators )
-
-add_executable( test_relative_pose_sac test/test_relative_pose_sac.cpp )
-target_link_libraries( test_relative_pose_sac opengv random_generators )
-
-add_executable( test_noncentral_relative_pose test/test_noncentral_relative_pose.cpp )
-target_link_libraries( test_noncentral_relative_pose opengv random_generators )
-
-add_executable( test_noncentral_relative_pose_sac test/test_noncentral_relative_pose_sac.cpp )
-target_link_libraries( test_noncentral_relative_pose_sac opengv random_generators )
-
-add_executable( test_multi_noncentral_relative_pose_sac test/test_multi_noncentral_relative_pose_sac.cpp )
-target_link_libraries( test_multi_noncentral_relative_pose_sac opengv random_generators )
-
-add_executable( test_eigensolver_sac test/test_eigensolver_sac.cpp )
-target_link_libraries( test_eigensolver_sac opengv random_generators )
-
-add_executable( test_triangulation test/test_triangulation.cpp )
-target_link_libraries( test_triangulation opengv random_generators )
-
-add_executable( test_eigensolver test/test_eigensolver.cpp )
-target_link_libraries( test_eigensolver opengv random_generators )
-
-add_executable( test_point_cloud test/test_point_cloud.cpp )
-target_link_libraries( test_point_cloud opengv random_generators )
-
-add_Executable( test_point_cloud_sac test/test_point_cloud_sac.cpp )
-target_link_libraries( test_point_cloud_sac opengv random_generators )
 
