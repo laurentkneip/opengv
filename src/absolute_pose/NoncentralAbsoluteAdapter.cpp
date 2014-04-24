@@ -35,14 +35,12 @@ opengv::absolute_pose::NoncentralAbsoluteAdapter::NoncentralAbsoluteAdapter(
     const bearingVectors_t & bearingVectors,
     const camCorrespondences_t & camCorrespondences,
     const points_t & points,
-    const matches_t & matches,
     const translations_t & camOffsets,
     const rotations_t & camRotations ) :
     AbsoluteAdapterBase(),
     _bearingVectors(bearingVectors),
     _camCorrespondences(camCorrespondences),
     _points(points),
-    _matches(matches),
     _camOffsets(camOffsets),
     _camRotations(camRotations)
 {}
@@ -51,7 +49,6 @@ opengv::absolute_pose::NoncentralAbsoluteAdapter::NoncentralAbsoluteAdapter(
     const bearingVectors_t & bearingVectors,
     const camCorrespondences_t & camCorrespondences,
     const points_t & points,
-    const matches_t & matches,
     const translations_t & camOffsets,
     const rotations_t & camRotations,
     const rotation_t & R ) :
@@ -59,7 +56,6 @@ opengv::absolute_pose::NoncentralAbsoluteAdapter::NoncentralAbsoluteAdapter(
     _bearingVectors(bearingVectors),
     _camCorrespondences(camCorrespondences),
     _points(points),
-    _matches(matches),
     _camOffsets(camOffsets),
     _camRotations(camRotations)
 {}
@@ -68,7 +64,6 @@ opengv::absolute_pose::NoncentralAbsoluteAdapter::NoncentralAbsoluteAdapter(
     const bearingVectors_t & bearingVectors,
     const camCorrespondences_t & camCorrespondences,
     const points_t & points,
-    const matches_t & matches,
     const translations_t & camOffsets,
     const rotations_t & camRotations,
     const translation_t & t,
@@ -77,7 +72,6 @@ opengv::absolute_pose::NoncentralAbsoluteAdapter::NoncentralAbsoluteAdapter(
     _bearingVectors(bearingVectors),
     _camCorrespondences(camCorrespondences),
     _points(points),
-    _matches(matches),
     _camOffsets(camOffsets),
     _camRotations(camRotations)
 {}
@@ -105,7 +99,7 @@ opengv::absolute_pose::NoncentralAbsoluteAdapter::
     getPoint( size_t index ) const
 {
   assert(index < _bearingVectors.size());
-  return _points[_matches[index]];
+  return _points[index];
 }
 
 opengv::translation_t
@@ -128,5 +122,5 @@ size_t
 opengv::absolute_pose::NoncentralAbsoluteAdapter::
     getNumberCorrespondences() const
 {
-  return _matches.size();
+  return _bearingVectors.size();
 }

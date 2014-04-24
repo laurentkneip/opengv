@@ -75,16 +75,6 @@ public:
       const double * bearingVectors2,
       int numberBearingVectors1,
       int numberBearingVectors2 );
-  
-  /**
-   * \brief Constructor. See protected class-members to understand parameters
-   */
-  MACentralRelative(
-      const double * bearingVectors1,
-      const double * bearingVectors2,
-      const double * matches,
-      int numberBearingVectors1,
-      int numberBearingVectors2 );
 
   /**
    * \brief Destructor.
@@ -115,14 +105,10 @@ protected:
   const double * _bearingVectors1;
   /** A pointer to the bearing-vectors in viewpoint 2 */
   const double * _bearingVectors2;
-  /** A pointer to the matches-vector */
-  const double * _matches;
   /** The number of bearing-vectors in viewpoint 1 */
   int _numberBearingVectors1;
   /** The number of bearing-vectors in viewpoint 2 */
   int _numberBearingVectors2;
-  /** Use matches or not? */
-  bool _useMatches;
 };
 
 }

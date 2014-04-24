@@ -31,9 +31,9 @@
 /**
  * \file AbsolutePoseSacProblem.hpp
  * \brief Functions for fitting an absolute-pose model to a set of
- *        bearing-vector-point correspondences, using different algorithms (central
- *        and non-central one). Used in a sample-consenus paradigm for rejecting
- *        outlier correspondences.
+ *        bearing-vector-point correspondences, using different algorithms
+ *        (central and non-central one). Used in a sample-consenus paradigm for
+ *        rejecting outlier correspondences.
  */
 
 #ifndef OPENGV_SAC_PROBLEMS_ABSOLUTE_POSE_ABSOLUTEPOSESACPROBLEM_HPP_

@@ -38,7 +38,7 @@ for i=1:iterations
     
     % generate experiment        
     [v1,v2,cam_offsets,t,R] = createMulti2D2DExperiment(pt_number_per_cam,cam_number,noise,outlier_fraction);
-    Out = opengv_experimental1( v1{1,1}, v1{2,1}, v1{3,1}, v1{4,1}, v2{1,1}, v2{2,1}, v2{3,1}, v2{4,1}, cam_offsets );
+    Out = opengv_experimental1( v1{1,1}, v1{2,1}, v1{3,1}, v1{4,1}, v2{1,1}, v2{2,1}, v2{3,1}, v2{4,1}, cam_offsets, 2 );
     ransac_iterations(1,i) = Out(1,5);
 
     counter = counter + 1;
@@ -58,7 +58,7 @@ for i=1:iterations
     
     % generate experiment        
     [v1,v2,t,R] = create2D2DExperiment(pt_number_per_cam*cam_number,cam_number,noise,outlier_fraction);
-    Out = opengv_experimental2( v1, v2 );
+    Out = opengv_experimental2( v1, v2, 2 );
     ransac_iterations(2,i) = Out(1,5);
 
     counter = counter + 1;

@@ -119,8 +119,8 @@ opengv::sac_problems::
     scores.push_back(reprojError1 + reprojError2);
   }
 
-  _adapter.sett12(tempTranslation);  //************//
-  _adapter.setR12(tempRotation);     //************//
+  _adapter.sett12(tempTranslation);
+  _adapter.setR12(tempRotation);
 }
 
 void
@@ -145,7 +145,7 @@ opengv::sac_problems::
     for( size_t i = 0; i < 3; i++ )
       cayley[i] = cayley[i] + (((double) rand())/ ((double) RAND_MAX)-0.5)*2.0*maxVariation;
     temp_optimized_model.rotation = math::cayley2rot(cayley);
-    opengv::relative_pose::eigensolverWithWeights(_adapter,inliers,temp_optimized_model);
+    opengv::relative_pose::eigensolver(_adapter,inliers,temp_optimized_model,true);
 
     if(firstIteration)
     {

@@ -67,23 +67,18 @@ private:
 public:
   EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 
-  /** A type defined for the matches, see protected class-members */
-  typedef std::vector<int> matches_t;
-
+  /**
+   * \brief Constructor. See protected class-members to understand parameters
+   */
+  PointCloudAdapter(
+      const points_t & points1,
+      const points_t & points2 );
   /**
    * \brief Constructor. See protected class-members to understand parameters
    */
   PointCloudAdapter(
       const points_t & points1,
       const points_t & points2,
-      const matches_t & matches );
-  /**
-   * \brief Constructor. See protected class-members to understand parameters
-   */
-  PointCloudAdapter(
-      const points_t & points1,
-      const points_t & points2,
-      const matches_t & matches,
       const rotation_t & R12 );
   /**
    * \brief Constructor. See protected class-members to understand parameters
@@ -91,7 +86,6 @@ public:
   PointCloudAdapter(
       const points_t & points1,
       const points_t & points2,
-      const matches_t & matches,
       const translation_t & t12,
       const rotation_t & R12 );
   /**
@@ -115,11 +109,6 @@ private:
   const points_t & _points1;
   /** Reference to the 3D-points in frame 2 */
   const points_t & _points2;
-  /** Reference to array containing matches between 3D-points.
-   *  Length equals to number of points in frame 2, and elements are indices of
-   *  corresponding points in frame 1.
-   */
-  const matches_t & _matches;
 };
 
 }

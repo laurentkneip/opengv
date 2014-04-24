@@ -33,35 +33,29 @@
 
 opengv::point_cloud::PointCloudAdapter::PointCloudAdapter(
     const points_t & points1,
-    const points_t & points2,
-    const matches_t & matches ) :
+    const points_t & points2 ) :
     PointCloudAdapterBase(),
     _points1(points1),
-    _points2(points2),
-    _matches(matches)
+    _points2(points2)
 {}
 
 opengv::point_cloud::PointCloudAdapter::PointCloudAdapter(
     const points_t & points1,
     const points_t & points2,
-    const matches_t & matches,
     const rotation_t & R12 ) :
     PointCloudAdapterBase(R12),
     _points1(points1),
-    _points2(points2),
-    _matches(matches)
+    _points2(points2)
 {}
 
 opengv::point_cloud::PointCloudAdapter::PointCloudAdapter(
     const points_t & points1,
     const points_t & points2,
-    const matches_t & matches,
     const translation_t & t12,
     const rotation_t & R12 ) :
     PointCloudAdapterBase(t12,R12),
     _points1(points1),
-    _points2(points2),
-    _matches(matches)
+    _points2(points2)
 {}
 
 opengv::point_cloud::PointCloudAdapter::~PointCloudAdapter()
@@ -71,9 +65,8 @@ opengv::point_t
 opengv::point_cloud::PointCloudAdapter::
     getPoint1( size_t index ) const
 {
-  assert(index < _points2.size());
-  assert(_matches[index] < _points1.size());
-  return _points1[_matches[index]];
+  assert(index < _points1.size());
+  return _points1[index];
 }
 
 opengv::point_t
@@ -95,5 +88,5 @@ size_t
 opengv::point_cloud::PointCloudAdapter::
     getNumberCorrespondences() const
 {
-  return _matches.size();
+  return _points2.size();
 }

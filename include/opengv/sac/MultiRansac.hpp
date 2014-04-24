@@ -98,7 +98,7 @@ public:
 };
 
 } // namespace sac
-} // namespace geoemtric_vision
+} // namespace opengv
 
 #include "implementation/MultiRansac.hpp"
 

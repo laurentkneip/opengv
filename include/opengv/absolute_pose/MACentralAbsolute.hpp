@@ -76,16 +76,6 @@ public:
       const double * bearingVectors,
       int numberPoints,
       int numberBearingVectors );
-  
-  /**
-   * \brief Constructor. See protected class-members to understand parameters
-   */
-  MACentralAbsolute(
-      const double * points,
-      const double * bearingVectors,
-      const double * matches,
-      int numberPoints,
-      int numberBearingVectors );
       
   /**
    * Destructor
@@ -113,14 +103,10 @@ protected:
   const double * _points;
   /** A pointer to the bearing-vectors */
   const double * _bearingVectors;
-  /** A pointer to the matches-vector */
-  const double * _matches;
   /** The number of points */
   int _numberPoints;
   /** The number of bearing vectors */
   int _numberBearingVectors;
-  /** Use matches or not? */
-  bool _useMatches;
 };
 
 }

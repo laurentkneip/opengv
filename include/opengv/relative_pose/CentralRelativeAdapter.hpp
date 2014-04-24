@@ -68,23 +68,18 @@ protected:
 public:
   EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 
-  /** A type defined for the matches, see protected class-members */
-  typedef std::vector<int> matches_t;
-
+  /**
+   * \brief Constructor. See protected class-members to understand parameters
+   */
+  CentralRelativeAdapter(
+      const bearingVectors_t & bearingVectors1,
+      const bearingVectors_t & bearingVectors2 );
   /**
    * \brief Constructor. See protected class-members to understand parameters
    */
   CentralRelativeAdapter(
       const bearingVectors_t & bearingVectors1,
       const bearingVectors_t & bearingVectors2,
-      const matches_t & matches );
-  /**
-   * \brief Constructor. See protected class-members to understand parameters
-   */
-  CentralRelativeAdapter(
-      const bearingVectors_t & bearingVectors1,
-      const bearingVectors_t & bearingVectors2,
-      const matches_t & matches,
       const rotation_t & R12 );
   /**
    * \brief Constructor. See protected class-members to understand parameters
@@ -92,7 +87,6 @@ public:
   CentralRelativeAdapter(
       const bearingVectors_t & bearingVectors1,
       const bearingVectors_t & bearingVectors2,
-      const matches_t & matches,
       const translation_t & t12,
       const rotation_t & R12 );
   /**
@@ -124,11 +118,6 @@ protected:
   const bearingVectors_t & _bearingVectors1;
   /** Reference to bearing-vectors expressed in viewpoint 2. */
   const bearingVectors_t & _bearingVectors2;
-  /** Reference to array containing matches between bearing-vectors from
-   *  viewpoint 1 and 2. Length equals to number of observations in viewpoint
-   *  2, and elements are indices of corresponding observations in viewpoint 1.
-   */
-  const matches_t & _matches;
 };
 
 }

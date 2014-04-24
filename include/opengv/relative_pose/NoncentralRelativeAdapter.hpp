@@ -68,8 +68,6 @@ protected:
 public:
   EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 
-  /** A type defined for the matches, see protected class-members */
-  typedef std::vector<int> matches_t;
   /** A type defined for the camera-correspondences, see protected
    *  class-members
    */
@@ -83,7 +81,6 @@ public:
       const bearingVectors_t & bearingVectors2,
       const camCorrespondences_t & camCorrespondences1,
       const camCorrespondences_t & camCorrespondences2,
-      const matches_t & matches,
       const translations_t & camOffsets,
       const rotations_t & camRotations );
   /**
@@ -94,7 +91,6 @@ public:
       const bearingVectors_t & bearingVectors2,
       const camCorrespondences_t & camCorrespondences1,
       const camCorrespondences_t & camCorrespondences2,
-      const matches_t & matches,
       const translations_t & camOffsets,
       const rotations_t & camRotations,
       const rotation_t & R12 );
@@ -106,7 +102,6 @@ public:
       const bearingVectors_t & bearingVectors2,
       const camCorrespondences_t & camCorrespondences1,
       const camCorrespondences_t & camCorrespondences2,
-      const matches_t & matches,
       const translations_t & camOffsets,
       const rotations_t & camRotations,
       const translation_t & t12,
@@ -156,11 +151,6 @@ protected:
    *  arrays.
    */
   const camCorrespondences_t & _camCorrespondences2;
-  /** Reference to array containing matches between bearing-vectors from
-   *  viewpoint 1 and 2. Length equals to number of observations in viewpoint
-   *  2, and elements are indices of corresponding observations in viewpoint 1.
-   */
-  const matches_t & _matches;
 
   /** Reference to positions of the different cameras seen from their
    *  viewpoint.

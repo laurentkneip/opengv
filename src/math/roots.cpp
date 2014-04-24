@@ -33,6 +33,57 @@
 #include <complex>
 
 std::vector<double>
+opengv::math::o3_roots( const std::vector<double> & p )
+{
+  const double & a = p[0];
+  const double & b = p[1];
+  const double & c = p[2];
+  const double & d = p[3];
+  
+  double theta_0 = b*b - 3.0*a*c;
+  double theta_1 = 2.0*b*b*b - 9.0*a*b*c + 27.0*a*a*d;
+  double term = theta_1 * theta_1 - 4.0 * theta_0 * theta_0 * theta_0;
+  
+  std::complex<double> u1( 1.0, 0.0);
+  std::complex<double> u2(-0.5, 0.5*sqrt(3.0));
+  std::complex<double> u3(-0.5,-0.5*sqrt(3.0));
+  std::complex<double> C;
+  
+  if( term >= 0.0 )
+  {
+    double C3 = 0.5 * (theta_1 + sqrt(term));
+    
+    if( C3 < 0.0 )
+      C = std::complex<double>(-pow(-C3,(1.0/3.0)),0.0);
+    else
+      C = std::complex<double>( pow( C3,(1.0/3.0)),0.0);
+  }
+  else
+  {
+    std::complex<double> C3( 0.5*theta_1, 0.5*sqrt(-term) );
+    
+    //take the third root of this complex number
+    double r3 = sqrt(pow(C3.real(),2.0)+pow(C3.imag(),2.0));
+    double a3 = atan(C3.imag() / C3.real());
+    if( C3.real() < 0 )
+      a3 += M_PI;
+    
+    double r = pow(r3,(1.0/3.0));
+    C = std::complex<double>(r*cos(a3/3.0),r*sin(a3/3.0));
+  }
+  
+  std::complex<double> r1 = -(1.0/(3.0*a)) * (b + u1*C + theta_0 / (u1*C) );
+  std::complex<double> r2 = -(1.0/(3.0*a)) * (b + u2*C + theta_0 / (u2*C) );
+  std::complex<double> r3 = -(1.0/(3.0*a)) * (b + u3*C + theta_0 / (u3*C) );
+  
+  std::vector<double> roots;
+  roots.push_back(r1.real());
+  roots.push_back(r2.real());
+  roots.push_back(r3.real());
+  return roots;
+}
+
+std::vector<double>
 opengv::math::o4_roots( const Eigen::MatrixXd & p )
 {
   double A = p(0,0);

@@ -44,7 +44,7 @@ for i=1:iterations
     for a=1:num_algorithms
         tic;
         T = opengv_donotuse(algorithms{a},indices{a},points,v,T_perturbed);
-        execution_times(a,i) = toc/100.0;
+        execution_times(a,i) = toc/20.0;
     end
     
     counter = counter + 1;

@@ -43,7 +43,7 @@ for i=1:iterations
     for a=1:num_algorithms
         tic
         Out = opengv_donotuse(algorithms{a},indices{a},v1,v2,T_perturbed);
-        execution_times(a,i) = toc/100.0;
+        execution_times(a,i) = toc/20.0;
     end
 
     counter = counter + 1;

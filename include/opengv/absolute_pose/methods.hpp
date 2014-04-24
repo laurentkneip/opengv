@@ -89,23 +89,23 @@ translation_t p2p(
     size_t index1 = 1 );
 
 /**
- * \brief Compute the pose of a central viewpoint using three point correspondences
- *        and Kneip's method [1].
+ * \brief Compute the pose of a central viewpoint using three point
+ *        correspondences and Kneip's method [1].
  *
  * \param[in] adapter Visitor holding bearing vector to world point correspondences.
  * \param[in] indices Indices of the three correspondences that are used for
  *                    deriving the pose.
  * \return Poses of viewpoint (position seen from world frame and orientation
- *         from viewpoint to world frame, transforms points from viewpoint to world
- *         frame, maximum 4 solutions).
+ *         from viewpoint to world frame, transforms points from viewpoint to
+ *         world, frame, maximum 4 solutions).
  */
 transformations_t p3p_kneip(
     const AbsoluteAdapterBase & adapter,
     const std::vector<int> & indices );
 
 /**
- * \brief Compute the pose of a central viewpoint using three point correspondences
- *        and Kneip's method [1].
+ * \brief Compute the pose of a central viewpoint using three point
+ *        correspondences and Kneip's method [1].
  *
  * \param[in] adapter Visitor holding bearing vector to world point correspondences.
  * \param[in] index0 Index of the first correspondence used for deriving the
@@ -118,8 +118,8 @@ transformations_t p3p_kneip(
  *                   pose (use default value if only three correspondences
  *                   provided anyway).
  * \return Poses of viewpoint (position seen from world frame and orientation
- *         from viewpoint to world frame, transforms points from viewpoint to world
- *         frame, maximum 4 solutions).
+ *         from viewpoint to world frame, transforms points from viewpoint to
+ *         world frame, maximum 4 solutions).
  */
 transformations_t p3p_kneip(
     const AbsoluteAdapterBase & adapter,
@@ -135,16 +135,16 @@ transformations_t p3p_kneip(
  * \param[in] indices Indices of the three correspondences that are used for
  *                    deriving the pose.
  * \return Poses of viewpoint (position seen from world frame and orientation
- *         from viewpoint to world frame, transforms points from viewpoint to world
- *         frame, maximum 4 solutions).
+ *         from viewpoint to world frame, transforms points from viewpoint to
+ *         world frame, maximum 4 solutions).
  */
 transformations_t p3p_gao(
     const AbsoluteAdapterBase & adapter,
     const std::vector<int> & indices );
 
 /**
- * \brief Compute the pose of a central viewpoint using three point correspondences
- *        and Gao's method [2].
+ * \brief Compute the pose of a central viewpoint using three point
+ *        correspondences and Gao's method [2].
  *
  * \param[in] adapter Visitor holding bearing vector to world point correspondences.
  * \param[in] index0 Index of the first correspondence used for deriving the
@@ -157,8 +157,8 @@ transformations_t p3p_gao(
  *                   pose (use default value if only three correspondences
  *                   provided anyway).
  * \return Poses of viewpoint (position seen from world frame and orientation
- *         from viewpoint to world frame, transforms points from viewpoint to world
- *         frame, maximum 4 solutions).
+ *         from viewpoint to world frame, transforms points from viewpoint to
+ *         world frame, maximum 4 solutions).
  */
 transformations_t p3p_gao(
     const AbsoluteAdapterBase & adapter,
@@ -213,8 +213,8 @@ transformations_t gp3p(
  *
  * \param[in] adapter Visitor holding bearing vector to world point correspondences.
  * \return Pose of viewpoint (position seen from world frame and orientation
- *         from viewpoint to world frame, transforms points from viewpoint to world
- *         frame).
+ *         from viewpoint to world frame, transforms points from viewpoint to
+ *         world frame).
  */
 transformation_t epnp( const AbsoluteAdapterBase & adapter );
 
@@ -225,8 +225,8 @@ transformation_t epnp( const AbsoluteAdapterBase & adapter );
  * \param[in] indices Indices of the n correspondences that are used for
  *                    deriving the pose.
  * \return Pose of viewpoint (position seen from world frame and orientation
- *         from viewpoint to world frame, transforms points from viewpoint to world
- *         frame).
+ *         from viewpoint to world frame, transforms points from viewpoint to
+ *         world frame).
  */
 transformation_t epnp(
     const AbsoluteAdapterBase & adapter,
@@ -239,8 +239,8 @@ transformation_t epnp(
  * \param[in] adapter Visitor holding bearing vector to world point
  *                    correspondences, plus the multi-camera configuration.
  * \return Pose of viewpoint (position seen from world frame and orientation
- *         from viewpoint to world frame, transforms points from viewpoint to world
- *         frame).
+ *         from viewpoint to world frame, transforms points from viewpoint to
+ *         world frame).
  */
 transformation_t gpnp( const AbsoluteAdapterBase & adapter );
 
@@ -252,29 +252,29 @@ transformation_t gpnp( const AbsoluteAdapterBase & adapter );
  * \param[in] indices Indices of the n correspondences that are used for
  *                    deriving the pose.
  * \return Pose of viewpoint (position seen from world frame and orientation
- *         from viewpoint to world frame, transforms points from viewpoint to world
- *         frame).
+ *         from viewpoint to world frame, transforms points from viewpoint to
+ *         world frame).
  */
 transformation_t gpnp(
     const AbsoluteAdapterBase & adapter,
     const std::vector<int> & indices );
 
 /**
- * \brief Compute the pose of a viewpoint using nonlinear optimization. Using all
- *        available correspondences. Works for central and non-central case.
+ * \brief Compute the pose of a viewpoint using nonlinear optimization. Using
+ *        all available correspondences. Works for central and non-central case.
  *
  * \param[in] adapter Visitor holding bearing vector to world point
  *                    correspondences, the multi-camera configuration, plus
  *                    the initial values.
  * \return Pose of viewpoint (position seen from world frame and orientation
- *         from viewpoint to world frame, transforms points from viewpoint to world
- *         frame).
+ *         from viewpoint to world frame, transforms points from viewpoint to
+ *         world frame).
  */
 transformation_t optimize_nonlinear( const AbsoluteAdapterBase & adapter );
 
 /**
- * \brief Compute the pose of a viewpoint using nonlinear optimization. Works for
- *        central and non-central viewpoints.
+ * \brief Compute the pose of a viewpoint using nonlinear optimization. Works
+ *        for central and non-central viewpoints.
  *
  * \param[in] adapter Visitor holding bearing vector to world point
  *                    correspondences, the multi-camera configuration, plus
@@ -282,8 +282,8 @@ transformation_t optimize_nonlinear( const AbsoluteAdapterBase & adapter );
  * \param[in] indices Indices of the n correspondences that are used for
  *                    deriving the pose.
  * \return Pose of viewpoint (position seen from world frame and orientation
- *         from viewpoint to world frame, transforms points from viewpoint to world
- *         frame).
+ *         from viewpoint to world frame, transforms points from viewpoint to
+ *         world frame).
  */
 transformation_t optimize_nonlinear(
     const AbsoluteAdapterBase & adapter,

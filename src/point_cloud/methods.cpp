@@ -30,6 +30,7 @@
 
 
 #include <opengv/point_cloud/methods.hpp>
+#include <opengv/Indices.hpp>
 
 #include <eigen3/unsupported/Eigen/NonLinearOptimization>
 #include <eigen3/unsupported/Eigen/NumericalDiff>
@@ -38,50 +39,14 @@
 #include <opengv/math/arun.hpp>
 #include <opengv/math/cayley.hpp>
 
-opengv::transformation_t
-opengv::point_cloud::threept_arun( const PointCloudAdapterBase & adapter )
+namespace opengv
 {
-  size_t numberCorrespondences = adapter.getNumberCorrespondences();
-  assert(numberCorrespondences > 2);
+namespace point_cloud
+{
 
-  //derive the centroid of the two point-clouds
-  point_t pointsCenter1 = Eigen::Vector3d::Zero();
-  point_t pointsCenter2 = Eigen::Vector3d::Zero();
-
-  for( size_t i = 0; i < numberCorrespondences; i++ )
-  {
-    pointsCenter1 += adapter.getPoint1(i);
-    pointsCenter2 += adapter.getPoint2(i);
-  }
-
-  pointsCenter1 = pointsCenter1 / numberCorrespondences;
-  pointsCenter2 = pointsCenter2 / numberCorrespondences;
-
-  //compute the matrix H = sum(f'*f^{T})
-  Eigen::MatrixXd Hcross(3,3);
-  Hcross = Eigen::Matrix3d::Zero();
-
-  for( size_t i = 0; i < numberCorrespondences; i++ )
-  {
-    Eigen::Vector3d f = adapter.getPoint1(i) - pointsCenter1;
-    Eigen::Vector3d fprime = adapter.getPoint2(i) - pointsCenter2;
-    Hcross += fprime * f.transpose();
-  }
-
-  //decompose this matrix (SVD) to obtain rotation
-  rotation_t rotation = math::arun(Hcross);
-  translation_t translation = pointsCenter1 - rotation*pointsCenter2;
-  transformation_t solution;
-  solution.block<3,3>(0,0) = rotation;
-  solution.col(3) = translation;
-
-  return solution;
-};
-
-opengv::transformation_t
-opengv::point_cloud::threept_arun(
+transformation_t threept_arun(
     const PointCloudAdapterBase & adapter,
-    const std::vector<int> & indices )
+    const Indices & indices )
 {
   size_t numberCorrespondences = indices.size();
   assert(numberCorrespondences > 2);
@@ -120,6 +85,25 @@ opengv::point_cloud::threept_arun(
   return solution;
 };
 
+}
+}
+
+opengv::transformation_t
+opengv::point_cloud::threept_arun( const PointCloudAdapterBase & adapter )
+{
+  Indices idx(adapter.getNumberCorrespondences());
+  return threept_arun(adapter,idx);
+};
+
+opengv::transformation_t
+opengv::point_cloud::threept_arun(
+    const PointCloudAdapterBase & adapter,
+    const std::vector<int> & indices )
+{
+  Indices idx(indices);
+  return threept_arun(adapter,idx);
+};
+
 namespace opengv
 {
 namespace point_cloud
@@ -128,45 +112,11 @@ namespace point_cloud
 struct OptimizeNonlinearFunctor1 : OptimizationFunctor<double>
 {
   PointCloudAdapterBase & _adapter;
+  const Indices & _indices;
 
-  OptimizeNonlinearFunctor1( PointCloudAdapterBase & adapter ) :
-      OptimizationFunctor<double>(6,adapter.getNumberCorrespondences()),
-      _adapter(adapter) {}
-
-  int operator()(const VectorXd &x, VectorXd &fvec) const
-  {
-    assert( x.size() == 6 );
-    assert( (unsigned int) fvec.size() == _adapter.getNumberCorrespondences());
-
-    //compute the current position
-    transformation_t transformation;
-    transformation.col(3) = x.block<3,1>(0,0);
-    cayley_t cayley = x.block<3,1>(3,0);
-    transformation.block<3,3>(0,0) = math::cayley2rot(cayley);
-
-    Eigen::Matrix<double,4,1> p_hom;
-    p_hom[3] = 1.0;
-
-    for( size_t i = 0; i < _adapter.getNumberCorrespondences(); i++ )
-    {
-      p_hom.block<3,1>(0,0) = _adapter.getPoint2(i);
-      point_t transformedPoint = transformation * p_hom;
-      translation_t error = _adapter.getPoint1(i) - transformedPoint;
-      fvec[i] = error.norm();
-    }
-
-    return 0;
-  }
-};
-
-struct OptimizeNonlinearFunctor2 : OptimizationFunctor<double>
-{
-  PointCloudAdapterBase & _adapter;
-  const std::vector<int> & _indices;
-
-  OptimizeNonlinearFunctor2(
+  OptimizeNonlinearFunctor1(
       PointCloudAdapterBase & adapter,
-      const std::vector<int> & indices ) :
+      const Indices & indices ) :
       OptimizationFunctor<double>(6,indices.size()),
       _adapter(adapter),
       _indices(indices) {}
@@ -197,11 +147,9 @@ struct OptimizeNonlinearFunctor2 : OptimizationFunctor<double>
   }
 };
 
-}
-}
-
-opengv::transformation_t
-opengv::point_cloud::optimize_nonlinear( PointCloudAdapterBase & adapter )
+transformation_t optimize_nonlinear(
+    PointCloudAdapterBase & adapter,
+    const Indices & indices )
 {
   const int n=6;
   VectorXd x(n);
@@ -209,9 +157,9 @@ opengv::point_cloud::optimize_nonlinear( PointCloudAdapterBase & adapter )
   x.block<3,1>(0,0) = adapter.gett12();
   x.block<3,1>(3,0) = math::rot2cayley(adapter.getR12());
 
-  OptimizeNonlinearFunctor1 functor( adapter );
-  NumericalDiff<OptimizeNonlinearFunctor1> numDiff(functor);
-  LevenbergMarquardt< NumericalDiff<OptimizeNonlinearFunctor1> > lm(numDiff);
+  OptimizeNonlinearFunctor1 functor( adapter, indices );
+  NumericalDiff<OptimizeNonlinearFunctor1 > numDiff(functor);
+  LevenbergMarquardt< NumericalDiff<OptimizeNonlinearFunctor1 > > lm(numDiff);
 
   lm.resetParameters();
   lm.parameters.ftol = 1.E10*NumTraits<double>::epsilon();
@@ -223,6 +171,16 @@ opengv::point_cloud::optimize_nonlinear( PointCloudAdapterBase & adapter )
   transformation.col(3) = x.block<3,1>(0,0);
   transformation.block<3,3>(0,0) = math::cayley2rot(x.block<3,1>(3,0));
   return transformation;
+}
+
+}
+}
+
+opengv::transformation_t
+opengv::point_cloud::optimize_nonlinear( PointCloudAdapterBase & adapter )
+{
+  Indices idx(adapter.getNumberCorrespondences());
+  return optimize_nonlinear(adapter,idx);
 }
 
 opengv::transformation_t
@@ -230,24 +188,6 @@ opengv::point_cloud::optimize_nonlinear(
     PointCloudAdapterBase & adapter,
     const std::vector<int> & indices )
 {
-  const int n=6;
-  VectorXd x(n);
-
-  x.block<3,1>(0,0) = adapter.gett12();
-  x.block<3,1>(3,0) = math::rot2cayley(adapter.getR12());
-
-  OptimizeNonlinearFunctor2 functor( adapter, indices );
-  NumericalDiff<OptimizeNonlinearFunctor2 > numDiff(functor);
-  LevenbergMarquardt< NumericalDiff<OptimizeNonlinearFunctor2 > > lm(numDiff);
-
-  lm.resetParameters();
-  lm.parameters.ftol = 1.E10*NumTraits<double>::epsilon();
-  lm.parameters.xtol = 1.E10*NumTraits<double>::epsilon();
-  lm.parameters.maxfev = 1000;
-  lm.minimize(x);
-
-  transformation_t transformation;
-  transformation.col(3) = x.block<3,1>(0,0);
-  transformation.block<3,3>(0,0) = math::cayley2rot(x.block<3,1>(3,0));
-  return transformation;
+  Indices idx(indices);
+  return optimize_nonlinear(adapter,idx);
 }
