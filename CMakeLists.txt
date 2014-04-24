@@ -279,10 +279,14 @@ ELSE()
       add_executable( test_point_cloud test/test_point_cloud.cpp )
       target_link_libraries( test_point_cloud ${PROJECT_NAME} random_generators )
 
-      add_Executable( test_point_cloud_sac test/test_point_cloud_sac.cpp )
+      add_executable( test_point_cloud_sac test/test_point_cloud_sac.cpp )
       target_link_libraries( test_point_cloud_sac ${PROJECT_NAME} random_generators )
   ENDIF()
 ENDIF()
 
+IF (catkin_FOUND)
+  cs_install()
+  cs_export()
+ENDIF()
 
 
