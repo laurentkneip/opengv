@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 2.4.6)
 project(opengv)
 
+# Set to true if used with ROS
+set (ROS false)
+
 set (OPENGV_VERSION_MAJOR 1)
 set (OPENGV_VERSION_MINOR 0)
 
@@ -12,12 +15,21 @@ set (OPENGV_VERSION_MINOR 0)
 #  RelWithDebInfo (CMAKE_C_FLAGS_RELWITHDEBINFO or CMAKE_CXX_FLAGS_RELWITHDEBINFO
 #  MinSizeRel (CMAKE_C_FLAGS_MINSIZEREL or CMAKE_CXX_FLAGS_MINSIZEREL) 
 
-set(CMAKE_BUILD_TYPE Release)
-
-#set the default path for built executables to the "bin" directory
-set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
-#set the default path for built libraries to the "lib" directory
-set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
+IF(ROS)
+  FIND_PACKAGE(catkin REQUIRED COMPONENTS roscpp)
+  set(CMAKE_BUILD_TYPE Release)
+  catkin_package(
+      DEPENDS Eigen
+      CATKIN_DEPENDS roscpp
+      INCLUDE_DIRS include
+      LIBRARIES opengv
+)
+ELSE()
+  #set the default path for built executables to the "bin" directory
+  set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
+  #set the default path for built libraries to the "lib" directory
+  set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
+ENDIF()
 
 add_definitions (-Wall -march=native -O3) #TODO use correct c++11 def once everybody has moved to gcc 4.7 # for now I even removed std=gnu++0x
 
@@ -28,8 +40,9 @@ IF(WIN32)
   set(ADDITIONAL_INCLUDE_DIRS ${Eigen_INCLUDE_DIRS}
                               ${PROJECT_SOURCE_DIR}/third_party/boost )
 ELSE()
+  list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
   find_package(Eigen REQUIRED)
-  set(ADDITIONAL_INCLUDE_DIRS ${Eigen_INCLUDE_DIRS} )
+  set(ADDITIONAL_INCLUDE_DIRS ${EIGEN_INCLUDE_DIRS} )
 ENDIF()
 
 include_directories(${ADDITIONAL_INCLUDE_DIRS} ${PROJECT_SOURCE_DIR}/include)
@@ -60,7 +73,7 @@ set( OPENGV_SOURCE_FILES
   src/absolute_pose/modules/gpnp5/code.cpp
   src/absolute_pose/modules/gpnp5/init.cpp
   src/absolute_pose/modules/gpnp5/reductors.cpp
-  src/absolute_pose/modules/gpnp5/spolynomials.cpp	
+  src/absolute_pose/modules/gpnp5/spolynomials.cpp
   src/relative_pose/modules/main.cpp
   src/relative_pose/modules/fivept_nister/modules.cpp
   src/relative_pose/modules/fivept_stewenius/modules.cpp
@@ -68,11 +81,15 @@ set( OPENGV_SOURCE_FILES
   src/relative_pose/modules/fivept_kneip/init.cpp
   src/relative_pose/modules/fivept_kneip/reductors.cpp
   src/relative_pose/modules/fivept_kneip/spolynomials.cpp
+  src/relative_pose/modules/sixpt/modules2.cpp
   src/relative_pose/modules/eigensolver/modules.cpp
+  src/relative_pose/modules/ge/modules.cpp
   src/math/cayley.cpp
+  src/math/quaternion.cpp
   src/math/arun.cpp
   src/math/Sturm.cpp
   src/math/roots.cpp
+  src/math/gauss_jordan.cpp
   src/absolute_pose/methods.cpp
   src/absolute_pose/CentralAbsoluteAdapter.cpp
   src/absolute_pose/NoncentralAbsoluteAdapter.cpp
@@ -109,9 +126,11 @@ set( OPENGV_HEADER_FILES
   include/opengv/triangulation/methods.hpp
   include/opengv/point_cloud/methods.hpp
   include/opengv/math/cayley.hpp
+  include/opengv/math/quaternion.hpp
   include/opengv/math/arun.hpp
   include/opengv/math/Sturm.hpp
   include/opengv/math/roots.hpp
+  include/opengv/math/gauss_jordan.hpp
   include/opengv/absolute_pose/AbsoluteAdapterBase.hpp
   include/opengv/absolute_pose/CentralAbsoluteAdapter.hpp
   include/opengv/absolute_pose/NoncentralAbsoluteAdapter.hpp
@@ -196,3 +215,4 @@ target_link_libraries( test_point_cloud opengv random_generators )
 
 add_Executable( test_point_cloud_sac test/test_point_cloud_sac.cpp )
 target_link_libraries( test_point_cloud_sac opengv random_generators )
+
