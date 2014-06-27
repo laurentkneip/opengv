@@ -30,18 +30,6 @@ ENDIF()
 
 add_definitions (-Wall -march=native -O3) #TODO use correct c++11 def once everybody has moved to gcc 4.7 # for now I even removed std=gnu++0x
 
-# get eigen (and boost under windows)
-IF(WIN32)
-  set(Eigen_INCLUDE_DIRS ${PROJECT_SOURCE_DIR}/third_party
-                         ${PROJECT_SOURCE_DIR}/third_party/eigen3 )
-  set(ADDITIONAL_INCLUDE_DIRS ${Eigen_INCLUDE_DIRS}
-                              ${PROJECT_SOURCE_DIR}/third_party/boost )
-ELSE()
-  list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
-  find_package(Eigen REQUIRED)
-  set(ADDITIONAL_INCLUDE_DIRS ${EIGEN_INCLUDE_DIRS} )
-ENDIF()
-
 include_directories(${ADDITIONAL_INCLUDE_DIRS} ${PROJECT_SOURCE_DIR}/include)
 
 set(OPENGV_SOURCE_FILES
