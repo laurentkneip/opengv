@@ -28,7 +28,7 @@ ELSE()
   set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 ENDIF()
 
-add_definitions (-Wall -march=native -O3) #TODO use correct c++11 def once everybody has moved to gcc 4.7 # for now I even removed std=gnu++0x
+add_definitions (-Wall -std=c++11 ) 
 
 include_directories(${ADDITIONAL_INCLUDE_DIRS} ${PROJECT_SOURCE_DIR}/include)
 
