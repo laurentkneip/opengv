@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package>
+  <name>opengv</name>
+  <version>1.0.0</version>
+  <description>opengv</description>
+  <maintainer email="laurent.kneip@anu.edu.au">Laurent Kneip</maintainer>
+  <license>FreeBSD</license>
+  <author>Laurent Kneip</author>
+  <url>http://ros.org/wiki/opengv</url>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <buildtool_depend>catkin_simple</buildtool_depend>
+
+  <build_depend>roscpp</build_depend>
+  <build_depend>eigen_catkin</build_depend>
+</package>
+
