@@ -28,7 +28,7 @@ ELSE()
   set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 ENDIF()
 
-add_definitions (-Wall -std=c++11 ) 
+add_definitions (-Wall -std=c++0x ) 
 
 include_directories(${ADDITIONAL_INCLUDE_DIRS} ${PROJECT_SOURCE_DIR}/include)
 
