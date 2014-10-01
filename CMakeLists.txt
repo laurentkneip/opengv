@@ -23,14 +23,15 @@ add_definitions (-Wall -march=native -O3) #TODO use correct c++11 def once every
 
 # get eigen (and boost under windows)
 IF(WIN32)
-  set(Eigen_INCLUDE_DIRS ${PROJECT_SOURCE_DIR}/third_party
+  set(EIGEN_INCLUDE_DIRS ${PROJECT_SOURCE_DIR}/third_party
                          ${PROJECT_SOURCE_DIR}/third_party/eigen3 )
-  set(ADDITIONAL_INCLUDE_DIRS ${Eigen_INCLUDE_DIRS}
+  set(ADDITIONAL_INCLUDE_DIRS ${EIGEN_INCLUDE_DIRS}
+                              ${EIGEN_INCLUDE_DIR}/unsupported
                               ${PROJECT_SOURCE_DIR}/third_party/boost )
 ELSE()
-  list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
+  set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/modules/")
   find_package(Eigen REQUIRED)
-  set(ADDITIONAL_INCLUDE_DIRS ${EIGEN_INCLUDE_DIRS} )
+  set(ADDITIONAL_INCLUDE_DIRS ${EIGEN_INCLUDE_DIRS} ${EIGEN_INCLUDE_DIR}/unsupported )
 ENDIF()
 
 include_directories(${ADDITIONAL_INCLUDE_DIRS} ${PROJECT_SOURCE_DIR}/include)
@@ -62,6 +63,8 @@ set( OPENGV_SOURCE_FILES
   src/absolute_pose/modules/gpnp5/init.cpp
   src/absolute_pose/modules/gpnp5/reductors.cpp
   src/absolute_pose/modules/gpnp5/spolynomials.cpp
+  src/absolute_pose/modules/upnp2.cpp
+  src/absolute_pose/modules/upnp4.cpp
   src/relative_pose/modules/main.cpp
   src/relative_pose/modules/fivept_nister/modules.cpp
   src/relative_pose/modules/fivept_stewenius/modules.cpp
@@ -122,6 +125,7 @@ set( OPENGV_HEADER_FILES
   include/opengv/absolute_pose/AbsoluteAdapterBase.hpp
   include/opengv/absolute_pose/CentralAbsoluteAdapter.hpp
   include/opengv/absolute_pose/NoncentralAbsoluteAdapter.hpp
+  include/opengv/absolute_pose/AbsoluteMultiAdapterBase.hpp
   include/opengv/relative_pose/RelativeAdapterBase.hpp
   include/opengv/relative_pose/RelativeMultiAdapterBase.hpp
   include/opengv/relative_pose/CentralRelativeAdapter.hpp

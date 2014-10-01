@@ -39,6 +39,8 @@
 #include <opengv/absolute_pose/modules/gpnp3/modules.hpp>
 #include <opengv/absolute_pose/modules/gpnp4/modules.hpp>
 #include <opengv/absolute_pose/modules/gpnp5/modules.hpp>
+#include <opengv/absolute_pose/modules/upnp2.hpp>
+#include <opengv/absolute_pose/modules/upnp4.hpp>
 #include <opengv/OptimizationFunctor.hpp>
 #include <opengv/math/roots.hpp>
 #include <opengv/math/arun.hpp>
@@ -699,4 +701,145 @@ opengv::absolute_pose::modules::gpnp_optimize(
 
   for(size_t i = 0; i < factors.size(); i++)
     factors[i] = x[i];
+}
+
+void
+opengv::absolute_pose::modules::upnp_fill_s(
+    const Eigen::Vector4d & quaternion,
+    Eigen::Matrix<double,10,1> & s )
+{
+  s[0] = quaternion[0] * quaternion[0];
+  s[1] = quaternion[1] * quaternion[1];
+  s[2] = quaternion[2] * quaternion[2];
+  s[3] = quaternion[3] * quaternion[3];
+  s[4] = quaternion[0] * quaternion[1];
+  s[5] = quaternion[0] * quaternion[2];
+  s[6] = quaternion[0] * quaternion[3];
+  s[7] = quaternion[1] * quaternion[2];
+  s[8] = quaternion[1] * quaternion[3];
+  s[9] = quaternion[2] * quaternion[3];
+}
+
+//we use this one if the number of correspondences is pretty low (more robust)
+void
+opengv::absolute_pose::modules::upnp_main(
+    const Eigen::Matrix<double,10,10> & M,
+    const Eigen::Matrix<double,1,10> & C,
+    double gamma,
+    std::vector<std::pair<double,Eigen::Vector4d>,Eigen::aligned_allocator< std::pair<double,Eigen::Vector4d> > > & quaternions )
+{
+  Eigen::Matrix<double,16,16> Action;
+  upnp::setupAction_gj( M, C, gamma, Action );
+  Eigen::ComplexEigenSolver< Eigen::Matrix<double,16,16> > Eig( Action, true );
+  Eigen::Matrix<std::complex<double>,16,16> V = Eig.eigenvectors();
+  
+  //cut the double solutions
+  double doubleSolThreshold = 0.00000001;
+  
+  for( int i = 0; i < 16; i++ )
+  {
+    //we decided to drop the test for imaginary part
+    //I've noticed that when the number of points is really low, things get a little
+    //weary with noise, and complex solutions might actually be pretty good
+    
+    Eigen::Vector4d quaternion;
+    double norm = 0.0;
+    for( int q = 0; q < 4; q++ )
+    {
+      quaternion[q] = V(11+q,i).real();
+      norm += pow(quaternion[q],2.0);
+    }
+    norm = sqrt(norm);
+    if(quaternion[0] < 0) // this here is maybe risky, what if quaternion[0] is very small
+      norm *= -1.0;
+    for( int q = 0; q < 4; q++ )
+      quaternion[q] /= norm;
+    
+    bool alreadyThere = false;
+    for( size_t s = 0; s < quaternions.size(); s++ )
+    {
+      Eigen::Vector4d diff = quaternion - quaternions[s].second;
+      if( diff.norm() < doubleSolThreshold )
+      {
+        alreadyThere = true;
+        break;
+      }
+    }
+    
+    if( !alreadyThere )
+    {
+      Eigen::Matrix<double,10,1> s;
+      upnp_fill_s(quaternion,s);
+      Eigen::Matrix<double,1,1> valueM = s.transpose() * M * s + 2.0 * C * s;
+      double value = valueM[0] + gamma;
+      
+      std::vector<std::pair<double,Eigen::Vector4d>,Eigen::aligned_allocator< std::pair<double,Eigen::Vector4d> > >::iterator
+          qidx = quaternions.begin();
+      while( qidx != quaternions.end() && qidx->first < value )
+        qidx++;
+      
+      quaternions.insert(qidx,std::pair<double,Eigen::Vector4d>(value,quaternion));
+    }
+  }
+}
+
+//this one is the really fast, symmetric version, that we use in the normal case
+void
+opengv::absolute_pose::modules::upnp_main_sym(
+    const Eigen::Matrix<double,10,10> & M,
+    const Eigen::Matrix<double,1,10> & C,
+    double gamma,
+    std::vector<std::pair<double,Eigen::Vector4d>,Eigen::aligned_allocator< std::pair<double,Eigen::Vector4d> > > & quaternions )
+{
+  Eigen::Matrix<double,8,8> Action;
+  upnp::setupAction_sym_gj( M, C, gamma, Action );
+  Eigen::ComplexEigenSolver< Eigen::Matrix<double,8,8> > Eig( Action, true );
+  Eigen::Matrix<std::complex<double>,8,8> V = Eig.eigenvectors();
+  
+  //ok, let's cut the imaginary solutions (with a reasonable threshold!)
+  double imagThreshold = 0.01;
+  std::vector<std::pair<double,Eigen::Vector4d>,Eigen::aligned_allocator< std::pair<double,Eigen::Vector4d> > > bad_quaternions;
+  
+  Eigen::Matrix<std::complex<double>,8,1> D = Eig.eigenvalues();
+  for( int i = 0; i < 8; i++ )
+  {
+    Eigen::Vector4d quaternion;
+    quaternion[3] = V(7,i).real();
+    quaternion[2] = V(6,i).real();
+    quaternion[1] = V(5,i).real();
+    quaternion[0] = V(4,i).real();
+    
+    double norm = 0.0;
+    for( int q = 0; q < 4; q++ )
+      norm += pow(quaternion[q],2.0);
+    norm = sqrt(norm);
+    for( int q = 0; q < 4; q++ )
+      quaternion[q] /= norm;
+    
+    Eigen::Matrix<double,10,1> s;
+    upnp_fill_s(quaternion,s);
+    Eigen::Matrix<double,1,1> valueM = s.transpose() * M * s + 2.0 * C * s;
+    double value = valueM[0] + gamma;
+
+    if( true )//fabs(D[i].imag()) < imagThreshold ) //use all results for the moment
+    {
+      std::vector<std::pair<double,Eigen::Vector4d>,Eigen::aligned_allocator< std::pair<double,Eigen::Vector4d> > >::iterator
+          qidx = quaternions.begin();
+      while( qidx != quaternions.end() && qidx->first < value )
+        qidx++;
+      
+      quaternions.insert(qidx,std::pair<double,Eigen::Vector4d>(value,quaternion));
+    }
+    else
+    {
+      std::vector<std::pair<double,Eigen::Vector4d>,Eigen::aligned_allocator< std::pair<double,Eigen::Vector4d> > >::iterator
+          qidx = bad_quaternions.begin();
+      while( qidx != bad_quaternions.end() && qidx->first < value )
+        qidx++;
+      
+      bad_quaternions.insert(qidx,std::pair<double,Eigen::Vector4d>(value,quaternion));
+    }
+  }
+  if( quaternions.size() == 0 )
+    quaternions = bad_quaternions;
 }
