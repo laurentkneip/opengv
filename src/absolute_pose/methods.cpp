@@ -32,8 +32,8 @@
 #include <opengv/absolute_pose/methods.hpp>
 #include <opengv/Indices.hpp>
 
-#include <eigen3/unsupported/Eigen/NonLinearOptimization>
-#include <eigen3/unsupported/Eigen/NumericalDiff>
+#include <Eigen/NonLinearOptimization>
+#include <Eigen/NumericalDiff>
 
 #include <opengv/absolute_pose/modules/main.hpp>
 #include <opengv/absolute_pose/modules/Epnp.hpp>

@@ -38,6 +38,7 @@
 
 #include <stdlib.h>
 #include <Eigen/Eigen>
+#include <Eigen/src/Core/util/DisableStupidWarnings.h>
 #include <opengv/types.hpp>
 
 /**

@@ -78,7 +78,7 @@ public:
    * \param[in] sampleSize Number of correspondences used for generating hypotheses.
    */
   EigensolverSacProblem(adapter_t & adapter, size_t sampleSize) :
-      SampleConsensusProblem<model_t> (),
+      sac::SampleConsensusProblem<model_t> (),
       _adapter(adapter),
       _sampleSize(sampleSize)
   {
@@ -96,7 +96,7 @@ public:
       adapter_t & adapter,
       size_t sampleSize,
       const std::vector<int> & indices) :
-      SampleConsensusProblem<model_t> (),
+      sac::SampleConsensusProblem<model_t> (),
       _adapter(adapter),
       _sampleSize(sampleSize)
   {
