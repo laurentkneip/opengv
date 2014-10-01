@@ -1,6 +1,7 @@
 var searchData=
 [
   ['_7eabsoluteadapterbase',['~AbsoluteAdapterBase',['../classopengv_1_1absolute__pose_1_1AbsoluteAdapterBase.html#a916f6bdd09f92373bc8617afece9f911',1,'opengv::absolute_pose::AbsoluteAdapterBase']]],
+  ['_7eabsolutemultiadapterbase',['~AbsoluteMultiAdapterBase',['../classopengv_1_1absolute__pose_1_1AbsoluteMultiAdapterBase.html#aa1e9ffbb9aca3ebe7f1be1af37d99fe9',1,'opengv::absolute_pose::AbsoluteMultiAdapterBase']]],
   ['_7eabsoluteposesacproblem',['~AbsolutePoseSacProblem',['../classopengv_1_1sac__problems_1_1absolute__pose_1_1AbsolutePoseSacProblem.html#afb3002d4533ea8fa13c7514bcec006b0',1,'opengv::sac_problems::absolute_pose::AbsolutePoseSacProblem']]],
   ['_7ecentralabsoluteadapter',['~CentralAbsoluteAdapter',['../classopengv_1_1absolute__pose_1_1CentralAbsoluteAdapter.html#aa3936c920d6a2e3a29334deb98a7e9d4',1,'opengv::absolute_pose::CentralAbsoluteAdapter']]],
   ['_7ecentralrelativeadapter',['~CentralRelativeAdapter',['../classopengv_1_1relative__pose_1_1CentralRelativeAdapter.html#af0273008acd9c2278eb9f3575d5f3547',1,'opengv::relative_pose::CentralRelativeAdapter']]],

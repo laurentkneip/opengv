@@ -91,10 +91,10 @@ Downloading the source code</h2>
 <p>OpenGV is freely available under</p>
 <div class="fragment"><pre class="fragment">
 https://github.com/laurentkneip/opengv
-</pre></div><p>You may first have to register on github.com. You may just download a zip-file with the code, but we strongly recommend that you make yourself familiar with git. Git is a distributed version-control and source code management system. You can use the fork/pull-request mechanism if you want to easily get updates at a later stage, or perhaps also contribute to the development of the code. Under Linux, simply type:</p>
+</pre></div><p>You may first have to register on github.com. You may just download a zip-file with the code, but we strongly recommend that you make yourself familiar with git. Git is a distributed version-control and source code management system. Use git clone to easily get updates at a later stage. Under Linux, simply type:</p>
 <div class="fragment"><pre class="fragment">
 sudo apt-get install git
-git fork https://github.com/laurentkneip/opengv
+git clone https://github.com/laurentkneip/opengv
 </pre></div><p>Under Windows you probably have a similar option. More information about git can be found here:</p>
 <div class="fragment"><pre class="fragment">
 http://git-scm.com/
@@ -206,8 +206,18 @@ mex -I../include -I../third_party -I../third_party/eigen3 -L../lib -lopengv open
 </li>
 </ul>
 <h2><a class="anchor" id="sec_installation_6"></a>
-Installing the library under Matlab (OSX-version)</h2>
-<p>Has been succesfully tested as well, you may ask us for help in case you encounter any problems. </p>
+Using the library under OSX-version</h2>
+<p>Has been succesfully tested as well.</p>
+<ul>
+<li>
+Install homebrew: <a href="http://brew.sh/">http://brew.sh/</a> </li>
+<li>
+Type: "brew install cmake eigen boost" </li>
+<li>
+Compile using normal cmake procedure. </li>
+<li>
+To compile the Matlab interface, use the same command as under Windows, with adapted library folder (-L../lib instead of -L../lib/Release) </li>
+</ul>
 </div></div><!-- contents -->
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
@@ -227,7 +237,7 @@ Installing the library under Matlab (OSX-version)</h2>
   <div id="nav-path" class="navpath">
     <ul>
 
-    <li class="footer">Generated on Tue Feb 18 2014 15:49:19 for OpenGV by
+    <li class="footer">Generated on Wed Oct 1 2014 10:25:07 for OpenGV by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.6.1 </li>
    </ul>

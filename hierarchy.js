@@ -1,6 +1,7 @@
 var hierarchy =
 [
     [ "opengv::absolute_pose::AbsoluteAdapterBase", "classopengv_1_1absolute__pose_1_1AbsoluteAdapterBase.html", [
+      [ "opengv::absolute_pose::AbsoluteMultiAdapterBase", "classopengv_1_1absolute__pose_1_1AbsoluteMultiAdapterBase.html", null ],
       [ "opengv::absolute_pose::CentralAbsoluteAdapter", "classopengv_1_1absolute__pose_1_1CentralAbsoluteAdapter.html", null ],
       [ "opengv::absolute_pose::MACentralAbsolute", "classopengv_1_1absolute__pose_1_1MACentralAbsolute.html", null ],
       [ "opengv::absolute_pose::MANoncentralAbsolute", "classopengv_1_1absolute__pose_1_1MANoncentralAbsolute.html", null ],

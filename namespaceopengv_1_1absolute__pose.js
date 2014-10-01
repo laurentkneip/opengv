@@ -1,6 +1,7 @@
 var namespaceopengv_1_1absolute__pose =
 [
     [ "AbsoluteAdapterBase", "classopengv_1_1absolute__pose_1_1AbsoluteAdapterBase.html", null ],
+    [ "AbsoluteMultiAdapterBase", "classopengv_1_1absolute__pose_1_1AbsoluteMultiAdapterBase.html", null ],
     [ "CentralAbsoluteAdapter", "classopengv_1_1absolute__pose_1_1CentralAbsoluteAdapter.html", null ],
     [ "MACentralAbsolute", "classopengv_1_1absolute__pose_1_1MACentralAbsolute.html", null ],
     [ "MANoncentralAbsolute", "classopengv_1_1absolute__pose_1_1MANoncentralAbsolute.html", null ],

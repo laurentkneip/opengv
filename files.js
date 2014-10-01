@@ -4,6 +4,7 @@ var files =
     [ "include/opengv/OptimizationFunctor.hpp", "OptimizationFunctor_8hpp.html", null ],
     [ "include/opengv/types.hpp", "types_8hpp.html", "types_8hpp" ],
     [ "include/opengv/absolute_pose/AbsoluteAdapterBase.hpp", "AbsoluteAdapterBase_8hpp.html", null ],
+    [ "include/opengv/absolute_pose/AbsoluteMultiAdapterBase.hpp", "AbsoluteMultiAdapterBase_8hpp.html", null ],
     [ "include/opengv/absolute_pose/CentralAbsoluteAdapter.hpp", "CentralAbsoluteAdapter_8hpp.html", null ],
     [ "include/opengv/absolute_pose/MACentralAbsolute.hpp", "MACentralAbsolute_8hpp.html", null ],
     [ "include/opengv/absolute_pose/MANoncentralAbsolute.hpp", "MANoncentralAbsolute_8hpp.html", null ],

@@ -1,6 +1,7 @@
 var annotated =
 [
     [ "opengv::absolute_pose::AbsoluteAdapterBase", "classopengv_1_1absolute__pose_1_1AbsoluteAdapterBase.html", "classopengv_1_1absolute__pose_1_1AbsoluteAdapterBase" ],
+    [ "opengv::absolute_pose::AbsoluteMultiAdapterBase", "classopengv_1_1absolute__pose_1_1AbsoluteMultiAdapterBase.html", "classopengv_1_1absolute__pose_1_1AbsoluteMultiAdapterBase" ],
     [ "opengv::sac_problems::absolute_pose::AbsolutePoseSacProblem", "classopengv_1_1sac__problems_1_1absolute__pose_1_1AbsolutePoseSacProblem.html", "classopengv_1_1sac__problems_1_1absolute__pose_1_1AbsolutePoseSacProblem" ],
     [ "opengv::absolute_pose::CentralAbsoluteAdapter", "classopengv_1_1absolute__pose_1_1CentralAbsoluteAdapter.html", "classopengv_1_1absolute__pose_1_1CentralAbsoluteAdapter" ],
     [ "opengv::relative_pose::CentralRelativeAdapter", "classopengv_1_1relative__pose_1_1CentralRelativeAdapter.html", "classopengv_1_1relative__pose_1_1CentralRelativeAdapter" ],
