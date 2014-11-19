@@ -23,11 +23,9 @@ add_definitions (-Wall -march=native -O3) #TODO use correct c++11 def once every
 
 # get eigen (and boost under windows)
 IF(WIN32)
-  set(EIGEN_INCLUDE_DIRS ${PROJECT_SOURCE_DIR}/third_party
-                         ${PROJECT_SOURCE_DIR}/third_party/eigen3 )
-  set(ADDITIONAL_INCLUDE_DIRS ${EIGEN_INCLUDE_DIRS}
-                              ${EIGEN_INCLUDE_DIR}/unsupported
-                              ${PROJECT_SOURCE_DIR}/third_party/boost )
+  set(ADDITIONAL_INCLUDE_DIRS ${PROJECT_SOURCE_DIR}/third_party
+                              ${PROJECT_SOURCE_DIR}/third_party/eigen3
+                              ${PROJECT_SOURCE_DIR}/third_party/eigen3/unsupported )
 ELSE()
   set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/modules/")
   find_package(Eigen REQUIRED)
