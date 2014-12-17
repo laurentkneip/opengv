@@ -728,7 +728,7 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
       if(useIndices)
         problem = absRansacPtr( new absRansac( *absoluteAdapter, absRansac::GAO, indices ) );
       else
-          = absRansacPtr( new absRansac( *absoluteAdapter, absRansac::GAO ) );
+        problem = absRansacPtr( new absRansac( *absoluteAdapter, absRansac::GAO ) );
       opengv::sac::Ransac<absRansac> ransac;
       ransac.sac_model_ = problem;
       ransac.threshold_ = 1.0 - cos(atan(sqrt(2.0)*0.5/800.0));

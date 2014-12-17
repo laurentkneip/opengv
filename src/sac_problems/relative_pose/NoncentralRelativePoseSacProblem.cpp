@@ -32,8 +32,8 @@
 #include <opengv/sac_problems/relative_pose/NoncentralRelativePoseSacProblem.hpp>
 #include <opengv/relative_pose/methods.hpp>
 #include <opengv/triangulation/methods.hpp>
-#include <eigen3/unsupported/Eigen/NonLinearOptimization>
-#include <eigen3/unsupported/Eigen/NumericalDiff>
+#include <Eigen/NonLinearOptimization>
+#include <Eigen/NumericalDiff>
 
 #include <opengv/sac_problems/relative_pose/CentralRelativePoseSacProblem.hpp>
 

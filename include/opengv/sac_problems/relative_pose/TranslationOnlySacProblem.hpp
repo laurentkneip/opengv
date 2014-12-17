@@ -79,7 +79,7 @@ public:
    * \param[in] adapter Visitor holding bearing vector correspondences etc.
    */
   TranslationOnlySacProblem(adapter_t & adapter) :
-    SampleConsensusProblem<model_t> (),
+    sac::SampleConsensusProblem<model_t> (),
     _adapter(adapter)
   {
     setUniformIndices(adapter.getNumberCorrespondences());
@@ -94,7 +94,7 @@ public:
   TranslationOnlySacProblem(
       adapter_t & adapter,
       const std::vector<int> & indices) :
-      SampleConsensusProblem<model_t> (),
+      sac::SampleConsensusProblem<model_t> (),
       _adapter(adapter)
   {
     setIndices(indices);

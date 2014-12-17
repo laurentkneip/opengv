@@ -31,8 +31,8 @@
 
 #include <math.h>
 #include <vector>
-#include <eigen3/unsupported/Eigen/NonLinearOptimization>
-#include <eigen3/unsupported/Eigen/NumericalDiff>
+#include <Eigen/NonLinearOptimization>
+#include <Eigen/NumericalDiff>
 
 #include <opengv/relative_pose/modules/main.hpp>
 #include <opengv/relative_pose/modules/fivept_nister/modules.hpp>
