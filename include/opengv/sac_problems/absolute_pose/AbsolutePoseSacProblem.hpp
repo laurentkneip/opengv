@@ -93,7 +93,7 @@ public:
    */
   AbsolutePoseSacProblem(adapter_t & adapter, algorithm_t algorithm,
       bool randomSeed = true) :
-      SampleConsensusProblem<model_t> (randomSeed),
+      sac::SampleConsensusProblem<model_t> (randomSeed),
       _adapter(adapter),
       _algorithm(algorithm)
   {
@@ -114,7 +114,7 @@ public:
       algorithm_t algorithm,
       const std::vector<int> & indices,
       bool randomSeed = true) :
-      SampleConsensusProblem<model_t> (randomSeed),
+      sac::SampleConsensusProblem<model_t> (randomSeed),
       _adapter(adapter),
       _algorithm(algorithm)
   {

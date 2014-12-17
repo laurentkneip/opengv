@@ -80,7 +80,7 @@ public:
    *            the current time.
    */
   PointCloudSacProblem(adapter_t & adapter, bool randomSeed = true) :
-    SampleConsensusProblem<model_t> (randomSeed),
+    sac::SampleConsensusProblem<model_t> (randomSeed),
     _adapter(adapter)
   {
     setUniformIndices(adapter.getNumberCorrespondences());
@@ -98,7 +98,7 @@ public:
       adapter_t & adapter,
       const std::vector<int> & indices,
       bool randomSeed = true) :
-      SampleConsensusProblem<model_t> (randomSeed),
+      sac::SampleConsensusProblem<model_t> (randomSeed),
       _adapter(adapter)
   {
     setIndices(indices);
