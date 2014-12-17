@@ -63,7 +63,7 @@ namespace relative_pose
  * relative viewpoint problems, allowing "camera-pair"-wise grouping of
  * correspondences. Derived classes need to implement functionalities for
  * deriving unique serialization of multi-indices.
- */        
+ */
 class RelativeMultiAdapterBase : public RelativeAdapterBase
 {
 protected:

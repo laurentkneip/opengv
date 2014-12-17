@@ -29,66 +29,30 @@
  ******************************************************************************/
 
 
-#ifndef OPENGV_RELATIVE_POSE_MODULES_EIGENSOLVER_MODULES_HPP_
-#define OPENGV_RELATIVE_POSE_MODULES_EIGENSOLVER_MODULES_HPP_
+#ifndef OPENGV_ABSOLUTE_POSE_MODULES_UPNP4_HPP_
+#define OPENGV_ABSOLUTE_POSE_MODULES_UPNP4_HPP_
 
 #include <stdlib.h>
-#include <Eigen/Eigen>
-#include <Eigen/src/Core/util/DisableStupidWarnings.h>
 #include <opengv/types.hpp>
 
 namespace opengv
 {
-namespace relative_pose
+namespace absolute_pose
 {
 namespace modules
 {
-namespace eigensolver
+namespace upnp
 {
 
-double getSmallestEV(
-    const Eigen::Matrix3d & xxF,
-    const Eigen::Matrix3d & yyF,
-    const Eigen::Matrix3d & zzF,
-    const Eigen::Matrix3d & xyF,
-    const Eigen::Matrix3d & yzF,
-    const Eigen::Matrix3d & zxF,
-    const cayley_t & cayley,
-    Eigen::Matrix3d & M );
-double getSmallestEVwithJacobian(
-    const Eigen::Matrix3d & xxF,
-    const Eigen::Matrix3d & yyF,
-    const Eigen::Matrix3d & zzF,
-    const Eigen::Matrix3d & xyF,
-    const Eigen::Matrix3d & yzF,
-    const Eigen::Matrix3d & zxF,
-    const cayley_t & cayley,
-    Eigen::Matrix<double,1,3> & jacobian);
-Eigen::Matrix3d composeM(
-    const Eigen::Matrix3d & xxF,
-    const Eigen::Matrix3d & yyF,
-    const Eigen::Matrix3d & zzF,
-    const Eigen::Matrix3d & xyF,
-    const Eigen::Matrix3d & yzF,
-    const Eigen::Matrix3d & zxF,
-    const cayley_t & cayley);
-Eigen::Matrix3d composeMwithJacobians(
-    const Eigen::Matrix3d & xxF,
-    const Eigen::Matrix3d & yyF,
-    const Eigen::Matrix3d & zzF,
-    const Eigen::Matrix3d & xyF,
-    const Eigen::Matrix3d & yzF,
-    const Eigen::Matrix3d & zxF,
-    const cayley_t & cayley,
-    Eigen::Matrix3d & M_jac1,
-    Eigen::Matrix3d & M_jac2,
-    Eigen::Matrix3d & M_jac3 );
+void setupAction_sym_gj(
+    const Eigen::Matrix<double,10,10> & M,
+    const Eigen::Matrix<double,1,10> & C,
+    double gamma,
+    Eigen::Matrix<double,8,8> & Action );
 
 }
 }
 }
 }
 
-#endif /* OPENGV_RELATIVE_POSE_MODULES_EIGENSOLVER_MODULES_HPP_ */
-
-
+#endif /* OPENGV_ABSOLUTE_POSE_MODULES_UPNP4_HPP_ */

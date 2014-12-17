@@ -39,6 +39,7 @@
 
 #include <stdlib.h>
 #include <Eigen/Eigen>
+#include <Eigen/src/Core/util/DisableStupidWarnings.h>
 
 using namespace std;
 using namespace Eigen;

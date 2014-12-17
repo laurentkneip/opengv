@@ -260,6 +260,33 @@ transformation_t gpnp(
     const std::vector<int> & indices );
 
 /**
+ * \brief Compute the poses of a non-central viewpoint using the uPnP method.
+ *        Using all available correspondences.
+ *
+ * \param[in] adapter Visitor holding bearing vector to world point
+ *                    correspondences, plus the multi-camera configuration.
+ * \return Poses of viewpoint (position seen from world frame and orientation
+ *         from viewpoint to world frame, transforms points from viewpoint to
+ *         world frame).
+ */
+transformations_t upnp( const AbsoluteAdapterBase & adapter );
+
+/**
+ * \brief Compute the poses of a non-central viewpoint using the uPnP method.
+ *
+ * \param[in] adapter Visitor holding bearing vector to world point
+ *                    correspondences, plus the multi-camera configuration.
+ * \param[in] indices Indices of the n correspondences that are used for
+ *                    deriving the pose.
+ * \return Poses of viewpoint (position seen from world frame and orientation
+ *         from viewpoint to world frame, transforms points from viewpoint to
+ *         world frame).
+ */
+transformations_t upnp(
+    const AbsoluteAdapterBase & adapter,
+    const std::vector<int> & indices );
+
+/**
  * \brief Compute the pose of a viewpoint using nonlinear optimization. Using
  *        all available correspondences. Works for central and non-central case.
  *

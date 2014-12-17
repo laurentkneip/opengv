@@ -8,11 +8,11 @@
 https://github.com/laurentkneip/opengv
 \endverbatim
  *
- * You may first have to register on github.com. You may just download a zip-file with the code, but we strongly recommend that you make yourself familiar with git. Git is a distributed version-control and source code management system. You can use the fork/pull-request mechanism if you want to easily get updates at a later stage, or perhaps also contribute to the development of the code. Under Linux, simply type:
+ * You may first have to register on github.com. You may just download a zip-file with the code, but we strongly recommend that you make yourself familiar with git. Git is a distributed version-control and source code management system. Use git clone to easily get updates at a later stage. Under Linux, simply type:
   *
 \verbatim
 sudo apt-get install git
-git fork https://github.com/laurentkneip/opengv
+git clone https://github.com/laurentkneip/opengv
 \endverbatim
  *
  * Under Windows you probably have a similar option. More information about git can be found here:
@@ -148,8 +148,14 @@ mex -I../include -I../third_party -I../third_party/eigen3 -L../lib -lopengv open
  * Note the lib directory does not contain a Release subfolder under linux, and that the -cxx option has to be added.
  * </ul>
  *
- * \section sec_installation_6 Installing the library under Matlab (OSX-version)
+ * \section sec_installation_6 Using the library under OSX-version
  *
- * Has been succesfully tested as well, you may ask us for help in case you encounter any problems. 
+ * Has been succesfully tested as well.
+ *
+ * <ul>
+ * <li> Install homebrew: http://brew.sh/
+ * <li> Type: "brew install cmake eigen boost"
+ * <li> Compile using normal cmake procedure.
+ * <li> To compile the Matlab interface, use the same command as under Windows, with adapted library folder (-L../lib instead of -L../lib/Release)
  *
  */
