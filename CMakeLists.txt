@@ -59,6 +59,8 @@ set(OPENGV_SOURCE_FILES
   src/absolute_pose/modules/gpnp5/init.cpp
   src/absolute_pose/modules/gpnp5/reductors.cpp
   src/absolute_pose/modules/gpnp5/spolynomials.cpp
+  src/absolute_pose/modules/upnp2.cpp
+  src/absolute_pose/modules/upnp4.cpp
   src/relative_pose/modules/main.cpp
   src/relative_pose/modules/fivept_nister/modules.cpp
   src/relative_pose/modules/fivept_stewenius/modules.cpp
@@ -152,6 +154,8 @@ ELSE()
       message(STATUS "Building opengv with catkin!")
 
       #include_directories(${EIGEN_INCLUDE_DIRS})
+      set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/modules/")
+      find_package(Eigen REQUIRED)
       include_directories(${EIGEN_INCLUDE_DIRS} ${EIGEN_INCLUDE_DIR}/unsupported)
 
       message(WARNING "Eigen: " ${EIGEN_INCLUDE_DIRS})
