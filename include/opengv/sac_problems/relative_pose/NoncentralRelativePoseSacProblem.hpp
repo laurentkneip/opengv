@@ -90,7 +90,7 @@ public:
    */
   NoncentralRelativePoseSacProblem(
       adapter_t & adapter, algorithm_t algorithm, bool asCentral = false ) :
-      SampleConsensusProblem<model_t> (),
+      sac::SampleConsensusProblem<model_t> (),
       _adapter(adapter),
       _algorithm(algorithm),
       _asCentral(asCentral)
@@ -111,7 +111,7 @@ public:
       algorithm_t algorithm,
       const std::vector<int> & indices,
       bool asCentral = false ) :
-      SampleConsensusProblem<model_t> (),
+      sac::SampleConsensusProblem<model_t> (),
       _adapter(adapter),
       _algorithm(algorithm),
       _asCentral(asCentral)

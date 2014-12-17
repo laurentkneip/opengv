@@ -89,7 +89,7 @@ public:
    * \param[in] algorithm The algorithm we want to use.
    */
   CentralRelativePoseSacProblem(adapter_t & adapter, algorithm_t algorithm) :
-    SampleConsensusProblem<model_t> (),
+    sac::SampleConsensusProblem<model_t> (),
     _adapter(adapter),
     _algorithm(algorithm)
   {
@@ -107,7 +107,7 @@ public:
       adapter_t & adapter,
       algorithm_t algorithm,
       const std::vector<int> & indices) :
-      SampleConsensusProblem<model_t> (),
+      sac::SampleConsensusProblem<model_t> (),
       _adapter(adapter),
       _algorithm(algorithm)
   {

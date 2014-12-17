@@ -32,8 +32,8 @@
 #include <opengv/absolute_pose/methods.hpp>
 #include <opengv/Indices.hpp>
 
-#include <eigen3/unsupported/Eigen/NonLinearOptimization>
-#include <eigen3/unsupported/Eigen/NumericalDiff>
+#include <Eigen/NonLinearOptimization>
+#include <Eigen/NumericalDiff>
 
 #include <opengv/absolute_pose/modules/main.hpp>
 #include <opengv/absolute_pose/modules/Epnp.hpp>
@@ -434,6 +434,271 @@ opengv::absolute_pose::gpnp(
 {
   Indices idx(indices);
   return gpnp(adapter,idx);
+}
+
+namespace opengv
+{
+namespace absolute_pose
+{
+
+void fill3x10( const Eigen::Vector3d & x, Eigen::Matrix<double,3,10> & Phi )
+{
+  double x1 = x[0];
+  double x2 = x[1];
+  double x3 = x[2];
+  
+  Phi << x1,  x1, -x1, -x1,     0.0,  2.0*x3, -2.0*x2, 2.0*x2, 2.0*x3,    0.0,
+         x2, -x2,  x2, -x2, -2.0*x3,     0.0,  2.0*x1, 2.0*x1,    0.0, 2.0*x3,
+         x3, -x3, -x3,  x3,  2.0*x2, -2.0*x1,     0.0,    0.0, 2.0*x1, 2.0*x2;
+}
+
+void f(
+    const Eigen::Matrix<double,10,10> & M,
+    const Eigen::Matrix<double,1,10> & C,
+    double gamma,
+    Eigen::Vector3d & f )
+{
+  f[0] = (2*M(0,4)+2*C(0,4));
+  f[1] = (2*M(0,5)+2*C(0,5));
+  f[2] = (2*M(0,6)+2*C(0,6));
+}
+
+void Jac(
+    const Eigen::Matrix<double,10,10> & M,
+    const Eigen::Matrix<double,1,10> & C,
+    double gamma,
+    Eigen::Matrix3d & Jac )
+{
+  Jac(0,0) = (2*M(4,4)+4*M(0,1)-4*M(0,0)+4*C(0,1)-4*C(0,0));
+  Jac(0,1) = (2*M(5,4)+2*M(0,7)+2*C(0,7));
+  Jac(0,2) = (2*M(6,4)+2*M(0,8)+2*C(0,8));
+  Jac(1,0) = (2*M(4,5)+2*M(0,7)+2*C(0,7));
+  Jac(1,1) = (2*M(5,5)+4*M(0,2)-4*M(0,0)+4*C(0,2)-4*C(0,0));
+  Jac(1,2) = (2*M(6,5)+2*M(0,9)+2*C(0,9));
+  Jac(2,0) = (2*M(4,6)+2*M(0,8)+2*C(0,8));
+  Jac(2,1) = (2*M(5,6)+2*M(0,9)+2*C(0,9));
+  Jac(2,2) = (2*M(6,6)+4*M(0,3)-4*M(0,0)+4*C(0,3)-4*C(0,0));
+}
+
+transformations_t upnp(
+    const AbsoluteAdapterBase & adapter,
+    const Indices & indices )
+{
+  assert( indices.size() > 2 );
+    
+  Eigen::Matrix<double,3,3> F = Eigen::Matrix3d::Zero();
+  for( int i = 0; i < (int) indices.size(); i++ )
+  {
+    Eigen::Matrix<double,3,1> f = adapter.getCamRotation(indices[i]) * adapter.getBearingVector(indices[i]);
+    F += f * f.transpose();
+  }
+  
+  Eigen::Matrix<double,3,3> H_inv = (indices.size() * Eigen::Matrix<double,3,3>::Identity()) - F;
+  Eigen::Matrix<double,3,3> H = H_inv.inverse();
+  
+  Eigen::Matrix<double,3,10> I = Eigen::Matrix<double,3,10>::Zero();
+  Eigen::Matrix<double,3,1> J = Eigen::Matrix<double,3,1>::Zero();
+  Eigen::Matrix<double,3,10> Phi;
+  
+  for( int i = 0; i < (int) indices.size(); i++ )
+  {
+    Eigen::Matrix<double,3,1> f = adapter.getCamRotation(indices[i]) * adapter.getBearingVector(indices[i]);
+    Eigen::Matrix<double,3,3> Vk = H * ( f * f.transpose() - Eigen::Matrix<double,3,3>::Identity() );
+    Eigen::Matrix<double,3,1> p = adapter.getPoint(indices[i]);
+    Eigen::Matrix<double,3,1> v = adapter.getCamOffset(indices[i]);
+    
+    fill3x10(p,Phi);
+    I += Vk * Phi;
+    J += Vk * v;
+  }
+  
+  Eigen::Matrix<double,10,10> M = Eigen::Matrix<double,10,10>::Zero();
+  Eigen::Matrix<double,1,10>  C = Eigen::Matrix<double,1,10>::Zero();
+  double gamma = 0.0;
+  
+  for(int i = 0; i < (int) indices.size(); i++ )
+  {    
+    Eigen::Matrix<double,3,1> f = adapter.getCamRotation(indices[i]) * adapter.getBearingVector(indices[i]);
+    Eigen::Matrix<double,3,1> v = adapter.getCamOffset(indices[i]);
+    Eigen::Matrix<double,3,1> p = adapter.getPoint(indices[i]);
+    
+    fill3x10(p,Phi);
+    Eigen::Matrix<double,3,3> temp = f*f.transpose() - Eigen::Matrix<double,3,3>::Identity();
+    Eigen::Matrix<double,3,10> Ai =  temp * (Phi + I);
+    Eigen::Matrix<double,3, 1> bi = -temp * (  v + J);
+    
+    M     += (Ai.transpose() * Ai);
+    C     += (bi.transpose() * Ai);
+    gamma += (bi.transpose() * bi);
+  }
+  
+  //now do the main computation
+  std::vector<std::pair<double,Eigen::Vector4d>,Eigen::aligned_allocator< std::pair<double,Eigen::Vector4d> > > quaternions1;
+  if( indices.size() > 4 )
+    modules::upnp_main_sym( M, C, gamma, quaternions1 );
+  else
+    modules::upnp_main( M, C, gamma, quaternions1 );
+  
+  //prepare the output vector
+  transformations_t transformations;
+  
+  //Round 1: chirality check
+  std::vector<std::pair<double,Eigen::Vector4d>,Eigen::aligned_allocator< std::pair<double,Eigen::Vector4d> > > quaternions2;
+  for( int i = 0; i < quaternions1.size(); i++ )
+  {
+    rotation_t Rinv = math::quaternion2rot(quaternions1[i].second);
+    
+    Eigen::Matrix<double,10,1> s;
+    modules::upnp_fill_s( quaternions1[i].second, s );
+    translation_t tinv = I*s - J;
+    
+    if( transformations.size() == 0 )
+    {
+      transformation_t newTransformation;
+      newTransformation.block<3,3>(0,0) = Rinv.transpose();
+      newTransformation.block<3,1>(0,3) = -newTransformation.block<3,3>(0,0) * tinv;
+      transformations.push_back(newTransformation);
+    }
+    
+    int count_negative = 0;
+    
+    for( int j = 0; j < (int) indices.size(); j++ )
+    {
+      Eigen::Matrix<double,3,1> f = adapter.getCamRotation(indices[j]) * adapter.getBearingVector(indices[j]);
+      Eigen::Matrix<double,3,1> p = adapter.getPoint(indices[j]);
+      Eigen::Matrix<double,3,1> v = adapter.getCamOffset(indices[j]);
+      
+      Eigen::Vector3d p_est = Rinv*p + tinv - v;
+      
+      if( p_est.transpose()*f < 0.0 )
+        count_negative++;
+    }
+    
+    if( count_negative < floor(0.2 * indices.size() + 0.5) )
+      quaternions2.push_back(quaternions1[i]);
+  }
+  
+  if( quaternions2.size() == 0 )
+    return transformations;
+  else
+    transformations.clear();
+  
+  //Round 2: Second order optimality (plus polishing)
+  Eigen::Matrix<double,3,10> I_cay;
+  Eigen::Matrix<double,10,10> M_cay;
+  Eigen::Matrix<double,1,10>  C_cay;
+  double gamma_cay;
+  
+  for( size_t q = 0; q < quaternions2.size(); q++ )
+  {    
+    I_cay = Eigen::Matrix<double,3,10>::Zero();
+    rotation_t Rinv = math::quaternion2rot(quaternions2[q].second);
+    
+    for( int i = 0; i < (int) indices.size(); i++ )
+    {
+      Eigen::Matrix<double,3,1> f = adapter.getCamRotation(indices[i]) * adapter.getBearingVector(indices[i]);
+      Eigen::Matrix<double,3,3> Vk = H * ( f * f.transpose() - Eigen::Matrix<double,3,3>::Identity() );
+      Eigen::Matrix<double,3,1> p = Rinv * adapter.getPoint(indices[i]);
+      
+      fill3x10(p,Phi);
+      I_cay += Vk * Phi;
+    }
+    
+    M_cay = Eigen::Matrix<double,10,10>::Zero();
+    C_cay = Eigen::Matrix<double,1,10>::Zero();
+    gamma_cay = 0.0;
+    
+    for(int i = 0; i < (int) indices.size(); i++ )
+    {    
+      Eigen::Matrix<double,3,1> f = adapter.getCamRotation(indices[i]) * adapter.getBearingVector(indices[i]);
+      Eigen::Matrix<double,3,1> v = adapter.getCamOffset(indices[i]);
+      Eigen::Matrix<double,3,1> p = Rinv * adapter.getPoint(indices[i]);
+      
+      fill3x10(p,Phi);
+      Eigen::Matrix<double,3,3> temp = f*f.transpose() - Eigen::Matrix<double,3,3>::Identity();
+      Eigen::Matrix<double,3,10> Ai =  temp * (Phi + I_cay);
+      Eigen::Matrix<double,3,1> bi = -temp * (  v + J);
+      
+      M_cay     += (Ai.transpose() * Ai);
+      C_cay     += (bi.transpose() * Ai);
+      gamma_cay += (bi.transpose() * bi);
+    }
+    
+    //now analyze the eigenvalues of the "Hessian"
+    Eigen::Vector3d val;
+    Eigen::Matrix3d Jacobian;
+    f( M_cay, C_cay, gamma_cay, val );
+    Jac( M_cay, C_cay, gamma_cay, Jacobian );
+    std::vector<double> characteristicPolynomial;
+    characteristicPolynomial.push_back(-1.0);
+    characteristicPolynomial.push_back(Jacobian(2,2)+Jacobian(1,1)+Jacobian(0,0));
+    characteristicPolynomial.push_back(-Jacobian(2,2)*Jacobian(1,1)-Jacobian(2,2)*Jacobian(0,0)-Jacobian(1,1)*Jacobian(0,0)+pow(Jacobian(1,2),2)+pow(Jacobian(0,2),2)+pow(Jacobian(0,1),2));
+    characteristicPolynomial.push_back(Jacobian(2,2)*Jacobian(1,1)*Jacobian(0,0)+2*Jacobian(1,2)*Jacobian(0,2)*Jacobian(0,1)-Jacobian(2,2)*pow(Jacobian(0,1),2)-pow(Jacobian(1,2),2)*Jacobian(0,0)-Jacobian(1,1)*pow(Jacobian(0,2),2));
+    std::vector<double> roots = opengv::math::o3_roots( characteristicPolynomial );
+    
+    bool allPositive = true;
+    for( size_t i = 0; i < roots.size(); i++ )
+    {
+      if( roots[i] < 0.0 )
+      {
+        allPositive = false;
+        break;
+      }
+    }
+    
+    if( true )//allPositive)//use all results for the moment
+    {
+      //perform the polishing step
+      Eigen::Vector3d cay = - Jacobian.inverse() * val;
+      rotation_t Rinv2 = math::cayley2rot(cay) * Rinv;
+      quaternion_t q = math::rot2quaternion(Rinv2);
+      
+      Eigen::Matrix<double,10,1> s;
+      modules::upnp_fill_s(q,s);
+      translation_t tinv = I*s - J;
+      
+      transformation_t newTransformation;
+      newTransformation.block<3,3>(0,0) = Rinv2.transpose();
+      newTransformation.block<3,1>(0,3) = -newTransformation.block<3,3>(0,0) * tinv;
+      transformations.push_back(newTransformation);
+    }
+  }
+  
+  //if there are no results, simply add the one with lowest score
+  if( transformations.size() == 0 )
+  {
+    Eigen::Vector4d q = quaternions2[0].second;
+    Eigen::Matrix<double,10,1> s;
+    modules::upnp_fill_s(q,s);
+    translation_t tinv = I*s - J;
+    rotation_t Rinv = math::quaternion2rot(q);
+    
+    transformation_t newTransformation;
+    newTransformation.block<3,3>(0,0) = Rinv.transpose();
+    newTransformation.block<3,1>(0,3) = -newTransformation.block<3,3>(0,0) * tinv;
+    transformations.push_back(newTransformation);
+  }
+  
+  return transformations;
+}
+
+}
+}
+
+opengv::transformations_t
+opengv::absolute_pose::upnp( const AbsoluteAdapterBase & adapter )
+{
+  Indices idx(adapter.getNumberCorrespondences());
+  return upnp(adapter,idx);
+}
+
+opengv::transformations_t
+opengv::absolute_pose::upnp(
+    const AbsoluteAdapterBase & adapter,
+    const std::vector<int> & indices )
+{
+  Indices idx(indices);
+  return upnp(adapter,idx);
 }
 
 namespace opengv

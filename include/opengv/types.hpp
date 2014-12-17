@@ -40,6 +40,7 @@
 #include <stdlib.h>
 #include <vector>
 #include <Eigen/Eigen>
+#include <Eigen/src/Core/util/DisableStupidWarnings.h>
 
 /**
  * \brief The namespace of this library.

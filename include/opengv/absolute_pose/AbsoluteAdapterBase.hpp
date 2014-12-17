@@ -129,7 +129,7 @@ public:
    */
   virtual opengv::rotation_t getCamRotation( size_t index ) const = 0;
   /**
-   * \brief Retrieve the world point of a correspondence
+   * \brief Retrieve the world point of a correspondence.
    * \param[in] index The serialized index of the correspondence.
    * \return The corresponding world point.
    */

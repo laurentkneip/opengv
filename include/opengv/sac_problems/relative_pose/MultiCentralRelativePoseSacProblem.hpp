@@ -80,7 +80,7 @@ public:
    * \param[in] sampleSize The number of samples for each "sub"-hypothesis.
    */
   MultiCentralRelativePoseSacProblem(adapter_t & adapter, int sampleSize ) :
-    MultiSampleConsensusProblem<model_t> (),
+    sac::MultiSampleConsensusProblem<model_t> (),
     _adapter(adapter),
     _sampleSize(sampleSize)
   {
@@ -101,7 +101,7 @@ public:
       adapter_t & adapter,
       const std::vector<std::vector<int> > & indices,
       int sampleSize) :
-      MultiSampleConsensusProblem<model_t> (),
+      sac::MultiSampleConsensusProblem<model_t> (),
       _adapter(adapter),
       _sampleSize(sampleSize)
   {
