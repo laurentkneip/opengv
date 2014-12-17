@@ -87,10 +87,13 @@ public:
    * \param[in] adapter Visitor holding bearing vector correspondences etc.
    * \param[in] algorithm The algorithm to use.
    * \param[in] asCentral Solve problem with only one camera?
+   * \param[in] randomSeed Whether to seed the random number generator with
+   *            the current time.
    */
   NoncentralRelativePoseSacProblem(
-      adapter_t & adapter, algorithm_t algorithm, bool asCentral = false ) :
-      SampleConsensusProblem<model_t> (),
+      adapter_t & adapter, algorithm_t algorithm, bool asCentral = false,
+      bool randomSeed = true) :
+      sac::SampleConsensusProblem<model_t> (randomSeed),
       _adapter(adapter),
       _algorithm(algorithm),
       _asCentral(asCentral)
@@ -105,13 +108,16 @@ public:
    * \param[in] indices A vector of indices to be used from all available
    *                    correspondences.
    * \param[in] asCentral Solve problem with only one camera?
+   * \param[in] randomSeed Whether to seed the random number generator with
+   *            the current time.
    */
   NoncentralRelativePoseSacProblem(
       adapter_t & adapter,
       algorithm_t algorithm,
       const std::vector<int> & indices,
-      bool asCentral = false ) :
-      SampleConsensusProblem<model_t> (),
+      bool asCentral = false,
+      bool randomSeed = true) :
+      sac::SampleConsensusProblem<model_t> (randomSeed),
       _adapter(adapter),
       _algorithm(algorithm),
       _asCentral(asCentral)

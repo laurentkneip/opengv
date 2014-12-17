@@ -76,9 +76,11 @@ public:
   /**
    * \brief Constructor.
    * \param[in] adapter Visitor holding bearing vector correspondences etc.
+   * \param[in] randomSeed Whether to seed the random number generator with
+   *            the current time.
    */
-  PointCloudSacProblem(adapter_t & adapter) :
-    SampleConsensusProblem<model_t> (),
+  PointCloudSacProblem(adapter_t & adapter, bool randomSeed = true) :
+    SampleConsensusProblem<model_t> (randomSeed),
     _adapter(adapter)
   {
     setUniformIndices(adapter.getNumberCorrespondences());
@@ -89,11 +91,14 @@ public:
    * \param[in] adapter Visitor holding bearing vector correspondences etc.
    * \param[in] indices A vector of indices to be used from all available
    *                    correspondences.
+   * \param[in] randomSeed Whether to seed the random number generator with
+   *            the current time.
    */
   PointCloudSacProblem(
       adapter_t & adapter,
-      const std::vector<int> & indices) :
-      SampleConsensusProblem<model_t> (),
+      const std::vector<int> & indices,
+      bool randomSeed = true) :
+      SampleConsensusProblem<model_t> (randomSeed),
       _adapter(adapter)
   {
     setIndices(indices);

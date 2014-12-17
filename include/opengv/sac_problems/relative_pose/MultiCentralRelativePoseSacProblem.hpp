@@ -78,9 +78,12 @@ public:
    * \brief Constructor.
    * \param[in] adapter Visitor holding bearing vector correspondences etc.
    * \param[in] sampleSize The number of samples for each "sub"-hypothesis.
+   * \param[in] randomSeed Whether to seed the random number generator with
+   *            the current time.
    */
-  MultiCentralRelativePoseSacProblem(adapter_t & adapter, int sampleSize ) :
-    MultiSampleConsensusProblem<model_t> (),
+  MultiCentralRelativePoseSacProblem(adapter_t & adapter, int sampleSize,
+                                     bool randomSeed = true) :
+    sac::MultiSampleConsensusProblem<model_t> (randomSeed),
     _adapter(adapter),
     _sampleSize(sampleSize)
   {
@@ -96,12 +99,14 @@ public:
    * \param[in] indices A vector of multi-indices to be used from all available
    *                    correspondences.
    * \param[in] sampleSize The number of samples for each "sub"-hypothesis.
+   * \param[in] randomSeed Whether to seed the random number generator with
+   *            the current time.
    */
   MultiCentralRelativePoseSacProblem(
       adapter_t & adapter,
       const std::vector<std::vector<int> > & indices,
-      int sampleSize) :
-      MultiSampleConsensusProblem<model_t> (),
+      int sampleSize, bool randomSeed = true) :
+      sac::MultiSampleConsensusProblem<model_t> (randomSeed),
       _adapter(adapter),
       _sampleSize(sampleSize)
   {
