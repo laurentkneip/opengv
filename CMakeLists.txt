@@ -13,13 +13,13 @@ IF(ROS)
   find_package(catkin)
   IF (catkin_FOUND)
     message("Found catkin. Creating opengv package with catkin")
-    
+
     find_package(catkin_simple REQUIRED)
     catkin_simple()
   ELSE()
     message("No catkin found. Creating opengv package with rosbuild")
     set(CMAKE_BUILD_TYPE Release)
-  ENDIF() 
+  ENDIF()
 
 ELSE()
   #set the default path for built executables to the "bin" directory
@@ -28,7 +28,7 @@ ELSE()
   set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 ENDIF()
 
-add_definitions (-Wall -std=c++0x ) 
+add_definitions (-Wall -std=c++0x )
 
 include_directories(${ADDITIONAL_INCLUDE_DIRS} ${PROJECT_SOURCE_DIR}/include)
 
@@ -152,17 +152,18 @@ ELSE()
       message(STATUS "Building opengv with catkin!")
 
       #include_directories(${EIGEN_INCLUDE_DIRS})
+      include_directories(${EIGEN_INCLUDE_DIRS} ${EIGEN_INCLUDE_DIR}/unsupported)
 
-      #message(WARNING "Eigen: " ${EIGEN_INCLUDE_DIRS})
-      
+      message(WARNING "Eigen: " ${EIGEN_INCLUDE_DIRS})
+
       cs_add_library(${PROJECT_NAME} SHARED ${OPENGV_SOURCE_FILES} ${OPENGV_HEADER_FILES})
 
-      cs_add_library(random_generators SHARED 
-        test/random_generators.cpp 
-        test/random_generators.hpp 
-        test/experiment_helpers.cpp 
-        test/experiment_helpers.hpp 
-        test/time_measurement.cpp 
+      cs_add_library(random_generators SHARED
+        test/random_generators.cpp
+        test/random_generators.hpp
+        test/experiment_helpers.cpp
+        test/experiment_helpers.hpp
+        test/time_measurement.cpp
         test/time_measurement.hpp)
       target_link_libraries(random_generators ${PROJECT_NAME})
 
