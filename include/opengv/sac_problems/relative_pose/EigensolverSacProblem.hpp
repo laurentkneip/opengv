@@ -76,9 +76,12 @@ public:
    * \brief Constructor.
    * \param[in] adapter Visitor holding bearing vector correspondences etc.
    * \param[in] sampleSize Number of correspondences used for generating hypotheses.
+   * \param[in] randomSeed Whether to seed the random number generator with
+   *            the current time.
    */
-  EigensolverSacProblem(adapter_t & adapter, size_t sampleSize) :
-      sac::SampleConsensusProblem<model_t> (),
+  EigensolverSacProblem(adapter_t & adapter, size_t sampleSize,
+                        bool randomSeed = true) :
+      sac::SampleConsensusProblem<model_t> (randomSeed),
       _adapter(adapter),
       _sampleSize(sampleSize)
   {
@@ -91,12 +94,15 @@ public:
    * \param[in] sampleSize Number of correspondences used for generating hypotheses.
    * \param[in] indices A vector of indices to be used from all available
    *                    correspondences.
+   * \param[in] randomSeed Whether to seed the random number generator with
+   *            the current time.
    */
   EigensolverSacProblem(
       adapter_t & adapter,
       size_t sampleSize,
-      const std::vector<int> & indices) :
-      sac::SampleConsensusProblem<model_t> (),
+      const std::vector<int> & indices,
+      bool randomSeed = true) :
+      sac::SampleConsensusProblem<model_t> (randomSeed),
       _adapter(adapter),
       _sampleSize(sampleSize)
   {

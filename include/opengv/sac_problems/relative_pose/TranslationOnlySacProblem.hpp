@@ -77,9 +77,11 @@ public:
   /**
    * \brief Constructor.
    * \param[in] adapter Visitor holding bearing vector correspondences etc.
+   * \param[in] randomSeed Whether to seed the random number generator with
+   *            the current time.
    */
-  TranslationOnlySacProblem(adapter_t & adapter) :
-    sac::SampleConsensusProblem<model_t> (),
+  TranslationOnlySacProblem(adapter_t & adapter, bool randomSeed = true) :
+    sac::SampleConsensusProblem<model_t> (randomSeed),
     _adapter(adapter)
   {
     setUniformIndices(adapter.getNumberCorrespondences());
@@ -90,11 +92,14 @@ public:
    * \param[in] adapter Visitor holding bearing vector correspondences etc.
    * \param[in] indices A vector of indices to be used from all available
    *                    correspondences.
+   * \param[in] randomSeed Whether to seed the random number generator with
+   *            the current time.
    */
   TranslationOnlySacProblem(
       adapter_t & adapter,
-      const std::vector<int> & indices) :
-      sac::SampleConsensusProblem<model_t> (),
+      const std::vector<int> & indices,
+      bool randomSeed = true) :
+      sac::SampleConsensusProblem<model_t> (randomSeed),
       _adapter(adapter)
   {
     setIndices(indices);
@@ -111,7 +116,7 @@ public:
   virtual bool computeModelCoefficients(
       const std::vector<int> & indices,
       model_t & outModel) const;
-  
+
   /**
    * \brief See parent-class.
    */
