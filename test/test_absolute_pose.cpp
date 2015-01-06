@@ -38,9 +38,9 @@
 #include <sstream>
 #include <fstream>
 
-#include "random_generators.hpp"
-#include "experiment_helpers.hpp"
-#include "time_measurement.hpp"
+#include <opengv/test_helpers/random_generators.hpp>
+#include <opengv/test_helpers/experiment_helpers.hpp>
+#include <opengv/test_helpers/time_measurement.hpp>
 
 
 using namespace std;

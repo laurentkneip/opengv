@@ -103,7 +103,10 @@ set(OPENGV_SOURCE_FILES
   src/relative_pose/MACentralRelative.cpp
   src/relative_pose/MANoncentralRelative.cpp
   src/relative_pose/MANoncentralRelativeMulti.cpp
-  src/point_cloud/MAPointCloud.cpp )
+  src/point_cloud/MAPointCloud.cpp
+  src/test_helpers/experiment_helpers.cpp
+  src/test_helpers/random_generators.cpp
+  src/test_helpers/time_measurement.cpp)
 
 set(OPENGV_HEADER_FILES
   include/opengv/types.hpp
@@ -144,11 +147,14 @@ set(OPENGV_HEADER_FILES
   include/opengv/relative_pose/MACentralRelative.hpp
   include/opengv/relative_pose/MANoncentralRelative.hpp
   include/opengv/relative_pose/MANoncentralRelativeMulti.hpp
-  include/opengv/point_cloud/MAPointCloud.hpp )
+  include/opengv/point_cloud/MAPointCloud.hpp 
+  include/opengv/test_helpers/experiment_helpers.hpp
+  include/opengv/test_helpers/random_generators.hpp
+  include/opengv/test_helpers/time_measurement.hpp)
 
 IF(WIN32)
   add_library( opengv ${OPENGV_SOURCE_FILES} ${OPENGV_HEADER_FILES} )
-  add_library( random_generators test/random_generators.cpp test/random_generators.hpp test/experiment_helpers.cpp test/experiment_helpers.hpp test/time_measurement.cpp test/time_measurement.hpp )
+  # add_library( random_generators test/random_generators.cpp test/random_generators.hpp test/experiment_helpers.cpp test/experiment_helpers.hpp test/time_measurement.cpp test/time_measurement.hpp )
 ELSE()
   IF( catkin_FOUND )
       message(STATUS "Building opengv with catkin!")
@@ -162,118 +168,118 @@ ELSE()
 
       cs_add_library(${PROJECT_NAME} SHARED ${OPENGV_SOURCE_FILES} ${OPENGV_HEADER_FILES})
 
-      cs_add_library(random_generators SHARED
-        test/random_generators.cpp
-        test/random_generators.hpp
-        test/experiment_helpers.cpp
-        test/experiment_helpers.hpp
-        test/time_measurement.cpp
-        test/time_measurement.hpp)
-      target_link_libraries(random_generators ${PROJECT_NAME})
+      # cs_add_library(random_generators SHARED
+      #   test/random_generators.cpp
+      #   test/random_generators.hpp
+      #   test/experiment_helpers.cpp
+      #   test/experiment_helpers.hpp
+      #   test/time_measurement.cpp
+      #   test/time_measurement.hpp)
+      # target_link_libraries(random_generators ${PROJECT_NAME})
 
       cs_add_executable( test_absolute_pose test/test_absolute_pose.cpp )
-      target_link_libraries( test_absolute_pose ${PROJECT_NAME} random_generators )
+      target_link_libraries( test_absolute_pose ${PROJECT_NAME}  )
 
       cs_add_executable( test_absolute_pose_sac test/test_absolute_pose_sac.cpp )
-      target_link_libraries( test_absolute_pose_sac ${PROJECT_NAME} random_generators )
+      target_link_libraries( test_absolute_pose_sac ${PROJECT_NAME}  )
 
       cs_add_executable( test_noncentral_absolute_pose test/test_noncentral_absolute_pose.cpp )
-      target_link_libraries( test_noncentral_absolute_pose ${PROJECT_NAME} random_generators )
+      target_link_libraries( test_noncentral_absolute_pose ${PROJECT_NAME}  )
 
       cs_add_executable( test_noncentral_absolute_pose_sac test/test_noncentral_absolute_pose_sac.cpp )
-      target_link_libraries( test_noncentral_absolute_pose_sac ${PROJECT_NAME} random_generators )
+      target_link_libraries( test_noncentral_absolute_pose_sac ${PROJECT_NAME}  )
 
       cs_add_executable( test_relative_pose test/test_relative_pose.cpp )
-      target_link_libraries( test_relative_pose ${PROJECT_NAME} random_generators )
+      target_link_libraries( test_relative_pose ${PROJECT_NAME}  )
 
       cs_add_executable( test_relative_pose_rotationOnly test/test_relative_pose_rotationOnly.cpp )
-      target_link_libraries( test_relative_pose_rotationOnly ${PROJECT_NAME} random_generators )
+      target_link_libraries( test_relative_pose_rotationOnly ${PROJECT_NAME}  )
 
       cs_add_executable( test_relative_pose_rotationOnly_sac test/test_relative_pose_rotationOnly_sac.cpp )
-      target_link_libraries( test_relative_pose_rotationOnly_sac ${PROJECT_NAME} random_generators )
+      target_link_libraries( test_relative_pose_rotationOnly_sac ${PROJECT_NAME}  )
 
       cs_add_executable( test_relative_pose_sac test/test_relative_pose_sac.cpp )
-      target_link_libraries( test_relative_pose_sac ${PROJECT_NAME} random_generators )
+      target_link_libraries( test_relative_pose_sac ${PROJECT_NAME}  )
 
       cs_add_executable( test_noncentral_relative_pose test/test_noncentral_relative_pose.cpp )
-      target_link_libraries( test_noncentral_relative_pose ${PROJECT_NAME} random_generators )
+      target_link_libraries( test_noncentral_relative_pose ${PROJECT_NAME}  )
 
       cs_add_executable( test_noncentral_relative_pose_sac test/test_noncentral_relative_pose_sac.cpp )
-      target_link_libraries( test_noncentral_relative_pose_sac ${PROJECT_NAME} random_generators )
+      target_link_libraries( test_noncentral_relative_pose_sac ${PROJECT_NAME}  )
 
       cs_add_executable( test_multi_noncentral_relative_pose_sac test/test_multi_noncentral_relative_pose_sac.cpp )
-      target_link_libraries( test_multi_noncentral_relative_pose_sac ${PROJECT_NAME} random_generators )
+      target_link_libraries( test_multi_noncentral_relative_pose_sac ${PROJECT_NAME}  )
 
       cs_add_executable( test_eigensolver_sac test/test_eigensolver_sac.cpp )
-      target_link_libraries( test_eigensolver_sac ${PROJECT_NAME} random_generators )
+      target_link_libraries( test_eigensolver_sac ${PROJECT_NAME}  )
 
       cs_add_executable( test_triangulation test/test_triangulation.cpp )
-      target_link_libraries( test_triangulation ${PROJECT_NAME} random_generators )
+      target_link_libraries( test_triangulation ${PROJECT_NAME}  )
 
       cs_add_executable( test_eigensolver test/test_eigensolver.cpp )
-      target_link_libraries( test_eigensolver ${PROJECT_NAME} random_generators )
+      target_link_libraries( test_eigensolver ${PROJECT_NAME}  )
 
       cs_add_executable( test_point_cloud test/test_point_cloud.cpp )
-      target_link_libraries( test_point_cloud ${PROJECT_NAME} random_generators )
+      target_link_libraries( test_point_cloud ${PROJECT_NAME}  )
 
       cs_add_executable( test_point_cloud_sac test/test_point_cloud_sac.cpp )
-      target_link_libraries( test_point_cloud_sac ${PROJECT_NAME} random_generators )
+      target_link_libraries( test_point_cloud_sac ${PROJECT_NAME}  )
 
       cs_install()
       cs_export()
 
   ELSE()
       add_library( ${PROJECT_NAME} SHARED ${OPENGV_SOURCE_FILES} ${OPENGV_HEADER_FILES} )
-      add_library( random_generators SHARED test/random_generators.cpp test/random_generators.hpp test/experiment_helpers.cpp test/experiment_helpers.hpp test/time_measurement.cpp test/time_measurement.hpp )
-      target_link_libraries(random_generators ${PROJECT_NAME})
+      # add_library( random_generators SHARED test/random_generators.cpp test/random_generators.hpp test/experiment_helpers.cpp test/experiment_helpers.hpp test/time_measurement.cpp test/time_measurement.hpp )
+      # target_link_libraries(random_generators ${PROJECT_NAME})
 
       add_executable( test_absolute_pose test/test_absolute_pose.cpp )
-      target_link_libraries( test_absolute_pose ${PROJECT_NAME} random_generators )
+      target_link_libraries( test_absolute_pose ${PROJECT_NAME}  )
 
       add_executable( test_absolute_pose_sac test/test_absolute_pose_sac.cpp )
-      target_link_libraries( test_absolute_pose_sac ${PROJECT_NAME} random_generators )
+      target_link_libraries( test_absolute_pose_sac ${PROJECT_NAME}  )
 
       add_executable( test_noncentral_absolute_pose test/test_noncentral_absolute_pose.cpp )
-      target_link_libraries( test_noncentral_absolute_pose ${PROJECT_NAME} random_generators )
+      target_link_libraries( test_noncentral_absolute_pose ${PROJECT_NAME}  )
 
       add_executable( test_noncentral_absolute_pose_sac test/test_noncentral_absolute_pose_sac.cpp )
-      target_link_libraries( test_noncentral_absolute_pose_sac ${PROJECT_NAME} random_generators )
+      target_link_libraries( test_noncentral_absolute_pose_sac ${PROJECT_NAME}  )
 
       add_executable( test_relative_pose test/test_relative_pose.cpp )
-      target_link_libraries( test_relative_pose ${PROJECT_NAME} random_generators )
+      target_link_libraries( test_relative_pose ${PROJECT_NAME}  )
 
       add_executable( test_relative_pose_rotationOnly test/test_relative_pose_rotationOnly.cpp )
-      target_link_libraries( test_relative_pose_rotationOnly ${PROJECT_NAME} random_generators )
+      target_link_libraries( test_relative_pose_rotationOnly ${PROJECT_NAME}  )
 
       add_executable( test_relative_pose_rotationOnly_sac test/test_relative_pose_rotationOnly_sac.cpp )
-      target_link_libraries( test_relative_pose_rotationOnly_sac ${PROJECT_NAME} random_generators )
+      target_link_libraries( test_relative_pose_rotationOnly_sac ${PROJECT_NAME}  )
 
       add_executable( test_relative_pose_sac test/test_relative_pose_sac.cpp )
-      target_link_libraries( test_relative_pose_sac ${PROJECT_NAME} random_generators )
+      target_link_libraries( test_relative_pose_sac ${PROJECT_NAME}  )
 
       add_executable( test_noncentral_relative_pose test/test_noncentral_relative_pose.cpp )
-      target_link_libraries( test_noncentral_relative_pose ${PROJECT_NAME} random_generators )
+      target_link_libraries( test_noncentral_relative_pose ${PROJECT_NAME}  )
 
       add_executable( test_noncentral_relative_pose_sac test/test_noncentral_relative_pose_sac.cpp )
-      target_link_libraries( test_noncentral_relative_pose_sac ${PROJECT_NAME} random_generators )
+      target_link_libraries( test_noncentral_relative_pose_sac ${PROJECT_NAME}  )
 
       add_executable( test_multi_noncentral_relative_pose_sac test/test_multi_noncentral_relative_pose_sac.cpp )
-      target_link_libraries( test_multi_noncentral_relative_pose_sac ${PROJECT_NAME} random_generators )
+      target_link_libraries( test_multi_noncentral_relative_pose_sac ${PROJECT_NAME}  )
 
       add_executable( test_eigensolver_sac test/test_eigensolver_sac.cpp )
-      target_link_libraries( test_eigensolver_sac ${PROJECT_NAME} random_generators )
+      target_link_libraries( test_eigensolver_sac ${PROJECT_NAME}  )
 
       add_executable( test_triangulation test/test_triangulation.cpp )
-      target_link_libraries( test_triangulation ${PROJECT_NAME} random_generators )
+      target_link_libraries( test_triangulation ${PROJECT_NAME}  )
 
       add_executable( test_eigensolver test/test_eigensolver.cpp )
-      target_link_libraries( test_eigensolver ${PROJECT_NAME} random_generators )
+      target_link_libraries( test_eigensolver ${PROJECT_NAME}  )
 
       add_executable( test_point_cloud test/test_point_cloud.cpp )
-      target_link_libraries( test_point_cloud ${PROJECT_NAME} random_generators )
+      target_link_libraries( test_point_cloud ${PROJECT_NAME}  )
 
       add_executable( test_point_cloud_sac test/test_point_cloud_sac.cpp )
-      target_link_libraries( test_point_cloud_sac ${PROJECT_NAME} random_generators )
+      target_link_libraries( test_point_cloud_sac ${PROJECT_NAME}  )
   ENDIF()
 ENDIF()
 
