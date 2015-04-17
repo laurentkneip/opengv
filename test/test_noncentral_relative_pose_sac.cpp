@@ -56,8 +56,8 @@ int main( int argc, char** argv )
   initializeRandomSeed();
 
   //set experiment parameters
-  double noise = 0.3;
-  double outlierFraction = 0.3;
+  double noise = 0.0;
+  double outlierFraction = 0.0;
   size_t numberPoints = 100;
   int numberCameras = 4;
 
@@ -113,7 +113,7 @@ int main( int argc, char** argv )
       relposeproblem_ptr(
       new sac_problems::relative_pose::NoncentralRelativePoseSacProblem(
       adapter,
-      sac_problems::relative_pose::NoncentralRelativePoseSacProblem::SIXPT));
+      sac_problems::relative_pose::NoncentralRelativePoseSacProblem::GE));
   ransac.sac_model_ = relposeproblem_ptr;
   ransac.threshold_ = 2.0*(1.0 - cos(atan(sqrt(2.0)*0.5/800.0)));
   ransac.max_iterations_ = 10000;
