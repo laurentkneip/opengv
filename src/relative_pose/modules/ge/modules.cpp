@@ -307,9 +307,30 @@ opengv::relative_pose::modules::ge::getQuickJacobian(
 
   for( int j = 0; j < 3; j++ )
   {
-    cayley_t cayley_j = cayley; cayley_j[j] += eps;
-    double cost_j = getCost(xxF,yyF,zzF,xyF,yzF,zxF,x1P,y1P,z1P,x2P,y2P,z2P,m11P,m12P,m22P,cayley_j,step);
-    jacobian(0,j) = (cost_j - currentValue)/eps; //division by eps can be ommited
+    cayley_t cayley_jm4 = cayley;  cayley_jm4[j] -= 4*eps;
+    cayley_t cayley_jm3 = cayley;  cayley_jm3[j] -= 3*eps;
+    cayley_t cayley_jm2 = cayley;  cayley_jm2[j] -= 2*eps;
+    cayley_t cayley_jm1 = cayley;  cayley_jm1[j] -= eps;
+    cayley_t cayley_jp1 = cayley;  cayley_jp1[j] += eps;
+    cayley_t cayley_jp2 = cayley;  cayley_jp2[j] += 2*eps;
+    cayley_t cayley_jp3 = cayley;  cayley_jp3[j] += 3*eps;
+    cayley_t cayley_jp4 = cayley;  cayley_jp4[j] += 4*eps;
+
+    double cost_jm4 = getCost(xxF,yyF,zzF,xyF,yzF,zxF,x1P,y1P,z1P,x2P,y2P,z2P,m11P,m12P,m22P,cayley_jm4,step);
+    double cost_jm3 = getCost(xxF,yyF,zzF,xyF,yzF,zxF,x1P,y1P,z1P,x2P,y2P,z2P,m11P,m12P,m22P,cayley_jm3,step);
+    double cost_jm2 = getCost(xxF,yyF,zzF,xyF,yzF,zxF,x1P,y1P,z1P,x2P,y2P,z2P,m11P,m12P,m22P,cayley_jm2,step);
+    double cost_jm1 = getCost(xxF,yyF,zzF,xyF,yzF,zxF,x1P,y1P,z1P,x2P,y2P,z2P,m11P,m12P,m22P,cayley_jm1,step);
+
+    double cost_jp1 = getCost(xxF,yyF,zzF,xyF,yzF,zxF,x1P,y1P,z1P,x2P,y2P,z2P,m11P,m12P,m22P,cayley_jp1,step);
+    double cost_jp2 = getCost(xxF,yyF,zzF,xyF,yzF,zxF,x1P,y1P,z1P,x2P,y2P,z2P,m11P,m12P,m22P,cayley_jp2,step);
+    double cost_jp3 = getCost(xxF,yyF,zzF,xyF,yzF,zxF,x1P,y1P,z1P,x2P,y2P,z2P,m11P,m12P,m22P,cayley_jp3,step);
+    double cost_jp4 = getCost(xxF,yyF,zzF,xyF,yzF,zxF,x1P,y1P,z1P,x2P,y2P,z2P,m11P,m12P,m22P,cayley_jp4,step);
+
+
+    jacobian(0,j) = cost_jm4 / 280.0 - 4.0 *cost_jm3 / 105. + cost_jm2/5. - 4.0 * cost_jm1 / 5.0
+                    + 4.0 * cost_jp1 / 5.0 - cost_jp2 / 5.0 + 4.0*cost_jp3 / 105. -cost_jp4/280. ; //division by eps can be ommited
+
+    jacobian(0,j) /= eps;
   }
 }
 

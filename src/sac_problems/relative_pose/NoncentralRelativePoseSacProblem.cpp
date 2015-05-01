@@ -296,7 +296,7 @@ opengv::sac_problems::
       }
       case GE:
       {
-        sampleSize = 8;
+        sampleSize = 6;
         break;
       }
       case SIXPT:

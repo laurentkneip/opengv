@@ -56,10 +56,10 @@ int main( int argc, char** argv )
   initializeRandomSeed();
 
   //set experiment parameters
-  double noise = 0.0;
-  double outlierFraction = 0.0;
-  size_t numberPoints = 100;
-  int numberCameras = 4;
+  double noise = 0.3;
+  double outlierFraction = 0.80;
+  size_t numberPoints = 10000;
+  int numberCameras = 26;
 
   //generate a random pose for viewpoint 1
   translation_t position1 = Eigen::Vector3d::Zero();
@@ -115,16 +115,19 @@ int main( int argc, char** argv )
       adapter,
       sac_problems::relative_pose::NoncentralRelativePoseSacProblem::GE));
   ransac.sac_model_ = relposeproblem_ptr;
-  ransac.threshold_ = 2.0*(1.0 - cos(atan(sqrt(2.0)*0.5/800.0)));
+  ransac.threshold_ = 2.0*(1.0 - cos(atan(sqrt(2.0)*4.0/2040.0)));
   ransac.max_iterations_ = 10000;
 
   //Run the experiment
   struct timeval tic;
   struct timeval toc;
   gettimeofday( &tic, 0 );
-  ransac.computeModel();
+  ransac.computeModel(2);
   gettimeofday( &toc, 0 );
   double ransac_time = TIMETODOUBLE(timeval_minus(toc,tic));
+
+  //print experiment characteristics
+  printExperimentCharacteristics( position, rotation, noise, outlierFraction );
 
   //print the results
   std::cout << "the ransac threshold is: " << ransac.threshold_ << std::endl;
@@ -134,8 +137,8 @@ int main( int argc, char** argv )
   std::cout << ransac_time << " seconds" << std::endl << std::endl;
   std::cout << "the number of inliers is: " << ransac.inliers_.size();
   std::cout << std::endl << std::endl;
-  std::cout << "the found inliers are: " << std::endl;
-  for(size_t i = 0; i < ransac.inliers_.size(); i++)
-    std::cout << ransac.inliers_[i] << " ";
+//  std::cout << "the found inliers are: " << std::endl;
+//  for(size_t i = 0; i < ransac.inliers_.size(); i++)
+//    std::cout << ransac.inliers_[i] << " ";
   std::cout << std::endl << std::endl;
 }
