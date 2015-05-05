@@ -261,7 +261,7 @@ opengv::sac_problems::
     //1-(f1'*f2) = 1-cos(alpha) \in [0:2]
     double reprojError1 = 1.0 - (f1.transpose() * reprojection1);
     double reprojError2 = 1.0 - (f2.transpose() * reprojection2);
-    scores.push_back(reprojError1 + reprojError2);
+    scores.push_back(std::max(reprojError1,reprojError2));
   }
 }
 

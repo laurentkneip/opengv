@@ -57,7 +57,7 @@ int main( int argc, char** argv )
 
   //set experiment parameters
   double noise = 0.3;
-  double outlierFraction = 0.80;
+  double outlierFraction = 0.70;
   size_t numberPoints = 10000;
   int numberCameras = 26;
 
@@ -115,7 +115,7 @@ int main( int argc, char** argv )
       adapter,
       sac_problems::relative_pose::NoncentralRelativePoseSacProblem::GE));
   ransac.sac_model_ = relposeproblem_ptr;
-  ransac.threshold_ = 2.0*(1.0 - cos(atan(sqrt(2.0)*4.0/2040.0)));
+  ransac.threshold_ = (1.0 - cos(atan(sqrt(2.0)*4.0/2040.0)));
   ransac.max_iterations_ = 10000;
 
   //Run the experiment
