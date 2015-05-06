@@ -35,7 +35,7 @@ sudo apt-get install build-essential
  *  <li>Install cmake, eigen3 and boost, those tools are required by the library. Type:
  *
 \verbatim
-sudo apt-get install cmake eigen libboost-all-dev
+sudo apt-get install cmake libeigen3-dev libboost-all-dev
 \endverbatim
  *
  *  CMake is a cross-platform, open-source build system used for pretty much anything in the compilation process but the compilation/linking itself. Eigen3 is a powerful linear algebra library used for all computations in OpenGV. Boost is a powerful C++ library which extends the functionality of the Standard Library.
