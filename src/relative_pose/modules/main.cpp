@@ -861,7 +861,7 @@ opengv::relative_pose::modules::ge_main2(
   double lambda = 0.01;
   double maxLambda = 0.08;
   double modifier = 2.0;
-  int maxIterations = 1000;
+  int maxIterations = 50;
   double min_xtol = 0.00001;
   bool disablingIncrements = true;
   bool print = false;
@@ -870,6 +870,8 @@ opengv::relative_pose::modules::ge_main2(
   double rho   = 0.5;
   double beta_k = 0.0;
   cayley_t x_km1 = startingPoint;
+  double f0 = ge::getCost(xxF,yyF,zzF,xyF,yzF,zxF,
+      x1P,y1P,z1P,x2P,y2P,z2P,m11P,m12P,m22P,startingPoint,1);
 
   cayley_t cayley;
 
@@ -928,7 +930,23 @@ opengv::relative_pose::modules::ge_main2(
       ge::getQuickJacobian(xxF,yyF,zzF,xyF,yzF,zxF,
       x1P,y1P,z1P,x2P,y2P,z2P,m11P,m12P,m22P,xk,fk,jfk,1);
 
-      cayley_t  dk = -jfk.transpose();
+      // compute parameter beta_k
+      double  f_km1 = ge::getCost(xxF,yyF,zzF,xyF,yzF,zxF,
+      x1P,y1P,z1P,x2P,y2P,z2P,m11P,m12P,m22P,x_km1,1);
+
+      Eigen::Matrix<double,1,3> jf_km1;
+      ge::getQuickJacobian(xxF,yyF,zzF,xyF,yzF,zxF,
+      x1P,y1P,z1P,x2P,y2P,z2P,m11P,m12P,m22P,x_km1,f_km1,jf_km1,1);
+
+      cayley_t  d_km1 = -jf_km1.transpose();
+
+      // compute parameter beta_k
+      if( iterations > 0 )
+      {
+        beta_k = jfk.norm() * jfk.norm() / ( d_km1.norm() * d_km1.norm() );
+      };
+
+      cayley_t  dk = -jfk.transpose() + beta_k * d_km1;
       cayley_t  xx = xk;
 
       // initialize backtracking
@@ -948,26 +966,11 @@ opengv::relative_pose::modules::ge_main2(
       cayley = xk;
       smallestEV = fk1;
 
-      // compute parameter beta_k
-      double  f_km1 = ge::getCost(xxF,yyF,zzF,xyF,yzF,zxF,
-      x1P,y1P,z1P,x2P,y2P,z2P,m11P,m12P,m22P,x_km1,1);
-
-      Eigen::Matrix<double,1,3> jf_km1;
-      ge::getQuickJacobian(xxF,yyF,zzF,xyF,yzF,zxF,
-      x1P,y1P,z1P,x2P,y2P,z2P,m11P,m12P,m22P,x_km1,f_km1,jf_km1,1);
-
-      if( iterations > 0 )
-      {
-        cayley_t  d_km1 = -jf_km1.transpose();
-        beta_k = dk.norm() * dk.norm() / ( d_km1.norm() * d_km1.norm() );
-        xk += beta_k * d_km1;
-      };
-
       // update x_{k-1}
       x_km1 = xk;
 
       //stopping condition (check if the update was too small)
-      if( (abs(fk1-fk) /abs(fk) < 1.0e-10 || abs(fk1) < 1.0e-10 ) || (xk - xx).norm() / xx.norm() < 1.0e-10 )
+      if( ( (abs(fk1-fk) / abs(f0) < 1.0e-8) || abs(fk1) < 1.0e-8 ) || (xk-xx).norm() < 1.0e-6 )
         break;
 
       iterations++;
