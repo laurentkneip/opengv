@@ -111,7 +111,7 @@ opengv::addNoise( double noiseLevel, Eigen::Vector3d cleanPoint )
       noiseLevel * (((double) rand())/ ((double) RAND_MAX)-0.5)*2.0 / 1.4142;
 
   Eigen::Vector3d noisyPoint =
-      800 * cleanPoint + noiseX *normalVector1 + noiseY * normalVector2;
+      2040.0 * cleanPoint + noiseX *normalVector1 + noiseY * normalVector2;
   noisyPoint = noisyPoint / noisyPoint.norm();
   return noisyPoint;
 

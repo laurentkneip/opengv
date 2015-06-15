@@ -858,26 +858,18 @@ opengv::relative_pose::modules::ge_main2(
   // too much, we have to stop
   //-another idea consists of having linear change of lambda, instead of exponential (safer, but slower)
 
-  double lambda = 0.01;
-  double maxLambda = 0.08;
-  double modifier = 2.0;
-  int maxIterations = 50;
-  double min_xtol = 0.00001;
-  bool disablingIncrements = true;
-  bool print = false;
+  int maxIterations = 1000;
 
   double sigma = 2.0e-4;
   double rho   = 0.5;
   double beta_k = 0.0;
-  cayley_t x_km1 = startingPoint;
-  double f0 = ge::getCost(xxF,yyF,zzF,xyF,yzF,zxF,
-      x1P,y1P,z1P,x2P,y2P,z2P,m11P,m12P,m22P,startingPoint,1);
 
   cayley_t cayley;
 
   double disturbanceAmplitude = 0.3;
   bool found = false;
   int randomTrialCount = 0;
+  const double ev_tol = 1.0e-13;
 
   while( !found && randomTrialCount < 5 )
   {
@@ -896,30 +888,14 @@ opengv::relative_pose::modules::ge_main2(
       cayley += disturbance;
     }
 
-    lambda = 0.01;
     int iterations = 0;
     double smallestEV = ge::getCost(xxF,yyF,zzF,xyF,yzF,zxF,
         x1P,y1P,z1P,x2P,y2P,z2P,m11P,m12P,m22P,cayley,1);
 
+    cayley_t  d_km1;
+
     while( iterations < maxIterations )
     {
-      Eigen::Matrix<double,1,3> jacobian;
-      ge::getQuickJacobian(xxF,yyF,zzF,xyF,yzF,zxF,
-          x1P,y1P,z1P,x2P,y2P,z2P,m11P,m12P,m22P,cayley,smallestEV,jacobian,1);
-
-      double norm = sqrt(pow(jacobian[0],2.0) + pow(jacobian[1],2.0) + pow(jacobian[2],2.0));
-      cayley_t normalizedJacobian = (1/norm) * jacobian.transpose();
-
-      cayley_t samplingPoint = cayley - lambda * normalizedJacobian;
-      double samplingEV = ge::getCost(xxF,yyF,zzF,xyF,yzF,zxF,
-          x1P,y1P,z1P,x2P,y2P,z2P,m11P,m12P,m22P,samplingPoint,1);
-
-      if(print)
-      {
-        std::cout << iterations << ": " << samplingPoint.transpose();
-        std::cout << " lambda: " << lambda << " EV: " << samplingEV << std::endl;
-      }
-
       // define inputs for backtracking
       double  alpha = 1.0;
       cayley_t  xk  = cayley;
@@ -929,16 +905,6 @@ opengv::relative_pose::modules::ge_main2(
       Eigen::Matrix<double,1,3> jfk;
       ge::getQuickJacobian(xxF,yyF,zzF,xyF,yzF,zxF,
       x1P,y1P,z1P,x2P,y2P,z2P,m11P,m12P,m22P,xk,fk,jfk,1);
-
-      // compute parameter beta_k
-      double  f_km1 = ge::getCost(xxF,yyF,zzF,xyF,yzF,zxF,
-      x1P,y1P,z1P,x2P,y2P,z2P,m11P,m12P,m22P,x_km1,1);
-
-      Eigen::Matrix<double,1,3> jf_km1;
-      ge::getQuickJacobian(xxF,yyF,zzF,xyF,yzF,zxF,
-      x1P,y1P,z1P,x2P,y2P,z2P,m11P,m12P,m22P,x_km1,f_km1,jf_km1,1);
-
-      cayley_t  d_km1 = -jf_km1.transpose();
 
       // compute parameter beta_k
       if( iterations > 0 )
@@ -967,10 +933,10 @@ opengv::relative_pose::modules::ge_main2(
       smallestEV = fk1;
 
       // update x_{k-1}
-      x_km1 = xk;
+      d_km1 = dk;
 
       //stopping condition (check if the update was too small)
-      if( ( (abs(fk1-fk) / abs(f0) < 1.0e-8) || abs(fk1) < 1.0e-8 ) || (xk-xx).norm() < 1.0e-6 )
+      if( abs(fk1) < ev_tol )
         break;
 
       iterations++;
@@ -982,22 +948,20 @@ opengv::relative_pose::modules::ge_main2(
       //we are close to the origin, test the EV 2
       double ev2 = ge::getCost(xxF,yyF,zzF,xyF,yzF,zxF,
             x1P,y1P,z1P,x2P,y2P,z2P,m11P,m12P,m22P,cayley,0);
-      if( ev2 > 0.001 )
+      if( ev2 > ev_tol )
         randomTrialCount++;
       else
         found = true;
     }
     else
-      found = true;
+    {
+      if ( smallestEV < ev_tol )
+        found = true;
+      else
+        randomTrialCount++;
+    }
   }
 
-  //Do minimization
-  modules::ge_main(
-          xxF, yyF, zzF, xyF, yzF, zxF,
-          x1P, y1P, z1P, x2P, y2P, z2P,
-          m11P, m12P, m22P, cayley, output);
-
-#if 0
   Eigen::Matrix4d G = ge::composeG(xxF,yyF,zzF,xyF,yzF,zxF,
       x1P,y1P,z1P,x2P,y2P,z2P,m11P,m12P,m22P,cayley);
 
@@ -1020,7 +984,6 @@ opengv::relative_pose::modules::ge_main2(
   output.rotation = math::cayley2rot(cayley);
   output.eigenvalues = D;
   output.eigenvectors = V;
-#endif
 }
 
 void

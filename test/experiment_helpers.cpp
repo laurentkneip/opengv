@@ -289,8 +289,8 @@ opengv::generateRandom2D2DCorrespondences(
     Eigen::MatrixXd & gt )
 {
   //initialize point-cloud
-  double minDepth = 4;
-  double maxDepth = 8;
+  double minDepth = 1.0;
+  double maxDepth = 20.0;
 
   for( size_t i = 0; i < (size_t) gt.cols(); i++ )
     gt.col(i) = generateRandomPoint( maxDepth, minDepth );
@@ -336,36 +336,26 @@ opengv::generateRandom2D2DCorrespondences(
   }
 
   //add outliers
-  std::set<size_t>  set_ind;
   size_t numberOutliers = (size_t) floor(outlierFraction*numberPoints);
+  std::cout << " number of outlier is " << numberOutliers << std::endl;
   for(size_t i = 0; i < numberOutliers; i++)
   {
-    // get random indice in (0,n)
-    const size_t old_size = set_ind.size();
-    size_t ind = 0;
-
-    while ( old_size == set_ind.size() )
-    {
-        ind = floor( numberPoints * ((double) rand())/ ((double) RAND_MAX));
-        set_ind.insert(ind);
-    }
-
     //get the corresponding camera transformation
-    translation_t camOffset = camOffsets[camCorrespondence];
-    rotation_t camRotation = camRotations[camCorrespondence];
+    translation_t camOffset = camOffsets[camCorrespondences2[i]];
+    rotation_t camRotation = camRotations[camCorrespondences2[i]];
 
     //create random point
-    point_t p = generateRandomPoint(8,4);
+    point_t p = generateRandomPoint(20.0,1.0);
 
     //project this point into viewpoint 2
     point_t bodyPoint = rotation2.transpose()*(p - position2);
 
     //project this point into the corresponding camera in viewpoint 2
     //and use as outlier
-    bearingVectors2[ind] = camRotation.transpose()*(bodyPoint - camOffset);
+    bearingVectors2[i] = camRotation.transpose()*(bodyPoint - camOffset);
 
     //normalize the bearing vector
-    bearingVectors2[ind] = bearingVectors2[i] / bearingVectors2[i].norm();
+    bearingVectors2[i] = bearingVectors2[i] / bearingVectors2[i].norm();
   }
 }
 
