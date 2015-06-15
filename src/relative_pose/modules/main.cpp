@@ -851,7 +851,7 @@ opengv::relative_pose::modules::ge_main2(
     const Eigen::Matrix<double,9,9> & m12P,
     const Eigen::Matrix<double,9,9> & m22P,
     const cayley_t & startingPoint,
-    geOutput_t & output )
+    geOutput_t & output)
 {
   //todo: the optimization strategy is something that can possibly be improved:
   //-one idea is to check the gradient at the new sampling point, if that derives

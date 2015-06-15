@@ -57,8 +57,8 @@ int main( int argc, char** argv )
 
   //set experiment parameters
   double noise = 0.3;
-  double outlierFraction = 0.70;
-  size_t numberPoints = 400*26;
+  double outlierFraction = 0.80;
+  size_t numberPoints = 10000;
   int numberCameras = 26;
 
   //generate a random pose for viewpoint 1
