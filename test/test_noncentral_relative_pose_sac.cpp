@@ -57,7 +57,7 @@ int main( int argc, char** argv )
 
   //set experiment parameters
   double noise = 0.3;
-  double outlierFraction = 0.80;
+  double outlierFraction = 0.0;
   size_t numberPoints = 10000;
   int numberCameras = 26;
 

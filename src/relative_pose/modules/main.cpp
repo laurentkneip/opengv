@@ -862,14 +862,12 @@ opengv::relative_pose::modules::ge_main2(
 
   double sigma = 2.0e-4;
   double rho   = 0.5;
-  double beta_k = 0.0;
-
   cayley_t cayley;
 
   double disturbanceAmplitude = 0.3;
   bool found = false;
   int randomTrialCount = 0;
-  const double ev_tol = 1.0e-13;
+  const double ev_tol = 1.0e-10;
 
   while( !found && randomTrialCount < 5 )
   {
@@ -892,7 +890,9 @@ opengv::relative_pose::modules::ge_main2(
     double smallestEV = ge::getCost(xxF,yyF,zzF,xyF,yzF,zxF,
         x1P,y1P,z1P,x2P,y2P,z2P,m11P,m12P,m22P,cayley,1);
 
-    cayley_t  d_km1;
+    cayley_t  d_km1=Eigen::Vector3d::Zero();
+    cayley_t  x_km1=cayley;
+    double beta_k = 0.0;
 
     while( iterations < maxIterations )
     {
@@ -906,13 +906,20 @@ opengv::relative_pose::modules::ge_main2(
       ge::getQuickJacobian(xxF,yyF,zzF,xyF,yzF,zxF,
       x1P,y1P,z1P,x2P,y2P,z2P,m11P,m12P,m22P,xk,fk,jfk,1);
 
+      double  f_km1  = ge::getCost(xxF,yyF,zzF,xyF,yzF,zxF,
+      x1P,y1P,z1P,x2P,y2P,z2P,m11P,m12P,m22P,x_km1,1);
+
+      Eigen::Matrix<double,1,3> jf_km1;
+      ge::getQuickJacobian(xxF,yyF,zzF,xyF,yzF,zxF,
+      x1P,y1P,z1P,x2P,y2P,z2P,m11P,m12P,m22P,x_km1,f_km1,jf_km1,1);
+
       // compute parameter beta_k
       if( iterations > 0 )
       {
-        beta_k = jfk.norm() * jfk.norm() / ( d_km1.norm() * d_km1.norm() );
+        beta_k = jfk.norm() * jfk.norm() / ( jf_km1.norm() * jf_km1.norm() );
       };
 
-      cayley_t  dk = -jfk.transpose() + beta_k * d_km1;
+      cayley_t  dk = -jfk.transpose() + 0.0 * beta_k * d_km1;
       cayley_t  xx = xk;
 
       // initialize backtracking
@@ -934,6 +941,7 @@ opengv::relative_pose::modules::ge_main2(
 
       // update x_{k-1}
       d_km1 = dk;
+      x_km1 = xk;
 
       //stopping condition (check if the update was too small)
       if( abs(fk1) < ev_tol )
