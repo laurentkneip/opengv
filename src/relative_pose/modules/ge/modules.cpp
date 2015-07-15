@@ -354,7 +354,7 @@ opengv::relative_pose::modules::ge::composeG(
   const cayley_t & cayley)
 {
   Eigen::Matrix4d G;
-  rotation_t R = math::cayley2rot_reduced(cayley);
+  rotation_t R = math::cayley2rot(cayley);
 
   //todo: Fill the matrix G using the precomputed summation terms
   Eigen::Vector3d xxFr1t = xxF*R.row(1).transpose();
@@ -502,7 +502,7 @@ opengv::relative_pose::modules::ge::composeGwithJacobians(
     Eigen::Matrix4d & G_jac2,
     Eigen::Matrix4d & G_jac3 )
 {
-  rotation_t R = math::cayley2rot_reduced(cayley);
+  rotation_t R = math::cayley2rot(cayley);
   rotation_t R_jac1;
   rotation_t R_jac2;
   rotation_t R_jac3;

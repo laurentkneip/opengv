@@ -56,9 +56,9 @@ int main( int argc, char** argv )
   initializeRandomSeed();
 
   //set experiment parameters
-  double noise = 0.3;
-  double outlierFraction = 0.80;
-  size_t numberPoints = 10000;
+  double noise = 0.0;
+  double outlierFraction = 0.0;
+  size_t numberPoints = 4000 * 26;
   int numberCameras = 26;
 
   //generate a random pose for viewpoint 1
