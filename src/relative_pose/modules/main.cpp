@@ -862,8 +862,6 @@ opengv::relative_pose::modules::ge_main2(
 
   double sigma = 2.0e-4;
   double rho   = 0.5;
-  double beta_k = 0.0;
-
   cayley_t cayley;
   cayley_t x_km1=startingPoint;
 
@@ -895,8 +893,8 @@ opengv::relative_pose::modules::ge_main2(
     double smallestEV = ge::getCost(xxF,yyF,zzF,xyF,yzF,zxF,
         x1P,y1P,z1P,x2P,y2P,z2P,m11P,m12P,m22P,cayley,1);
 
-    cayley_t  d_km1;
-    beta_k = 0;
+    cayley_t  d_km1=Eigen::Vector3d::Zero();
+    double beta_k = 0;
 
     while( iterations < maxIterations )
     {
