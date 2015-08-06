@@ -337,7 +337,6 @@ opengv::generateRandom2D2DCorrespondences(
 
   //add outliers
   size_t numberOutliers = (size_t) floor(outlierFraction*numberPoints);
-  std::cout << " number of outlier is " << numberOutliers << std::endl;
   for(size_t i = 0; i < numberOutliers; i++)
   {
     //get the corresponding camera transformation

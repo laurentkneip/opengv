@@ -91,9 +91,6 @@ int main( int argc, char** argv )
   extractRelativePose(
       position1, position2, rotation1, rotation2, position, rotation, false );
 
-  //print experiment characteristics
-  printExperimentCharacteristics( position, rotation, noise, outlierFraction );
-
   //create non-central relative adapter
   relative_pose::NoncentralRelativeAdapter adapter(
       bearingVectors1,
@@ -137,8 +134,8 @@ int main( int argc, char** argv )
   std::cout << ransac_time << " seconds" << std::endl << std::endl;
   std::cout << "the number of inliers is: " << ransac.inliers_.size();
   std::cout << std::endl << std::endl;
-//  std::cout << "the found inliers are: " << std::endl;
-//  for(size_t i = 0; i < ransac.inliers_.size(); i++)
-//    std::cout << ransac.inliers_[i] << " ";
+  std::cout << "the found inliers are: " << std::endl;
+  for(size_t i = 0; i < ransac.inliers_.size(); i++)
+    std::cout << ransac.inliers_[i] << " ";
   std::cout << std::endl << std::endl;
 }

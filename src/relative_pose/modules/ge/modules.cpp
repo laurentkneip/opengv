@@ -327,6 +327,7 @@ opengv::relative_pose::modules::ge::getQuickJacobian(
     double cost_jp4 = getCost(xxF,yyF,zzF,xyF,yzF,zxF,x1P,y1P,z1P,x2P,y2P,z2P,m11P,m12P,m22P,cayley_jp4,step);
 
 
+    // use finite difference of order 5 to compute the gradient
     jacobian(0,j) = cost_jm4 / 280.0 - 4.0 *cost_jm3 / 105. + cost_jm2/5. - 4.0 * cost_jm1 / 5.0
                     + 4.0 * cost_jp1 / 5.0 - cost_jp2 / 5.0 + 4.0*cost_jp3 / 105. -cost_jp4/280. ; //division by eps can be ommited
 

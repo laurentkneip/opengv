@@ -858,27 +858,33 @@ opengv::relative_pose::modules::ge_main2(
   // too much, we have to stop
   //-another idea consists of having linear change of lambda, instead of exponential (safer, but slower)
 
-  int maxIterations = 100;
+  int maxIterations = 50;
 
+  // initialize parameters for backtracking
   double sigma = 2.0e-4;
   double rho   = 0.5;
   cayley_t cayley;
   cayley_t x_km1=startingPoint;
 
+  // initialize random cayley seed parameter
   double disturbanceAmplitude = 0.3;
   bool found = false;
   int randomTrialCount = 0;
-  const double ev_tol = 1.0e-13;
+  const double ev_tol = 1.0e-5;  // tolerance for convergence of conjugated gradient
 
+  // while a solution is not found, try to compute it, even from a random seed
   while( !found && randomTrialCount < 5 )
   {
+    // if we already tried 3 models
     if(randomTrialCount > 2)
       disturbanceAmplitude = 0.6;
 
+    // start from estimated rotation
     if( randomTrialCount == 0 )
       cayley = startingPoint;
     else
     {
+      // start from a random rotation
       cayley = startingPoint;
       Eigen::Vector3d disturbance;
       disturbance[0] = (((double) rand())/ ((double) RAND_MAX)-0.5)*2.0*disturbanceAmplitude;
@@ -887,20 +893,27 @@ opengv::relative_pose::modules::ge_main2(
       cayley += disturbance;
     }
 
+    // initialize conjugated gradient paramater x_k^{m-1} as the starting point
     x_km1=cayley;
 
     int iterations = 0;
     double smallestEV = ge::getCost(xxF,yyF,zzF,xyF,yzF,zxF,
         x1P,y1P,z1P,x2P,y2P,z2P,m11P,m12P,m22P,cayley,1);
 
+    // initialize d^{k-1} (descent direction at step k-1)
     cayley_t  d_km1=Eigen::Vector3d::Zero();
+    // initialize conjugated gradient parameter \beta_k
     double beta_k = 0;
 
+    // while
     while( iterations < maxIterations )
     {
-      // define inputs for backtracking
+      // define inputs for backtracking and conjugated gradient (gradient, jacobian, and so on)
       double  alpha = 1.0;
       cayley_t  xk  = cayley;
+      cayley_t  xx = xk;
+
+      // compute cost at step k and associated gradient
       double  fk    = ge::getCost(xxF,yyF,zzF,xyF,yzF,zxF,
       x1P,y1P,z1P,x2P,y2P,z2P,m11P,m12P,m22P,xk,1);
 
@@ -908,6 +921,7 @@ opengv::relative_pose::modules::ge_main2(
       ge::getQuickJacobian(xxF,yyF,zzF,xyF,yzF,zxF,
       x1P,y1P,z1P,x2P,y2P,z2P,m11P,m12P,m22P,xk,fk,jfk,1);
 
+      // compute cost at step k-1 and associated gradient
       double  fkm1   = ge::getCost(xxF,yyF,zzF,xyF,yzF,zxF,
       x1P,y1P,z1P,x2P,y2P,z2P,m11P,m12P,m22P,x_km1,1);
 
@@ -921,10 +935,10 @@ opengv::relative_pose::modules::ge_main2(
         beta_k = (jfk * (jfk - jf_km1).transpose())(0,0)  / ( jf_km1.norm() * jf_km1.norm() );
       };
 
+      // compute descend direction
       cayley_t  dk = -jfk.transpose() + d_km1 * beta_k ;
-      cayley_t  xx = xk;
 
-      // initialize backtracking
+      // initial step of backtracking
       xk += alpha * dk;
       double fk1 = ge::getCost(xxF,yyF,zzF,xyF,yzF,zxF,x1P,y1P,z1P,x2P,y2P,z2P,m11P,m12P,m22P,xk,1);
 
@@ -945,7 +959,7 @@ opengv::relative_pose::modules::ge_main2(
       d_km1 = dk;
       x_km1 = xk;
 
-      //stopping condition (check if the update was too small)
+      //stopping condition (check if the update was too small and function value)
       if( abs(fk1) < ev_tol && (xk-xx).norm() < ev_tol )
         break;
 
@@ -972,6 +986,7 @@ opengv::relative_pose::modules::ge_main2(
     }
   }
 
+  // compute rotation and translation from rotation found by minimization.
   Eigen::Matrix4d G = ge::composeG(xxF,yyF,zzF,xyF,yzF,zxF,
       x1P,y1P,z1P,x2P,y2P,z2P,m11P,m12P,m22P,cayley);
 
