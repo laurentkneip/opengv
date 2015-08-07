@@ -801,9 +801,9 @@ opengv::relative_pose::modules::ge_main(
   LevenbergMarquardt< NumericalDiff<Ge_step> > lm(numDiff);
 
   lm.resetParameters();
-  lm.parameters.ftol = 1.0e-10;//1.E1*NumTraits<double>::epsilon();
-  lm.parameters.xtol = 1.0e-10;
-  lm.parameters.maxfev = 1000;
+  lm.parameters.ftol = 0.000001;//1.E1*NumTraits<double>::epsilon();
+  lm.parameters.xtol = 1.E1*NumTraits<double>::epsilon();
+  lm.parameters.maxfev = 100;
   lm.minimize(x);
 
   cayley_t cayley = x;

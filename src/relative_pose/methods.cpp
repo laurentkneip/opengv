@@ -357,7 +357,7 @@ essentials_t sevenpt(
 
   double eps = 0.00000001;
   essentials_t essentials;
-
+  
   if( fabs(F1.determinant()) < eps || numberCorrespondences > 7 )
   {
     essentials.push_back(F1);
@@ -389,7 +389,7 @@ essentials_t sevenpt(
       }
       if( val3 < min )
         minIndex = 2;
-
+      
       essentials.push_back( F1 - D(minIndex,0).real() * F2 );
     }
   }
@@ -521,7 +521,7 @@ rotation_t eigensolver(
     bearingVector_t f1 = adapter.getBearingVector1(indices[i]);
     bearingVector_t f2 = adapter.getBearingVector2(indices[i]);
     Eigen::Matrix3d F = f2*f2.transpose();
-
+    
     double weight = 1.0;
     if( useWeights )
       weight = adapter.getWeight(indices[i])/norm;
@@ -614,16 +614,16 @@ rotations_t sixpt(
         adapter.getCamRotation1(indices[i]) * adapter.getBearingVector1(indices[i]);
     bearingVector_t f2 =
         adapter.getCamRotation2(indices[i]) * adapter.getBearingVector2(indices[i]);
-
+        
     L1.block<3,1>(0,i) = f1;
     L2.block<3,1>(0,i) = f2;
-
+    
     L1.block<3,1>(3,i) = f1.cross(adapter.getCamOffset1(indices[i]));
     L2.block<3,1>(3,i) = f2.cross(adapter.getCamOffset2(indices[i]));
   }
 
   rotations_t solutions;
-  modules::sixpt_main( L1, L2, solutions );
+  modules::sixpt_main( L1, L2, solutions );  
   return solutions;
 }
 
@@ -657,7 +657,7 @@ rotation_t ge(
     const Indices & indices,
     geOutput_t & output,
     bool useWeights )
-{
+{ 
   size_t numberCorrespondences = indices.size();
   assert(numberCorrespondences > 5);
 
@@ -667,14 +667,14 @@ rotation_t ge(
   Eigen::Matrix3d xyF = Eigen::Matrix3d::Zero();
   Eigen::Matrix3d yzF = Eigen::Matrix3d::Zero();
   Eigen::Matrix3d zxF = Eigen::Matrix3d::Zero();
-
+  
   Eigen::Matrix<double,3,9> x1P = Eigen::Matrix<double,3,9>::Zero();
   Eigen::Matrix<double,3,9> y1P = Eigen::Matrix<double,3,9>::Zero();
   Eigen::Matrix<double,3,9> z1P = Eigen::Matrix<double,3,9>::Zero();
   Eigen::Matrix<double,3,9> x2P = Eigen::Matrix<double,3,9>::Zero();
   Eigen::Matrix<double,3,9> y2P = Eigen::Matrix<double,3,9>::Zero();
   Eigen::Matrix<double,3,9> z2P = Eigen::Matrix<double,3,9>::Zero();
-
+  
   Eigen::Matrix<double,9,9> m11P = Eigen::Matrix<double,9,9>::Zero();
   Eigen::Matrix<double,9,9> m12P = Eigen::Matrix<double,9,9>::Zero();
   Eigen::Matrix<double,9,9> m22P = Eigen::Matrix<double,9,9>::Zero();
@@ -692,13 +692,13 @@ rotation_t ge(
     double weight = 1.0;
     if( useWeights )
       weight = adapter.getWeight(indices[i])/norm;
-
+    
     //unrotate the bearing vectors
     bearingVector_t f1 = adapter.getCamRotation1(indices[i]) *
         adapter.getBearingVector1(indices[i]);
     bearingVector_t f2 = adapter.getCamRotation2(indices[i]) *
         adapter.getBearingVector2(indices[i]);
-
+    
     //compute the standard summation terms
     Eigen::Matrix3d F = f2*f2.transpose();
 
@@ -708,11 +708,11 @@ rotation_t ge(
     xyF = xyF + weight*f1[0]*f1[1]*F;
     yzF = yzF + weight*f1[1]*f1[2]*F;
     zxF = zxF + weight*f1[2]*f1[0]*F;
-
-    //now compute the "cross"-summation terms
+    
+    //now compute the "cross"-summation terms    
     Eigen::Vector3d t1 = adapter.getCamOffset1(indices[i]);
     Eigen::Vector3d t2 = adapter.getCamOffset2(indices[i]);
-
+    
     Eigen::Matrix<double,1,9> f2_19;
     double temp = f1[1]*t1[2]-f1[2]*t1[1];
     f2_19(0,0) = f2[0] * temp;
@@ -726,7 +726,7 @@ rotation_t ge(
     f2_19(0,6) = f2[0] * temp;
     f2_19(0,7) = f2[1] * temp;
     f2_19(0,8) = f2[2] * temp;
-
+    
     Eigen::Matrix<double,1,9> f1_19;
     temp = f2[1]*t2[2]-f2[2]*t2[1];
     f1_19(0,0) = f1[0] * temp;
@@ -740,17 +740,17 @@ rotation_t ge(
     f1_19(0,6) = f1[0] * temp;
     f1_19(0,7) = f1[1] * temp;
     f1_19(0,8) = f1[2] * temp;
-
+    
     if( useWeights )
     {
       x1P = x1P + ( (weight * f1[0]) * f2 ) * f1_19;
       y1P = y1P + ( (weight * f1[1]) * f2 ) * f1_19;
       z1P = z1P + ( (weight * f1[2]) * f2 ) * f1_19;
-
+      
       x2P = x2P + ( (weight * f1[0]) * f2 ) * f2_19;
       y2P = y2P + ( (weight * f1[1]) * f2 ) * f2_19;
       z2P = z2P + ( (weight * f1[2]) * f2 ) * f2_19;
-
+      
       m11P = m11P - ( weight * f1_19.transpose() ) * f1_19;
       m22P = m22P - ( weight * f2_19.transpose() ) * f2_19;
       m12P = m12P - ( weight * f2_19.transpose() ) * f1_19;
@@ -760,11 +760,11 @@ rotation_t ge(
       x1P = x1P + ( f1[0] * f2 ) * f1_19;
       y1P = y1P + ( f1[1] * f2 ) * f1_19;
       z1P = z1P + ( f1[2] * f2 ) * f1_19;
-
+      
       x2P = x2P + ( f1[0]) * f2 * f2_19;
       y2P = y2P + ( f1[1]) * f2 * f2_19;
       z2P = z2P + ( f1[2]) * f2 * f2_19;
-
+      
       m11P = m11P - f1_19.transpose() * f1_19;
       m22P = m22P - f2_19.transpose() * f2_19;
       m12P = m12P - f2_19.transpose() * f1_19;
@@ -924,7 +924,7 @@ transformation_t seventeenpt(
     if( temp > pinvtoler_ )
       SigmaInverse_(i,i) = 1.0/temp;
   }
-
+  
   Eigen::MatrixXd ARP(9,numberCorrespondences);
   ARP = SVDARP.matrixV()*SigmaInverse_*SVDARP.matrixU().transpose();
 
@@ -933,7 +933,7 @@ transformation_t seventeenpt(
   B = B + AR*ARP;
 
   Eigen::MatrixXd C = B*AE;
-
+  
   Eigen::JacobiSVD< Eigen::MatrixXd > SVDE(
       C,
       Eigen::ComputeThinU | Eigen::ComputeThinV );
@@ -1002,7 +1002,7 @@ transformation_t seventeenpt(
     b_tra(i) = -d1.dot(Ra*temp2) -temp1.dot(Ra*d2);
     b_trb(i) = -d1.dot(Rb*temp2) -temp1.dot(Rb*d2);
   }
-
+  
   Eigen::JacobiSVD< Eigen::MatrixXd > SVDa(
       A_tra,
       Eigen::ComputeThinU | Eigen::ComputeThinV );

@@ -115,7 +115,7 @@ int main( int argc, char** argv )
     sixpt_rotations = relative_pose::sixpt(adapter,indices6);
   gettimeofday( &toc, 0 );
   double sixpt_time = TIMETODOUBLE(timeval_minus(toc,tic)) / iterations;
-
+  
   std::cout << "running ge with 8 correspondences" << std::endl;
   std::vector<int> indices8 = getNindices(8);
   rotation_t ge_rotation;
@@ -124,7 +124,7 @@ int main( int argc, char** argv )
     ge_rotation = relative_pose::ge(adapter,indices8);
   gettimeofday( &toc, 0 );
   double ge_time = TIMETODOUBLE(timeval_minus(toc,tic)) / iterations;
-
+  
   std::cout << "running seventeenpt algorithm with 17 correspondences";
   std::cout << std::endl;
   std::vector<int> indices17 = getNindices(17);
@@ -185,7 +185,7 @@ int main( int argc, char** argv )
   std::cout << "results from nonlinear algorithm with only few correspondences:";
   std::cout << std::endl;
   std::cout << nonlinear_transformation_10 << std::endl << std::endl;
-
+  
   std::cout << "timings from 6pt algorithm: ";
   std::cout << sixpt_time << std::endl;
   std::cout << "timings from ge: ";
