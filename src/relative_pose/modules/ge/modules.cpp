@@ -54,7 +54,7 @@ opengv::relative_pose::modules::ge::getEV(
     Eigen::Vector4d & roots )
 {
   Eigen::Matrix4d G = composeG(xxF,yyF,zzF,xyF,yzF,zxF,x1P,y1P,z1P,x2P,y2P,z2P,m11P,m12P,m22P,cayley);
-  
+
   // now compute the roots in closed-form
   //double G00_2 = G(0,0) * G(0,0);
   double G01_2 = G(0,1) * G(0,1);
@@ -66,7 +66,7 @@ opengv::relative_pose::modules::ge::getEV(
   //double G22_2 = G(2,2) * G(2,2);
   double G23_2 = G(2,3) * G(2,3);
   //double G33_2 = G(3,3) * G(3,3);
-  
+
   double B = -G(3,3)-G(2,2)-G(1,1)-G(0,0);
   double C = -G23_2+G(2,2)*G(3,3)-G13_2-G12_2+G(1,1)*G(3,3)+G(1,1)*G(2,2)-G03_2-G02_2-G01_2+G(0,0)*G(3,3)+G(0,0)*G(2,2)+G(0,0)*G(1,1);
   double D = G13_2*G(2,2)-2.0*G(1,2)*G(1,3)*G(2,3)+G12_2*G(3,3)+G(1,1)*G23_2-G(1,1)*G(2,2)*G(3,3)+G03_2*G(2,2)+G03_2*G(1,1)-2.0*G(0,2)*G(0,3)*G(2,3)+G02_2*G(3,3)+G02_2*G(1,1)-2.0*G(0,1)*G(0,3)*G(1,3)-2.0*G(0,1)*G(0,2)*G(1,2)+G01_2*G(3,3)+G01_2*G(2,2)+G(0,0)*G23_2-G(0,0)*G(2,2)*G(3,3)+G(0,0)*G13_2+G(0,0)*G12_2-G(0,0)*G(1,1)*G(3,3)-G(0,0)*G(1,1)*G(2,2);
@@ -87,7 +87,7 @@ opengv::relative_pose::modules::ge::getEV(
   double theta1 = sqrt(theta2) * cos( (1.0/3.0) * acos( (-q/2.0) / sqrt(helper1) ) );
   double y = -(5.0/6.0)*alpha - ( (1.0/3.0) * p * theta1 - theta1 * theta2) / theta2;
   double w = sqrt(alpha+2.0*y);
-  
+
   //we currently disable the computation of all other roots, they are not used
   //roots[0] = -B/4.0 + 0.5*w + 0.5*sqrt(-3.0*alpha-2.0*y-2.0*beta/w);
   //roots[1] = -B/4.0 + 0.5*w - 0.5*sqrt(-3.0*alpha-2.0*y-2.0*beta/w);
@@ -121,14 +121,14 @@ opengv::relative_pose::modules::ge::getCost(
 {
   Eigen::Vector4d roots;
   getEV(xxF,yyF,zzF,xyF,yzF,zxF,x1P,y1P,z1P,x2P,y2P,z2P,m11P,m12P,m22P,cayley,roots);
-  
+
   double cost = 0.0;
-  
+
   if( step == 0 )
     cost = roots[2];
   if( step == 1 )
     cost = roots[3];
-  
+
   return cost;
 }
 
@@ -145,17 +145,17 @@ opengv::relative_pose::modules::ge::getCost(
   double B_jac1 = -G_jac1(3,3)-G_jac1(2,2)-G_jac1(1,1)-G_jac1(0,0);
   double B_jac2 = -G_jac2(3,3)-G_jac2(2,2)-G_jac2(1,1)-G_jac2(0,0);
   double B_jac3 = -G_jac3(3,3)-G_jac3(2,2)-G_jac3(1,1)-G_jac3(0,0);
-  
+
   double C = -pow(G(2,3),2)+G(2,2)*G(3,3)-pow(G(1,3),2)-pow(G(1,2),2)+G(1,1)*G(3,3)+G(1,1)*G(2,2)-pow(G(0,3),2)-pow(G(0,2),2)-pow(G(0,1),2)+G(0,0)*G(3,3)+G(0,0)*G(2,2)+G(0,0)*G(1,1);
   double C_jac1 = -2.0*G(2,3)*G_jac1(2,3)+G_jac1(2,2)*G(3,3)+G(2,2)*G_jac1(3,3)-2.0*G(1,3)*G_jac1(1,3)-2.0*G(1,2)*G_jac1(1,2)+G_jac1(1,1)*G(3,3)+G(1,1)*G_jac1(3,3)+G_jac1(1,1)*G(2,2)+G(1,1)*G_jac1(2,2)-2.0*G(0,3)*G_jac1(0,3)-2.0*G(0,2)*G_jac1(0,2)-2.0*G(0,1)*G_jac1(0,1)+G_jac1(0,0)*G(3,3)+G(0,0)*G_jac1(3,3)+G_jac1(0,0)*G(2,2)+G(0,0)*G_jac1(2,2)+G_jac1(0,0)*G(1,1)+G(0,0)*G_jac1(1,1);
   double C_jac2 = -2.0*G(2,3)*G_jac2(2,3)+G_jac2(2,2)*G(3,3)+G(2,2)*G_jac2(3,3)-2.0*G(1,3)*G_jac2(1,3)-2.0*G(1,2)*G_jac2(1,2)+G_jac2(1,1)*G(3,3)+G(1,1)*G_jac2(3,3)+G_jac2(1,1)*G(2,2)+G(1,1)*G_jac2(2,2)-2.0*G(0,3)*G_jac2(0,3)-2.0*G(0,2)*G_jac2(0,2)-2.0*G(0,1)*G_jac2(0,1)+G_jac2(0,0)*G(3,3)+G(0,0)*G_jac2(3,3)+G_jac2(0,0)*G(2,2)+G(0,0)*G_jac2(2,2)+G_jac2(0,0)*G(1,1)+G(0,0)*G_jac2(1,1);
   double C_jac3 = -2.0*G(2,3)*G_jac3(2,3)+G_jac3(2,2)*G(3,3)+G(2,2)*G_jac3(3,3)-2.0*G(1,3)*G_jac3(1,3)-2.0*G(1,2)*G_jac3(1,2)+G_jac3(1,1)*G(3,3)+G(1,1)*G_jac3(3,3)+G_jac3(1,1)*G(2,2)+G(1,1)*G_jac3(2,2)-2.0*G(0,3)*G_jac3(0,3)-2.0*G(0,2)*G_jac3(0,2)-2.0*G(0,1)*G_jac3(0,1)+G_jac3(0,0)*G(3,3)+G(0,0)*G_jac3(3,3)+G_jac3(0,0)*G(2,2)+G(0,0)*G_jac3(2,2)+G_jac3(0,0)*G(1,1)+G(0,0)*G_jac3(1,1);
-  
+
   double D = pow(G(1,3),2)*G(2,2)-2.0*G(1,2)*G(1,3)*G(2,3)+pow(G(1,2),2)*G(3,3)+G(1,1)*pow(G(2,3),2)-G(1,1)*G(2,2)*G(3,3)+pow(G(0,3),2)*G(2,2)+pow(G(0,3),2)*G(1,1)-2.0*G(0,2)*G(0,3)*G(2,3)+pow(G(0,2),2)*G(3,3)+pow(G(0,2),2)*G(1,1)-2.0*G(0,1)*G(0,3)*G(1,3)-2.0*G(0,1)*G(0,2)*G(1,2)+pow(G(0,1),2)*G(3,3)+pow(G(0,1),2)*G(2,2)+G(0,0)*pow(G(2,3),2)-G(0,0)*G(2,2)*G(3,3)+G(0,0)*pow(G(1,3),2)+G(0,0)*pow(G(1,2),2)-G(0,0)*G(1,1)*G(3,3)-G(0,0)*G(1,1)*G(2,2);
   double D_jac1 = 2.0*G(1,3)*G_jac1(1,3)*G(2,2)+pow(G(1,3),2)*G_jac1(2,2)-2.0*G_jac1(1,2)*G(1,3)*G(2,3)-2.0*G(1,2)*G_jac1(1,3)*G(2,3)-2.0*G(1,2)*G(1,3)*G_jac1(2,3)+2.0*G(1,2)*G_jac1(1,2)*G(3,3)+pow(G(1,2),2)*G_jac1(3,3)+G_jac1(1,1)*pow(G(2,3),2)+G(1,1)*2.0*G(2,3)*G_jac1(2,3)-G_jac1(1,1)*G(2,2)*G(3,3)-G(1,1)*G_jac1(2,2)*G(3,3)-G(1,1)*G(2,2)*G_jac1(3,3)+2.0*G(0,3)*G_jac1(0,3)*G(2,2)+pow(G(0,3),2)*G_jac1(2,2)+2.0*G(0,3)*G_jac1(0,3)*G(1,1)+pow(G(0,3),2)*G_jac1(1,1)-2.0*G_jac1(0,2)*G(0,3)*G(2,3)-2.0*G(0,2)*G_jac1(0,3)*G(2,3)-2.0*G(0,2)*G(0,3)*G_jac1(2,3)+2.0*G(0,2)*G_jac1(0,2)*G(3,3)+pow(G(0,2),2)*G_jac1(3,3)+2.0*G(0,2)*G_jac1(0,2)*G(1,1)+pow(G(0,2),2)*G_jac1(1,1)-2.0*G_jac1(0,1)*G(0,3)*G(1,3)-2.0*G(0,1)*G_jac1(0,3)*G(1,3)-2.0*G(0,1)*G(0,3)*G_jac1(1,3)-2.0*G_jac1(0,1)*G(0,2)*G(1,2)-2.0*G(0,1)*G_jac1(0,2)*G(1,2)-2.0*G(0,1)*G(0,2)*G_jac1(1,2)+2.0*G(0,1)*G_jac1(0,1)*G(3,3)+pow(G(0,1),2)*G_jac1(3,3)+2.0*G(0,1)*G_jac1(0,1)*G(2,2)+pow(G(0,1),2)*G_jac1(2,2)+G_jac1(0,0)*pow(G(2,3),2)+G(0,0)*2.0*G(2,3)*G_jac1(2,3)-G_jac1(0,0)*G(2,2)*G(3,3)-G(0,0)*G_jac1(2,2)*G(3,3)-G(0,0)*G(2,2)*G_jac1(3,3)+G_jac1(0,0)*pow(G(1,3),2)+G(0,0)*2.0*G(1,3)*G_jac1(1,3)+G_jac1(0,0)*pow(G(1,2),2)+G(0,0)*2.0*G(1,2)*G_jac1(1,2)-G_jac1(0,0)*G(1,1)*G(3,3)-G(0,0)*G_jac1(1,1)*G(3,3)-G(0,0)*G(1,1)*G_jac1(3,3)-G_jac1(0,0)*G(1,1)*G(2,2)-G(0,0)*G_jac1(1,1)*G(2,2)-G(0,0)*G(1,1)*G_jac1(2,2);
   double D_jac2 = 2.0*G(1,3)*G_jac2(1,3)*G(2,2)+pow(G(1,3),2)*G_jac2(2,2)-2.0*G_jac2(1,2)*G(1,3)*G(2,3)-2.0*G(1,2)*G_jac2(1,3)*G(2,3)-2.0*G(1,2)*G(1,3)*G_jac2(2,3)+2.0*G(1,2)*G_jac2(1,2)*G(3,3)+pow(G(1,2),2)*G_jac2(3,3)+G_jac2(1,1)*pow(G(2,3),2)+G(1,1)*2.0*G(2,3)*G_jac2(2,3)-G_jac2(1,1)*G(2,2)*G(3,3)-G(1,1)*G_jac2(2,2)*G(3,3)-G(1,1)*G(2,2)*G_jac2(3,3)+2.0*G(0,3)*G_jac2(0,3)*G(2,2)+pow(G(0,3),2)*G_jac2(2,2)+2.0*G(0,3)*G_jac2(0,3)*G(1,1)+pow(G(0,3),2)*G_jac2(1,1)-2.0*G_jac2(0,2)*G(0,3)*G(2,3)-2.0*G(0,2)*G_jac2(0,3)*G(2,3)-2.0*G(0,2)*G(0,3)*G_jac2(2,3)+2.0*G(0,2)*G_jac2(0,2)*G(3,3)+pow(G(0,2),2)*G_jac2(3,3)+2.0*G(0,2)*G_jac2(0,2)*G(1,1)+pow(G(0,2),2)*G_jac2(1,1)-2.0*G_jac2(0,1)*G(0,3)*G(1,3)-2.0*G(0,1)*G_jac2(0,3)*G(1,3)-2.0*G(0,1)*G(0,3)*G_jac2(1,3)-2.0*G_jac2(0,1)*G(0,2)*G(1,2)-2.0*G(0,1)*G_jac2(0,2)*G(1,2)-2.0*G(0,1)*G(0,2)*G_jac2(1,2)+2.0*G(0,1)*G_jac2(0,1)*G(3,3)+pow(G(0,1),2)*G_jac2(3,3)+2.0*G(0,1)*G_jac2(0,1)*G(2,2)+pow(G(0,1),2)*G_jac2(2,2)+G_jac2(0,0)*pow(G(2,3),2)+G(0,0)*2.0*G(2,3)*G_jac2(2,3)-G_jac2(0,0)*G(2,2)*G(3,3)-G(0,0)*G_jac2(2,2)*G(3,3)-G(0,0)*G(2,2)*G_jac2(3,3)+G_jac2(0,0)*pow(G(1,3),2)+G(0,0)*2.0*G(1,3)*G_jac2(1,3)+G_jac2(0,0)*pow(G(1,2),2)+G(0,0)*2.0*G(1,2)*G_jac2(1,2)-G_jac2(0,0)*G(1,1)*G(3,3)-G(0,0)*G_jac2(1,1)*G(3,3)-G(0,0)*G(1,1)*G_jac2(3,3)-G_jac2(0,0)*G(1,1)*G(2,2)-G(0,0)*G_jac2(1,1)*G(2,2)-G(0,0)*G(1,1)*G_jac2(2,2);
   double D_jac3 = 2.0*G(1,3)*G_jac3(1,3)*G(2,2)+pow(G(1,3),2)*G_jac3(2,2)-2.0*G_jac3(1,2)*G(1,3)*G(2,3)-2.0*G(1,2)*G_jac3(1,3)*G(2,3)-2.0*G(1,2)*G(1,3)*G_jac3(2,3)+2.0*G(1,2)*G_jac3(1,2)*G(3,3)+pow(G(1,2),2)*G_jac3(3,3)+G_jac3(1,1)*pow(G(2,3),2)+G(1,1)*2.0*G(2,3)*G_jac3(2,3)-G_jac3(1,1)*G(2,2)*G(3,3)-G(1,1)*G_jac3(2,2)*G(3,3)-G(1,1)*G(2,2)*G_jac3(3,3)+2.0*G(0,3)*G_jac3(0,3)*G(2,2)+pow(G(0,3),2)*G_jac3(2,2)+2.0*G(0,3)*G_jac3(0,3)*G(1,1)+pow(G(0,3),2)*G_jac3(1,1)-2.0*G_jac3(0,2)*G(0,3)*G(2,3)-2.0*G(0,2)*G_jac3(0,3)*G(2,3)-2.0*G(0,2)*G(0,3)*G_jac3(2,3)+2.0*G(0,2)*G_jac3(0,2)*G(3,3)+pow(G(0,2),2)*G_jac3(3,3)+2.0*G(0,2)*G_jac3(0,2)*G(1,1)+pow(G(0,2),2)*G_jac3(1,1)-2.0*G_jac3(0,1)*G(0,3)*G(1,3)-2.0*G(0,1)*G_jac3(0,3)*G(1,3)-2.0*G(0,1)*G(0,3)*G_jac3(1,3)-2.0*G_jac3(0,1)*G(0,2)*G(1,2)-2.0*G(0,1)*G_jac3(0,2)*G(1,2)-2.0*G(0,1)*G(0,2)*G_jac3(1,2)+2.0*G(0,1)*G_jac3(0,1)*G(3,3)+pow(G(0,1),2)*G_jac3(3,3)+2.0*G(0,1)*G_jac3(0,1)*G(2,2)+pow(G(0,1),2)*G_jac3(2,2)+G_jac3(0,0)*pow(G(2,3),2)+G(0,0)*2.0*G(2,3)*G_jac3(2,3)-G_jac3(0,0)*G(2,2)*G(3,3)-G(0,0)*G_jac3(2,2)*G(3,3)-G(0,0)*G(2,2)*G_jac3(3,3)+G_jac3(0,0)*pow(G(1,3),2)+G(0,0)*2.0*G(1,3)*G_jac3(1,3)+G_jac3(0,0)*pow(G(1,2),2)+G(0,0)*2.0*G(1,2)*G_jac3(1,2)-G_jac3(0,0)*G(1,1)*G(3,3)-G(0,0)*G_jac3(1,1)*G(3,3)-G(0,0)*G(1,1)*G_jac3(3,3)-G_jac3(0,0)*G(1,1)*G(2,2)-G(0,0)*G_jac3(1,1)*G(2,2)-G(0,0)*G(1,1)*G_jac3(2,2);
-  
+
   double E = pow(G(0,3),2)*pow(G(1,2),2)-pow(G(0,3),2)*G(1,1)*G(2,2)-2.0*G(0,2)*G(0,3)*G(1,2)*G(1,3)+2.0*G(0,2)*G(0,3)*G(1,1)*G(2,3)+pow(G(0,2),2)*pow(G(1,3),2)-pow(G(0,2),2)*G(1,1)*G(3,3)+2.0*G(0,1)*G(0,3)*G(1,3)*G(2,2)-2.0*G(0,1)*G(0,3)*G(1,2)*G(2,3)-2.0*G(0,1)*G(0,2)*G(1,3)*G(2,3)+2.0*G(0,1)*G(0,2)*G(1,2)*G(3,3)+pow(G(0,1),2)*pow(G(2,3),2)-pow(G(0,1),2)*G(2,2)*G(3,3)-G(0,0)*pow(G(1,3),2)*G(2,2)+2.0*G(0,0)*G(1,2)*G(1,3)*G(2,3)-G(0,0)*pow(G(1,2),2)*G(3,3)-G(0,0)*G(1,1)*pow(G(2,3),2)+G(0,0)*G(1,1)*G(2,2)*G(3,3);
   double E_jac1 = 2.0*G(0,3)*G_jac1(0,3)*pow(G(1,2),2)+pow(G(0,3),2)*2.0*G(1,2)*G_jac1(1,2)-2.0*G(0,3)*G_jac1(0,3)*G(1,1)*G(2,2)-pow(G(0,3),2)*G_jac1(1,1)*G(2,2)-pow(G(0,3),2)*G(1,1)*G_jac1(2,2)-2.0*G_jac1(0,2)*G(0,3)*G(1,2)*G(1,3)-2.0*G(0,2)*G_jac1(0,3)*G(1,2)*G(1,3)-2.0*G(0,2)*G(0,3)*G_jac1(1,2)*G(1,3)-2.0*G(0,2)*G(0,3)*G(1,2)*G_jac1(1,3)+2.0*G_jac1(0,2)*G(0,3)*G(1,1)*G(2,3)+2.0*G(0,2)*G_jac1(0,3)*G(1,1)*G(2,3)+2.0*G(0,2)*G(0,3)*G_jac1(1,1)*G(2,3)+2.0*G(0,2)*G(0,3)*G(1,1)*G_jac1(2,3) +2.0*G(0,2)*G_jac1(0,2)*pow(G(1,3),2)+pow(G(0,2),2)*2.0*G(1,3)*G_jac1(1,3)-2.0*G(0,2)*G_jac1(0,2)*G(1,1)*G(3,3)-pow(G(0,2),2)*G_jac1(1,1)*G(3,3)-pow(G(0,2),2)*G(1,1)*G_jac1(3,3)+2.0*G_jac1(0,1)*G(0,3)*G(1,3)*G(2,2)+2.0*G(0,1)*G_jac1(0,3)*G(1,3)*G(2,2)+2.0*G(0,1)*G(0,3)*G_jac1(1,3)*G(2,2)+2.0*G(0,1)*G(0,3)*G(1,3)*G_jac1(2,2)-2.0*G_jac1(0,1)*G(0,3)*G(1,2)*G(2,3)-2.0*G(0,1)*G_jac1(0,3)*G(1,2)*G(2,3)-2.0*G(0,1)*G(0,3)*G_jac1(1,2)*G(2,3)-2.0*G(0,1)*G(0,3)*G(1,2)*G_jac1(2,3)-2.0*G_jac1(0,1)*G(0,2)*G(1,3)*G(2,3)-2.0*G(0,1)*G_jac1(0,2)*G(1,3)*G(2,3)-2.0*G(0,1)*G(0,2)*G_jac1(1,3)*G(2,3)-2.0*G(0,1)*G(0,2)*G(1,3)*G_jac1(2,3)+2.0*G_jac1(0,1)*G(0,2)*G(1,2)*G(3,3)+2.0*G(0,1)*G_jac1(0,2)*G(1,2)*G(3,3)+2.0*G(0,1)*G(0,2)*G_jac1(1,2)*G(3,3)+2.0*G(0,1)*G(0,2)*G(1,2)*G_jac1(3,3)+2.0*G(0,1)*G_jac1(0,1)*pow(G(2,3),2)+pow(G(0,1),2)*2.0*G(2,3)*G_jac1(2,3)-2.0*G(0,1)*G_jac1(0,1)*G(2,2)*G(3,3)-pow(G(0,1),2)*G_jac1(2,2)*G(3,3)-pow(G(0,1),2)*G(2,2)*G_jac1(3,3)-G_jac1(0,0)*pow(G(1,3),2)*G(2,2)-G(0,0)*2.0*G(1,3)*G_jac1(1,3)*G(2,2)-G(0,0)*pow(G(1,3),2)*G_jac1(2,2)+2.0*G_jac1(0,0)*G(1,2)*G(1,3)*G(2,3)+2.0*G(0,0)*G_jac1(1,2)*G(1,3)*G(2,3)+2.0*G(0,0)*G(1,2)*G_jac1(1,3)*G(2,3)+2.0*G(0,0)*G(1,2)*G(1,3)*G_jac1(2,3)-G_jac1(0,0)*pow(G(1,2),2)*G(3,3)-G(0,0)*2.0*G(1,2)*G_jac1(1,2)*G(3,3)-G(0,0)*pow(G(1,2),2)*G_jac1(3,3)-G_jac1(0,0)*G(1,1)*pow(G(2,3),2)-G(0,0)*G_jac1(1,1)*pow(G(2,3),2)-G(0,0)*G(1,1)*2.0*G(2,3)*G_jac1(2,3)+G_jac1(0,0)*G(1,1)*G(2,2)*G(3,3)+G(0,0)*G_jac1(1,1)*G(2,2)*G(3,3)+G(0,0)*G(1,1)*G_jac1(2,2)*G(3,3)+G(0,0)*G(1,1)*G(2,2)*G_jac1(3,3);
   double E_jac2 = 2.0*G(0,3)*G_jac2(0,3)*pow(G(1,2),2)+pow(G(0,3),2)*2.0*G(1,2)*G_jac2(1,2)-2.0*G(0,3)*G_jac2(0,3)*G(1,1)*G(2,2)-pow(G(0,3),2)*G_jac2(1,1)*G(2,2)-pow(G(0,3),2)*G(1,1)*G_jac2(2,2)-2.0*G_jac2(0,2)*G(0,3)*G(1,2)*G(1,3)-2.0*G(0,2)*G_jac2(0,3)*G(1,2)*G(1,3)-2.0*G(0,2)*G(0,3)*G_jac2(1,2)*G(1,3)-2.0*G(0,2)*G(0,3)*G(1,2)*G_jac2(1,3)+2.0*G_jac2(0,2)*G(0,3)*G(1,1)*G(2,3)+2.0*G(0,2)*G_jac2(0,3)*G(1,1)*G(2,3)+2.0*G(0,2)*G(0,3)*G_jac2(1,1)*G(2,3)+2.0*G(0,2)*G(0,3)*G(1,1)*G_jac2(2,3) +2.0*G(0,2)*G_jac2(0,2)*pow(G(1,3),2)+pow(G(0,2),2)*2.0*G(1,3)*G_jac2(1,3)-2.0*G(0,2)*G_jac2(0,2)*G(1,1)*G(3,3)-pow(G(0,2),2)*G_jac2(1,1)*G(3,3)-pow(G(0,2),2)*G(1,1)*G_jac2(3,3)+2.0*G_jac2(0,1)*G(0,3)*G(1,3)*G(2,2)+2.0*G(0,1)*G_jac2(0,3)*G(1,3)*G(2,2)+2.0*G(0,1)*G(0,3)*G_jac2(1,3)*G(2,2)+2.0*G(0,1)*G(0,3)*G(1,3)*G_jac2(2,2)-2.0*G_jac2(0,1)*G(0,3)*G(1,2)*G(2,3)-2.0*G(0,1)*G_jac2(0,3)*G(1,2)*G(2,3)-2.0*G(0,1)*G(0,3)*G_jac2(1,2)*G(2,3)-2.0*G(0,1)*G(0,3)*G(1,2)*G_jac2(2,3)-2.0*G_jac2(0,1)*G(0,2)*G(1,3)*G(2,3)-2.0*G(0,1)*G_jac2(0,2)*G(1,3)*G(2,3)-2.0*G(0,1)*G(0,2)*G_jac2(1,3)*G(2,3)-2.0*G(0,1)*G(0,2)*G(1,3)*G_jac2(2,3)+2.0*G_jac2(0,1)*G(0,2)*G(1,2)*G(3,3)+2.0*G(0,1)*G_jac2(0,2)*G(1,2)*G(3,3)+2.0*G(0,1)*G(0,2)*G_jac2(1,2)*G(3,3)+2.0*G(0,1)*G(0,2)*G(1,2)*G_jac2(3,3)+2.0*G(0,1)*G_jac2(0,1)*pow(G(2,3),2)+pow(G(0,1),2)*2.0*G(2,3)*G_jac2(2,3)-2.0*G(0,1)*G_jac2(0,1)*G(2,2)*G(3,3)-pow(G(0,1),2)*G_jac2(2,2)*G(3,3)-pow(G(0,1),2)*G(2,2)*G_jac2(3,3)-G_jac2(0,0)*pow(G(1,3),2)*G(2,2)-G(0,0)*2.0*G(1,3)*G_jac2(1,3)*G(2,2)-G(0,0)*pow(G(1,3),2)*G_jac2(2,2)+2.0*G_jac2(0,0)*G(1,2)*G(1,3)*G(2,3)+2.0*G(0,0)*G_jac2(1,2)*G(1,3)*G(2,3)+2.0*G(0,0)*G(1,2)*G_jac2(1,3)*G(2,3)+2.0*G(0,0)*G(1,2)*G(1,3)*G_jac2(2,3)-G_jac2(0,0)*pow(G(1,2),2)*G(3,3)-G(0,0)*2.0*G(1,2)*G_jac2(1,2)*G(3,3)-G(0,0)*pow(G(1,2),2)*G_jac2(3,3)-G_jac2(0,0)*G(1,1)*pow(G(2,3),2)-G(0,0)*G_jac2(1,1)*pow(G(2,3),2)-G(0,0)*G(1,1)*2.0*G(2,3)*G_jac2(2,3)+G_jac2(0,0)*G(1,1)*G(2,2)*G(3,3)+G(0,0)*G_jac2(1,1)*G(2,2)*G(3,3)+G(0,0)*G(1,1)*G_jac2(2,2)*G(3,3)+G(0,0)*G(1,1)*G(2,2)*G_jac2(3,3);
@@ -178,12 +178,12 @@ opengv::relative_pose::modules::ge::getCost(
   double alpha_jac1 = -3.0*B_pw2_jac1/8.0+C_jac1;
   double alpha_jac2 = -3.0*B_pw2_jac2/8.0+C_jac2;
   double alpha_jac3 = -3.0*B_pw2_jac3/8.0+C_jac3;
-  
+
   double beta = B_pw3/8.0-B*C/2.0+D;
   double beta_jac1 = B_pw3_jac1/8.0-(B_jac1*C+B*C_jac1)/2.0+D_jac1;
   double beta_jac2 = B_pw3_jac2/8.0-(B_jac2*C+B*C_jac2)/2.0+D_jac2;
   double beta_jac3 = B_pw3_jac3/8.0-(B_jac3*C+B*C_jac3)/2.0+D_jac3;
-  
+
   double gamma = -3.0*B_pw4/256.0+B_pw2*C/16.0-B*D/4.0+E;
   double gamma_jac1 = -3.0*B_pw4_jac1/256.0+(B_pw2_jac1*C+B_pw2*C_jac1)/16.0-(B_jac1*D+B*D_jac1)/4.0+E_jac1;
   double gamma_jac2 = -3.0*B_pw4_jac2/256.0+(B_pw2_jac2*C+B_pw2*C_jac2)/16.0-(B_jac2*D+B*D_jac2)/4.0+E_jac2;
@@ -202,27 +202,27 @@ opengv::relative_pose::modules::ge::getCost(
   double p_jac1 = -alpha_pw2_jac1/12.0-gamma_jac1;
   double p_jac2 = -alpha_pw2_jac2/12.0-gamma_jac2;
   double p_jac3 = -alpha_pw2_jac3/12.0-gamma_jac3;
-  
+
   double q = -alpha_pw3/108.0+alpha*gamma/3.0-pow(beta,2.0)/8.0;
   double q_jac1 = -alpha_pw3_jac1/108.0+(alpha_jac1*gamma+alpha*gamma_jac1)/3.0-2.0*beta*beta_jac1/8.0;
   double q_jac2 = -alpha_pw3_jac2/108.0+(alpha_jac2*gamma+alpha*gamma_jac2)/3.0-2.0*beta*beta_jac2/8.0;
   double q_jac3 = -alpha_pw3_jac3/108.0+(alpha_jac3*gamma+alpha*gamma_jac3)/3.0-2.0*beta*beta_jac3/8.0;
-  
+
   double helper1 = -pow(p,3.0)/27.0;
   double helper1_jac1 = -3.0*pow(p,2.0)*p_jac1/27.0;
   double helper1_jac2 = -3.0*pow(p,2.0)*p_jac2/27.0;
   double helper1_jac3 = -3.0*pow(p,2.0)*p_jac3/27.0;
-  
+
   double theta1 = pow( helper1, (1.0/6.0) ) * cos( (1.0/3.0) * acos( (-q/2.0) / sqrt(helper1) ) );
   double theta1_jac1 = (1.0/6.0)*pow( helper1, (-5.0/6.0) ) * helper1_jac1 * cos( (1.0/3.0) * acos( (-q/2.0) / sqrt(helper1) ) ) - pow( helper1, (1.0/6.0) ) * sin( (1.0/3.0) * acos( (-q/2.0) / sqrt(helper1) ) ) * ( 2.0 * helper1 * q_jac1 - q * helper1_jac1) / ( 12.0 * pow(helper1,1.5) * sqrt(1.0 - q / (4.0*helper1) ) ) ;
   double theta1_jac2 = (1.0/6.0)*pow( helper1, (-5.0/6.0) ) * helper1_jac2 * cos( (1.0/3.0) * acos( (-q/2.0) / sqrt(helper1) ) ) - pow( helper1, (1.0/6.0) ) * sin( (1.0/3.0) * acos( (-q/2.0) / sqrt(helper1) ) ) * ( 2.0 * helper1 * q_jac2 - q * helper1_jac2) / ( 12.0 * pow(helper1,1.5) * sqrt(1.0 - q / (4.0*helper1) ) ) ;
   double theta1_jac3 = (1.0/6.0)*pow( helper1, (-5.0/6.0) ) * helper1_jac3 * cos( (1.0/3.0) * acos( (-q/2.0) / sqrt(helper1) ) ) - pow( helper1, (1.0/6.0) ) * sin( (1.0/3.0) * acos( (-q/2.0) / sqrt(helper1) ) ) * ( 2.0 * helper1 * q_jac3 - q * helper1_jac3) / ( 12.0 * pow(helper1,1.5) * sqrt(1.0 - q / (4.0*helper1) ) ) ;
-  
+
   double theta2 = pow( helper1 , (1.0/3.0) );
   double theta2_jac1 = (1.0/3.0) * pow( helper1 , (-2.0/3.0) ) * helper1_jac1;
   double theta2_jac2 = (1.0/3.0) * pow( helper1 , (-2.0/3.0) ) * helper1_jac2;
   double theta2_jac3 = (1.0/3.0) * pow( helper1 , (-2.0/3.0) ) * helper1_jac3;
-  
+
   double y = -(5.0/6.0)*alpha - ( (1.0/3.0) * p * theta1 - theta1 * theta2) / theta2;
   double y_jac1 = -(5.0/6.0)*alpha_jac1 - ( ( (1.0/3.0) * p_jac1 * theta1 + (1.0/3.0) * p * theta1_jac1 - theta1_jac1 * theta2 - theta1 * theta2_jac1 )*theta2 - ( (1.0/3.0) * p * theta1 - theta1 * theta2) * theta2_jac1 ) / pow(theta2,2.0);
   double y_jac2 = -(5.0/6.0)*alpha_jac2 - ( ( (1.0/3.0) * p_jac2 * theta1 + (1.0/3.0) * p * theta1_jac2 - theta1_jac2 * theta2 - theta1 * theta2_jac2 )*theta2 - ( (1.0/3.0) * p * theta1 - theta1 * theta2) * theta2_jac2 ) / pow(theta2,2.0);
@@ -232,16 +232,16 @@ opengv::relative_pose::modules::ge::getCost(
   double w_jac1 = (alpha_jac1 + 2.0*y_jac1)/(2.0*sqrt(alpha+2.0*y));
   double w_jac2 = (alpha_jac2 + 2.0*y_jac2)/(2.0*sqrt(alpha+2.0*y));
   double w_jac3 = (alpha_jac3 + 2.0*y_jac3)/(2.0*sqrt(alpha+2.0*y));
-  
+
   double smallestEV = -B/4.0 -0.5*w -0.5*sqrt(-3.0*alpha-2.0*y+2.0*beta/w);
   jacobian[0] = -B_jac1/4.0 -0.5*w_jac1 -0.25*( -3.0*alpha_jac1-2.0*y_jac1+2.0*(beta_jac1*w-beta*w_jac1)/pow(w,2.0) )/sqrt(-3.0*alpha-2.0*y+2.0*beta/w);
   jacobian[1] = -B_jac2/4.0 -0.5*w_jac2 -0.25*( -3.0*alpha_jac2-2.0*y_jac2+2.0*(beta_jac2*w-beta*w_jac2)/pow(w,2.0) )/sqrt(-3.0*alpha-2.0*y+2.0*beta/w);
   jacobian[2] = -B_jac3/4.0 -0.5*w_jac3 -0.25*( -3.0*alpha_jac3-2.0*y_jac3+2.0*(beta_jac3*w-beta*w_jac3)/pow(w,2.0) )/sqrt(-3.0*alpha-2.0*y+2.0*beta/w);
-  
+
   return smallestEV;
   */
   /////////////////////////////////////////////////////// end of Method 1 ///////////////////////////////////////////////////////////////////////////////////
-  
+
 
 double
 opengv::relative_pose::modules::ge::
@@ -265,19 +265,19 @@ opengv::relative_pose::modules::ge::
     Eigen::Matrix<double,1,3> & jacobian,
     int step )
 {
-  double eps = 0.00000001;
+  double eps = sqrt(2.2e-16);
   double cost = getCost(xxF,yyF,zzF,xyF,yzF,zxF,x1P,y1P,z1P,x2P,y2P,z2P,m11P,m12P,m22P,cayley,step);
-  
+
   for( int j = 0; j < 3; j++ )
   {
     cayley_t cayley_j = cayley; cayley_j[j] += eps;
     double cost_j = getCost(xxF,yyF,zzF,xyF,yzF,zxF,x1P,y1P,z1P,x2P,y2P,z2P,m11P,m12P,m22P,cayley_j,step);
-    
+
     cayley_j = cayley; cayley_j[j] -= eps;
     double cost_jm = getCost(xxF,yyF,zzF,xyF,yzF,zxF,x1P,y1P,z1P,x2P,y2P,z2P,m11P,m12P,m22P,cayley_j,step);
-    jacobian(0,j) = (cost_j - cost_jm); //division by eps can be ommited
+    jacobian(0,j) = (cost_j - cost_jm)/ eps / 2.0; //division by eps can be ommited
   }
-  
+
   return cost;
 }
 
@@ -303,13 +303,35 @@ opengv::relative_pose::modules::ge::getQuickJacobian(
     Eigen::Matrix<double,1,3> & jacobian,
     int step )
 {
-  double eps = 0.00000001;
-  
+  double eps = sqrt(2.2e-16);
+
   for( int j = 0; j < 3; j++ )
   {
-    cayley_t cayley_j = cayley; cayley_j[j] += eps;
-    double cost_j = getCost(xxF,yyF,zzF,xyF,yzF,zxF,x1P,y1P,z1P,x2P,y2P,z2P,m11P,m12P,m22P,cayley_j,step);
-    jacobian(0,j) = (cost_j - currentValue); //division by eps can be ommited
+    cayley_t cayley_jm4 = cayley;  cayley_jm4[j] -= 4*eps;
+    cayley_t cayley_jm3 = cayley;  cayley_jm3[j] -= 3*eps;
+    cayley_t cayley_jm2 = cayley;  cayley_jm2[j] -= 2*eps;
+    cayley_t cayley_jm1 = cayley;  cayley_jm1[j] -= eps;
+    cayley_t cayley_jp1 = cayley;  cayley_jp1[j] += eps;
+    cayley_t cayley_jp2 = cayley;  cayley_jp2[j] += 2*eps;
+    cayley_t cayley_jp3 = cayley;  cayley_jp3[j] += 3*eps;
+    cayley_t cayley_jp4 = cayley;  cayley_jp4[j] += 4*eps;
+
+    double cost_jm4 = getCost(xxF,yyF,zzF,xyF,yzF,zxF,x1P,y1P,z1P,x2P,y2P,z2P,m11P,m12P,m22P,cayley_jm4,step);
+    double cost_jm3 = getCost(xxF,yyF,zzF,xyF,yzF,zxF,x1P,y1P,z1P,x2P,y2P,z2P,m11P,m12P,m22P,cayley_jm3,step);
+    double cost_jm2 = getCost(xxF,yyF,zzF,xyF,yzF,zxF,x1P,y1P,z1P,x2P,y2P,z2P,m11P,m12P,m22P,cayley_jm2,step);
+    double cost_jm1 = getCost(xxF,yyF,zzF,xyF,yzF,zxF,x1P,y1P,z1P,x2P,y2P,z2P,m11P,m12P,m22P,cayley_jm1,step);
+
+    double cost_jp1 = getCost(xxF,yyF,zzF,xyF,yzF,zxF,x1P,y1P,z1P,x2P,y2P,z2P,m11P,m12P,m22P,cayley_jp1,step);
+    double cost_jp2 = getCost(xxF,yyF,zzF,xyF,yzF,zxF,x1P,y1P,z1P,x2P,y2P,z2P,m11P,m12P,m22P,cayley_jp2,step);
+    double cost_jp3 = getCost(xxF,yyF,zzF,xyF,yzF,zxF,x1P,y1P,z1P,x2P,y2P,z2P,m11P,m12P,m22P,cayley_jp3,step);
+    double cost_jp4 = getCost(xxF,yyF,zzF,xyF,yzF,zxF,x1P,y1P,z1P,x2P,y2P,z2P,m11P,m12P,m22P,cayley_jp4,step);
+
+
+    // use finite difference of order 5 to compute the gradient
+    jacobian(0,j) = cost_jm4 / 280.0 - 4.0 *cost_jm3 / 105. + cost_jm2/5. - 4.0 * cost_jm1 / 5.0
+                    + 4.0 * cost_jp1 / 5.0 - cost_jp2 / 5.0 + 4.0*cost_jp3 / 105. -cost_jp4/280. ; //division by eps can be ommited
+
+    jacobian(0,j) /= eps;
   }
 }
 
@@ -333,7 +355,7 @@ opengv::relative_pose::modules::ge::composeG(
   const cayley_t & cayley)
 {
   Eigen::Matrix4d G;
-  rotation_t R = math::cayley2rot_reduced(cayley);
+  rotation_t R = math::cayley2rot(cayley);
 
   //todo: Fill the matrix G using the precomputed summation terms
   Eigen::Vector3d xxFr1t = xxF*R.row(1).transpose();
@@ -344,7 +366,7 @@ opengv::relative_pose::modules::ge::composeG(
   Eigen::Vector3d xyFr2t = xyF*R.row(2).transpose();
   Eigen::Vector3d zxFr1t = zxF*R.row(1).transpose();
   Eigen::Vector3d zxFr2t = zxF*R.row(2).transpose();
-  
+
   double temp;
   temp =      R.row(2)*yyF*R.row(2).transpose();
   G(0,0)  = temp;
@@ -404,20 +426,20 @@ opengv::relative_pose::modules::ge::composeG(
   Rows.block<1,3>(0,3) = R.row(1);
   Rows.block<1,3>(0,6) = R.row(2);
   Eigen::Matrix<double,9,1> Rowst = Rows.transpose();
-  
+
   Eigen::Matrix<double,9,1> Cols;
   Cols.block<3,1>(0,0) = R.col(0);
   Cols.block<3,1>(3,0) = R.col(1);
   Cols.block<3,1>(6,0) = R.col(2);
-  
+
   Eigen::Vector3d x1PC = x1P*Cols;
   Eigen::Vector3d y1PC = y1P*Cols;
   Eigen::Vector3d z1PC = z1P*Cols;
-  
+
   Eigen::Vector3d x2PR = x2P*Rowst;
   Eigen::Vector3d y2PR = y2P*Rowst;
   Eigen::Vector3d z2PR = z2P*Rowst;
-  
+
   temp =      R.row(2)*y1PC;
   G(0,3)  = temp;
   temp =      R.row(2)*y2PR;
@@ -426,7 +448,7 @@ opengv::relative_pose::modules::ge::composeG(
   G(0,3) += temp;
   temp = -1.0*R.row(1)*z2PR;
   G(0,3) += temp;
-  
+
   temp =      R.row(0)*z1PC;
   G(1,3)  = temp;
   temp =      R.row(0)*z2PR;
@@ -435,7 +457,7 @@ opengv::relative_pose::modules::ge::composeG(
   G(1,3) += temp;
   temp = -1.0*R.row(2)*x2PR;
   G(1,3) += temp;
-  
+
   temp =      R.row(1)*x1PC;
   G(2,3)  = temp;
   temp =      R.row(1)*x2PR;
@@ -444,14 +466,14 @@ opengv::relative_pose::modules::ge::composeG(
   G(2,3) += temp;
   temp = -1.0*R.row(0)*y2PR;
   G(2,3) += temp;
-  
+
   temp = -1.0*Cols.transpose()*m11P*Cols;
   G(3,3)  = temp;
   temp = -1.0*Rows*m22P*Rowst;
   G(3,3) += temp;
   temp = -2.0*Rows*m12P*Cols;
   G(3,3) += temp;
-  
+
   G(3,0) = G(0,3);
   G(3,1) = G(1,3);
   G(3,2) = G(2,3);
@@ -481,7 +503,7 @@ opengv::relative_pose::modules::ge::composeGwithJacobians(
     Eigen::Matrix4d & G_jac2,
     Eigen::Matrix4d & G_jac3 )
 {
-  rotation_t R = math::cayley2rot_reduced(cayley);
+  rotation_t R = math::cayley2rot(cayley);
   rotation_t R_jac1;
   rotation_t R_jac2;
   rotation_t R_jac3;
@@ -781,12 +803,12 @@ opengv::relative_pose::modules::ge::composeGwithJacobians(
   Rows.block<1,3>(0,0) = R.row(0);
   Rows.block<1,3>(0,3) = R.row(1);
   Rows.block<1,3>(0,6) = R.row(2);
-  
+
   Eigen::Matrix<double,9,1> Cols;
   Cols.block<3,1>(0,0) = R.col(0);
   Cols.block<3,1>(3,0) = R.col(1);
   Cols.block<3,1>(6,0) = R.col(2);
-  
+
   Eigen::Matrix<double,1,9> Rows_jac1;
   Rows_jac1.block<1,3>(0,0) = R_jac1.row(0);
   Rows_jac1.block<1,3>(0,3) = R_jac1.row(1);
@@ -799,7 +821,7 @@ opengv::relative_pose::modules::ge::composeGwithJacobians(
   Rows_jac3.block<1,3>(0,0) = R_jac3.row(0);
   Rows_jac3.block<1,3>(0,3) = R_jac3.row(1);
   Rows_jac3.block<1,3>(0,6) = R_jac3.row(2);
-  
+
   Eigen::Matrix<double,9,1> Cols_jac1;
   Cols_jac1.block<3,1>(0,0) = R_jac1.col(0);
   Cols_jac1.block<3,1>(3,0) = R_jac1.col(1);
@@ -812,7 +834,7 @@ opengv::relative_pose::modules::ge::composeGwithJacobians(
   Cols_jac3.block<3,1>(0,0) = R_jac3.col(0);
   Cols_jac3.block<3,1>(3,0) = R_jac3.col(1);
   Cols_jac3.block<3,1>(6,0) = R_jac3.col(2);
-  
+
   temp =      R.row(2)*y1P*Cols;
   G(0,3)  = temp;
   temp =      R.row(2)*y2P*Rows.transpose();
@@ -869,7 +891,7 @@ opengv::relative_pose::modules::ge::composeGwithJacobians(
   G_jac3(0,3) += temp;
   temp = -1.0*R.row(1)*z2P*Rows_jac3.transpose();
   G_jac3(0,3) += temp;
-  
+
   temp =      R.row(0)*z1P*Cols;
   G(1,3)  = temp;
   temp =      R.row(0)*z2P*Rows.transpose();
@@ -926,7 +948,7 @@ opengv::relative_pose::modules::ge::composeGwithJacobians(
   G_jac3(1,3) += temp;
   temp = -1.0*R.row(2)*x2P*Rows_jac3.transpose();
   G_jac3(1,3) += temp;
-  
+
   temp =      R.row(1)*x1P*Cols;
   G(2,3)  = temp;
   temp =      R.row(1)*x2P*Rows.transpose();
@@ -983,7 +1005,7 @@ opengv::relative_pose::modules::ge::composeGwithJacobians(
   G_jac3(2,3) += temp;
   temp = -1.0*R.row(0)*y2P*Rows_jac3.transpose();
   G_jac3(2,3) += temp;
-  
+
   temp = -1.0*Cols.transpose()*m11P*Cols;
   G(3,3)  = temp;
   temp = -1.0*Rows*m22P*Rows.transpose();
@@ -1014,7 +1036,7 @@ opengv::relative_pose::modules::ge::composeGwithJacobians(
   G_jac3(3,3) += temp;
   temp = -2.0*Rows*m12P*Cols_jac3;
   G_jac3(3,3) += temp;
-  
+
   G(3,0) = G(0,3);
   G(3,1) = G(1,3);
   G(3,2) = G(2,3);

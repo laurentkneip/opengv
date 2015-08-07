@@ -124,5 +124,3 @@ void ge_plot(
 }
 
 #endif /* OPENGV_RELATIVE_POSE_MODULES_MAIN_HPP_ */
-
-

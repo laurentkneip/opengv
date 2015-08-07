@@ -46,7 +46,7 @@ opengv::sac_problems::
   bool returnValue = true;
 
   if(!_asCentral)
-  {    
+  {
     switch(_algorithm)
     {
       case SEVENTEENPT:
@@ -58,7 +58,7 @@ opengv::sac_problems::
       {
         geOutput_t output2;
         opengv::relative_pose::ge(_adapter,indices,output2);
-        
+
         outModel.block<3,3>(0,0) = output2.rotation;
         outModel.col(3) = output2.translation.block<3,1>(0,0);
         break;
@@ -69,20 +69,20 @@ opengv::sac_problems::
         for( int i = 0; i < 6; i++ )
           indices6.push_back(indices[i]);
         rotations_t rotations = opengv::relative_pose::sixpt(_adapter,indices6);
-        
+
         //now find a translation for each rotation!
         //as a matter of fact, this should be similar to the end of ge ...
         transformations_t transformations;
         for( size_t r = 0; r < rotations.size(); r++ )
         {
           Eigen::Matrix4d G = Eigen::Matrix4d::Zero();
-          
+
           for( int i = 0; i < 6; i++ )
           {
             //extract the features
             bearingVector_t f1 = _adapter.getCamRotation1(indices[i]) * _adapter.getBearingVector1(indices[i]);
             bearingVector_t f2 = _adapter.getCamRotation2(indices[i]) * _adapter.getBearingVector2(indices[i]);
-            
+
             //extract the skew symmetric of the camera offsets
             Eigen::Vector3d t1 = _adapter.getCamOffset1(indices[i]);
             Eigen::Matrix3d t1_skew = Eigen::Matrix3d::Zero();
@@ -92,7 +92,7 @@ opengv::sac_problems::
             t1_skew(1,0) =  t1[2];
             t1_skew(2,0) = -t1[1];
             t1_skew(2,1) =  t1[0];
-                
+
             Eigen::Vector3d t2 = _adapter.getCamOffset2(indices[i]);
             Eigen::Matrix3d t2_skew = Eigen::Matrix3d::Zero();
             t2_skew(0,1) = -t2[2];
@@ -101,17 +101,17 @@ opengv::sac_problems::
             t2_skew(1,0) =  t2[2];
             t2_skew(2,0) = -t2[1];
             t2_skew(2,1) =  t2[0];
-                
+
             //Now compute the "generalized normal vector"
             Eigen::Vector4d g;
             g.block<3,1>(0,0) = f1.cross(rotations[r]*f2);
             g[3] = f1.transpose() * (t1_skew*rotations[r]-rotations[r]*t2_skew) * f2;
-            
+
             //Now put that onto G
             Eigen::Matrix4d newElement = g * g.transpose();
             G = G + newElement;
           }
-          
+
           //decompose G to find the rotation
           Eigen::ComplexEigenSolver< Eigen::Matrix4d > Eig(G,true);
           Eigen::Matrix<std::complex<double>,4,4> V = Eig.eigenvectors();
@@ -123,7 +123,7 @@ opengv::sac_problems::
             transformation(k,3) = (1.0/factor) * V(k,0).real();
           transformations.push_back(transformation);
         }
-        
+
         //and finally do the disambiguation (using three more features)
         //collect qualities for each of the solutions
         Eigen::Matrix<double,4,1> p_hom;
@@ -157,7 +157,7 @@ opengv::sac_problems::
             inverseSolution.block<3,3>(0,0) = directRotation.transpose();
             inverseSolution.col(3) =
                 -inverseSolution.block<3,3>(0,0)*directTranslation;
-            
+
             p_hom.block<3,1>(0,0) =
                 opengv::triangulation::triangulate2(_adapter,indices[k]);
             bearingVector_t reprojection1 = p_hom.block<3,1>(0,0);
@@ -181,12 +181,12 @@ opengv::sac_problems::
             bestQualityIndex = i;
           }
         }
-        
+
         if( bestQualityIndex == -1 )
           returnValue = false; // no solution found
         else
           outModel = transformations[bestQualityIndex];
-          
+
         break;
       }
     }
@@ -261,7 +261,7 @@ opengv::sac_problems::
     //1-(f1'*f2) = 1-cos(alpha) \in [0:2]
     double reprojError1 = 1.0 - (f1.transpose() * reprojection1);
     double reprojError2 = 1.0 - (f2.transpose() * reprojection2);
-    scores.push_back(reprojError1 + reprojError2);
+    scores.push_back(std::max(reprojError1,reprojError2));
   }
 }
 
@@ -296,7 +296,7 @@ opengv::sac_problems::
       }
       case GE:
       {
-        sampleSize = 8;
+        sampleSize = 6;
         break;
       }
       case SIXPT:
