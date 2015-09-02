@@ -41,7 +41,6 @@
 #ifndef OPENGV_SAC_MULTIRANSAC_HPP_
 #define OPENGV_SAC_MULTIRANSAC_HPP_
 
-#include <boost/shared_ptr.hpp>
 #include <vector>
 #include <opengv/sac/MultiSampleConsensus.hpp>
 #include <cstdio>

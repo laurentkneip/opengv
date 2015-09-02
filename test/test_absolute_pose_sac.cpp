@@ -91,7 +91,7 @@ int main( int argc, char** argv )
   //Create an AbsolutePoseSac problem and Ransac
   //The method can be set to KNEIP, GAO or EPNP
   sac::Ransac<sac_problems::absolute_pose::AbsolutePoseSacProblem> ransac;
-  boost::shared_ptr<
+  std::shared_ptr<
       sac_problems::absolute_pose::AbsolutePoseSacProblem> absposeproblem_ptr(
       new sac_problems::absolute_pose::AbsolutePoseSacProblem(
       adapter,

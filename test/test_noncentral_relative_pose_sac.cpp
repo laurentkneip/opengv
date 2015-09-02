@@ -108,7 +108,7 @@ int main( int argc, char** argv )
   //Create a NoncentralRelativePoseSacProblem and Ransac
   sac::Ransac<
       sac_problems::relative_pose::NoncentralRelativePoseSacProblem> ransac;
-  boost::shared_ptr<
+  std::shared_ptr<
       sac_problems::relative_pose::NoncentralRelativePoseSacProblem>
       relposeproblem_ptr(
       new sac_problems::relative_pose::NoncentralRelativePoseSacProblem(

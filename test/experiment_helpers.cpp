@@ -415,9 +415,9 @@ opengv::generateMulti2D2DCorrespondences(
     size_t pointsPerCam,
     double noise,
     double outlierFraction,
-    std::vector<boost::shared_ptr<bearingVectors_t> > & multiBearingVectors1,
-    std::vector<boost::shared_ptr<bearingVectors_t> > & multiBearingVectors2,
-    std::vector<boost::shared_ptr<Eigen::MatrixXd> > & gt )
+    std::vector<std::shared_ptr<bearingVectors_t> > & multiBearingVectors1,
+    std::vector<std::shared_ptr<bearingVectors_t> > & multiBearingVectors2,
+    std::vector<std::shared_ptr<Eigen::MatrixXd> > & gt )
 {
   //initialize point-cloud
   double minDepth = 4;
@@ -425,7 +425,7 @@ opengv::generateMulti2D2DCorrespondences(
   
   for( size_t cam = 0; cam < camOffsets.size(); cam++ )
   {
-    boost::shared_ptr<Eigen::MatrixXd> gt_sub(new Eigen::MatrixXd(3,pointsPerCam));
+    std::shared_ptr<Eigen::MatrixXd> gt_sub(new Eigen::MatrixXd(3,pointsPerCam));
     for( size_t i = 0; i < pointsPerCam; i++ )
       gt_sub->col(i) = generateRandomPoint( maxDepth, minDepth );
     gt.push_back(gt_sub);
@@ -435,8 +435,8 @@ opengv::generateMulti2D2DCorrespondences(
   for( size_t cam = 0; cam < camOffsets.size(); cam++ )
   {
     //create the bearing-vector arrays for this camera
-    boost::shared_ptr<bearingVectors_t> bearingVectors1(new bearingVectors_t());
-    boost::shared_ptr<bearingVectors_t> bearingVectors2(new bearingVectors_t());
+    std::shared_ptr<bearingVectors_t> bearingVectors1(new bearingVectors_t());
+    std::shared_ptr<bearingVectors_t> bearingVectors2(new bearingVectors_t());
     
     //get the offset and rotation of this camera
     translation_t camOffset = camOffsets[cam];

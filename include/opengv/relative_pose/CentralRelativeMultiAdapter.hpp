@@ -41,7 +41,7 @@
 
 #include <stdlib.h>
 #include <vector>
-#include <boost/shared_ptr.hpp>
+#include <memory>
 #include <opengv/types.hpp>
 #include <opengv/relative_pose/RelativeMultiAdapterBase.hpp>
 
@@ -75,8 +75,8 @@ public:
    * \brief Constructor. See protected class-members to understand parameters
    */
   CentralRelativeMultiAdapter(
-      std::vector<boost::shared_ptr<bearingVectors_t> > bearingVectors1,
-      std::vector<boost::shared_ptr<bearingVectors_t> > bearingVectors2 );
+      std::vector<std::shared_ptr<bearingVectors_t> > bearingVectors1,
+      std::vector<std::shared_ptr<bearingVectors_t> > bearingVectors2 );
   /**
    * \brief Destructor.
    */
@@ -118,11 +118,11 @@ protected:
   /** References to multiple sets of bearing-vectors (the ones from camera 1 of
    *  each pair, and expressed in there
    */
-  std::vector<boost::shared_ptr<bearingVectors_t> > _bearingVectors1;
+  std::vector<std::shared_ptr<bearingVectors_t> > _bearingVectors1;
   /** References to multiple sets of bearing-vectors (the ones from camera 1 of
    *  each pair, and expressed in there).
    */
-  std::vector<boost::shared_ptr<bearingVectors_t> > _bearingVectors2;
+  std::vector<std::shared_ptr<bearingVectors_t> > _bearingVectors2;
 
   /** Initialized in constructor, used for (de)-serialiaztion of indices */
   std::vector<int> multiPairIndices;

@@ -96,7 +96,7 @@ int main( int argc, char** argv )
   //The method is set to GP3P
   sac::Ransac<
       sac_problems::absolute_pose::AbsolutePoseSacProblem> ransac;
-  boost::shared_ptr<
+  std::shared_ptr<
       sac_problems::absolute_pose::AbsolutePoseSacProblem> absposeproblem_ptr(
       new sac_problems::absolute_pose::AbsolutePoseSacProblem(
       adapter,

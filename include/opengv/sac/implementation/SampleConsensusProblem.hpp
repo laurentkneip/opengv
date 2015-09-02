@@ -35,15 +35,14 @@ opengv::sac::SampleConsensusProblem<M>::SampleConsensusProblem(
     bool randomSeed) :
     max_sample_checks_(10)
 {
-  rng_dist_.reset(new boost::uniform_int<>( 0, std::numeric_limits<int>::max() ));
+  rng_dist_.reset(new std::uniform_int_distribution<>( 0, std::numeric_limits<int>::max() ));
   // Create a random number generator object
   if(randomSeed)
     rng_alg_.seed(static_cast<unsigned> (std::time(0)));
   else
     rng_alg_.seed(12345u);
 
-  rng_gen_.reset( new boost::variate_generator< boost::mt19937&,
-      boost::uniform_int<> >( rng_alg_, *rng_dist_ ));
+  rng_gen_.reset(new std::function<int()>(std::bind(*rng_dist_, rng_alg_)));
 }
 
 template<typename M>
@@ -95,7 +94,7 @@ opengv::sac::SampleConsensusProblem<M>::getSamples(
         (size_t) getSampleSize(), indices_->size() );
     // one of these will make it stop :)
     samples.clear();
-    iterations = INT_MAX - 1;
+    iterations = std::numeric_limits<int>::max();
     return;
   }
 
@@ -105,7 +104,7 @@ opengv::sac::SampleConsensusProblem<M>::getSamples(
   for( int iter = 0; iter < max_sample_checks_; ++iter )
   {
     drawIndexSample(samples);
-    
+
     // If it's a good sample, stop here
     if(isSampleGood(samples))
       return;
@@ -118,7 +117,7 @@ opengv::sac::SampleConsensusProblem<M>::getSamples(
 }
 
 template<typename M>
-boost::shared_ptr< std::vector<int> >
+std::shared_ptr< std::vector<int> >
 opengv::sac::SampleConsensusProblem<M>::getIndices() const
 {
   return indices_;
@@ -196,6 +195,6 @@ opengv::sac::SampleConsensusProblem<M>::countWithinDistance(
     if( dist[i] < threshold )
       ++count;
   }
-  
+
   return count;
 }
