@@ -12,7 +12,7 @@ set (OPENGV_VERSION_MINOR 0)
 #  RelWithDebInfo (CMAKE_C_FLAGS_RELWITHDEBINFO or CMAKE_CXX_FLAGS_RELWITHDEBINFO
 #  MinSizeRel (CMAKE_C_FLAGS_MINSIZEREL or CMAKE_CXX_FLAGS_MINSIZEREL) 
 
-set(CMAKE_BUILD_TYPE Release)
+#set(CMAKE_BUILD_TYPE Release)
 
 #set the default path for built executables to the "bin" directory
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
@@ -205,3 +205,5 @@ target_link_libraries( test_point_cloud opengv random_generators )
 
 add_Executable( test_point_cloud_sac test/test_point_cloud_sac.cpp )
 target_link_libraries( test_point_cloud_sac opengv random_generators )
+
+add_subdirectory( python )
