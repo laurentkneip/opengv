@@ -183,9 +183,9 @@ namespace absolute_pose {
 
 
 
-  bp::object p2p( bpn::array &v, bpn::array &p )
+  bp::object p2p( bpn::array &v, bpn::array &p, bpn::array &R )
   {
-    CentralAbsoluteAdapter adapter( v, p );
+    CentralAbsoluteAdapter adapter( v, p, R );
     return arrayFromTranslation(
       opengv::absolute_pose::p2p( adapter, 0, 1 ));
   }
@@ -232,7 +232,14 @@ namespace absolute_pose {
       opengv::absolute_pose::upnp( adapter ));
   }
 
-// TODO(pau):  transformation_t optimize_nonlinear( const AbsoluteAdapterBase & adapter );
+  bp::object optimize_nonlinear( bpn::array &v,
+                                 bpn::array &p,
+                                 bpn::array &t,
+                                 bpn::array &R )
+  {
+    CentralAbsoluteAdapter adapter( v, p, t, R );
+    return arrayFromTransformation(optimize_nonlinear( adapter ));
+  }
 
 } // namespace absolute_pose
 
