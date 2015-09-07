@@ -4,6 +4,7 @@
 #include <opengv/absolute_pose/AbsoluteAdapterBase.hpp>
 #include <opengv/absolute_pose/methods.hpp>
 #include <opengv/relative_pose/RelativeAdapterBase.hpp>
+#include <opengv/relative_pose/methods.hpp>
 #include "types.hpp"
 
 #define NPY_NO_DEPRECATED_API NPY_1_7_API_VERSION
@@ -58,6 +59,38 @@ bp::object arrayFromTranslation( const opengv::translation_t &t )
   return bpn_array_from_data(1, shape, t.data());
 }
 
+bp::object arrayFromRotation( const opengv::rotation_t &R )
+{
+  Eigen::Matrix<double, 3, 3, Eigen::RowMajor> R_row_major = R;
+  npy_intp shape[2] = {3, 3};
+  return bpn_array_from_data(2, shape, R_row_major.data());
+}
+
+bp::list listFromRotations( const opengv::rotations_t &Rs )
+{
+  bp::list retn;
+  for (size_t i = 0; i < Rs.size(); ++i) {
+    retn.append(arrayFromRotation(Rs[i]));
+  }
+  return retn;
+}
+
+bp::object arrayFromEssential( const opengv::essential_t &E )
+{
+  Eigen::Matrix<double, 3, 3, Eigen::RowMajor> E_row_major = E;
+  npy_intp shape[2] = {3, 3};
+  return bpn_array_from_data(2, shape, E_row_major.data());
+}
+
+bp::list listFromEssentials( const opengv::essentials_t &Es )
+{
+  bp::list retn;
+  for (size_t i = 0; i < Es.size(); ++i) {
+    retn.append(arrayFromEssential(Es[i]));
+  }
+  return retn;
+}
+
 bp::object arrayFromTransformation( const opengv::transformation_t &t )
 {
   Eigen::Matrix<double, 3, 4, Eigen::RowMajor> t_row_major = t;
@@ -74,6 +107,13 @@ bp::list listFromTransformations( const opengv::transformations_t &t )
   return retn;
 }
 
+std::vector<int> getNindices( int n )
+{
+  std::vector<int> indices;
+  for(int i = 0; i < n; i++)
+    indices.push_back(i);
+  return indices;
+}
 
 
 namespace absolute_pose {
@@ -219,7 +259,8 @@ bp::object optimize_nonlinear( bpn::array &v,
                                bpn::array &R )
 {
   CentralAbsoluteAdapter adapter(v, p, t, R);
-  return arrayFromTransformation(optimize_nonlinear(adapter));
+  return arrayFromTransformation(
+    opengv::absolute_pose::optimize_nonlinear(adapter));
 }
 
 } // namespace absolute_pose
@@ -318,6 +359,81 @@ protected:
   pyarray_t _bearingVectors2;
 };
 
+
+bp::object twopt( bpn::array &b1, bpn::array &b2, bpn::array &R )
+{
+  CentralRelativeAdapter adapter(b1, b2, R);
+  return arrayFromTranslation(
+    opengv::relative_pose::twopt(adapter, true, 0, 1));
+}
+
+bp::object twopt_rotationOnly( bpn::array &b1, bpn::array &b2 )
+{
+  CentralRelativeAdapter adapter(b1, b2);
+  return arrayFromRotation(
+    opengv::relative_pose::twopt_rotationOnly(adapter, 0, 1));
+}
+
+bp::object rotationOnly( bpn::array &b1, bpn::array &b2 )
+{
+  CentralRelativeAdapter adapter(b1, b2);
+  return arrayFromRotation(
+    opengv::relative_pose::rotationOnly(adapter));
+}
+
+bp::object fivept_nister( bpn::array &b1, bpn::array &b2 )
+{
+  CentralRelativeAdapter adapter(b1, b2);
+  return listFromEssentials(
+    opengv::relative_pose::fivept_nister(adapter));
+}
+
+bp::object fivept_kneip( bpn::array &b1, bpn::array &b2 )
+{
+  CentralRelativeAdapter adapter(b1, b2);
+  return listFromRotations(
+    opengv::relative_pose::fivept_kneip(adapter, getNindices(5)));
+}
+
+bp::object sevenpt( bpn::array &b1, bpn::array &b2 )
+{
+  CentralRelativeAdapter adapter(b1, b2);
+  return listFromEssentials(
+    opengv::relative_pose::sevenpt(adapter));
+}
+
+bp::object eightpt( bpn::array &b1, bpn::array &b2 )
+{
+  CentralRelativeAdapter adapter(b1, b2);
+  return arrayFromEssential(
+    opengv::relative_pose::eightpt(adapter));
+}
+
+bp::object eigensolver( bpn::array &b1, bpn::array &b2 )
+{
+  CentralRelativeAdapter adapter(b1, b2);
+  return arrayFromRotation(
+    opengv::relative_pose::eigensolver(adapter));
+}
+
+bp::object sixpt( bpn::array &b1, bpn::array &b2 )
+{
+  CentralRelativeAdapter adapter(b1, b2);
+  return listFromRotations(
+    opengv::relative_pose::sixpt(adapter));
+}
+
+bp::object optimize_nonlinear( bpn::array &b1,
+                               bpn::array &b2,
+                               bpn::array &t12,
+                               bpn::array &R12 )
+{
+  CentralRelativeAdapter adapter(b1, b2, t12, R12);
+  return arrayFromTransformation(
+    opengv::relative_pose::optimize_nonlinear(adapter));
+}
+
+
 } // namespace relative_pose
 
 } // namespace pyopengv
@@ -335,7 +451,17 @@ BOOST_PYTHON_MODULE(pyopengv) {
   def("absolute_pose_epnp", pyopengv::absolute_pose::epnp);
   def("absolute_pose_gpnp", pyopengv::absolute_pose::gpnp);
   def("absolute_pose_upnp", pyopengv::absolute_pose::upnp);
-  def("absolute_pose_optimize_nonlinear",
-      pyopengv::absolute_pose::optimize_nonlinear);
+  def("absolute_pose_optimize_nonlinear", pyopengv::absolute_pose::optimize_nonlinear);
+
+  def("relative_pose_twopt", pyopengv::relative_pose::twopt);
+  def("relative_pose_twopt_rotationOnly", pyopengv::relative_pose::twopt_rotationOnly);
+  def("relative_pose_rotationOnly", pyopengv::relative_pose::rotationOnly);
+  def("relative_pose_fivept_nister", pyopengv::relative_pose::fivept_nister);
+  def("relative_pose_fivept_kneip", pyopengv::relative_pose::fivept_kneip);
+  def("relative_pose_sevenpt", pyopengv::relative_pose::sevenpt);
+  def("relative_pose_eightpt", pyopengv::relative_pose::eightpt);
+  def("relative_pose_eigensolver", pyopengv::relative_pose::eigensolver);
+  def("relative_pose_sixpt", pyopengv::relative_pose::sixpt);
+  def("relative_pose_optimize_nonlinear", pyopengv::relative_pose::optimize_nonlinear);
 
 }
