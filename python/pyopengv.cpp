@@ -3,6 +3,7 @@
 #include <vector>
 #include <opengv/absolute_pose/AbsoluteAdapterBase.hpp>
 #include <opengv/absolute_pose/methods.hpp>
+#include <opengv/relative_pose/RelativeAdapterBase.hpp>
 #include "types.hpp"
 
 #define NPY_NO_DEPRECATED_API NPY_1_7_API_VERSION
@@ -86,9 +87,6 @@ protected:
 public:
   EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 
-  /**
-   * \brief Constructor. See protected class-members to understand parameters
-   */
   CentralAbsoluteAdapter(
       bpn::array & bearingVectors,
       bpn::array & points )
@@ -96,9 +94,6 @@ public:
     , _points(points)
   {}
 
-  /**
-   * \brief Constructor. See protected class-members to understand parameters
-   */
   CentralAbsoluteAdapter(
       bpn::array & bearingVectors,
       bpn::array & points,
@@ -114,9 +109,6 @@ public:
     }
   }
 
-  /**
-   * \brief Constructor. See protected class-members to understand parameters
-   */
   CentralAbsoluteAdapter(
       bpn::array & bearingVectors,
       bpn::array & points,
@@ -136,43 +128,37 @@ public:
       }
     }
   }
-  /**
-   * Destructor
-   */
+
   virtual ~CentralAbsoluteAdapter() {}
 
   //Access of correspondences
 
-  /** See parent-class */
   virtual opengv::bearingVector_t getBearingVector( size_t index ) const {
-    opengv::bearingVector_t b = bearingVectorFromArray(_bearingVectors, index);
-    return b;
+    return bearingVectorFromArray(_bearingVectors, index);
   }
-  /** See parent-class */
+
   virtual double getWeight( size_t index ) const {
     return 1.0;
   }
-  /** See parent-class. Returns zero for this adapter. */
+
   virtual opengv::translation_t getCamOffset( size_t index ) const {
     return Eigen::Vector3d::Zero();
   }
-  /** See parent-class Returns identity for this adapter. */
+
   virtual opengv::rotation_t getCamRotation( size_t index ) const {
     return opengv::rotation_t::Identity();
   }
-  /** See parent-class */
+
   virtual opengv::point_t getPoint( size_t index ) const {
     return pointFromArray(_points, index);
   }
-  /** See parent-class */
+
   virtual size_t getNumberCorrespondences() const {
     return _bearingVectors.shape(0);
   }
 
 protected:
-  /** Reference to the bearing-vectors expressed in the camera-frame */
   pyarray_t _bearingVectors;
-  /** Reference to the points expressed in the world-frame. */
   pyarray_t _points;
 };
 
@@ -237,6 +223,102 @@ bp::object optimize_nonlinear( bpn::array &v,
 }
 
 } // namespace absolute_pose
+
+
+namespace relative_pose
+{
+
+class CentralRelativeAdapter : public opengv::relative_pose::RelativeAdapterBase
+{
+protected:
+  using RelativeAdapterBase::_t12;
+  using RelativeAdapterBase::_R12;
+
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
+
+  CentralRelativeAdapter(
+      bpn::array & bearingVectors1,
+      bpn::array & bearingVectors2 )
+    : _bearingVectors1(bearingVectors1)
+    , _bearingVectors2(bearingVectors2)
+  {}
+
+  CentralRelativeAdapter(
+      bpn::array & bearingVectors1,
+      bpn::array & bearingVectors2,
+      bpn::array & R12 )
+    : _bearingVectors1(bearingVectors1)
+    , _bearingVectors2(bearingVectors2)
+  {
+    pyarray_t R12_view(R12);
+    for (int i = 0; i < 3; ++i) {
+      for (int j = 0; j < 3; ++j) {
+        _R12(i, j) = R12_view.get(i, j);
+      }
+    }
+  }
+
+  CentralRelativeAdapter(
+      bpn::array & bearingVectors1,
+      bpn::array & bearingVectors2,
+      bpn::array & t12,
+      bpn::array & R12 )
+    : _bearingVectors1(bearingVectors1)
+    , _bearingVectors2(bearingVectors2)
+  {
+    pyarray_t t12_view(t12);
+    for (int i = 0; i < 3; ++i) {
+      _t12(i) = t12_view.get(i);
+    }
+    pyarray_t R12_view(R12);
+    for (int i = 0; i < 3; ++i) {
+      for (int j = 0; j < 3; ++j) {
+        _R12(i, j) = R12_view.get(i, j);
+      }
+    }
+  }
+
+  virtual ~CentralRelativeAdapter() {}
+
+  virtual opengv::bearingVector_t getBearingVector1( size_t index ) const {
+    return bearingVectorFromArray(_bearingVectors1, index);
+  }
+
+  virtual opengv::bearingVector_t getBearingVector2( size_t index ) const {
+    return bearingVectorFromArray(_bearingVectors2, index);
+  }
+
+  virtual double getWeight( size_t index ) const {
+    return 1.0;
+  }
+
+  virtual opengv::translation_t getCamOffset1( size_t index ) const {
+    return Eigen::Vector3d::Zero();
+  }
+
+  virtual opengv::rotation_t getCamRotation1( size_t index ) const {
+    return opengv::rotation_t::Identity();
+  }
+
+  virtual opengv::translation_t getCamOffset2( size_t index ) const {
+    return Eigen::Vector3d::Zero();
+  }
+
+  virtual opengv::rotation_t getCamRotation2( size_t index ) const {
+    return opengv::rotation_t::Identity();
+  }
+
+  virtual size_t getNumberCorrespondences() const {
+    return _bearingVectors1.shape(0);
+  }
+
+protected:
+  pyarray_t _bearingVectors1;
+  pyarray_t _bearingVectors2;
+};
+
+} // namespace relative_pose
 
 } // namespace pyopengv
 
