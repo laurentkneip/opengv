@@ -3,7 +3,7 @@ import numpy as np
 
 
 def generateRandomPoint( maximumDepth, minimumDepth ):
-    cleanPoint = np.random.uniform(-1.0, 1.0)
+    cleanPoint = np.random.uniform(-1.0, 1.0, 3)
     direction = cleanPoint / np.linalg.norm(cleanPoint)
     return (maximumDepth - minimumDepth) * cleanPoint + minimumDepth * direction
 
@@ -51,13 +51,13 @@ def generateRandom2D2DCorrespondences(position1, rotation1,
     bearing_vectors2 = np.empty((num_points, 3))
     for i in range(num_points):
         # get the point in viewpoint 1
-        body_point = rotation1.T.dot(gt[i] - position1)
+        body_point1 = rotation1.T.dot(gt[i] - position1)
 
         # get the point in viewpoint 2
-        body_point = rotation2.T.dot(gt[i] - position2)
+        body_point2 = rotation2.T.dot(gt[i] - position2)
 
-        bearing_vectors1[i] = body_point / np.linalg.norm(body_point)
-        bearing_vectors2[i] = body_point / np.linalg.norm(body_point)
+        bearing_vectors1[i] = body_point1 / np.linalg.norm(body_point1)
+        bearing_vectors2[i] = body_point2 / np.linalg.norm(body_point2)
 
         # add noise
         if noise > 0.0:
@@ -147,28 +147,14 @@ def test_relative_pose_ransac():
     print essentialMatrix(position, rotation)
     print
 
-
     # running experiments
-    print "running twopt"
     twopt_translation = pyopengv.relative_pose_twopt(bearing_vectors1, bearing_vectors2, rotation)
-
-    print "running fivept_nister"
     fivept_nister_essentials = pyopengv.relative_pose_fivept_nister(bearing_vectors1, bearing_vectors2)
-
-    print "running fivept_kneip"
     fivept_kneip_rotations = pyopengv.relative_pose_fivept_kneip(bearing_vectors1, bearing_vectors2)
-
-    print "running sevenpt"
     sevenpt_essentials = pyopengv.relative_pose_sevenpt(bearing_vectors1, bearing_vectors2)
-
-    print "running eightpt"
     eightpt_essential = pyopengv.relative_pose_eightpt(bearing_vectors1, bearing_vectors2)
-
-    print "setting perturbed rotation and running eigensolver"
     t_perturbed, R_perturbed = getPerturbedPose( position, rotation, 0.01)
     eigensolver_rotation = pyopengv.relative_pose_eigensolver(bearing_vectors1, bearing_vectors2, R_perturbed)
-
-    print "setting perturbed pose and performing nonlinear optimization"
     t_perturbed, R_perturbed = getPerturbedPose( position, rotation, 0.1)
     nonlinear_transformation = pyopengv.relative_pose_optimize_nonlinear(bearing_vectors1, bearing_vectors2, t_perturbed, R_perturbed)
 
