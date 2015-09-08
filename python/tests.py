@@ -1,10 +1,12 @@
 import pyopengv
 import numpy as np
 
+def normalized(x):
+    return x / np.linalg.norm(x)
 
 def generateRandomPoint( maximumDepth, minimumDepth ):
     cleanPoint = np.random.uniform(-1.0, 1.0, 3)
-    direction = cleanPoint / np.linalg.norm(cleanPoint)
+    direction = normalized(cleanPoint)
     return (maximumDepth - minimumDepth) * cleanPoint + minimumDepth * direction
 
 
@@ -32,7 +34,7 @@ def generateRandomRotation( maxAngle ):
 
 def addNoise( noiseLevel, cleanPoint ):
     noisyPoint = cleanPoint + np.random.uniform(-noiseLevel, noiseLevel, 3)
-    return noisyPoint / np.linalg.norm(noisyPoint)
+    return normalized(noisyPoint)
 
 
 def extractRelativePose(position1, position2, rotation1, rotation2):
@@ -53,7 +55,7 @@ def essentialMatrix(position, rotation):
   t_skew[2,1] = position[0]
 
   E = t_skew.dot(rotation)
-  return E / np.linalg.norm(E)
+  return normalized(E)
 
 
 def getPerturbedPose(position, rotation, amplitude):
@@ -62,11 +64,11 @@ def getPerturbedPose(position, rotation, amplitude):
     return position + dp, rotation.dot(dR)
 
 
-def proportional(x, y):
-    xn = x / np.linalg.norm(x)
-    yn = y / np.linalg.norm(y)
-    return (np.allclose(xn, yn, rtol=1e-02, atol=1e-03) or
-            np.allclose(xn, -yn, rtol=1e-02, atol=1e-03))
+def proportional(x, y, tol=1e-2):
+    xn = normalized(x)
+    yn = normalized(y)
+    return (np.allclose(xn, yn, rtol=1e20, atol=tol) or
+            np.allclose(xn, -yn, rtol=1e20, atol=tol))
 
 
 def matrix_in_list(a, l):
@@ -126,8 +128,8 @@ class RelativePoseDataset:
             # get the point in viewpoint 2
             body_point2 = rotation2.T.dot(gt[i] - position2)
 
-            bearing_vectors1[i] = body_point1 / np.linalg.norm(body_point1)
-            bearing_vectors2[i] = body_point2 / np.linalg.norm(body_point2)
+            bearing_vectors1[i] = normalized(body_point1)
+            bearing_vectors2[i] = normalized(body_point2)
 
             # add noise
             if noise > 0.0:
@@ -144,7 +146,7 @@ class RelativePoseDataset:
             body_point = rotation2.T.dot(p - position2)
 
             # normalize the bearing vector
-            bearing_vectors2[i] = body_point / np.linalg.norm(body_point)
+            bearing_vectors2[i] = normalized(body_point)
 
         return bearing_vectors1, bearing_vectors2
 
