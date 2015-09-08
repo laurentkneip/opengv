@@ -412,9 +412,9 @@ bp::object eightpt( bpn::array &b1, bpn::array &b2 )
     opengv::relative_pose::eightpt(adapter));
 }
 
-bp::object eigensolver( bpn::array &b1, bpn::array &b2 )
+bp::object eigensolver( bpn::array &b1, bpn::array &b2, bpn::array &R )
 {
-  CentralRelativeAdapter adapter(b1, b2);
+  CentralRelativeAdapter adapter(b1, b2, R);
   return arrayFromRotation(
     opengv::relative_pose::eigensolver(adapter));
 }
