@@ -5,6 +5,9 @@
 #include <opengv/absolute_pose/methods.hpp>
 #include <opengv/relative_pose/RelativeAdapterBase.hpp>
 #include <opengv/relative_pose/methods.hpp>
+#include <opengv/sac/Ransac.hpp>
+#include <opengv/sac_problems/relative_pose/CentralRelativePoseSacProblem.hpp>
+
 #include "types.hpp"
 
 #define NPY_NO_DEPRECATED_API NPY_1_7_API_VERSION
@@ -434,6 +437,43 @@ bp::object optimize_nonlinear( bpn::array &b1,
 }
 
 
+
+bp::object ransac(
+    bpn::array &b1,
+    bpn::array &b2,
+    std::string algo_name,
+    double threshold,
+    int max_iterations )
+{
+  using namespace opengv::sac_problems::relative_pose;
+
+  CentralRelativeAdapter adapter(b1, b2);
+
+  // Create a ransac problem
+  CentralRelativePoseSacProblem::algorithm_t algorithm = CentralRelativePoseSacProblem::NISTER;
+  if (algo_name == "STEWENIUS") algorithm = CentralRelativePoseSacProblem::STEWENIUS;
+  else if (algo_name == "NISTER") algorithm = CentralRelativePoseSacProblem::NISTER;
+  else if (algo_name == "SEVENPT") algorithm = CentralRelativePoseSacProblem::SEVENPT;
+  else if (algo_name == "EIGHTPT") algorithm = CentralRelativePoseSacProblem::EIGHTPT;
+
+  boost::shared_ptr<CentralRelativePoseSacProblem>
+      relposeproblem_ptr(
+        new CentralRelativePoseSacProblem(adapter, algorithm));
+
+  // Create a ransac solver for the problem
+  opengv::sac::Ransac<CentralRelativePoseSacProblem> ransac;
+
+  ransac.sac_model_ = relposeproblem_ptr;
+  ransac.threshold_ = threshold;
+  ransac.max_iterations_ = max_iterations;
+
+  // Solve
+  ransac.computeModel();
+  return arrayFromTransformation(ransac.model_coefficients_);
+}
+
+
+
 } // namespace relative_pose
 
 } // namespace pyopengv
@@ -463,5 +503,6 @@ BOOST_PYTHON_MODULE(pyopengv) {
   def("relative_pose_eigensolver", pyopengv::relative_pose::eigensolver);
   def("relative_pose_sixpt", pyopengv::relative_pose::sixpt);
   def("relative_pose_optimize_nonlinear", pyopengv::relative_pose::optimize_nonlinear);
+  def("relative_pose_ransac", pyopengv::relative_pose::ransac);
 
 }
