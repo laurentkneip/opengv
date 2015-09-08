@@ -106,7 +106,22 @@ def getPerturbedPose(position, rotation, amplitude):
     return position + dp, rotation.dot(dR)
 
 
+def proportional(x, y):
+    xn = x / np.linalg.norm(x)
+    yn = y / np.linalg.norm(y)
+    return (np.allclose(xn, yn, rtol=1e-02, atol=1e-03) or
+            np.allclose(xn, -yn, rtol=1e-02, atol=1e-03))
+
+
+def matrix_in_list(a, l):
+    for b in l:
+        if proportional(a, b):
+            return True
+    return False
+
+
 def test_relative_pose_ransac():
+    print "Testing relative pose"
 
     # set experiment parameters
     noise = 0.0
@@ -129,23 +144,7 @@ def test_relative_pose_ransac():
     # Extract the relative pose
     position, rotation = extractRelativePose(
         position1, position2, rotation1, rotation2)
-
-    # print experiment characteristics
-    print "the random position is:"
-    print position
-    print
-    print "the random rotation is:"
-    print rotation
-    print
-    print "the noise in the data is:"
-    print noise
-    print "the outlier fraction is:"
-    print outlier_fraction
-
-    # compute and print the essential-matrix
-    print "the ground truth essential matrix is:"
-    print essentialMatrix(position, rotation)
-    print
+    essential = essentialMatrix(position, rotation)
 
     # running experiments
     twopt_translation = pyopengv.relative_pose_twopt(bearing_vectors1, bearing_vectors2, rotation)
@@ -158,25 +157,18 @@ def test_relative_pose_ransac():
     t_perturbed, R_perturbed = getPerturbedPose( position, rotation, 0.1)
     nonlinear_transformation = pyopengv.relative_pose_optimize_nonlinear(bearing_vectors1, bearing_vectors2, t_perturbed, R_perturbed)
 
-    # print results
-    print "results from two-points algorithm:"
-    print twopt_translation
-    print
-    print "results from nisters' five-point algorithm:"
-    for E in fivept_nister_essentials:
-        print E
-    print "results from kneip's five-point algorithm:"
-    for R in fivept_kneip_rotations:
-        print R
-    print "results from seven-point algorithm:"
-    for E in sevenpt_essentials:
-        print E
-    print "results from eight-point algorithm:"
-    print eightpt_essential
-    print "results from eigensystem based rotation solver:"
-    print eigensolver_rotation
-    print "results from nonlinear algorithm:"
-    print nonlinear_transformation
+    assert proportional(position, twopt_translation)
+    assert matrix_in_list(essential, fivept_nister_essentials)
+    assert matrix_in_list(rotation, fivept_kneip_rotations)
+    assert matrix_in_list(essential, sevenpt_essentials)
+    assert proportional(essential, eightpt_essential)
+    assert proportional(rotation, eigensolver_rotation)
+    R = nonlinear_transformation[:,:3]
+    t = nonlinear_transformation[:,3]
+    assert proportional(position, t)
+    assert proportional(rotation, R)
+
+    print "Done testing relative pose"
 
 
 test_relative_pose_ransac()
