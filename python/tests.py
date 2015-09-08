@@ -96,7 +96,7 @@ class RelativePoseDataset:
         rotation2 = generateRandomRotation(0.5)
 
         # derive correspondences based on random point-cloud
-        self.bearing_vectors1, self.bearing_vectors2 = self.generateCorrespondences(
+        self.generateCorrespondences(
             position1, rotation1, position2, rotation2,
             num_points, noise, outlier_fraction)
 
@@ -115,26 +115,26 @@ class RelativePoseDataset:
         max_depth = 8
 
         # initialize point-cloud
-        gt = np.empty((num_points, 3))
+        self.points = np.empty((num_points, 3))
         for i in range(num_points):
-            gt[i] = generateRandomPoint(max_depth, min_depth)
+            self.points[i] = generateRandomPoint(max_depth, min_depth)
 
-        bearing_vectors1 = np.empty((num_points, 3))
-        bearing_vectors2 = np.empty((num_points, 3))
+        self.bearing_vectors1 = np.empty((num_points, 3))
+        self.bearing_vectors2 = np.empty((num_points, 3))
         for i in range(num_points):
             # get the point in viewpoint 1
-            body_point1 = rotation1.T.dot(gt[i] - position1)
+            body_point1 = rotation1.T.dot(self.points[i] - position1)
 
             # get the point in viewpoint 2
-            body_point2 = rotation2.T.dot(gt[i] - position2)
+            body_point2 = rotation2.T.dot(self.points[i] - position2)
 
-            bearing_vectors1[i] = normalized(body_point1)
-            bearing_vectors2[i] = normalized(body_point2)
+            self.bearing_vectors1[i] = normalized(body_point1)
+            self.bearing_vectors2[i] = normalized(body_point2)
 
             # add noise
             if noise > 0.0:
-                bearing_vectors1[i] = addNoise(noise, bearing_vectors1[i])
-                bearing_vectors2[i] = addNoise(noise, bearing_vectors2[i])
+                self.bearing_vectors1[i] = addNoise(noise, self.bearing_vectors1[i])
+                self.bearing_vectors2[i] = addNoise(noise, self.bearing_vectors2[i])
 
         # add outliers
         num_outliers = int(outlier_fraction * num_points)
@@ -146,15 +146,12 @@ class RelativePoseDataset:
             body_point = rotation2.T.dot(p - position2)
 
             # normalize the bearing vector
-            bearing_vectors2[i] = normalized(body_point)
-
-        return bearing_vectors1, bearing_vectors2
+            self.bearing_vectors2[i] = normalized(body_point)
 
 
 def test_relative_pose():
     print "Testing relative pose"
 
-    # set experiment parameters
     d = RelativePoseDataset(10, 0.0, 0.0)
 
     # running experiments
@@ -181,7 +178,7 @@ def test_relative_pose():
 
 def test_relative_pose_ransac():
     print "Testing relative pose ransac"
-    # set experiment parameters
+
     d = RelativePoseDataset(100, 0.0, 0.3)
 
     ransac_transformation = pyopengv.relative_pose_ransac(
@@ -192,6 +189,25 @@ def test_relative_pose_ransac():
     print "Done testing relative pose ransac"
 
 
+def test_triangulation():
+    print "Testing triangulation"
+
+    d = RelativePoseDataset(10, 0.0, 0.0)
+
+    points1 = pyopengv.triangulation_triangulate(
+        d.bearing_vectors1, d.bearing_vectors2, d.position, d.rotation)
+
+    assert np.allclose(d.points, points1)
+
+    points2 = pyopengv.triangulation_triangulate2(
+        d.bearing_vectors1, d.bearing_vectors2, d.position, d.rotation)
+
+    assert np.allclose(d.points, points2)
+
+    print "Done testing triangulation"
+
+
 if __name__ == "__main__":
     test_relative_pose()
     test_relative_pose_ransac()
+    test_triangulation()

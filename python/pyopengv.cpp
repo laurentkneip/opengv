@@ -7,6 +7,7 @@
 #include <opengv/relative_pose/methods.hpp>
 #include <opengv/sac/Ransac.hpp>
 #include <opengv/sac_problems/relative_pose/CentralRelativePoseSacProblem.hpp>
+#include <opengv/triangulation/methods.hpp>
 
 #include "types.hpp"
 
@@ -54,6 +55,18 @@ opengv::point_t pointFromArray(
   p[1] = array.get(index, 1);
   p[2] = array.get(index, 2);
   return p;
+}
+
+bp::object arrayFromPoints( const opengv::points_t &points )
+{
+  std::vector<double> data(points.size() * 3);
+  for (size_t i = 0; i < points.size(); ++i) {
+    data[3 * i + 0] = points[i][0];
+    data[3 * i + 1] = points[i][1];
+    data[3 * i + 2] = points[i][2];
+  }
+  npy_intp shape[2] = {points.size(), 3};
+  return bpn_array_from_data(2, shape, &data[0]);
 }
 
 bp::object arrayFromTranslation( const opengv::translation_t &t )
@@ -436,8 +449,6 @@ bp::object optimize_nonlinear( bpn::array &b1,
     opengv::relative_pose::optimize_nonlinear(adapter));
 }
 
-
-
 bp::object ransac(
     bpn::array &b1,
     bpn::array &b2,
@@ -472,9 +483,45 @@ bp::object ransac(
   return arrayFromTransformation(ransac.model_coefficients_);
 }
 
-
-
 } // namespace relative_pose
+
+namespace triangulation
+{
+
+bp::object triangulate( bpn::array &b1,
+                        bpn::array &b2,
+                        bpn::array &t12,
+                        bpn::array &R12 )
+{
+  pyopengv::relative_pose::CentralRelativeAdapter adapter(b1, b2, t12, R12);
+
+  opengv::points_t points;
+  for (size_t i = 0; i < adapter.getNumberCorrespondences(); ++i)
+  {
+    opengv::point_t p = opengv::triangulation::triangulate(adapter, i);
+    points.push_back(p);
+  }
+  return arrayFromPoints(points);
+}
+
+bp::object triangulate2( bpn::array &b1,
+                        bpn::array &b2,
+                        bpn::array &t12,
+                        bpn::array &R12 )
+{
+  pyopengv::relative_pose::CentralRelativeAdapter adapter(b1, b2, t12, R12);
+
+  opengv::points_t points;
+  for (size_t i = 0; i < adapter.getNumberCorrespondences(); ++i)
+  {
+    opengv::point_t p = opengv::triangulation::triangulate2(adapter, i);
+    points.push_back(p);
+  }
+  return arrayFromPoints(points);
+}
+
+
+} // namespace triangulation
 
 } // namespace pyopengv
 
@@ -505,4 +552,6 @@ BOOST_PYTHON_MODULE(pyopengv) {
   def("relative_pose_optimize_nonlinear", pyopengv::relative_pose::optimize_nonlinear);
   def("relative_pose_ransac", pyopengv::relative_pose::ransac);
 
+  def("triangulation_triangulate", pyopengv::triangulation::triangulate);
+  def("triangulation_triangulate2", pyopengv::triangulation::triangulate2);
 }
