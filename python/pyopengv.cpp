@@ -6,6 +6,7 @@
 #include <opengv/relative_pose/RelativeAdapterBase.hpp>
 #include <opengv/relative_pose/methods.hpp>
 #include <opengv/sac/Ransac.hpp>
+#include <opengv/sac_problems/absolute_pose/AbsolutePoseSacProblem.hpp>
 #include <opengv/sac_problems/relative_pose/CentralRelativePoseSacProblem.hpp>
 #include <opengv/triangulation/methods.hpp>
 
@@ -279,6 +280,43 @@ bp::object optimize_nonlinear( bpn::array &v,
     opengv::absolute_pose::optimize_nonlinear(adapter));
 }
 
+bp::object ransac(
+    bpn::array &v,
+    bpn::array &p,
+    std::string algo_name,
+    double threshold,
+    int max_iterations )
+{
+  using namespace opengv::sac_problems::absolute_pose;
+
+  CentralAbsoluteAdapter adapter(v, p);
+
+  // Create a ransac problem
+  AbsolutePoseSacProblem::algorithm_t algorithm = AbsolutePoseSacProblem::KNEIP;
+  if (algo_name == "TWOPT") algorithm = AbsolutePoseSacProblem::TWOPT;
+  else if (algo_name == "KNEIP") algorithm = AbsolutePoseSacProblem::KNEIP;
+  else if (algo_name == "GAO") algorithm = AbsolutePoseSacProblem::GAO;
+  else if (algo_name == "EPNP") algorithm = AbsolutePoseSacProblem::EPNP;
+  else if (algo_name == "GP3P") algorithm = AbsolutePoseSacProblem::GP3P;
+
+  boost::shared_ptr<AbsolutePoseSacProblem>
+      absposeproblem_ptr(
+        new AbsolutePoseSacProblem(adapter, algorithm));
+
+  // Create a ransac solver for the problem
+  opengv::sac::Ransac<AbsolutePoseSacProblem> ransac;
+
+  ransac.sac_model_ = absposeproblem_ptr;
+  ransac.threshold_ = threshold;
+  ransac.max_iterations_ = max_iterations;
+
+  // Solve
+  ransac.computeModel();
+  return arrayFromTransformation(ransac.model_coefficients_);
+}
+
+
+
 } // namespace absolute_pose
 
 
@@ -505,9 +543,9 @@ bp::object triangulate( bpn::array &b1,
 }
 
 bp::object triangulate2( bpn::array &b1,
-                        bpn::array &b2,
-                        bpn::array &t12,
-                        bpn::array &R12 )
+                         bpn::array &b2,
+                         bpn::array &t12,
+                         bpn::array &R12 )
 {
   pyopengv::relative_pose::CentralRelativeAdapter adapter(b1, b2, t12, R12);
 
@@ -539,6 +577,7 @@ BOOST_PYTHON_MODULE(pyopengv) {
   def("absolute_pose_gpnp", pyopengv::absolute_pose::gpnp);
   def("absolute_pose_upnp", pyopengv::absolute_pose::upnp);
   def("absolute_pose_optimize_nonlinear", pyopengv::absolute_pose::optimize_nonlinear);
+  def("absolute_pose_ransac", pyopengv::absolute_pose::ransac);
 
   def("relative_pose_twopt", pyopengv::relative_pose::twopt);
   def("relative_pose_twopt_rotationOnly", pyopengv::relative_pose::twopt_rotationOnly);
