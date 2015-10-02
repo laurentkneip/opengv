@@ -211,6 +211,8 @@ if (BUILD_TESTS)
   target_link_libraries( test_point_cloud_sac opengv random_generators )
 endif()
 
+install(TARGETS opengv LIBRARY DESTINATION lib)
+
 if (BUILD_PYTHON)
   add_subdirectory( python )
 endif()
