@@ -29,3 +29,5 @@ else()
         ${PYTHON_LIBRARIES}
     )
 endif()
+
+install(TARGETS pyopengv DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/python2.7/site-packages")

@@ -19,6 +19,8 @@ set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 #set the default path for built libraries to the "lib" directory
 set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 
+OPTION(BUILD_PYTHON "Build Python extension" OFF)
+
 add_definitions (-Wall -march=native -O3) #TODO use correct c++11 def once everybody has moved to gcc 4.7 # for now I even removed std=gnu++0x
 
 # get eigen (and boost under windows)
@@ -206,4 +208,6 @@ target_link_libraries( test_point_cloud opengv random_generators )
 add_Executable( test_point_cloud_sac test/test_point_cloud_sac.cpp )
 target_link_libraries( test_point_cloud_sac opengv random_generators )
 
-add_subdirectory( python )
+if (BUILD_PYTHON)
+  add_subdirectory( python )
+endif()
