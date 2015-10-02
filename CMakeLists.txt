@@ -12,13 +12,14 @@ set (OPENGV_VERSION_MINOR 0)
 #  RelWithDebInfo (CMAKE_C_FLAGS_RELWITHDEBINFO or CMAKE_CXX_FLAGS_RELWITHDEBINFO
 #  MinSizeRel (CMAKE_C_FLAGS_MINSIZEREL or CMAKE_CXX_FLAGS_MINSIZEREL) 
 
-#set(CMAKE_BUILD_TYPE Release)
+set(CMAKE_BUILD_TYPE Release)
 
 #set the default path for built executables to the "bin" directory
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 #set the default path for built libraries to the "lib" directory
 set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
 
+OPTION(BUILD_TESTS "Build tests" ON)
 OPTION(BUILD_PYTHON "Build Python extension" OFF)
 
 add_definitions (-Wall -march=native -O3) #TODO use correct c++11 def once everybody has moved to gcc 4.7 # for now I even removed std=gnu++0x
@@ -160,53 +161,55 @@ ELSE()
   target_link_libraries(random_generators opengv)
 ENDIF()
 
-add_executable( test_absolute_pose test/test_absolute_pose.cpp )
-target_link_libraries( test_absolute_pose opengv random_generators )
+if (BUILD_TESTS)
+  add_executable( test_absolute_pose test/test_absolute_pose.cpp )
+  target_link_libraries( test_absolute_pose opengv random_generators )
 
-add_executable( test_absolute_pose_sac test/test_absolute_pose_sac.cpp )
-target_link_libraries( test_absolute_pose_sac opengv random_generators )
+  add_executable( test_absolute_pose_sac test/test_absolute_pose_sac.cpp )
+  target_link_libraries( test_absolute_pose_sac opengv random_generators )
 
-add_executable( test_noncentral_absolute_pose test/test_noncentral_absolute_pose.cpp )
-target_link_libraries( test_noncentral_absolute_pose opengv random_generators )
+  add_executable( test_noncentral_absolute_pose test/test_noncentral_absolute_pose.cpp )
+  target_link_libraries( test_noncentral_absolute_pose opengv random_generators )
 
-add_executable( test_noncentral_absolute_pose_sac test/test_noncentral_absolute_pose_sac.cpp )
-target_link_libraries( test_noncentral_absolute_pose_sac opengv random_generators )
+  add_executable( test_noncentral_absolute_pose_sac test/test_noncentral_absolute_pose_sac.cpp )
+  target_link_libraries( test_noncentral_absolute_pose_sac opengv random_generators )
 
-add_executable( test_relative_pose test/test_relative_pose.cpp )
-target_link_libraries( test_relative_pose opengv random_generators )
+  add_executable( test_relative_pose test/test_relative_pose.cpp )
+  target_link_libraries( test_relative_pose opengv random_generators )
 
-add_executable( test_relative_pose_rotationOnly test/test_relative_pose_rotationOnly.cpp )
-target_link_libraries( test_relative_pose_rotationOnly opengv random_generators )
+  add_executable( test_relative_pose_rotationOnly test/test_relative_pose_rotationOnly.cpp )
+  target_link_libraries( test_relative_pose_rotationOnly opengv random_generators )
 
-add_executable( test_relative_pose_rotationOnly_sac test/test_relative_pose_rotationOnly_sac.cpp )
-target_link_libraries( test_relative_pose_rotationOnly_sac opengv random_generators )
+  add_executable( test_relative_pose_rotationOnly_sac test/test_relative_pose_rotationOnly_sac.cpp )
+  target_link_libraries( test_relative_pose_rotationOnly_sac opengv random_generators )
 
-add_executable( test_relative_pose_sac test/test_relative_pose_sac.cpp )
-target_link_libraries( test_relative_pose_sac opengv random_generators )
+  add_executable( test_relative_pose_sac test/test_relative_pose_sac.cpp )
+  target_link_libraries( test_relative_pose_sac opengv random_generators )
 
-add_executable( test_noncentral_relative_pose test/test_noncentral_relative_pose.cpp )
-target_link_libraries( test_noncentral_relative_pose opengv random_generators )
+  add_executable( test_noncentral_relative_pose test/test_noncentral_relative_pose.cpp )
+  target_link_libraries( test_noncentral_relative_pose opengv random_generators )
 
-add_executable( test_noncentral_relative_pose_sac test/test_noncentral_relative_pose_sac.cpp )
-target_link_libraries( test_noncentral_relative_pose_sac opengv random_generators )
+  add_executable( test_noncentral_relative_pose_sac test/test_noncentral_relative_pose_sac.cpp )
+  target_link_libraries( test_noncentral_relative_pose_sac opengv random_generators )
 
-add_executable( test_multi_noncentral_relative_pose_sac test/test_multi_noncentral_relative_pose_sac.cpp )
-target_link_libraries( test_multi_noncentral_relative_pose_sac opengv random_generators )
+  add_executable( test_multi_noncentral_relative_pose_sac test/test_multi_noncentral_relative_pose_sac.cpp )
+  target_link_libraries( test_multi_noncentral_relative_pose_sac opengv random_generators )
 
-add_executable( test_eigensolver_sac test/test_eigensolver_sac.cpp )
-target_link_libraries( test_eigensolver_sac opengv random_generators )
+  add_executable( test_eigensolver_sac test/test_eigensolver_sac.cpp )
+  target_link_libraries( test_eigensolver_sac opengv random_generators )
 
-add_executable( test_triangulation test/test_triangulation.cpp )
-target_link_libraries( test_triangulation opengv random_generators )
+  add_executable( test_triangulation test/test_triangulation.cpp )
+  target_link_libraries( test_triangulation opengv random_generators )
 
-add_executable( test_eigensolver test/test_eigensolver.cpp )
-target_link_libraries( test_eigensolver opengv random_generators )
+  add_executable( test_eigensolver test/test_eigensolver.cpp )
+  target_link_libraries( test_eigensolver opengv random_generators )
 
-add_executable( test_point_cloud test/test_point_cloud.cpp )
-target_link_libraries( test_point_cloud opengv random_generators )
+  add_executable( test_point_cloud test/test_point_cloud.cpp )
+  target_link_libraries( test_point_cloud opengv random_generators )
 
-add_Executable( test_point_cloud_sac test/test_point_cloud_sac.cpp )
-target_link_libraries( test_point_cloud_sac opengv random_generators )
+  add_Executable( test_point_cloud_sac test/test_point_cloud_sac.cpp )
+  target_link_libraries( test_point_cloud_sac opengv random_generators )
+endif()
 
 if (BUILD_PYTHON)
   add_subdirectory( python )
