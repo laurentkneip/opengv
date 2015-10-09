@@ -86,13 +86,16 @@ def same_transformation(position, rotation, transformation):
 
 
 class RelativePoseDataset:
-    def __init__(self, num_points, noise, outlier_fraction):
+    def __init__(self, num_points, noise, outlier_fraction, rotation_only=False):
         # generate a random pose for viewpoint 1
         position1 = np.zeros(3)
         rotation1 = np.eye(3)
 
         # generate a random pose for viewpoint 2
-        position2 = generateRandomTranslation(2.0)
+        if rotation_only:
+            position2 = np.zeros(3)
+        else:
+            position2 = generateRandomTranslation(2.0)
         rotation2 = generateRandomRotation(0.5)
 
         # derive correspondences based on random point-cloud
@@ -103,7 +106,8 @@ class RelativePoseDataset:
         # Extract the relative pose
         self.position, self.rotation = extractRelativePose(
             position1, position2, rotation1, rotation2)
-        self.essential = essentialMatrix(self.position, self.rotation)
+        if not rotation_only:
+            self.essential = essentialMatrix(self.position, self.rotation)
 
 
     def generateCorrespondences(self,
@@ -189,6 +193,19 @@ def test_relative_pose_ransac():
     print "Done testing relative pose ransac"
 
 
+def test_relative_pose_ransac_rotation_only():
+    print "Testing relative pose ransac rotation only"
+
+    d = RelativePoseDataset(100, 0.0, 0.3, rotation_only=True)
+
+    ransac_rotation = pyopengv.relative_pose_ransac_rotation_only(
+        d.bearing_vectors1, d.bearing_vectors2, "NISTER", 0.01, 1000)
+
+    assert proportional(d.rotation, ransac_rotation)
+
+    print "Done testing relative pose ransac rotation only"
+
+
 def test_triangulation():
     print "Testing triangulation"
 
@@ -210,4 +227,5 @@ def test_triangulation():
 if __name__ == "__main__":
     test_relative_pose()
     test_relative_pose_ransac()
+    test_relative_pose_ransac_rotation_only()
     test_triangulation()

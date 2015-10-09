@@ -8,6 +8,7 @@
 #include <opengv/sac/Ransac.hpp>
 #include <opengv/sac_problems/absolute_pose/AbsolutePoseSacProblem.hpp>
 #include <opengv/sac_problems/relative_pose/CentralRelativePoseSacProblem.hpp>
+#include <opengv/sac_problems/relative_pose/RotationOnlySacProblem.hpp>
 #include <opengv/triangulation/methods.hpp>
 
 #include "types.hpp"
@@ -521,6 +522,33 @@ bp::object ransac(
   return arrayFromTransformation(ransac.model_coefficients_);
 }
 
+bp::object ransac_rotationOnly(
+    bpn::array &b1,
+    bpn::array &b2,
+    std::string algo_name,
+    double threshold,
+    int max_iterations )
+{
+  using namespace opengv::sac_problems::relative_pose;
+
+  CentralRelativeAdapter adapter(b1, b2);
+
+  boost::shared_ptr<RotationOnlySacProblem>
+      relposeproblem_ptr(
+        new RotationOnlySacProblem(adapter));
+
+  // Create a ransac solver for the problem
+  opengv::sac::Ransac<RotationOnlySacProblem> ransac;
+
+  ransac.sac_model_ = relposeproblem_ptr;
+  ransac.threshold_ = threshold;
+  ransac.max_iterations_ = max_iterations;
+
+  // Solve
+  ransac.computeModel();
+  return arrayFromRotation(ransac.model_coefficients_);
+}
+
 } // namespace relative_pose
 
 namespace triangulation
@@ -580,8 +608,8 @@ BOOST_PYTHON_MODULE(pyopengv) {
   def("absolute_pose_ransac", pyopengv::absolute_pose::ransac);
 
   def("relative_pose_twopt", pyopengv::relative_pose::twopt);
-  def("relative_pose_twopt_rotationOnly", pyopengv::relative_pose::twopt_rotationOnly);
-  def("relative_pose_rotationOnly", pyopengv::relative_pose::rotationOnly);
+  def("relative_pose_twopt_rotation_only", pyopengv::relative_pose::twopt_rotationOnly);
+  def("relative_pose_rotation_only", pyopengv::relative_pose::rotationOnly);
   def("relative_pose_fivept_nister", pyopengv::relative_pose::fivept_nister);
   def("relative_pose_fivept_kneip", pyopengv::relative_pose::fivept_kneip);
   def("relative_pose_sevenpt", pyopengv::relative_pose::sevenpt);
@@ -590,6 +618,7 @@ BOOST_PYTHON_MODULE(pyopengv) {
   def("relative_pose_sixpt", pyopengv::relative_pose::sixpt);
   def("relative_pose_optimize_nonlinear", pyopengv::relative_pose::optimize_nonlinear);
   def("relative_pose_ransac", pyopengv::relative_pose::ransac);
+  def("relative_pose_ransac_rotation_only", pyopengv::relative_pose::ransac_rotationOnly);
 
   def("triangulation_triangulate", pyopengv::triangulation::triangulate);
   def("triangulation_triangulate2", pyopengv::triangulation::triangulate2);
