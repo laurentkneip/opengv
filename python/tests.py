@@ -199,7 +199,7 @@ def test_relative_pose_ransac_rotation_only():
     d = RelativePoseDataset(100, 0.0, 0.3, rotation_only=True)
 
     ransac_rotation = pyopengv.relative_pose_ransac_rotation_only(
-        d.bearing_vectors1, d.bearing_vectors2, "NISTER", 0.01, 1000)
+        d.bearing_vectors1, d.bearing_vectors2, 0.01, 1000)
 
     assert proportional(d.rotation, ransac_rotation)
 

@@ -525,7 +525,6 @@ bp::object ransac(
 bp::object ransac_rotationOnly(
     bpn::array &b1,
     bpn::array &b2,
-    std::string algo_name,
     double threshold,
     int max_iterations )
 {
