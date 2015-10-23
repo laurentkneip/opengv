@@ -10,7 +10,8 @@ find_package(NumPy REQUIRED)
 include_directories(${NUMPY_INCLUDE_DIRS})
 
 
-add_library( pyopengv SHARED pyopengv.cpp $<TARGET_OBJECTS:opengv_object>)
+add_library( pyopengv SHARED pyopengv.cpp )
+target_link_libraries(pyopengv opengv_static)
 
 
 set_target_properties(pyopengv PROPERTIES
