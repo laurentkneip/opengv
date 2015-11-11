@@ -1,0 +1,20 @@
+
+language: cpp
+
+compiler:
+  - clang
+  - gcc
+
+before_install:
+  - sudo apt-get update
+
+install:
+  - sudo apt-get install -y build-essential cmake git python-dev libboost-python-dev python-numpy libeigen3-dev
+
+before_script:
+  - mkdir build
+  - cd build
+  - cmake .. -DBUILD_TESTS=ON -DBUILD_PYTHON=ON
+
+script:
+  - make -j2
