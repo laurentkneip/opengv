@@ -11,7 +11,7 @@ include_directories(${NUMPY_INCLUDE_DIRS})
 
 
 add_library( pyopengv SHARED pyopengv.cpp )
-target_link_libraries(pyopengv opengv_static)
+target_link_libraries(pyopengv opengv)
 
 
 set_target_properties(pyopengv PROPERTIES
