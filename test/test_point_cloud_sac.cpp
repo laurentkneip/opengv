@@ -91,7 +91,7 @@ int main( int argc, char** argv )
   //Create a PointCloudSacProblem and Ransac
   sac::Ransac<
       sac_problems::point_cloud::PointCloudSacProblem> ransac;
-  boost::shared_ptr<
+  std::shared_ptr<
       sac_problems::point_cloud::PointCloudSacProblem> relposeproblem_ptr(
       new sac_problems::point_cloud::PointCloudSacProblem(adapter));
   ransac.sac_model_ = relposeproblem_ptr;

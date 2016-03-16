@@ -797,10 +797,9 @@ opengv::absolute_pose::modules::upnp_main_sym(
   Eigen::Matrix<std::complex<double>,8,8> V = Eig.eigenvectors();
   
   //ok, let's cut the imaginary solutions (with a reasonable threshold!)
-  double imagThreshold = 0.01;
+  // const double imagThreshold = 0.01;
   std::vector<std::pair<double,Eigen::Vector4d>,Eigen::aligned_allocator< std::pair<double,Eigen::Vector4d> > > bad_quaternions;
   
-  Eigen::Matrix<std::complex<double>,8,1> D = Eig.eigenvalues();
   for( int i = 0; i < 8; i++ )
   {
     Eigen::Vector4d quaternion;

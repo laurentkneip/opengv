@@ -32,8 +32,8 @@
 #include <opengv/relative_pose/CentralRelativeMultiAdapter.hpp>
 
 opengv::relative_pose::CentralRelativeMultiAdapter::CentralRelativeMultiAdapter(
-    std::vector<boost::shared_ptr<bearingVectors_t> > bearingVectors1,
-    std::vector<boost::shared_ptr<bearingVectors_t> > bearingVectors2 ) :
+    std::vector<std::shared_ptr<bearingVectors_t> > bearingVectors1,
+    std::vector<std::shared_ptr<bearingVectors_t> > bearingVectors2 ) :
     _bearingVectors1(bearingVectors1),
     _bearingVectors2(bearingVectors2)
 {

@@ -32,8 +32,8 @@
 #include <opengv/relative_pose/NoncentralRelativeMultiAdapter.hpp>
 
 opengv::relative_pose::NoncentralRelativeMultiAdapter::NoncentralRelativeMultiAdapter(
-    std::vector<boost::shared_ptr<bearingVectors_t> > bearingVectors1,
-    std::vector<boost::shared_ptr<bearingVectors_t> > bearingVectors2,
+    std::vector<std::shared_ptr<bearingVectors_t> > bearingVectors1,
+    std::vector<std::shared_ptr<bearingVectors_t> > bearingVectors2,
     const translations_t & camOffsets,
     const rotations_t & camRotations ) :
     _bearingVectors1(bearingVectors1),

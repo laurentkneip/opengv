@@ -75,9 +75,9 @@ int main( int argc, char** argv )
   generateRandomCameraSystem( numberCameras, camOffsets, camRotations );
 
   //derive correspondences based on random point-cloud
-  std::vector<boost::shared_ptr<bearingVectors_t> > multiBearingVectors1;
-  std::vector<boost::shared_ptr<bearingVectors_t> > multiBearingVectors2;
-  std::vector< boost::shared_ptr<Eigen::MatrixXd> > gt;
+  std::vector<std::shared_ptr<bearingVectors_t> > multiBearingVectors1;
+  std::vector<std::shared_ptr<bearingVectors_t> > multiBearingVectors2;
+  std::vector<std::shared_ptr<Eigen::MatrixXd> > gt;
   generateMulti2D2DCorrespondences(
       position1, rotation1, position2, rotation2, camOffsets, camRotations,
       pointsPerCam, noise, outlierFraction,
@@ -101,7 +101,7 @@ int main( int argc, char** argv )
   //Create a MultiNoncentralRelativePoseSacProblem and Ransac
   opengv::sac::MultiRansac<
       sac_problems::relative_pose::MultiNoncentralRelativePoseSacProblem> ransac;
-  boost::shared_ptr<
+  std::shared_ptr<
       sac_problems::relative_pose::MultiNoncentralRelativePoseSacProblem> relposeproblem_ptr(
       new sac_problems::relative_pose::MultiNoncentralRelativePoseSacProblem(
       adapter,

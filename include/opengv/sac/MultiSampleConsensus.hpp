@@ -109,7 +109,7 @@ public:
   /** the group-wise indices of the samples that have been clasified as inliers */
   std::vector< std::vector<int> > inliers_;
   /** the multi-sample-consensus problem we are trying to solve */
-  boost::shared_ptr<PROBLEM_T> sac_model_;
+  std::shared_ptr<PROBLEM_T> sac_model_;
 };
 
 } // namespace sac

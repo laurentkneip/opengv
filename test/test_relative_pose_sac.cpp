@@ -106,7 +106,7 @@ int main( int argc, char** argv )
   //Set algorithm to NISTER, STEWENIUS, SEVENPT, or EIGHTPT
   sac::Ransac<
       sac_problems::relative_pose::CentralRelativePoseSacProblem> ransac;
-  boost::shared_ptr<
+  std::shared_ptr<
       sac_problems::relative_pose::CentralRelativePoseSacProblem> relposeproblem_ptr(
       new sac_problems::relative_pose::CentralRelativePoseSacProblem(
       adapter,

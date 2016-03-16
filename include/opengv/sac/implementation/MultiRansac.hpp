@@ -99,7 +99,7 @@ opengv::sac::MultiRansac<PROBLEM_T>::computeModel(
       model_coefficients_ = model_coefficients;
 
       //MultiRansac preparation for probability computation
-      boost::shared_ptr<std::vector< std::vector<int> > > multiIndices =
+      std::shared_ptr<std::vector< std::vector<int> > > multiIndices =
           sac_model_->getIndices();
       size_t multiIndicesNumber = 0;
       for( size_t multiIter = 0; multiIter < multiIndices->size(); multiIter++ )

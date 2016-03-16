@@ -42,8 +42,8 @@ opengv::sac_problems::
     const std::vector<std::vector<int> > &indices,
     model_t & outModel) const
 {
-  std::vector<boost::shared_ptr<translations_t> > multiTranslations;
-  std::vector<boost::shared_ptr<rotations_t> > multiRotations;
+  std::vector<std::shared_ptr<translations_t> > multiTranslations;
+  std::vector<std::shared_ptr<rotations_t> > multiRotations;
 
   for(size_t pairIndex = 0; pairIndex < _adapter.getNumberPairs(); pairIndex++)
   {
@@ -59,8 +59,8 @@ opengv::sac_problems::
         opengv::relative_pose::eightpt(_adapter,serializedIndices);
 
     //Decompose the essential matrix into rotations and translations
-    boost::shared_ptr<translations_t> translations(new translations_t());
-    boost::shared_ptr<rotations_t> rotations(new rotations_t());
+    std::shared_ptr<translations_t> translations(new translations_t());
+    std::shared_ptr<rotations_t> rotations(new rotations_t());
 
     Eigen::Matrix3d W = Eigen::Matrix3d::Zero();
     W(0,1) = -1;
