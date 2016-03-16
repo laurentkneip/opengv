@@ -78,7 +78,7 @@ public:
   typedef transformation_t model_t;
   /** The type of adapter that is expected by the methods */
   typedef opengv::relative_pose::RelativeMultiAdapterBase adapter_t;
-  
+
   /** The possible algorithms for solving this problem */
   typedef enum Algorithm
   {
@@ -93,10 +93,13 @@ public:
    * \param[in] adapter Visitor holding bearing vector correspondences etc.
    * \param[in] algorithm The algorithm to use.
    * \param[in] asCentral Solve problem with only one camera?
+   * \param[in] randomSeed Whether to seed the random number generator with
+   *            the current time.
    */
   MultiNoncentralRelativePoseSacProblem(
-      adapter_t & adapter, algorithm_t algorithm, bool asCentral = false ) :
-      sac::MultiSampleConsensusProblem<model_t> (),
+      adapter_t & adapter, algorithm_t algorithm, bool asCentral = false,
+      bool randomSeed = true) :
+      sac::MultiSampleConsensusProblem<model_t> (randomSeed),
       _adapter(adapter),
       _algorithm(algorithm),
       _asCentral(asCentral)
@@ -114,13 +117,16 @@ public:
    * \param[in] indices A vector of multi-indices to be used from all available
    *                    correspondences.
    * \param[in] asCentral Solve problem with only one camera?
+   * \param[in] randomSeed Whether to seed the random number generator with
+   *            the current time.
    */
   MultiNoncentralRelativePoseSacProblem(
       adapter_t & adapter,
       algorithm_t algorithm,
       const std::vector<std::vector<int> > & indices,
-      bool asCentral = false) :
-      sac::MultiSampleConsensusProblem<model_t> (),
+      bool asCentral = false,
+      bool randomSeed = true) :
+      sac::MultiSampleConsensusProblem<model_t> (randomSeed),
       _adapter(adapter),
       _algorithm(algorithm),
       _asCentral(asCentral)

@@ -87,9 +87,12 @@ public:
    * \brief Constructor.
    * \param[in] adapter Visitor holding bearing vector correspondences etc.
    * \param[in] algorithm The algorithm we want to use.
+   * \param[in] randomSeed Whether to seed the random number generator with
+   *            the current time.
    */
-  CentralRelativePoseSacProblem(adapter_t & adapter, algorithm_t algorithm) :
-    sac::SampleConsensusProblem<model_t> (),
+  CentralRelativePoseSacProblem(adapter_t & adapter, algorithm_t algorithm,
+      bool randomSeed = true) :
+    sac::SampleConsensusProblem<model_t> (randomSeed),
     _adapter(adapter),
     _algorithm(algorithm)
   {
@@ -102,12 +105,15 @@ public:
    * \param[in] algorithm The algorithm we want to use.
    * \param[in] indices A vector of indices to be used from all available
    *                    correspondences.
+   * \param[in] randomSeed Whether to seed the random number generator with
+   *            the current time.
    */
   CentralRelativePoseSacProblem(
       adapter_t & adapter,
       algorithm_t algorithm,
-      const std::vector<int> & indices) :
-      sac::SampleConsensusProblem<model_t> (),
+      const std::vector<int> & indices,
+      bool randomSeed = true) :
+      sac::SampleConsensusProblem<model_t> (randomSeed),
       _adapter(adapter),
       _algorithm(algorithm)
   {
