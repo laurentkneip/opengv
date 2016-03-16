@@ -67,7 +67,7 @@ bp::object arrayFromPoints( const opengv::points_t &points )
     data[3 * i + 1] = points[i][1];
     data[3 * i + 2] = points[i][2];
   }
-  npy_intp shape[2] = {points.size(), 3};
+  npy_intp shape[2] = {(npy_intp)points.size(), 3};
   return bpn_array_from_data(2, shape, &data[0]);
 }
 
