@@ -4,7 +4,6 @@ project(opengv)
 set (OPENGV_VERSION_MAJOR 1)
 set (OPENGV_VERSION_MINOR 0)
 
-option(OpenGV_BUILD_TESTS "Build OpenGV tests" ON)
 set(CMAKE_MODULE_PATH
   ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
@@ -33,7 +32,17 @@ set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin)
 #set the default path for built libraries to the "lib" directory
 set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR}/lib)
 
-add_definitions (-Wall -march=native -O3 ) #TODO use correct c++11 def once everybody has moved to gcc 4.7 # for now I even removed std=gnu++0x
+OPTION(BUILD_TESTS "Build tests" ON)
+OPTION(BUILD_SHARED_LIBS "Build shared libraries" OFF)
+OPTION(BUILD_PYTHON "Build Python extension" OFF)
+OPTION(BUILD_POSITION_INDEPENDENT_CODE "Build position independent code (-fPIC)" ON)
+
+add_definitions (-Wall -march=native -O3) #TODO use correct c++11 def once everybody has moved to gcc 4.7 # for now I even removed std=gnu++0x
+
+IF(BUILD_POSITION_INDEPENDENT_CODE)
+  add_definitions( -fPIC )
+ENDIF()
+
 
 # get eigen (under windows)
 IF(WIN32)
@@ -171,12 +180,13 @@ IF(WIN32)
   add_library( opengv ${OPENGV_SOURCE_FILES} ${OPENGV_HEADER_FILES} )
   add_library( random_generators test/random_generators.cpp test/random_generators.hpp test/experiment_helpers.cpp test/experiment_helpers.hpp test/time_measurement.cpp test/time_measurement.hpp )
 ELSE()
-  add_library( opengv SHARED ${OPENGV_SOURCE_FILES} ${OPENGV_HEADER_FILES} )
-  add_library( random_generators SHARED test/random_generators.cpp test/random_generators.hpp test/experiment_helpers.cpp test/experiment_helpers.hpp test/time_measurement.cpp test/time_measurement.hpp )
+  add_library( opengv ${OPENGV_SOURCE_FILES} ${OPENGV_HEADER_FILES} )
+  add_library( random_generators test/random_generators.cpp test/random_generators.hpp test/experiment_helpers.cpp test/experiment_helpers.hpp test/time_measurement.cpp test/time_measurement.hpp )
   target_link_libraries(random_generators opengv)
 ENDIF()
 
-IF (OpenGV_BUILD_TESTS)
+<<<<<<< HEAD
+IF (BUILD_TESTS)
   enable_testing()
 
   add_executable( test_absolute_pose test/test_absolute_pose.cpp )
@@ -287,4 +297,15 @@ IF (OpenGV_BUILD_TESTS)
     WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
     COMMAND test_Sturm)
 
-ENDIF (OpenGV_BUILD_TESTS)
+ENDIF (BUILD_TESTS)
+
+install(
+  TARGETS opengv
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  COMPONENT library
+)
+
+if (BUILD_PYTHON)
+  add_subdirectory( python )
+endif()
