@@ -45,8 +45,9 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include <boost/shared_ptr.hpp>
-#include <boost/random.hpp>
+#include <memory>
+#include <functional>
+#include <random>
 #include <ctime>
 
 /**
@@ -106,7 +107,7 @@ public:
    * \brief Get a pointer to the vector of multi-indices used.
    * \return A pointer to the vector of multi-indices used.
    */
-  boost::shared_ptr< std::vector< std::vector<int> > > getIndices() const;
+  std::shared_ptr< std::vector< std::vector<int> > > getIndices() const;
 
   /**
    * \brief Sub-function for getting samples for hypothesis generation.
@@ -132,7 +133,7 @@ public:
       const std::vector< std::vector<int> > & indices,
       model_t & outModel) const = 0;
 
-  /** 
+  /**
    * \brief Refine the model coefficients over a given set (inliers). Needs
    *        implementation in the child-class.
    * \param[in] inliers The multi-indices of the inlier samples supporting the model.
@@ -153,7 +154,7 @@ public:
    *                    distances mean a good fit.
    */
   virtual void getSelectedDistancesToModel(
-      const model_t & model, 
+      const model_t & model,
       const std::vector< std::vector<int> > & indices,
       std::vector< std::vector<double> > & scores ) const = 0;
 
@@ -165,7 +166,7 @@ public:
    *                       mean a good fit.
    */
   virtual void getDistancesToModel(
-      const model_t & model_coefficients, 
+      const model_t & model_coefficients,
       std::vector< std::vector<double> > &distances );
 
   /**
@@ -177,7 +178,7 @@ public:
    * \param[out] inliers The resultant multi-indices of inlier samples.
    */
   virtual void selectWithinDistance(
-      const model_t &model_coefficients, 
+      const model_t &model_coefficients,
       const double threshold,
       std::vector< std::vector<int> > &inliers );
 
@@ -190,7 +191,7 @@ public:
    * \return The resultant number of inliers
    */
   virtual int countWithinDistance(
-      const model_t &model_coefficients, 
+      const model_t &model_coefficients,
       const double threshold);
 
   /**
@@ -198,7 +199,7 @@ public:
    * \param[in] indices The multi-indices we want to use.
    */
   void setIndices(const std::vector< std::vector<int> > & indices);
-  
+
   /**
    * \brief Use this method if you want to use all samples.
    * \param[in] N The number of samples in each group.
@@ -220,20 +221,19 @@ public:
    *  problem. These are not the multi-indices for generating a hypothesis, but
    *  all indices for model verification
    */
-  boost::shared_ptr< std::vector< std::vector<int> > > indices_;
-  
+  std::shared_ptr< std::vector< std::vector<int> > > indices_;
+
   /** A shuffled version of the multi-indices used for random sample drawing */
   std::vector< std::vector<int> > shuffled_indices_;
 
-  /** \brief Boost-based random number generator algorithm. */
-  boost::mt19937 rng_alg_;
+  /** \brief std-based random number generator algorithm. */
+  std::mt19937 rng_alg_;
 
-  /** \brief Boost-based random number generator distribution. */
-  boost::shared_ptr< boost::uniform_int<> > rng_dist_;
+  /** \brief std-based random number generator distribution. */
+  std::shared_ptr< std::uniform_int_distribution<> > rng_dist_;
 
-  /** \brief Boost-based random number generator. */
-  boost::shared_ptr<boost::variate_generator<
-      boost::mt19937&, boost::uniform_int<> > > rng_gen_;
+  /** \brief std-based random number generator. */
+  std::shared_ptr< std::function<int()> > rng_gen_;
 
 };
 

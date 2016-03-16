@@ -32,7 +32,7 @@
 #define OPENGV_EXPERIMENT_HELPERS_HPP_
 
 #include <opengv/types.hpp>
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 namespace opengv
 {
@@ -144,9 +144,9 @@ void generateMulti2D2DCorrespondences(
     size_t pointsPerCam,
     double noise,
     double outlierFraction,
-    std::vector<boost::shared_ptr<bearingVectors_t> > & multiBearingVectors1,
-    std::vector<boost::shared_ptr<bearingVectors_t> > & multiBearingVectors2,
-    std::vector<boost::shared_ptr<Eigen::MatrixXd> > & gt );
+    std::vector<std::shared_ptr<bearingVectors_t> > & multiBearingVectors1,
+    std::vector<std::shared_ptr<bearingVectors_t> > & multiBearingVectors2,
+    std::vector<std::shared_ptr<Eigen::MatrixXd> > & gt );
 
 }
 

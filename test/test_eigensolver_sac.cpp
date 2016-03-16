@@ -101,7 +101,7 @@ int main( int argc, char** argv )
   //The number of samples can be configured
   sac::Ransac<
       sac_problems::relative_pose::EigensolverSacProblem> ransac;
-  boost::shared_ptr<
+  std::shared_ptr<
       sac_problems::relative_pose::EigensolverSacProblem> eigenproblem_ptr(
       new sac_problems::relative_pose::EigensolverSacProblem(adapter,10));
   ransac.sac_model_ = eigenproblem_ptr;

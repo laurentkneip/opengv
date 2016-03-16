@@ -753,7 +753,7 @@ struct Ge_step : OptimizationFunctor<double>
   {
     cayley_t cayley = x;
     Eigen::Matrix<double,1,3> jacobian;
-    double smallestEV = ge::getCostWithJacobian(
+    ge::getCostWithJacobian(
         _xxF,_yyF,_zzF,_xyF,_yzF,_zxF,
         _x1P,_y1P,_z1P,_x2P,_y2P,_z2P,_m11P,_m12P,_m22P,cayley,jacobian,1);
 

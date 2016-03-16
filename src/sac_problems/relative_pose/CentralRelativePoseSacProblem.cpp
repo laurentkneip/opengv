@@ -209,10 +209,10 @@ opengv::sac_problems::
     Eigen::JacobiSVD< Eigen::MatrixXd > SVD(
         tempEssential,
         Eigen::ComputeFullV | Eigen::ComputeFullU );
-    Eigen::VectorXd singularValues = SVD.singularValues();
+    const Eigen::VectorXd singularValues = SVD.singularValues();
 
     // maintain scale
-    double scale = singularValues[0];
+    const double scale = singularValues[0];
 
     // get possible rotation and translation vectors
     translation_t translation;
@@ -236,6 +236,8 @@ opengv::sac_problems::
       translation = -scale*SVD.matrixU().col(2);
       rotation = SVD.matrixU() * W.transpose() * SVD.matrixV().transpose();
       break;
+    default:
+      return false;
     }
 
     // change sign if det = -1

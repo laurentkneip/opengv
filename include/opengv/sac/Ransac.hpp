@@ -38,7 +38,6 @@
 #ifndef OPENGV_SAC_RANSAC_HPP_
 #define OPENGV_SAC_RANSAC_HPP_
 
-#include <boost/shared_ptr.hpp>
 #include <vector>
 #include <opengv/sac/SampleConsensus.hpp>
 #include <cstdio>

@@ -102,7 +102,7 @@ int main( int argc, char** argv )
   //Create a RotationOnlySacProblem and Ransac
   sac::Ransac<
       sac_problems::relative_pose::RotationOnlySacProblem> ransac;
-  boost::shared_ptr<
+  std::shared_ptr<
       sac_problems::relative_pose::RotationOnlySacProblem> relposeproblem_ptr(
       new sac_problems::relative_pose::RotationOnlySacProblem(adapter));
   ransac.sac_model_ = relposeproblem_ptr;
