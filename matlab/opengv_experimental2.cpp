@@ -61,22 +61,22 @@ static const char *copyright =
 #include <opengv/sac_problems/relative_pose/NoncentralRelativePoseSacProblem.hpp>
 
 typedef opengv::sac_problems::relative_pose::NoncentralRelativePoseSacProblem nrelRansac;
-typedef boost::shared_ptr<nrelRansac> nrelRansacPtr;
+typedef std::shared_ptr<nrelRansac> nrelRansacPtr;
 
 // The main mex-function
 void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
-{  
+{
   // Characterize the type of the call
   const mxArray *data1 = prhs[0];
   const mxArray *data2 = prhs[1];
-  
+
   const mxArray *temp1 = prhs[2];
   double *temp2 = (double*) mxGetData(temp1);
   int algorithm = floor(temp2[0]+0.01);
-  
+
   const mwSize *data1dim = mxGetDimensions(data1);
   const mwSize *data2dim = mxGetDimensions(data2);
-  
+
   //create three pointers to absolute, relative, and point_cloud adapters here
   opengv::relative_pose::RelativeAdapterBase* relativeAdapter =
       new opengv::relative_pose::MANoncentralRelative(
@@ -86,7 +86,7 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
       data2dim[1] );
 
   nrelRansacPtr problem;
-  
+
   switch(algorithm)
   {
     case 0:
@@ -99,18 +99,18 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
 	  problem = nrelRansacPtr( new nrelRansac( *relativeAdapter, nrelRansac::SEVENTEENPT ) );
 	  break;
   }
-  
+
   opengv::sac::Ransac<nrelRansac> ransac;
   ransac.sac_model_ = problem;
   ransac.threshold_ = 2.0*(1.0 - cos(atan(sqrt(2.0)*0.5/800.0)));
   ransac.max_iterations_ = 10000000;
   ransac.computeModel();
-  
+
   Eigen::Matrix<double,3,5> result;
   result.block<3,4>(0,0) = ransac.model_coefficients_;
   result(0,4) = ransac.iterations_;
   result(1,4) = ransac.inliers_.size();
-  
+
   int dims[2];
   dims[0] = 3;
   dims[1] = 5;

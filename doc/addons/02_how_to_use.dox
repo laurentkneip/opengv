@@ -1,9 +1,9 @@
 /** \page page_how_to_use How to use
  *
- * This page gives an introduction to the usage of OpenGV including a description of the interface and explicit examples. More information can be found in [17]. However, in order to have a smooth communication and full understanding of the functionality and documentation of the library, we first need to clearly define the meaning of a couple of words in the present context. 
+ * This page gives an introduction to the usage of OpenGV including a description of the interface and explicit examples. More information can be found in [17]. However, in order to have a smooth communication and full understanding of the functionality and documentation of the library, we first need to clearly define the meaning of a couple of words in the present context.
  *
  * \section sec_vocabulary Vocabulary
- * 
+ *
  * <ul>
  * <li> <b>Bearing vector</b>: A bearing vector is defined to be a 3-vector with unit norm bearing at a spatial 3D point from a camera reference frame. It has 2 degrees of freedom, which are the azimuth and elevation in the camera reference frame. Because it has only two degrees of freedom, we frequently refer to it as a 2D information. It is normally expressed in a camera reference frame.
  * <li> <b>Landmark</b>: You may encounter the word landmark, which notably describes a 3D spatial point (usually expressed in a fixed frame called world reference frame).
@@ -24,7 +24,7 @@
  * </ul>
  *
  * \section sec_organization Organization of the library
- * 
+ *
  * The library-structure is best analyzed at the hand of the namespace or directory hierarchy (as a matter of fact, there is no difference between the two):
  * <ul>
  * <li> opengv: contains generic things such as the types used throughout the library.
@@ -52,9 +52,9 @@
  * Note that adapters containing the tag "Central" in their name are adapters for a single camera (i.e. view-points with only one camera having identity transformation). Adapters having the tag "Noncentral" in their name are meant for view-points with multiple cameras (e.g., multi-camera systems, generalized cameras).
  *
  * Please check out the doxygen documentation on the above base-classes, they contain important documentation on the functions that need to be overloaded for a proper implementation of an adapter.
- * 
+ *
  * \section sec_conventions Conventions, problem types, and examples
- * 
+ *
  * As already mentioned, the entire library is assuming calibrated cameras/viewpoints, and operating with 3D unit bearing vectors expressed in the camera frame. Calibrated means that the configuration of the multi-camera system (i.e. the inter-camera transformations) is known. The following introduces the different problems that can be solved with the library, and outlines the conventions for transformations (translations and rotations) in their context. <b>Note that all problems have solutions for both the minimal and non-minimal cases, and may also be solved as sample-consensus or non-linear optimization problems</b>.
  *
  * <ul>
@@ -107,7 +107,7 @@ sac::Ransac<sac_problems::absolute_pose::AbsolutePoseSacProblem> ransac;
 
 // create an AbsolutePoseSacProblem
 // (algorithm is selectable: KNEIP, GAO, or EPNP)
-boost::shared_ptr<sac_problems::absolute_pose::AbsolutePoseSacProblem>
+std::shared_ptr<sac_problems::absolute_pose::AbsolutePoseSacProblem>
     absposeproblem_ptr(
     new sac_problems::absolute_pose::AbsolutePoseSacProblem(
     adapter, sac_problems::absolute_pose::AbsolutePoseSacProblem::KNEIP ) );
@@ -171,7 +171,7 @@ absolute_pose::NoncentralAbsoluteAdapter adapter(
 sac::Ransac<sac_problems::absolute_pose::AbsolutePoseSacProblem> ransac;
 
 // create a absolute-pose sample consensus problem (using GP3P as an algorithm)
-boost::shared_ptr<sac_problems::absolute_pose::AbsolutePoseSacProblem>
+std::shared_ptr<sac_problems::absolute_pose::AbsolutePoseSacProblem>
     absposeproblem_ptr(
     new sac_problems::absolute_pose::AbsolutePoseSacProblem(
     adapter, sac_problems::absolute_pose::AbsolutePoseSacProblem::GP3P ) );
@@ -238,7 +238,7 @@ adapter.setR(initial_rotation);
 transformation_t nonlinear_transformation =
     relative_pose::optimize_nonlinear(adapter);
 \endcode
- * 
+ *
  * fivept_nister, fivept_stewenius, sevenpt, and eigthpt can also be used within a random-sample consensus scheme. It is done as follows:
  *
 \code
@@ -251,7 +251,7 @@ sac::Ransac<sac_problems::relative_pose::CentralRelativePoseSacProblem> ransac;
 
 // create a CentralRelativePoseSacProblem
 // (set algorithm to STEWENIUS, NISTER, SEVENPT, or EIGHTPT)
-boost::shared_ptr<sac_problems::relative_pose::CentralRelativePoseSacProblem>
+std::shared_ptr<sac_problems::relative_pose::CentralRelativePoseSacProblem>
     relposeproblem_ptr(
     new sac_problems::relative_pose::CentralRelativePoseSacProblem(
     adapter,
@@ -325,7 +325,7 @@ sac::Ransac<sac_problems::relative_pose::NoncentralRelativePoseSacProblem>
     ransac;
 
 // create a NoncentralRelativePoseSacProblem
-boost::shared_ptr<
+std::shared_ptr<
     sac_problems::relative_pose::NoncentralRelativePoseSacProblem>
     relposeproblem_ptr(
     new sac_problems::relative_pose::NoncentralRelativePoseSacProblem(
@@ -405,7 +405,7 @@ point_cloud::PointCloudAdapter adapter(
 sac::Ransac<sac_problems::point_cloud::PointCloudSacProblem> ransac;
 
 // create the sample consensus problem
-boost::shared_ptr<sac_problems::point_cloud::PointCloudSacProblem>
+std::shared_ptr<sac_problems::point_cloud::PointCloudSacProblem>
     relposeproblem_ptr(
     new sac_problems::point_cloud::PointCloudSacProblem(adapter) );
 
@@ -454,7 +454,7 @@ ransac.threshold_ = 1.0 - cos(atan(sqrt(2.0)*0.5/800.0));
  * \section sec_matlab Access from Matlab
  *
  * \section sec_multi The "Multi"-stuff
- * 
+ *
  * As you go deeper into the code you might notice that there are a number of elements (mostly in the relative-pose context) that contain the tag "multi" in their name. The adapter base-class used here is called <b>RelativeMultiAdapterBase</b>. The idea of this adapter is to hold multiple sets of bearing-vector correspondences originating from pairs of cameras. A pair of cameras is, as the name says, a set of two cameras in different viewpoints. The correspondences are accessed via a multi-index (a pair-index referring to a specific pair of cameras, and a correspondence-index refering to the correspondence within the camera-pair).
  *
  * Subsets of camera-pairs can be identified in a number of problems, such as
@@ -516,7 +516,7 @@ point_cloud methods:
  * </ul>
  *
  * The Matlab wrapper includes rather exhaustive checking of command validity. More algorithms are planned for inclusion.
- * 
+ *
  * \section sec_benchmarks Automatic benchmarking of algorithms
  *
  * Perhaps the nicest thing about the Matlab-code is that it includes automatic benchmarks for all algorithms. The subfolder matlab/helpers contains useful functions for the benchmarks.

@@ -75,8 +75,8 @@ public:
    * \brief Constructor. See protected class-members to understand parameters
    */
   NoncentralAbsoluteMultiAdapter(
-      std::vector<boost::shared_ptr<bearingVectors_t> > bearingVectors,
-      std::vector<boost::shared_ptr<points_t> > points,
+      std::vector<std::shared_ptr<bearingVectors_t> > bearingVectors,
+      std::vector<std::shared_ptr<points_t> > points,
       const translations_t & camOffsets,
       const rotations_t & camRotations );
   /**
@@ -85,7 +85,7 @@ public:
   virtual ~NoncentralAbsoluteMultiAdapter();
 
   //camera-wise access of correspondences
-  
+
   /** See parent-class */
   virtual point_t getPoint(
       size_t frameIndex, size_t correspondenceIndex ) const;
@@ -104,7 +104,7 @@ public:
   virtual size_t getNumberFrames() const;
 
   //Conversion to and from serialized indices
-  
+
   /** See parent-class */
   virtual std::vector<int> convertMultiIndices(
       const std::vector<std::vector<int> > & multiIndices ) const;
@@ -119,10 +119,10 @@ public:
 protected:
   /** References to multiple sets of bearing-vectors (the ones from each camera).
    */
-  std::vector<boost::shared_ptr<bearingVectors_t> > _bearingVectors;
+  std::vector<std::shared_ptr<bearingVectors_t> > _bearingVectors;
   /** References to multiple sets of points (the ones from each camera).
    */
-  std::vector<boost::shared_ptr<points_t> > _points;
+  std::vector<std::shared_ptr<points_t> > _points;
 
   /** Reference to positions of the different cameras seen from the
    *  viewpoint.

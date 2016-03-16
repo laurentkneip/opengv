@@ -58,13 +58,13 @@ namespace math
 class Bracket
 {
 public:
-  typedef boost::shared_ptr<Bracket> Ptr;
-  typedef boost::shared_ptr<const Bracket> ConstPtr;
-  
+  typedef std::shared_ptr<Bracket> Ptr;
+  typedef std::shared_ptr<const Bracket> ConstPtr;
+
   Bracket( double lowerBound, double upperBound );
   Bracket( double lowerBound, double upperBound, size_t changes, bool setUpperBoundChanges );
   virtual ~Bracket();
-  
+
   bool dividable( double eps ) const;
   void divide( std::list<Ptr> & brackets ) const;
   double lowerBound() const;
@@ -74,7 +74,7 @@ public:
   void setLowerBoundChanges( size_t changes );
   void setUpperBoundChanges( size_t changes );
   size_t numberRoots() const;
-  
+
 private:
   double _lowerBound;
   double _upperBound;
@@ -110,7 +110,7 @@ public:
    * \brief Destructor.
    */
   virtual ~Sturm();
-  
+
   void findRoots2( std::vector<double> & roots, double eps_x = 0.001, double eps_val = 0.001 );
   /**
    * \brief Finds the roots of the polynomial.

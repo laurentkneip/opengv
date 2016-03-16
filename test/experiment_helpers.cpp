@@ -27,7 +27,7 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF     *
  * SUCH DAMAGE.                                                               *
  ******************************************************************************/
- 
+
 #include "experiment_helpers.hpp"
 #include "random_generators.hpp"
 #include <opengv/math/cayley.hpp>
@@ -52,7 +52,7 @@ opengv::generateRandomCameraSystem(
     rotations_t & camRotations )
 {
   double offset = 0.5; //this is the distance from the viewpoint origin
-  
+
   for( int i = 0; i < numberCameras; i++ )
   {
     translation_t camOffset = generateRandomDirectionTranslation(offset);
@@ -101,7 +101,7 @@ opengv::printBearingVectorArraysMatlab(
     const bearingVectors_t & bearingVectors2 )
 {
   size_t numberBearingVectors = bearingVectors1.size();
-  
+
   //temp: print the vectors in matlab format (for debugging purposes)
   size_t precision = 10;
   std::cout << "ov1 = [";
@@ -133,7 +133,7 @@ opengv::printEssentialMatrix(
 {
   //E transforms vectors from vp 2 to 1: x_1^T * E * x_2 = 0
   //and E = (t)_skew*R
-  Eigen::Matrix3d t_skew = Eigen::Matrix3d::Zero();  
+  Eigen::Matrix3d t_skew = Eigen::Matrix3d::Zero();
   t_skew(0,1) = -position[2];
   t_skew(0,2) = position[1];
   t_skew(1,0) = position[2];
@@ -210,14 +210,14 @@ opengv::generateRandom2D3DCorrespondences(
   //initialize point-cloud
   double minDepth = 4;
   double maxDepth = 8;
-  
+
   for( size_t i = 0; i < (size_t) gt.cols(); i++ )
     gt.col(i) = generateRandomPoint( maxDepth, minDepth );
-    
+
   //create the 2D3D-correspondences by looping through the cameras
   size_t numberCams = camOffsets.size();
   size_t camCorrespondence = 0;
-  
+
   for( size_t i = 0; i < (size_t) gt.cols(); i++ )
   {
     //get the camera transformation
@@ -226,10 +226,10 @@ opengv::generateRandom2D3DCorrespondences(
 
     //store the point
     points.push_back(gt.col(i));
-    
+
     //project the point into the viewpoint frame
     point_t bodyPoint = rotation.transpose()*(gt.col(i) - position);
-    
+
     //project the point into the camera frame
     bearingVectors.push_back(camRotation.transpose()*(bodyPoint - camOffset));
 
@@ -239,13 +239,13 @@ opengv::generateRandom2D3DCorrespondences(
     //add noise
     if( noise > 0.0 )
       bearingVectors[i] = addNoise(noise,bearingVectors[i]);
-    
+
     //push back the camera correspondence
     camCorrespondences.push_back(camCorrespondence++);
     if(camCorrespondence > (numberCams-1) )
-      camCorrespondence = 0;  
+      camCorrespondence = 0;
   }
-  
+
   //add outliers
   //compute the number of outliers based on fraction
   size_t numberOutliers = (size_t) floor(outlierFraction*numberPoints);
@@ -258,13 +258,13 @@ opengv::generateRandom2D3DCorrespondences(
 
     //create random point
     point_t p = generateRandomPoint(8,4);
-    
+
     //project into viewpoint frame
     point_t bodyPoint = rotation.transpose()*(p - position);
-    
+
     //project into camera-frame and use as outlier measurement
     bearingVectors[i] = camRotation.transpose()*(bodyPoint - camOffset);
-    
+
     //normalize the bearing vector
     bearingVectors[i] = bearingVectors[i] / bearingVectors[i].norm();
   }
@@ -279,17 +279,17 @@ opengv::generateMulti2D3DCorrespondences(
     size_t pointsPerCam,
     double noise,
     double outlierFraction,
-    std::vector<boost::shared_ptr<points_t> > & multiPoints,
-    std::vector<boost::shared_ptr<bearingVectors_t> > & multiBearingVectors,
-    std::vector<boost::shared_ptr<Eigen::MatrixXd> > & gt )
+    std::vector<std::shared_ptr<points_t> > & multiPoints,
+    std::vector<std::shared_ptr<bearingVectors_t> > & multiBearingVectors,
+    std::vector<std::shared_ptr<Eigen::MatrixXd> > & gt )
 {
   //initialize point-cloud
   double minDepth = 4;
   double maxDepth = 8;
-  
+
   for( size_t cam = 0; cam < camOffsets.size(); cam++ )
   {
-    boost::shared_ptr<Eigen::MatrixXd> gt_sub(new Eigen::MatrixXd(3,pointsPerCam));
+    std::shared_ptr<Eigen::MatrixXd> gt_sub(new Eigen::MatrixXd(3,pointsPerCam));
     for( size_t i = 0; i < pointsPerCam; i++ )
       gt_sub->col(i) = generateRandomPoint( maxDepth, minDepth );
     gt.push_back(gt_sub);
@@ -299,9 +299,9 @@ opengv::generateMulti2D3DCorrespondences(
   for( size_t cam = 0; cam < camOffsets.size(); cam++ )
   {
     //create the bearing-vector arrays for this camera
-    boost::shared_ptr<points_t> points(new points_t());
-    boost::shared_ptr<bearingVectors_t> bearingVectors(new bearingVectors_t());
-    
+    std::shared_ptr<points_t> points(new points_t());
+    std::shared_ptr<bearingVectors_t> bearingVectors(new bearingVectors_t());
+
     //get the offset and rotation of this camera
     translation_t camOffset = camOffsets[cam];
     rotation_t camRotation = camRotations[cam];
@@ -313,10 +313,10 @@ opengv::generateMulti2D3DCorrespondences(
 
       //project the point into the viewpoint frame
       point_t bodyPoint = rotation.transpose()*(gt[cam]->col(i) - position);
-      
+
       //project that point into the camera
       bearingVectors->push_back( camRotation.transpose()*(bodyPoint - camOffset) );
-      
+
       //normalize the vector
       (*bearingVectors)[i] = (*bearingVectors)[i] / (*bearingVectors)[i].norm();
 
@@ -345,14 +345,14 @@ opengv::generateMulti2D3DCorrespondences(
     {
       //generate a random point
       point_t p = generateRandomPoint(8,4);
-      
+
       //transform that point into viewpoint 2 only
       point_t bodyPoint = rotation.transpose()*(p - position);
-      
+
       //use as measurement (outlier)
       (*(multiBearingVectors[cam].get()))[i] =
           camRotation.transpose()*(bodyPoint - camOffset);
-          
+
       //normalize
       (*(multiBearingVectors[cam].get()))[i] =
           (*(multiBearingVectors[cam].get()))[i] / (*(multiBearingVectors[cam].get()))[i].norm();
@@ -380,14 +380,14 @@ opengv::generateRandom2D2DCorrespondences(
   //initialize point-cloud
   double minDepth = 4;
   double maxDepth = 8;
-  
+
   for( size_t i = 0; i < (size_t) gt.cols(); i++ )
     gt.col(i) = generateRandomPoint( maxDepth, minDepth );
-  
+
   //create the 2D3D-correspondences by looping through the cameras
   size_t numberCams = camOffsets.size();
   size_t camCorrespondence = 0;
-  
+
   for( size_t i = 0; i < (size_t) gt.cols(); i++ )
   {
     //get the camera transformation
@@ -396,16 +396,16 @@ opengv::generateRandom2D2DCorrespondences(
 
     //get the point in viewpoint 1
     point_t bodyPoint1 = rotation1.transpose()*(gt.col(i) - position1);
-    
+
     //get the point in viewpoint 2
     point_t bodyPoint2 = rotation2.transpose()*(gt.col(i) - position2);
-    
+
     //get the point in the camera in viewpoint 1
     bearingVectors1.push_back(camRotation.transpose()*(bodyPoint1 - camOffset));
-    
+
     //get the point in the camera in viewpoint 2
     bearingVectors2.push_back(camRotation.transpose()*(bodyPoint2 - camOffset));
-    
+
     //normalize the bearing-vectors
     bearingVectors1[i] = bearingVectors1[i] / bearingVectors1[i].norm();
     bearingVectors2[i] = bearingVectors2[i] / bearingVectors2[i].norm();
@@ -434,14 +434,14 @@ opengv::generateRandom2D2DCorrespondences(
 
     //create random point
     point_t p = generateRandomPoint(8,4);
-    
+
     //project this point into viewpoint 2
     point_t bodyPoint = rotation2.transpose()*(p - position2);
-    
+
     //project this point into the corresponding camera in viewpoint 2
     //and use as outlier
     bearingVectors2[i] = camRotation.transpose()*(bodyPoint - camOffset);
-    
+
     //normalize the bearing vector
     bearingVectors2[i] = bearingVectors2[i] / bearingVectors2[i].norm();
   }
@@ -466,7 +466,7 @@ opengv::generateRandom3D3DCorrespondences(
 
   for( size_t i = 0; i < (size_t) gt.cols(); i++ )
     gt.col(i) = generateRandomPoint( maxDepth, minDepth );
-  
+
   //create the 3D-3D correspondences
   for( size_t i = 0; i < (size_t) gt.cols(); i++ )
   {
@@ -488,7 +488,7 @@ opengv::generateRandom3D3DCorrespondences(
   {
     //generate a random point
     point_t p = generateRandomPoint(8,4);
-    
+
     //push-back in frame 2 only to create outlier
     points2[i] = rotation2.transpose()*(p - position2);
   }
@@ -512,7 +512,7 @@ opengv::generateMulti2D2DCorrespondences(
   //initialize point-cloud
   double minDepth = 4;
   double maxDepth = 8;
-  
+
   for( size_t cam = 0; cam < camOffsets.size(); cam++ )
   {
     std::shared_ptr<Eigen::MatrixXd> gt_sub(new Eigen::MatrixXd(3,pointsPerCam));
@@ -527,7 +527,7 @@ opengv::generateMulti2D2DCorrespondences(
     //create the bearing-vector arrays for this camera
     std::shared_ptr<bearingVectors_t> bearingVectors1(new bearingVectors_t());
     std::shared_ptr<bearingVectors_t> bearingVectors2(new bearingVectors_t());
-    
+
     //get the offset and rotation of this camera
     translation_t camOffset = camOffsets[cam];
     rotation_t camRotation = camRotations[cam];
@@ -538,11 +538,11 @@ opengv::generateMulti2D2DCorrespondences(
       //project a point into both viewpoint frames
       point_t bodyPoint1 = rotation1.transpose()*(gt[cam]->col(i) - position1);
       point_t bodyPoint2 = rotation2.transpose()*(gt[cam]->col(i) - position2);
-      
+
       //project that point into the cameras
       bearingVectors1->push_back( camRotation.transpose()*(bodyPoint1 - camOffset) );
       bearingVectors2->push_back( camRotation.transpose()*(bodyPoint2 - camOffset) );
-      
+
       //normalize the vectors
       (*bearingVectors1)[i] = (*bearingVectors1)[i] / (*bearingVectors1)[i].norm();
       (*bearingVectors2)[i] = (*bearingVectors2)[i] / (*bearingVectors2)[i].norm();
@@ -575,14 +575,14 @@ opengv::generateMulti2D2DCorrespondences(
     {
       //generate a random point
       point_t p = generateRandomPoint(8,4);
-      
+
       //transform that point into viewpoint 2 only
       point_t bodyPoint = rotation2.transpose()*(p - position2);
-      
+
       //use as measurement (outlier)
       (*multiBearingVectors2[cam])[i] =
           camRotation.transpose()*(bodyPoint - camOffset);
-          
+
       //normalize
       (*multiBearingVectors2[cam])[i] =
           (*multiBearingVectors2[cam])[i] / (*multiBearingVectors2[cam])[i].norm();

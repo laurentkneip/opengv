@@ -54,7 +54,7 @@ int main( int argc, char** argv )
 {
   //initialize random seed
   initializeRandomSeed();
-  
+
   //set experiment parameters
   double noise = 0.5;
   double outlierFraction = 0.1;
@@ -64,16 +64,16 @@ int main( int argc, char** argv )
   //create a random viewpoint pose
   translation_t position = generateRandomTranslation(2.0);
   rotation_t rotation = generateRandomRotation(0.5);
-  
+
   //create a random camera-system
   translations_t camOffsets;
   rotations_t camRotations;
   generateRandomCameraSystem( numberCameras, camOffsets, camRotations );
 
   //derive correspondences based on random point-cloud
-  std::vector<boost::shared_ptr<points_t> > multiPoints;
-  std::vector<boost::shared_ptr<bearingVectors_t> > multiBearingVectors;
-  std::vector< boost::shared_ptr<Eigen::MatrixXd> > gt;
+  std::vector<std::shared_ptr<points_t> > multiPoints;
+  std::vector<std::shared_ptr<bearingVectors_t> > multiBearingVectors;
+  std::vector< std::shared_ptr<Eigen::MatrixXd> > gt;
   generateMulti2D3DCorrespondences(
       position, rotation, camOffsets, camRotations,
       pointsPerCam, noise, outlierFraction,
@@ -94,7 +94,7 @@ int main( int argc, char** argv )
   //The method is set to GP3P
   sac::MultiRansac<
       sac_problems::absolute_pose::MultiNoncentralAbsolutePoseSacProblem> ransac;
-  boost::shared_ptr<
+  std::shared_ptr<
       sac_problems::absolute_pose::MultiNoncentralAbsolutePoseSacProblem> absposeproblem_ptr(
       new sac_problems::absolute_pose::MultiNoncentralAbsolutePoseSacProblem(
       adapter ));

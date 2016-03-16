@@ -62,7 +62,7 @@ static const char *copyright =
 #include <opengv/sac_problems/relative_pose/MultiNoncentralRelativePoseSacProblem.hpp>
 
 typedef opengv::sac_problems::relative_pose::MultiNoncentralRelativePoseSacProblem nrelRansac;
-typedef boost::shared_ptr<nrelRansac> nrelRansacPtr;
+typedef std::shared_ptr<nrelRansac> nrelRansacPtr;
 
 // The main mex-function
 void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
@@ -70,16 +70,16 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
   //no error-checking here yet, simply provide the right input!!
   //get number of cameras
   int numberCams = (nrhs-2)/2;
-  
+
   const mxArray *camOffsets = prhs[nrhs-2];
   const mxArray *temp1 = prhs[nrhs-1];
   double *temp2 = (double*) mxGetData(temp1);
   int algorithm = floor(temp2[0]+0.01);
-  
+
   std::vector<double*> bearingVectors1;
   std::vector<double*> bearingVectors2;
   std::vector<int> numberBearingVectors;
-  
+
   for( int cam = 0; cam < numberCams; cam++ )
   {
     const mxArray *data1 = prhs[cam];
@@ -89,16 +89,16 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
     const mwSize *dataDim = mxGetDimensions(data1);
     numberBearingVectors.push_back(dataDim[1]);
   }
-  
+
   opengv::relative_pose::RelativeMultiAdapterBase* relativeAdapter =
       new opengv::relative_pose::MANoncentralRelativeMulti(
       bearingVectors1,
       bearingVectors2,
       (double*) mxGetData(camOffsets),
       numberBearingVectors );
-  
+
   nrelRansacPtr problem;
-  
+
   switch(algorithm)
   {
     case 0:
@@ -111,18 +111,18 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
 	  problem = nrelRansacPtr( new nrelRansac( *relativeAdapter, nrelRansac::SEVENTEENPT ) );
 	  break;
   }
-  
+
   opengv::sac::MultiRansac<nrelRansac> ransac;
   ransac.sac_model_ = problem;
   ransac.threshold_ = 2.0*(1.0 - cos(atan(sqrt(2.0)*0.5/800.0)));
   ransac.max_iterations_ = 10000000;
   ransac.computeModel();
-  
+
   Eigen::Matrix<double,3,5> result;
   result.block<3,4>(0,0) = ransac.model_coefficients_;
   result(0,4) = ransac.iterations_;
   result(1,4) = ransac.inliers_.size();
-  
+
   int dims[2];
   dims[0] = 3;
   dims[1] = 5;
