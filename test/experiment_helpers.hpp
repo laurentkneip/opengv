@@ -93,6 +93,18 @@ void generateRandom2D3DCorrespondences(
     points_t & points,
     std::vector<int> & camCorrespondences,
     Eigen::MatrixXd & gt );
+
+void generateMulti2D3DCorrespondences(
+    const translation_t & position,
+    const rotation_t & rotation,
+    const translations_t & camOffsets,
+    const rotations_t & camRotations,
+    size_t pointsPerCam,
+    double noise,
+    double outlierFraction,
+    std::vector<boost::shared_ptr<points_t> > & multiPoints,
+    std::vector<boost::shared_ptr<bearingVectors_t> > & multiBearingVectors,
+    std::vector<boost::shared_ptr<Eigen::MatrixXd> > & gt );
     
 void generateRandom2D2DCorrespondences(
     const translation_t & position1,

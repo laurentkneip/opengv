@@ -82,6 +82,7 @@ set( OPENGV_SOURCE_FILES
   src/absolute_pose/methods.cpp
   src/absolute_pose/CentralAbsoluteAdapter.cpp
   src/absolute_pose/NoncentralAbsoluteAdapter.cpp
+  src/absolute_pose/NoncentralAbsoluteMultiAdapter.cpp
   src/relative_pose/methods.cpp
   src/relative_pose/CentralRelativeAdapter.cpp
   src/relative_pose/CentralRelativeWeightingAdapter.cpp
@@ -92,6 +93,7 @@ set( OPENGV_SOURCE_FILES
   src/point_cloud/methods.cpp
   src/point_cloud/PointCloudAdapter.cpp
   src/sac_problems/absolute_pose/AbsolutePoseSacProblem.cpp
+  src/sac_problems/absolute_pose/MultiNoncentralAbsolutePoseSacProblem.cpp
   src/sac_problems/relative_pose/CentralRelativePoseSacProblem.cpp
   src/sac_problems/relative_pose/NoncentralRelativePoseSacProblem.cpp
   src/sac_problems/relative_pose/RotationOnlySacProblem.cpp
@@ -123,6 +125,7 @@ set( OPENGV_HEADER_FILES
   include/opengv/absolute_pose/AbsoluteAdapterBase.hpp
   include/opengv/absolute_pose/CentralAbsoluteAdapter.hpp
   include/opengv/absolute_pose/NoncentralAbsoluteAdapter.hpp
+  include/opengv/absolute_pose/NoncentralAbsoluteMultiAdapter.hpp
   include/opengv/absolute_pose/AbsoluteMultiAdapterBase.hpp
   include/opengv/relative_pose/RelativeAdapterBase.hpp
   include/opengv/relative_pose/RelativeMultiAdapterBase.hpp
@@ -134,6 +137,7 @@ set( OPENGV_HEADER_FILES
   include/opengv/point_cloud/PointCloudAdapterBase.hpp
   include/opengv/point_cloud/PointCloudAdapter.hpp
   include/opengv/sac_problems/absolute_pose/AbsolutePoseSacProblem.hpp
+  include/opengv/sac_problems/absolute_pose/MultiNoncentralAbsolutePoseSacProblem.hpp
   include/opengv/sac_problems/relative_pose/CentralRelativePoseSacProblem.hpp
   include/opengv/sac_problems/relative_pose/NoncentralRelativePoseSacProblem.hpp
   include/opengv/sac_problems/relative_pose/MultiCentralRelativePoseSacProblem.hpp
@@ -170,6 +174,9 @@ target_link_libraries( test_noncentral_absolute_pose opengv random_generators )
 add_executable( test_noncentral_absolute_pose_sac test/test_noncentral_absolute_pose_sac.cpp )
 target_link_libraries( test_noncentral_absolute_pose_sac opengv random_generators )
 
+add_executable( test_multi_noncentral_absolute_pose_sac test/test_multi_noncentral_absolute_pose_sac.cpp )
+target_link_libraries( test_multi_noncentral_absolute_pose_sac opengv random_generators )
+
 add_executable( test_relative_pose test/test_relative_pose.cpp )
 target_link_libraries( test_relative_pose opengv random_generators )
 
@@ -205,3 +212,6 @@ target_link_libraries( test_point_cloud opengv random_generators )
 
 add_Executable( test_point_cloud_sac test/test_point_cloud_sac.cpp )
 target_link_libraries( test_point_cloud_sac opengv random_generators )
+
+add_Executable( test_Sturm test/test_Sturm.cpp )
+target_link_libraries( test_Sturm opengv random_generators )

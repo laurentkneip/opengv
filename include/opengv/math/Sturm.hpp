@@ -39,6 +39,8 @@
 
 #include <stdlib.h>
 #include <vector>
+#include <list>
+#include <boost/shared_ptr.hpp>
 #include <Eigen/Eigen>
 #include <Eigen/src/Core/util/DisableStupidWarnings.h>
 
@@ -52,6 +54,35 @@ namespace opengv
  */
 namespace math
 {
+
+class Bracket
+{
+public:
+  typedef boost::shared_ptr<Bracket> Ptr;
+  typedef boost::shared_ptr<const Bracket> ConstPtr;
+  
+  Bracket( double lowerBound, double upperBound );
+  Bracket( double lowerBound, double upperBound, size_t changes, bool setUpperBoundChanges );
+  virtual ~Bracket();
+  
+  bool dividable( double eps ) const;
+  void divide( std::list<Ptr> & brackets ) const;
+  double lowerBound() const;
+  double upperBound() const;
+  bool lowerBoundChangesComputed() const;
+  bool upperBoundChangesComputed() const;
+  void setLowerBoundChanges( size_t changes );
+  void setUpperBoundChanges( size_t changes );
+  size_t numberRoots() const;
+  
+private:
+  double _lowerBound;
+  double _upperBound;
+  bool _lowerBoundChangesComputed;
+  bool _upperBoundChangesComputed;
+  size_t _lowerBoundChanges;
+  size_t _upperBoundChanges;
+};
 
 /**
  * Sturm is initialized over polynomials of arbitrary order, and used to compute
@@ -79,7 +110,8 @@ public:
    * \brief Destructor.
    */
   virtual ~Sturm();
-
+  
+  void findRoots2( std::vector<double> & roots, double eps_x = 0.001, double eps_val = 0.001 );
   /**
    * \brief Finds the roots of the polynomial.
    * \return An array with the real roots of the polynomial.
@@ -87,16 +119,27 @@ public:
   std::vector<double> findRoots();
   /**
    * \brief Finds brackets for the real roots of the polynomial.
-   * \return An array of brackets for the real roots of the polynomial.
+   * \return A list of brackets for the real roots of the polynomial.
    */
-  std::vector<bracket_t> bracketRoots();
+  void bracketRoots( std::vector<double> & roots, double eps = -1.0 );
   /**
-   * \brief Evaluates the Sturm chain for a bracket.
-   * \param[in] leftBound The left value of the bracket.
-   * \param[in] rightBound The right value of the bracket.
-   * \return The number of real roots in the given bracket.
+   * \brief Evaluates the Sturm chain at a single bound.
+   * \param[in] bound The bound.
+   * \return The number of sign changes on the bound.
    */
-  size_t evaluateChain( double leftBound, double rightBound );
+  size_t evaluateChain( double bound );
+  /**
+   * \brief Evaluates the Sturm chain at a single bound.
+   * \param[in] bound The bound.
+   * \return The number of sign changes on the bound.
+   */
+  size_t evaluateChain2( double bound );
+  /**
+   * \brief Composes an initial bracket for all the roots of the polynomial.
+   * \return The maximum of the absolute values of the bracket-values (That's
+   *         what the Lagrangian bound is able to find).
+   */
+  double computeLagrangianBound();
 
 private:
   /**
@@ -109,13 +152,6 @@ private:
       const Eigen::MatrixXd & p1,
       const Eigen::MatrixXd & p2,
       Eigen::MatrixXd & r );
-  /**
-   * \brief Internal function used for composing an initial bracket for all
-   *        the roots of the polynomial.
-   * \return The maximum of the absolute values of the bracket-values (That's
-   *         what the Lagrangian bound is able to find).
-   */
-  double computeLagrangianBound();
 
   /** A matrix containing the coefficients of the Sturm-chain of the polynomial */
   Eigen::MatrixXd _C;

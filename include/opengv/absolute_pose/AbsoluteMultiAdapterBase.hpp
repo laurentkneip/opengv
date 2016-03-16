@@ -203,10 +203,10 @@ public:
   }
   /** See parent-class (no need to overload) */
   virtual translation_t getCamOffset( size_t index ) const
-  { return getCamOffset( multiFrameIndex(index) ); }
+  { return getMultiCamOffset( multiFrameIndex(index) ); }
   /** See parent-class (no need to overload) */
   virtual rotation_t getCamRotation( size_t index ) const
-  { return getCamRotation( multiFrameIndex(index) ); }
+  { return getMultiCamRotation( multiFrameIndex(index) ); }
   /** See parent-class (no need to overload) */
   virtual point_t getPoint( size_t index ) const
   {

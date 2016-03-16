@@ -202,6 +202,7 @@ opengv::absolute_pose::gp3p(
   {
     f.col(i) = adapter.getBearingVector(indices[i]);
     rotation_t R = adapter.getCamRotation(indices[i]);
+    
     //unrotate the bearingVectors already so the camera rotation doesn't appear
     //in the problem
     f.col(i) = R * f.col(i);
@@ -210,8 +211,8 @@ opengv::absolute_pose::gp3p(
   }
 
   transformations_t solutions;
-
   modules::gp3p_main(f,v,p,solutions);
+
   return solutions;
 }
 
