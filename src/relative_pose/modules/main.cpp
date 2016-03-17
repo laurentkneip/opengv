@@ -73,7 +73,7 @@ opengv::relative_pose::modules::fivept_stewenius_main(
   M(8,3) = 1.0;
   M(9,6) = 1.0;
 
-  Eigen::ComplexEigenSolver< Eigen::Matrix<double,10,10> > Eig(M,true);
+  Eigen::EigenSolver< Eigen::Matrix<double,10,10> > Eig(M,true);
 
   //Eigen::Matrix<std::complex<double>,10,1> D = Eig.eigenvalues();
   Eigen::Matrix<std::complex<double>,10,10> V = Eig.eigenvectors();
@@ -334,7 +334,7 @@ opengv::relative_pose::modules::fivept_kneip_main(
   M(18,9) = 1.0;
   M(19,18) = 1.0;
 
-  Eigen::ComplexEigenSolver< Eigen::Matrix<double,20,20> > Eig(M,true);
+  Eigen::EigenSolver< Eigen::Matrix<double,20,20> > Eig(M,true);
   Eigen::Matrix<std::complex<double>,20,1> D = Eig.eigenvalues();
   Eigen::Matrix<std::complex<double>,20,20> V = Eig.eigenvectors();
 
@@ -643,7 +643,7 @@ opengv::relative_pose::modules::eigensolver_main(
   rotation_t R = math::cayley2rot(cayley);
 
   Eigen::Matrix3d M = eigensolver::composeM(xxF,yyF,zzF,xyF,yzF,zxF,cayley);
-  Eigen::ComplexEigenSolver< Eigen::Matrix3d > Eig(M,true);
+  Eigen::EigenSolver< Eigen::Matrix3d > Eig(M,true);
   Eigen::Matrix<std::complex<double>,3,1> D_complex = Eig.eigenvalues();
   Eigen::Matrix<std::complex<double>,3,3> V_complex = Eig.eigenvectors();
   eigenvalues_t D;
@@ -686,7 +686,7 @@ opengv::relative_pose::modules::sixpt_main(
   sixpt::setupAction( L1vec, L2vec, Action );
   
   //finally eigen-decompose the action-matrix and obtain the solutions
-  Eigen::ComplexEigenSolver< Eigen::Matrix<double,64,64> > Eig(Action,true);
+  Eigen::EigenSolver< Eigen::Matrix<double,64,64> > Eig(Action,true);
   Eigen::Matrix<std::complex<double>,64,64> EV = Eig.eigenvectors();
   
   solutions.reserve(64);  
@@ -812,7 +812,7 @@ opengv::relative_pose::modules::ge_main(
   Eigen::Matrix4d G = ge::composeG(xxF,yyF,zzF,xyF,yzF,zxF,
       x1P,y1P,z1P,x2P,y2P,z2P,m11P,m12P,m22P,cayley);
   
-  Eigen::ComplexEigenSolver< Eigen::Matrix4d > Eig(G,true);
+  Eigen::EigenSolver< Eigen::Matrix4d > Eig(G,true);
   Eigen::Matrix<std::complex<double>,4,1> D_complex = Eig.eigenvalues();
   Eigen::Matrix<std::complex<double>,4,4> V_complex = Eig.eigenvectors();
   Eigen::Vector4d D;
@@ -976,7 +976,7 @@ opengv::relative_pose::modules::ge_main2(
   Eigen::Matrix4d G = ge::composeG(xxF,yyF,zzF,xyF,yzF,zxF,
       x1P,y1P,z1P,x2P,y2P,z2P,m11P,m12P,m22P,cayley);
   
-  Eigen::ComplexEigenSolver< Eigen::Matrix4d > Eig(G,true);
+  Eigen::EigenSolver< Eigen::Matrix4d > Eig(G,true);
   Eigen::Matrix<std::complex<double>,4,1> D_complex = Eig.eigenvalues();
   Eigen::Matrix<std::complex<double>,4,4> V_complex = Eig.eigenvectors();
   Eigen::Vector4d D;

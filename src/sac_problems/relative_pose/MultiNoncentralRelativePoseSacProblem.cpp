@@ -165,7 +165,7 @@ opengv::sac_problems::relative_pose::MultiNoncentralRelativePoseSacProblem::
           }
           
           //decompose G to find the rotation
-          Eigen::ComplexEigenSolver< Eigen::Matrix4d > Eig(G,true);
+          Eigen::EigenSolver< Eigen::Matrix4d > Eig(G,true);
           Eigen::Matrix<std::complex<double>,4,4> V = Eig.eigenvectors();
 
           double factor = V(3,0).real();

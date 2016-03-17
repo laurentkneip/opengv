@@ -365,7 +365,7 @@ essentials_t sevenpt(
   else
   {
     essential_t M = F2.inverse() * F1;
-    Eigen::ComplexEigenSolver< essential_t > Eig(M,true);
+    Eigen::EigenSolver< essential_t > Eig(M,true);
     Eigen::Matrix< std::complex<double>,3,1 > D = Eig.eigenvalues();
 
     double val1 = fabs(D(0,0).imag());
