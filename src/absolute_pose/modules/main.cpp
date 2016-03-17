@@ -114,8 +114,6 @@ opengv::absolute_pose::modules::p3p_kneip_main(
   P3 = N*(P3-P1);
 
   double d_12 = temp1.norm();
-  double f_1 = f3(0,0)/f3(2,0);
-  double f_2 = f3(1,0)/f3(2,0);
   double p_1 = P3(0,0);
   double p_2 = P3(1,0);
 
@@ -126,58 +124,71 @@ opengv::absolute_pose::modules::p3p_kneip_main(
     b = -sqrt(b);
   else
     b = sqrt(b);
+  
+  std::vector<double> realRoots;
+  if (f3(2,0) == 0) {
+    // the trivial case, theta = 0 or theta = pi
+    double f_1 = f3(0,0);
+    double f_2 = f3(1,0);
+    realRoots.push_back(1.0);
+    realRoots.push_back(-1.0);
+  } else {
+    // the common case, 0 > theta > pi
+    double f_1 = f3(0,0)/f3(2,0);
+    double f_2 = f3(1,0)/f3(2,0);
 
-  double f_1_pw2 = pow(f_1,2);
-  double f_2_pw2 = pow(f_2,2);
-  double p_1_pw2 = pow(p_1,2);
-  double p_1_pw3 = p_1_pw2 * p_1;
-  double p_1_pw4 = p_1_pw3 * p_1;
-  double p_2_pw2 = pow(p_2,2);
-  double p_2_pw3 = p_2_pw2 * p_2;
-  double p_2_pw4 = p_2_pw3 * p_2;
-  double d_12_pw2 = pow(d_12,2);
-  double b_pw2 = pow(b,2);
+    double f_1_pw2 = pow(f_1,2);
+    double f_2_pw2 = pow(f_2,2);
+    double p_1_pw2 = pow(p_1,2);
+    double p_1_pw3 = p_1_pw2 * p_1;
+    double p_1_pw4 = p_1_pw3 * p_1;
+    double p_2_pw2 = pow(p_2,2);
+    double p_2_pw3 = p_2_pw2 * p_2;
+    double p_2_pw4 = p_2_pw3 * p_2;
+    double d_12_pw2 = pow(d_12,2);
+    double b_pw2 = pow(b,2);
 
-  Eigen::Matrix<double,5,1> factors;
+    Eigen::Matrix<double,5,1> factors;
 
-  factors(0,0) = -f_2_pw2*p_2_pw4
-                 -p_2_pw4*f_1_pw2
-                 -p_2_pw4;
+    factors(0,0) = -f_2_pw2*p_2_pw4
+                   -p_2_pw4*f_1_pw2
+                   -p_2_pw4;
 
-  factors(1,0) = 2*p_2_pw3*d_12*b
-                 +2*f_2_pw2*p_2_pw3*d_12*b
-                 -2*f_2*p_2_pw3*f_1*d_12;
+    factors(1,0) = 2*p_2_pw3*d_12*b
+                   +2*f_2_pw2*p_2_pw3*d_12*b
+                   -2*f_2*p_2_pw3*f_1*d_12;
 
-  factors(2,0) = -f_2_pw2*p_2_pw2*p_1_pw2
-                 -f_2_pw2*p_2_pw2*d_12_pw2*b_pw2
-                 -f_2_pw2*p_2_pw2*d_12_pw2
-                 +f_2_pw2*p_2_pw4
-                 +p_2_pw4*f_1_pw2
-                 +2*p_1*p_2_pw2*d_12
-                 +2*f_1*f_2*p_1*p_2_pw2*d_12*b
-                 -p_2_pw2*p_1_pw2*f_1_pw2
-                 +2*p_1*p_2_pw2*f_2_pw2*d_12
-                 -p_2_pw2*d_12_pw2*b_pw2
-                 -2*p_1_pw2*p_2_pw2;
+    factors(2,0) = -f_2_pw2*p_2_pw2*p_1_pw2
+                   -f_2_pw2*p_2_pw2*d_12_pw2*b_pw2
+                   -f_2_pw2*p_2_pw2*d_12_pw2
+                   +f_2_pw2*p_2_pw4
+                   +p_2_pw4*f_1_pw2
+                   +2*p_1*p_2_pw2*d_12
+                   +2*f_1*f_2*p_1*p_2_pw2*d_12*b
+                   -p_2_pw2*p_1_pw2*f_1_pw2
+                   +2*p_1*p_2_pw2*f_2_pw2*d_12
+                   -p_2_pw2*d_12_pw2*b_pw2
+                   -2*p_1_pw2*p_2_pw2;
 
-  factors(3,0) = 2*p_1_pw2*p_2*d_12*b
-                 +2*f_2*p_2_pw3*f_1*d_12
-                 -2*f_2_pw2*p_2_pw3*d_12*b
-                 -2*p_1*p_2*d_12_pw2*b;
+    factors(3,0) = 2*p_1_pw2*p_2*d_12*b
+                   +2*f_2*p_2_pw3*f_1*d_12
+                   -2*f_2_pw2*p_2_pw3*d_12*b
+                   -2*p_1*p_2*d_12_pw2*b;
 
-  factors(4,0) = -2*f_2*p_2_pw2*f_1*p_1*d_12*b
-                 +f_2_pw2*p_2_pw2*d_12_pw2
-                 +2*p_1_pw3*d_12
-                 -p_1_pw2*d_12_pw2
-                 +f_2_pw2*p_2_pw2*p_1_pw2
-                 -p_1_pw4
-                 -2*f_2_pw2*p_2_pw2*p_1*d_12
-                 +p_2_pw2*f_1_pw2*p_1_pw2
-                 +f_2_pw2*p_2_pw2*d_12_pw2*b_pw2;
+    factors(4,0) = -2*f_2*p_2_pw2*f_1*p_1*d_12*b
+                   +f_2_pw2*p_2_pw2*d_12_pw2
+                   +2*p_1_pw3*d_12
+                   -p_1_pw2*d_12_pw2
+                   +f_2_pw2*p_2_pw2*p_1_pw2
+                   -p_1_pw4
+                   -2*f_2_pw2*p_2_pw2*p_1*d_12
+                   +p_2_pw2*f_1_pw2*p_1_pw2
+                   +f_2_pw2*p_2_pw2*d_12_pw2*b_pw2;
+  
+    realRoots = math::o4_roots(factors);
+  }
 
-  std::vector<double> realRoots = math::o4_roots(factors);
-
-  for( int i = 0; i < 4; i++ )
+  for( int i = 0; i < realRoots.size(); i++ )
   {
     double cot_alpha =
         (-f_1*p_1/f_2-realRoots[i]*p_2+d_12*b)/
