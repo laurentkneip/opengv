@@ -126,16 +126,17 @@ opengv::absolute_pose::modules::p3p_kneip_main(
     b = sqrt(b);
   
   std::vector<double> realRoots;
+  double f_1, f_2;
   if (f3(2,0) == 0) {
     // the trivial case, theta = 0 or theta = pi
-    double f_1 = f3(0,0);
-    double f_2 = f3(1,0);
+    f_1 = f3(0,0);
+    f_2 = f3(1,0);
     realRoots.push_back(1.0);
     realRoots.push_back(-1.0);
   } else {
     // the common case, 0 > theta > pi
-    double f_1 = f3(0,0)/f3(2,0);
-    double f_2 = f3(1,0)/f3(2,0);
+    f_1 = f3(0,0)/f3(2,0);
+    f_2 = f3(1,0)/f3(2,0);
 
     double f_1_pw2 = pow(f_1,2);
     double f_2_pw2 = pow(f_2,2);
