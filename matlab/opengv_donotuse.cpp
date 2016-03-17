@@ -205,17 +205,17 @@ int findCase( const char* input, int inputLength )
           break;
         }
       }
-      
+
       // Break if method found
       if( allSame )
         return n;
-      
+
       //Otherwise go on with the next one
     }
-	
+
 	n++;
   }
-  
+
   // Return -1 if not found
   return -1;
 }
@@ -224,7 +224,7 @@ int findCase( const char* input, int inputLength )
 void printCases()
 {
   mexPrintf("The known methods are:");
-  
+
   for( int i = 0; i < numberMethods; i++ )
   {
     mexPrintf("\n");
@@ -234,19 +234,19 @@ void printCases()
 }
 
 typedef opengv::sac_problems::absolute_pose::AbsolutePoseSacProblem absRansac;
-typedef boost::shared_ptr<absRansac> absRansacPtr;
+typedef std::shared_ptr<absRansac> absRansacPtr;
 
 typedef opengv::sac_problems::relative_pose::CentralRelativePoseSacProblem relRansac;
-typedef boost::shared_ptr<relRansac> relRansacPtr;
+typedef std::shared_ptr<relRansac> relRansacPtr;
 typedef opengv::sac_problems::relative_pose::NoncentralRelativePoseSacProblem nrelRansac;
-typedef boost::shared_ptr<nrelRansac> nrelRansacPtr;
+typedef std::shared_ptr<nrelRansac> nrelRansacPtr;
 typedef opengv::sac_problems::relative_pose::RotationOnlySacProblem rotRansac;
-typedef boost::shared_ptr<rotRansac> rotRansacPtr;
+typedef std::shared_ptr<rotRansac> rotRansacPtr;
 typedef opengv::sac_problems::relative_pose::EigensolverSacProblem eigRansac;
-typedef boost::shared_ptr<eigRansac> eigRansacPtr;
+typedef std::shared_ptr<eigRansac> eigRansacPtr;
 
 typedef opengv::sac_problems::point_cloud::PointCloudSacProblem ptRansac;
-typedef boost::shared_ptr<ptRansac> ptRansacPtr;
+typedef std::shared_ptr<ptRansac> ptRansacPtr;
 
 // The main mex-function
 void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
@@ -260,7 +260,7 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
     mexPrintf("Or:     X = opengv( method, indices, data1, data2, prior )\n");
     return;
   }
-  
+
   // Get the method
   if( mxGetM(prhs[0]) != 1 )
   {
@@ -273,11 +273,11 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
   }
 
   // Now get the string and find the caseNumber
-  mwSize strlen = (mwSize) mxGetN(prhs[0]) + 1;  
+  mwSize strlen = (mwSize) mxGetN(prhs[0]) + 1;
   char * method = (char *) malloc(strlen);
   mxGetString(prhs[0], method, strlen);
   int caseNumber = findCase(method, (int) mxGetN(prhs[0]));
-  
+
   // Return if method not found
   if( caseNumber < 0 )
   {
@@ -285,14 +285,14 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
     printCases();
     return;
   }
-  
+
   // Characterize the type of the call
   int callCharacter = -1;
   const mxArray *data1;
   const mxArray *data2;
   const mwSize *data1dim;
   const mwSize *data2dim;
-  
+
   if( nrhs == 3 ) // X = opengv( method, data1, data2 )
   {
     // Check the input
@@ -304,7 +304,7 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
     int ndimensions2 = mxGetNumberOfDimensions(data2);
     data1dim = mxGetDimensions(data1);
     data2dim = mxGetDimensions(data2);
-    
+
     // Now check them
     if( ndimensions1 != 2 || ndimensions2 != 2 ||
         (data1dim[0] != 3 && data1dim[0] != 6) ||
@@ -318,7 +318,7 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
       mexPrintf("with an equal number of columns\n");
       return;
     }
-    
+
     callCharacter = 0;
   }
   if( nrhs == 4 )
@@ -398,17 +398,17 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
 
     callCharacter = 2;
   }
-  
+
   //create three pointers to absolute, relative, and point_cloud adapters here
   opengv::absolute_pose::AbsoluteAdapterBase* absoluteAdapter;
   opengv::relative_pose::RelativeAdapterBase* relativeAdapter;
   opengv::point_cloud::PointCloudAdapterBase* pointCloudAdapter;
-  
+
   int translationPrior = 0;
   int rotationPrior = 0;
   opengv::translation_t translation;
   opengv::rotation_t rotation;
-  
+
   //set the prior if needed
   if( callCharacter == 2 )
   {
@@ -416,7 +416,7 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
     const mwSize *priorDim;
     prior = prhs[4];
     priorDim = mxGetDimensions(prhs[4]);
-    
+
     if( priorDim[1] == 1 )
     {
       //set translation
@@ -460,7 +460,7 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
       translation[2] = ptr[11];
     }
   }
-  
+
   if( caseNumber >= absCentralFirst && caseNumber <= absCentralLast )
   {
     //central absolute case
@@ -474,22 +474,22 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
       mexPrintf("absolute method\n");
       return;
     }
-    
+
     absoluteAdapter = new opengv::absolute_pose::MACentralAbsolute(
         (double*) mxGetData(data1),
         (double*) mxGetData(data2),
         data1dim[1],
         data2dim[1] );
-    
+
     if( translationPrior == 1 )
       absoluteAdapter->sett(translation);
     if( rotationPrior == 1 )
       absoluteAdapter->setR(rotation);
   }
-  
+
   if(caseNumber >= absNoncentralFirst && caseNumber <= absNoncentralLast )
   {
-    //non-central absolute case    
+    //non-central absolute case
     if( data1dim[0] != 3 || data2dim[0] != 6 )
     {
       mexPrintf("opengv: Bad input to mex function opengv\n");
@@ -500,13 +500,13 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
       mexPrintf("a noncentral absolute method\n");
       return;
     }
-    
+
     absoluteAdapter = new opengv::absolute_pose::MANoncentralAbsolute(
         (double*) mxGetData(data1),
         (double*) mxGetData(data2),
         data1dim[1],
         data2dim[1] );
-    
+
     if( translationPrior == 1 )
       absoluteAdapter->sett(translation);
     if( rotationPrior == 1 )
@@ -514,7 +514,7 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
   }
   if(caseNumber >= relCentralFirst && caseNumber <= relCentralLast )
   {
-    //central relative case    
+    //central relative case
     if( data1dim[0] != 3 || data2dim[0] != 3 )
     {
       mexPrintf("opengv: Bad input to mex function opengv\n");
@@ -525,22 +525,22 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
       mexPrintf("relative method\n");
       return;
     }
-    
+
     relativeAdapter = new opengv::relative_pose::MACentralRelative(
         (double*) mxGetData(data1),
         (double*) mxGetData(data2),
         data1dim[1],
         data2dim[1] );
-    
+
     if( translationPrior == 1 )
       relativeAdapter->sett12(translation);
     if( rotationPrior == 1 )
       relativeAdapter->setR12(rotation);
   }
-  
+
   if(caseNumber >= relNoncentralFirst && caseNumber <= relNoncentralLast )
   {
-    //noncentral relative case    
+    //noncentral relative case
     if( data1dim[0] != 6 || data2dim[0] != 6 )
     {
       mexPrintf("opengv: Bad input to mex function opengv\n");
@@ -551,22 +551,22 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
       mexPrintf("noncentral relative method\n");
       return;
     }
-    
+
     relativeAdapter = new opengv::relative_pose::MANoncentralRelative(
         (double*) mxGetData(data1),
         (double*) mxGetData(data2),
         data1dim[1],
         data2dim[1] );
-    
+
     if( translationPrior == 1 )
       relativeAdapter->sett12(translation);
     if( rotationPrior == 1 )
       relativeAdapter->setR12(rotation);
   }
-    
+
   if(caseNumber >= pointCloudFirst && caseNumber <= pointCloudLast )
   {
-    //point-cloud case    
+    //point-cloud case
     if( data1dim[0] != 3 || data2dim[0] != 3 )
     {
       mexPrintf("opengv: Bad input to mex function opengv\n");
@@ -577,19 +577,19 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
       mexPrintf("point-cloud method\n");
       return;
     }
-    
+
     pointCloudAdapter = new opengv::point_cloud::MAPointCloud(
         (double*) mxGetData(data1),
         (double*) mxGetData(data2),
         data1dim[1],
         data2dim[1] );
-    
+
     if( translationPrior == 1 )
       pointCloudAdapter->sett12(translation);
     if( rotationPrior == 1 )
       pointCloudAdapter->setR12(rotation);
   }
-  
+
   //check if a return argument is needed, otherwise we won't start computing
   if( nlhs != 1 )
   {
@@ -611,16 +611,16 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
     for( int i = 0; i < numberOfIndices; i++ )
       indices.push_back(floor(mxIndices[i]+0.01)-1);
   }
-  
+
   Method methodEnum = static_cast<Method>(caseNumber);
   if( caseNumber != (int) methodEnum )
   {
     mexPrintf("opengv: This method is not yet implemented!\n");
 	  return;
   }
-  
+
   int number_executions = 20;
-  
+
   // Finally, call the respective algorithm
   switch (methodEnum)
   {
@@ -709,7 +709,7 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
         problem = absRansacPtr( new absRansac( *absoluteAdapter, absRansac::KNEIP, indices ) );
       else
         problem = absRansacPtr( new absRansac( *absoluteAdapter, absRansac::KNEIP ) );
-      
+
       opengv::sac::Ransac<absRansac> ransac;
       ransac.sac_model_ = problem;
       ransac.threshold_ = 1.0 - cos(atan(sqrt(2.0)*0.5/800.0));
@@ -770,7 +770,7 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
         //reset the starting value
         absoluteAdapter->sett(starting_position);
         absoluteAdapter->setR(starting_rotation);
-        
+
         if(useIndices)
           temp = opengv::absolute_pose::optimize_nonlinear(*absoluteAdapter,indices);
         else
@@ -1181,7 +1181,7 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
         //set starting value
         relativeAdapter->sett12(starting_position);
         relativeAdapter->setR12(starting_rotation);
-        
+
         if(useIndices)
           temp = opengv::relative_pose::optimize_nonlinear(*relativeAdapter,indices);
         else

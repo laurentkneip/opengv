@@ -54,7 +54,7 @@ void extractRelativePose(
     translation_t & relativePosition,
     rotation_t & relativeRotation,
     bool normalize = true );
-    
+
 void printExperimentCharacteristics(
     const translation_t & position,
     const rotation_t & rotation,
@@ -64,7 +64,7 @@ void printExperimentCharacteristics(
 void printBearingVectorArraysMatlab(
     const bearingVectors_t & bearingVectors1,
     const bearingVectors_t & bearingVectors2 );
-    
+
 void printEssentialMatrix(
     const translation_t & position,
     const rotation_t & rotation);
@@ -75,7 +75,7 @@ void getPerturbedPose(
     translation_t & perturbedPosition,
     rotation_t & perturbedRotation,
     double amplitude );
-    
+
 std::vector<int> getNindices( int n );
 
 
@@ -102,10 +102,10 @@ void generateMulti2D3DCorrespondences(
     size_t pointsPerCam,
     double noise,
     double outlierFraction,
-    std::vector<boost::shared_ptr<points_t> > & multiPoints,
-    std::vector<boost::shared_ptr<bearingVectors_t> > & multiBearingVectors,
-    std::vector<boost::shared_ptr<Eigen::MatrixXd> > & gt );
-    
+    std::vector<std::shared_ptr<points_t> > & multiPoints,
+    std::vector<std::shared_ptr<bearingVectors_t> > & multiBearingVectors,
+    std::vector<std::shared_ptr<Eigen::MatrixXd> > & gt );
+
 void generateRandom2D2DCorrespondences(
     const translation_t & position1,
     const rotation_t & rotation1,
@@ -121,7 +121,7 @@ void generateRandom2D2DCorrespondences(
     std::vector<int> & camCorrespondences1,
     std::vector<int> & camCorrespondences2,
     Eigen::MatrixXd & gt );
-    
+
 void generateRandom3D3DCorrespondences(
     const translation_t & position1,
     const rotation_t & rotation1,
@@ -133,7 +133,7 @@ void generateRandom3D3DCorrespondences(
     bearingVectors_t & points1,
     bearingVectors_t & points2,
     Eigen::MatrixXd & gt );
-    
+
 void generateMulti2D2DCorrespondences(
     const translation_t & position1,
     const rotation_t & rotation1,

@@ -185,7 +185,7 @@ ELSE()
   target_link_libraries(random_generators opengv)
 ENDIF()
 
-<<<<<<< HEAD
+
 IF (BUILD_TESTS)
   enable_testing()
 

@@ -67,7 +67,7 @@ bp::object arrayFromPoints( const opengv::points_t &points )
     data[3 * i + 1] = points[i][1];
     data[3 * i + 2] = points[i][2];
   }
-  npy_intp shape[2] = {points.size(), 3};
+  npy_intp shape[2] = {(npy_intp)points.size(), 3};
   return bpn_array_from_data(2, shape, &data[0]);
 }
 
@@ -300,7 +300,7 @@ bp::object ransac(
   else if (algo_name == "EPNP") algorithm = AbsolutePoseSacProblem::EPNP;
   else if (algo_name == "GP3P") algorithm = AbsolutePoseSacProblem::GP3P;
 
-  boost::shared_ptr<AbsolutePoseSacProblem>
+  std::shared_ptr<AbsolutePoseSacProblem>
       absposeproblem_ptr(
         new AbsolutePoseSacProblem(adapter, algorithm));
 
@@ -506,7 +506,7 @@ bp::object ransac(
   else if (algo_name == "SEVENPT") algorithm = CentralRelativePoseSacProblem::SEVENPT;
   else if (algo_name == "EIGHTPT") algorithm = CentralRelativePoseSacProblem::EIGHTPT;
 
-  boost::shared_ptr<CentralRelativePoseSacProblem>
+  std::shared_ptr<CentralRelativePoseSacProblem>
       relposeproblem_ptr(
         new CentralRelativePoseSacProblem(adapter, algorithm));
 
@@ -532,7 +532,7 @@ bp::object ransac_rotationOnly(
 
   CentralRelativeAdapter adapter(b1, b2);
 
-  boost::shared_ptr<RotationOnlySacProblem>
+  std::shared_ptr<RotationOnlySacProblem>
       relposeproblem_ptr(
         new RotationOnlySacProblem(adapter));
 

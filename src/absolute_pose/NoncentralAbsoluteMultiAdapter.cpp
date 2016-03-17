@@ -32,8 +32,8 @@
 #include <opengv/absolute_pose/NoncentralAbsoluteMultiAdapter.hpp>
 
 opengv::absolute_pose::NoncentralAbsoluteMultiAdapter::NoncentralAbsoluteMultiAdapter(
-    std::vector<boost::shared_ptr<bearingVectors_t> > bearingVectors,
-    std::vector<boost::shared_ptr<points_t> > points,
+    std::vector<std::shared_ptr<bearingVectors_t> > bearingVectors,
+    std::vector<std::shared_ptr<points_t> > points,
     const translations_t & camOffsets,
     const rotations_t & camRotations ) :
     _bearingVectors(bearingVectors),
@@ -43,7 +43,7 @@ opengv::absolute_pose::NoncentralAbsoluteMultiAdapter::NoncentralAbsoluteMultiAd
 {
   // The following variables are needed for the serialization and
   // de-serialization of indices
-  
+
   size_t singleIndexOffset = 0;
   for( size_t frameIndex = 0; frameIndex < bearingVectors.size(); frameIndex++ )
   {
@@ -129,12 +129,12 @@ opengv::absolute_pose::NoncentralAbsoluteMultiAdapter::
 {
   std::vector<int> singleIndices;
   for(size_t frameIndex = 0; frameIndex < multiIndices.size(); frameIndex++)
-  {  
+  {
     for(
         size_t correspondenceIndex = 0;
         correspondenceIndex < multiIndices[frameIndex].size();
         correspondenceIndex++ )
-    {      
+    {
       singleIndices.push_back(convertMultiIndex(
           frameIndex, multiIndices[frameIndex][correspondenceIndex] ));
     }
