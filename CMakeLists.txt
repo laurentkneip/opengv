@@ -309,6 +309,8 @@ IF (INSTALL_OPENGV)
   )
 ENDIF()
 
+install(DIRECTORY include/ DESTINATION include/ FILES_MATCHING PATTERN "*.h" PATTERN "*.hpp")
+
 if (BUILD_PYTHON)
   add_subdirectory( python )
 endif()
