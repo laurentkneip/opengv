@@ -13,9 +13,9 @@
  *
  * You should also make yourself familiar with some coding standards. The code written so far doesn't necessarily follow one standard exclusively, but at least reflects the effort of maintaining a reasonable level of consistency. Please try to follow that line, it will substantially facilitate the inclusion of your code. Also have a look at the directory structure, it strictly follows the namespace structure, and this should remain the case. Headers that are only intended for internal use are in sub-folders called "modules", and templated implementation-headers go into sub-directories called "implementation". Also have a look at types.hpp, these are the types used for all geometric vision constructs, and should be reused thoughout the entire library. OpenGV uses two-space indentation, and tries to stick to 80-column width.
  *
- * Another property that should be maintened is "independence". The library essentially depends only on boost and Eigen. These are powerful libraries that should deliver most of the functionality required for the purpose of opengv. For the sake of simplicity of installation and contribution, we should keep things along these lines, which means that it is appreciated if algorithms do not require the inclusion of any further third-party libraries.
+ * Another property that should be maintened is "independence". The library essentially depends only on Eigen. This is a powerful library that should deliver most of the functionality required for the purpose of opengv. For the sake of simplicity of installation and contribution, we should keep things along these lines, which means that it is appreciated if algorithms do not require the inclusion of any further third-party libraries.
  *
- * The files in the library are encoded with UTF-8. It has been mainly developed under Linux, and compilation with gcc currently returns no warnings. If you plan to develop under Windows, make sure you use an editor that understands UTF-8 encoding (no, notepad.exe is not a nice editor ;) ).
+ * The files in the library are encoded with UTF-8. It has been mainly developed under Linux, and compilation with gcc currently returns no warnings (hopefully). If you plan to develop under Windows, make sure you use an editor that understands UTF-8 encoding (no, notepad.exe is not a nice editor ;) ).
  *
  * \section sec_contribute_3 Todos:
  * 
@@ -27,22 +27,22 @@
  * <li> The library should easily permit further benchmarks, for instance all the special cases (e.g. planar structure etc.).
  * <li> The triangulation method needs to be able to handle non-central viewpoints. This would avoid some hacks here and there. Same accounts for the point-cloud alignment methods.
  * <li> The triangulation methods (and possibly further algorithms) should be included in the opengv-Matlab-interface.
- * <li> Add the AbsoluteMultiAdapterBase class, homogeneous sampling is also useful in the non-central absolute pose situation.
  * <li> NoncentralRelativePoseSacProblem could decide automatically whether it should process data in a central or non-central way. Same accounts for the MultiNoncentralRelativePoseSacProblem.
  * <li> Sometimes ransac or iterative methods reset the adapter transformation for instance to compute reprojection errors (search recursively for sett). The original value should always be reset, because other parts of the algorithm potentially want to use it.
  * <li> Add more adapters to increase the portability. Examples are: OpenCV, Gandalf, VXR, Bundler, libcvd, OpenMVG.
  * <li> There is an improved version of p3p_kneip lying around somewhere, which could be included.
  * <li> Richard Hartley's implementation of the five-point should be included (replacing the current one).
  * <li> Hongdong Li's five-point solver should be included.
- * <li> Kukelova's polynomial eigenvalue solution should be included.
+ * <li> Kukelova's polynomial eigenvalue solution could be included.
  * <li> P4P and DLT should be included.
  * <li> What about DLS and OPnP? Only Matlab versions are publically available.
  * <li> The 6-point by Stewenius is extremly difficult to reimplement. The reimplementation I provide is maybe not the best.
- * <li> Most of the current implementations treat the correspondences equally. The AdapterBase-classes however contain already a virtual function called "getWeight", which could be used to weight the correspondences differently for instance in a non-linear optimization. Most of the adapters currently simply return 1.0 for these calls. Only the CentralRelativeWeightingAdapter has contructors that include the weight of the correspondences.
+ * <li> Most of the current implementations treat the correspondences equally. The AdapterBase-classes however contain already a virtual function called "getWeight", which could be used to weight the correspondences differently for instance in a non-linear optimization scheme. Most of the adapters currently simply return 1.0 for these calls. Only the CentralRelativeWeightingAdapter has constructors that include the weight of the correspondences.
  * <li> arun_complete and threept_arun are redundant, we should get rid of one of them.
  * <li> The polynomial structures are Matlab-like arrays of coefficients, of different types, and sometimes with different conventions (coefficients once stored along the lines, once along the columns).
  * <li> Add more comments in implementation files such that users can potentially understand what's going on.
  * <li> Use vector.segment, block...topleftcorner etc.
+ * <li> Theia by Chris Sweeney has an interesting Sturm root finder, it could be transplanted.
  * </ul>
  * 
  */

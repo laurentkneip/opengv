@@ -6,13 +6,13 @@
  *
  * <ul>
  * <li> <b>Bearing vector</b>: A bearing vector is defined to be a 3-vector with unit norm bearing at a spatial 3D point from a camera reference frame. It has 2 degrees of freedom, which are the azimuth and elevation in the camera reference frame. Because it has only two degrees of freedom, we frequently refer to it as a 2D information. It is normally expressed in a camera reference frame.
- * <li> <b>Landmark</b>: You may encounter the word landmark, which notably describes a 3D spatial point (usually expressed in a fixed frame called world reference frame).
+ * <li> <b>Landmark</b>: A landmark describes a 3D spatial point (usually expressed in a fixed frame called world reference frame).
  * <li> <b>Camera</b>: OpenGV assumes to be in the calibrated case, and landmark measurements are always given in form of bearing vectors in a camera frame. A camera therefore denotes a camera reference frame with a set of bearing vectors, all pointing from the origin to landmarks. The following figure shows a camera c with bearing vectors (in red). The bearing vectors are all lying on the unit-sphere centered around the camera.
  *
  * \image html central.png
  * \image latex central.pdf "" width=0.45\columnwidth
  *
- * <li> <b>Viewpoint</b>: You will notice that the documentation of the code very frequently talks about viewpoints instead of cameras. One of the advantages of OpenGV is that it can transparently handle both the central and the non-central case. The viewpoint is a generalization of a camera, and can contain an arbitrary number of cameras each one having it's own landmark-measurements (e.g. bearing vectors). A practical example of a viewpoint would be the set of images and related measurements captured by a fully-calibrated, rigid multi-camera rig with synchronized cameras, which therefore still represents a single (multi)-snapshot (e.g. viewpoint). Each camera has its own transformation to the viewpoint frame. In the central case the viewpoint simply contains a single camera with an identity transformation. The most general case-the generalized camera-can also be described by the viewpoint. Each bearing vector would then have it's own camera and related transformation. A generalized camera would hence be represented by an exhaustive multi-camera system. The following image shows a viewpoint vp (in blue) with three cameras c, c', and c'', each one containing its own bearing vector measurements.
+ * <li> <b>Viewpoint</b>: You will notice that the documentation of the code very frequently talks about viewpoints instead of cameras. One of the advantages of OpenGV is that it can transparently handle both the central and the non-central case. The viewpoint is a generalization of a camera, and can contain an arbitrary number of cameras each one having it's own landmark-measurements (e.g. bearing vectors). A practical example of a viewpoint would be the set of images and related measurements captured by a fully-calibrated, rigid multi-camera rig with synchronized cameras, which therefore still represents a single (multi)-snapshot (i.e. viewpoint). Each camera has its own transformation to the viewpoint frame. In the central case the viewpoint simply contains a single camera with an identity transformation. The most general case-the generalized camera-can also be described by the viewpoint. Each bearing vector would then have it's own camera and related transformation. A generalized camera would hence be represented by an exhaustive multi-camera system. The following image shows a viewpoint vp (in blue) with three cameras c, c', and c'', each one containing its own bearing vector measurements.
  *
  * \image html noncentral.png
  * \image latex noncentral.pdf "" width=0.8\columnwidth
@@ -29,7 +29,7 @@
  * <ul>
  * <li> opengv: contains generic things such as the types used throughout the library.
  * <li> opengv/math: contains a bunch of math functions that are used in different algorithms, mainly for root-finding and rotation-related stuff.
- * <li> opengv/absolute_pose: contains the absolute-pose methods. methods.hpp is the main-header that contains the method-declarations. You also find a bunch of adapters here for interfacing with the algorithms (explained in the next section). The sub-folder modules contains declarations of internal methods.
+ * <li> opengv/absolute_pose: contains the absolute-pose methods. methods.hpp is the main-header that contains the method-declarations. You can also find a bunch of adapters here for interfacing with the algorithms (explained in the next section). The sub-folder modules contains declarations of internal methods.
  * <li> opengv/relative_pose: contains the relative-pose methods. methods.hpp is the main-header that contains the method-declarations. You can also find a bunch of adapters here for interfacing with the algorithms (explained in the next section). The sub-folder modules contains declarations of internal methods.
  * <li> opengv/point_cloud: contains the point-cloud alignment methods. Again, methods.hpp contains the declarations, and the folder contains adapters for interfacing (explained below).
  * <li> opengv/triangulation: contains the triangulation methods.
@@ -55,7 +55,7 @@
  *
  * \section sec_conventions Conventions, problem types, and examples
  *
- * As already mentioned, the entire library is assuming calibrated cameras/viewpoints, and operating with 3D unit bearing vectors expressed in the camera frame. Calibrated means that the configuration of the multi-camera system (i.e. the inter-camera transformations) is known. The following introduces the different problems that can be solved with the library, and outlines the conventions for transformations (translations and rotations) in their context. <b>Note that all problems have solutions for both the minimal and non-minimal cases, and may also be solved as sample-consensus or non-linear optimization problems</b>.
+ * As already mentioned, the entire library is assuming calibrated cameras/viewpoints, and it operates with 3D unit bearing vectors expressed in the camera frame. Calibrated means that the configuration of the multi-camera system (i.e. the inter-camera transformations) is known. The following introduces the different problems that can be solved with the library, and outlines the conventions for transformations (translations and rotations) in their context. <b>Note that all problems have solutions for both the minimal and non-minimal cases, and may also be solved as sample-consensus or non-linear optimization problems</b>. The code samples are mostly taken from the test files, which you can compile along with the library by setting BUILD_TESTS in CMakeLists.txt to ON.
  *
  * <ul>
  *
@@ -64,7 +64,7 @@
  * \image html absolute_central.png
  * \image latex absolute_central.pdf "" width=0.8\columnwidth
  *
- * The minimal variants are p2p (a solution for position if rotation is known), p3p_kneip [1], and p3p_gao [2]. The non-minimal variant is epnp [4]. The non-linear optimization variant is called optimize_nonlinear. Here's how to use them:
+ * The minimal variants are p2p (a solution for position if rotation is known), p3p_kneip [1], p3p_gao [2], and UPnP [19]. The non-minimal variants are epnp [4], and UPnP [19]. The non-linear optimization variant is called optimize_nonlinear. Here's how to use them:
  *
 \code
 // create the central adapter
@@ -88,11 +88,20 @@ transformations_t p3p_gao_transformations =
 transformation_t epnp_transformation =
     absolute_pose::epnp(adapter);
 
+// UPnP (using all correspondences)
+transformations_t upnp_transformations =
+    absolute_pose::upnp(adapter);
+
+// UPnP (using three correspondences)
+transformations_t upnp_transformations =
+    absolute_pose::upnp( adapter, indices2 );
+
 // non-linear optimization (using all correspondences)
 adapter.sett(initial_translation);
 adapter.setR(initial_rotation);
 transformation_t nonlinear_transformation =
     absolute_pose::optimize_nonlinear(adapter);
+
 \endcode
  *
  * p3p_kneip, p3p_gao, and epnp can also be used within a sample consensus context. The following shows how to do it:
@@ -130,7 +139,7 @@ transformation_t best_transformation =
  * \image html absolute_noncentral.png
  * \image latex absolute_noncentral.pdf "" width=0.8\columnwidth
  *
- * The minimal variant is gp3p, and the non-minimal variant is gpnp [3]. The non-linear optimization variant is still optimize_nonlinear (it handles both cases). Here's how to use them:
+ * The minimal variant is gp3p, and the non-minimal variant is gpnp [3]. UPnP can be used for both the minimal and the non-minimal case [19]. The non-linear optimization variant is still optimize_nonlinear (it handles both cases). Here's how to use them:
  *
 \code
 // create the non-central adapter
@@ -148,6 +157,14 @@ transformations_t gp3p_transformations =
 // Kneip's GPNP (using all correspondences)
 transformation_t gpnp_transformation =
     absolute_pose::gpnp(adapter);
+
+// UPnP (using all correspondences)
+transformations_t upnp_transformations =
+    absolute_pose::upnp( adapter );
+
+// UPnP (using only 3 correspondences)
+transformations_t upnp_transformations_3 =
+    absolute_pose::upnp( adapter, indices1 );
 
 // non-linear optimization
 adapter.sett(initial_translation);
@@ -275,7 +292,7 @@ transformation_t best_transformation =
  * \image html relative_noncentral.png
  * \image latex relative_noncentral.pdf "" width=0.8\columnwidth
  *
- * There are three non-central relative pose methods in the library, the 17-point algorithm by Li [12], the 6-point method by Stewenius [16], and the new generalized eigensolver. The 17-point algorithm as well as the generalized eigensolver can be used with an arbitrary number of points. The 6-point algorithm is usable with only 6-points exactly. "optimize_nonlinear" is again able to also handle the non-central case. Here's how to use these methods:
+ * There are three non-central relative pose methods in the library, the 17-point algorithm by Li [12], the 6-point method by Stewenius [16], and the new generalized eigensolver [18]. The 17-point algorithm as well as the generalized eigensolver can be used with an arbitrary number of points. The 6-point algorithm is usable with only 6-points exactly. "optimize_nonlinear" is again able to also handle the non-central case. Here's how to use these methods:
  *
 \code
 // create the non-central relative adapter
@@ -451,8 +468,6 @@ ransac.threshold_ = 1.0 - cos(atan(sqrt(2.0)*0.5/800.0));
  *
  * This notably corresponds to the above computation of our "reprojection-error"-threshold, with a focal length of 800.0 and a reprojection error in pixels of 0.5*sqrt(2.0).
  *
- * \section sec_matlab Access from Matlab
- *
  * \section sec_multi The "Multi"-stuff
  *
  * As you go deeper into the code you might notice that there are a number of elements (mostly in the relative-pose context) that contain the tag "multi" in their name. The adapter base-class used here is called <b>RelativeMultiAdapterBase</b>. The idea of this adapter is to hold multiple sets of bearing-vector correspondences originating from pairs of cameras. A pair of cameras is, as the name says, a set of two cameras in different viewpoints. The correspondences are accessed via a multi-index (a pair-index referring to a specific pair of cameras, and a correspondence-index refering to the correspondence within the camera-pair).
@@ -479,75 +494,5 @@ ransac.threshold_ = 1.0 - cos(atan(sqrt(2.0)*0.5/800.0));
  * </ul>
  *
  * All this stuff is highly experimental, so you probably shouldn't pay too much attention to it for the moment ;)
- *
- * \section sec_matlab_syntax The Matlab-sytax
- *
- * All algorithms are ported to Matlab via one interface file only. The syntax is as follows:
- *
- * <ul>
- * <li>X = opengv ( method, data1, data2 )
- * <li>X = opengv ( method, indices, data1, data2 )
- * <li>X = opengv ( method, indices, data1, data2, prior )
- * </ul>
- *
- * where
- * <ul>
- * <li> method is a string that characterizes the algorithm to use. It can be one of the following:
- *
-\verbatim
-absolute pose methods:
-'p2p', 'p3p_kneip', 'p3p_gao', 'epnp', 'p3p_kneip_ransac', 'p3p_gao_ransac', 'epnp_ransac', 'abs_nonlin_central', 'gp3p', 'gp3p_ransac', 'gpnp', 'abs_nonlin_noncentral'.
-
-relative pose methods:
-'twopt', 'twopt_rotationOnly', 'rotationOnly', 'fivept_stewenius', 'fivept_nister', 'fivept_kneip', 'sevenpt', 'eightpt', 'eigensolver', 'rotationOnly_ransac',
-'fivept_stewenius_ransac', 'fivept_nister_ransac', 'sevenpt_ransac', 'eightpt_ransac', 'eigensolver_ransac', 'rel_nonlin_central', 'sixpt', 'seventeenpt',
-'ge', 'sixpt_ransac', 'seventeenpt_ransac', 'ge_ransac', 'rel_nonlin_noncentral'.
-
-point_cloud methods:
-'threept_arun', 'threept_arun_ransac'.
-\endverbatim
- *
- * <li> data1, data2 are matched points (each one of dimension 3xn or 6xn). They are 3xn in the central case (only containing normalized bearing vectors), or 6xn in the non-central case,
- *      where they then also contain the position of the camera in the body frame in rows 4:6. Note that there is no camera orientation in the matlab syntax, the bearing vectors are
- *      supposed to be prerotated into the body frame (only rotated!).
- * <li> indices is a subset of correspondences that we plan to use for the computation.
- * <li> prior is a 3x1 (translation), 3x3 (rotation), or 3x4 ([R t]-transformation) holding a prior value for the transformation to compute.
- * <li> The return value X is a 3xnxm-matrix, where n is the second dimensionality of the solution space, and m is the number of solutions.
- * </ul>
- *
- * The Matlab wrapper includes rather exhaustive checking of command validity. More algorithms are planned for inclusion.
- *
- * \section sec_benchmarks Automatic benchmarking of algorithms
- *
- * Perhaps the nicest thing about the Matlab-code is that it includes automatic benchmarks for all algorithms. The subfolder matlab/helpers contains useful functions for the benchmarks.
- * The most important ones are:
- *
- * <ul>
- * <li> create2D2DExperiment.m: Lets you create a random relative pose problem, meaning correspondences in two viewpoints using desired number of cameras, number of correspondences,
- *      outlier ratio, and noise. It returns the observations in both viewpoints, plus the ground truth values for the relative transformation parameters. It automatically returns
- *      measurement data for the central or the noncentral case depending on how many cameras are configured.
- * <li> create2D3DExperiment.m: Does pretty much the same thing, however for the absolute pose situation.
- * <li> evaluateRotationError.m/evaluateTransformationError.m: Computes the rotation/transformation error of multiple hypotheses by selecting the one that is closest to ground truth.
- * <li> perturb.m: puts a random perturbation on a transformation
- * <li> rodrigues.m / cayley2rot.m / rot2cayley.m: back and forth transformation to minimal rotation representations.
- * <li> transformEssentials.m: Transforms a set of multiple essential matrices into rotations.
- * <li> addNoise.m: Adds noise to a bearing vector by assuming a spherical camera and extracting the corresponding tangential plane.
- * </ul>
- *
- * The main benchmark files are finally given by:
- *
- * <ul>
- * <li> benchmark_absolute_pose.m
- * <li> benchmark_absolute_pose_noncentral.m
- * <li> benchmark_relative_pose.m
- * <li> benchmark_relative_pose_noncentral.m
- * </ul>
- *
- * opengv.cpp contains the interface itself. Some other files like opengv_donotuse.cpp are used for timing experiments (named benchmark_xxx_timing.m). They execute each problem 20 times so time can be measured sufficiently accurate without overhead from Matlab. opengv_experimental1.cpp and opengv_experimental2.cpp are used for some specific ransac experiments, they are not as important.
- *
- * The benchmarks are fairly well documented and self-explaining. They simply run multiple tests for each algorithm while going through increasing noise-levels, and finally plot the resulting mean and
- * median errors. Adding an algorithm or changing the set of algorithms for comparison is very easy, you simply have to modify the cell-arrays algorithms, indices, and names. They contain the internal
- * names of the algorithms that are being evaluated, the indices of the points to use from the experiment (allowing to use different (numbers of) points for each algorithm and random experiment), and
- * the names of the algorithms for the final plots. Comparing your new algorithm has never been easier :)
  *
  */

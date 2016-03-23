@@ -33,5 +33,10 @@
 [16] H. Stewenius, D. Nister, M. Oskarsson, K. Aström, "Solutions to Minimal Generalized Relative Pose Problems", Workshop on omni-directional vision, 2005.
 
 [17] L. Kneip, P. Furgale, "OpenGV: A unified and generalized approach to real-time calibrated geometric vision", Proc. of The IEEE International Conference on Robotics and Automation (ICRA), Hong Kong, China. May 2014.
+
+[18] L. Kneip, H. Li, "Efficient Computation of Relative Pose for Multi-Camera Systems", In Proc. of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR), Columbus, USA. June 2014.
+
+[19] L. Kneip, H. Li, Y. Seo, "UPnP: An optimal O(n) solution to the absolute pose problem with universal applicability", In Proc. of The European Conference on Computer Vision (ECCV), Zurich, Switzerland. September 2014.
+
  *
  */

@@ -17,11 +17,11 @@ outlier_fraction = 0.0;
 iterations = 1000;
 
 % The algorithms we want to test
-algorithms = { 'gp3p'; 'gpnp' };
+algorithms = { 'gp3p'; 'gpnp'; 'upnp'};
 % This defines the number of points used for every algorithm
-indices = { [1, 2, 3]; [1:1:50] };
+indices = { [1, 2, 3]; [1:1:50]; [1:1:50] };
 % The name of the algorithms on the plots
-names = { 'GP3P'; 'GPnP (50pts)' };
+names = { 'GP3P'; 'GPnP (50pts)'; 'UPnP (50pts)' };
 
 % The noise in this experiment
 noise = 1.0;

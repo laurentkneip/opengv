@@ -1,0 +1,117 @@
+/** \page page_matlab The Matlab interface
+ *
+ * All algorithms are accessed from Matlab via one interface file only. The syntax is as follows:
+ *
+ * <ul>
+ * <li>X = opengv ( method, data1, data2 )
+ * <li>X = opengv ( method, indices, data1, data2 )
+ * <li>X = opengv ( method, indices, data1, data2, prior )
+ * </ul>
+ *
+ * where
+ * <ul>
+ * <li> method is a string that characterizes the algorithm to use. It can be one of the following:
+ *
+\verbatim
+absolute pose methods:
+'p2p', 'p3p_kneip', 'p3p_gao', 'epnp', 'p3p_kneip_ransac', 'p3p_gao_ransac', 'epnp_ransac', 'abs_nonlin_central', 'gp3p', 'gp3p_ransac', 'gpnp', 'abs_nonlin_noncentral', 'upnp'.
+
+relative pose methods:
+'twopt', 'twopt_rotationOnly', 'rotationOnly', 'fivept_stewenius', 'fivept_nister', 'fivept_kneip', 'sevenpt', 'eightpt', 'eigensolver', 'rotationOnly_ransac',
+'fivept_stewenius_ransac', 'fivept_nister_ransac', 'sevenpt_ransac', 'eightpt_ransac', 'eigensolver_ransac', 'rel_nonlin_central', 'sixpt', 'seventeenpt',
+'ge', 'sixpt_ransac', 'seventeenpt_ransac', 'ge_ransac', 'rel_nonlin_noncentral'.
+
+point_cloud methods:
+'threept_arun', 'threept_arun_ransac'.
+\endverbatim
+ *
+ * <li> data1, data2 are correspondences (each one of dimension 3xn or 6xn). They are 3xn in the central case (only containing normalized bearing vectors or 3D points), and 6xn for measurements in the non-central case,
+ *      where they then also contain the position of the camera in the body frame in rows 4:6. Note that there is no camera orientation with respect to the body frame in the matlab syntax, the bearing vectors are
+ *      supposed to be prerotated into the body frame (only rotated!).
+ * <li> indices is a subset of correspondences that we plan to use for the computation.
+ * <li> prior is a 3x1 (translation), 3x3 (rotation), or 3x4 ([R t]-transformation) holding a prior value for the transformation to compute.
+ * <li> The return value X is a 3xnxm-matrix, where n is the second dimensionality of the solution space, and m is the number of solutions. n is one for methods that only compute a translation, 3 for methods that only compute a rotation, and 4 for methods that compute both rotation and translation (format: [R t]).
+ * </ul>
+ *
+ * Note that, for Ransac-methods, the indices of the inliers can now also be retrieved. Simply add one return parameter on the left-hand side arguments: [X, inliers] = opengv(...). The Matlab wrapper includes rather exhaustive checking of command validity. More algorithms are planned for inclusion.
+ *
+ * \section Examples
+ *
+ * The interface is probably explained easiest at the hand of a few examples. Let's say that we have a matrix P of size 3xn which contains n world points. Let's also assume that we have a matrix I of size 2xn which contains the corresponding 2D measurements in the image plane. Let us assume that our camera is perspective and that we have a calibration matrix K that contains the intrinsic parameters (standard upper triangular matrix). OpenGV expects normalized coordinates on the unit sphere, so we start by transforming the measurements.
+ *
+ \verbatim
+ temp = K \ [I; ones(1,size(I,2))];
+ I_norms = sqrt(sum(temp.*temp));
+ I_normalized = temp ./ repmat(I_norms,3,1);
+ \endverbatim
+ *
+ * We are now ready to call OpenGV to compute the camera pose. Let's say we want to use the EPnP method:
+ *
+ \verbatim
+ X = opengv('epnp',P,I_normalized);
+ R = X(:,1:3);
+ t = X(:,4);
+ \endverbatim
+ *
+ * Done! Ok, let's make things a bit more interesting, and assume that there are also outliers in the data. We simply have to switch to a Ransac method to take outliers into account!
+ *
+ \verbatim
+ [X, inliers] = opengv('p3p_kneip_ransac',P,I_normalized);
+ \endverbatim
+ * 
+ * Note that this will also give use the indices of the inliers.
+ *
+ * Now let us also look at a non-central example to see how this works. We assume that we have a multi-camera system with two cameras. The cameras have the positions t1 and t2 inside the body-frame. The rotation from the camera frames to the body frame is R1 and R2, respectively. Camera 1 has intrinsic parameters K1, and camera 2 has intrinsic parameters K2. Now let us assume that there are correspondences in both views. Camera one measures the image points I1 which belong to the world points P1 (I1 is 2xn1 and P1 is 3xn1). Camera 2 measures the image points I2 which belong to the world points P2 (I2 is 2xn2 and P2 is 3xn2). Now let us start with normalizing the image points into direction vectors on the unit sphere:
+ * 
+ \verbatim
+ temp = K1 \ [I1; ones(1,size(I1,2))];
+ I1_norms = sqrt(sum(temp.*temp));
+ I1_normalized = temp ./ repmat(I1_norms,3,1);
+ temp = K2 \ [I2; ones(1,size(I2,2))];
+ I2_norms = sqrt(sum(temp.*temp));
+ I2_normalized = temp ./ repmat(I2_norms,3,1);
+ \endverbatim
+ *
+ * We then can compute the absolute pose of the multi-camera system by simply executing this command
+ *
+ \verbatim
+ X = opengv('upnp',[P1 P2],[ R1*I1_normalized, R2*I2_normalized; repmat(t1,1,size(I1,2)), repmat(t2,1,size(I2,2)) ]);
+ R = X(:,1:3);
+ t = X(:,4);
+ \endverbatim
+ *
+ * In order to handle outliers as well, simply switch to 'gp3p_ransac'. Now that you know how to handle 2D-3D registration in the central and non-central case, the 2D-2D registration case is also easily learned. Simply replace the world points by 2D measurements in another view.
+ *
+ * \section sec_benchmarks Automatic benchmarking of algorithms
+ *
+ * Perhaps the nicest thing about the Matlab-code is that it includes automatic benchmarks for all algorithms. The subfolder matlab/helpers contains useful functions for the benchmarks.
+ * The most important ones are:
+ *
+ * <ul>
+ * <li> create2D2DExperiment.m: Lets you create a random relative pose problem, meaning correspondences in two viewpoints using desired number of cameras, number of correspondences,
+ *      outlier ratio, and noise. It returns the observations in both viewpoints, plus the ground truth values for the relative transformation parameters. It automatically returns
+ *      measurement data for the central or the noncentral case depending on how many cameras are configured.
+ * <li> create2D3DExperiment.m: Does pretty much the same thing, however for the absolute pose situation.
+ * <li> evaluateRotationError.m/evaluateTransformationError.m: Computes the rotation/transformation error of multiple hypotheses by selecting the one that is closest to ground truth.
+ * <li> perturb.m: puts a random perturbation on a transformation
+ * <li> rodrigues.m / cayley2rot.m / rot2cayley.m: back and forth transformation to minimal rotation representations.
+ * <li> transformEssentials.m: Transforms a set of multiple essential matrices into rotations.
+ * <li> addNoise.m: Adds noise to a bearing vector by assuming a spherical camera and extracting the corresponding tangential plane.
+ * </ul>
+ *
+ * The main benchmark files are finally given by:
+ *
+ * <ul>
+ * <li> benchmark_absolute_pose.m
+ * <li> benchmark_absolute_pose_noncentral.m
+ * <li> benchmark_relative_pose.m
+ * <li> benchmark_relative_pose_noncentral.m
+ * </ul>
+ *
+ * opengv.cpp contains the interface itself. Some other files like opengv_donotuse.cpp are used for timing experiments (named benchmark_xxx_timing.m). They execute each problem 20 times so time can be measured sufficiently accurate without overhead from Matlab. opengv_experimental1.cpp and opengv_experimental2.cpp are used for some specific ransac experiments, they are not as important.
+ *
+ * The benchmarks are fairly well documented and self-explaining. They simply run multiple tests for each algorithm while going through increasing noise-levels, and finally plot the resulting mean and
+ * median errors. Adding an algorithm or changing the set of algorithms for comparison is very easy, you simply have to modify the cell-arrays algorithms, indices, and names. They contain the internal
+ * names of the algorithms that are being evaluated, the indices of the points to use from the experiment (allowing to use different (numbers of) points for each algorithm and random experiment), and
+ * the names of the algorithms for the final plots. Comparing your new algorithm has never been easier :)
+ */

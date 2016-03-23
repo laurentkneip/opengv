@@ -45,6 +45,9 @@ static const char *copyright =
 //    and m is the number of solutions
 //    prior is a prior pose in case it is known (a matrix of format [R t])
 //
+// Note that the indices of inliers can also be returned for Ransac methods
+// if adding a second left-hand side parameter upon function call
+// (format: [X, inliers] = opengv(...) )
 
 //matlab header
 
@@ -781,10 +784,14 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
       if(nlhs > 1)
       {
         //fill the second return variable with the inliers
+        std::vector<int> inliers = ransac.inliers_;
+        for( int i = 0; i < inliers.size(); i++ )
+          inliers[i] += 1;
         dims[0] = 1;
-        dims[1] = ransac.inliers_.size();
-        plhs[0] = mxCreateNumericArray(2, dims, mxINT32_CLASS, mxREAL);
-        memcpy(mxGetData(plhs[1]), (void*) &(ransac.inliers_[0]), ransac.inliers_.size()*sizeof(int));
+        dims[1] = inliers.size();
+        plhs[1] = mxCreateNumericArray(2, dims, mxINT32_CLASS, mxREAL);
+        memcpy(mxGetData(plhs[1]), (void*) &(inliers[0]), inliers.size()*sizeof(int));
+        
       }
 
       break;
@@ -810,10 +817,13 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
       if(nlhs > 1)
       {
         //fill the second return variable with the inliers
+        std::vector<int> inliers = ransac.inliers_;
+        for( int i = 0; i < inliers.size(); i++ )
+          inliers[i] += 1;
         dims[0] = 1;
-        dims[1] = ransac.inliers_.size();
-        plhs[0] = mxCreateNumericArray(2, dims, mxINT32_CLASS, mxREAL);
-        memcpy(mxGetData(plhs[1]), (void*) &(ransac.inliers_[0]), ransac.inliers_.size()*sizeof(int));
+        dims[1] = inliers.size();
+        plhs[1] = mxCreateNumericArray(2, dims, mxINT32_CLASS, mxREAL);
+        memcpy(mxGetData(plhs[1]), (void*) &(inliers[0]), inliers.size()*sizeof(int));
       }
 
       break;
@@ -839,10 +849,13 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
       if(nlhs > 1)
       {
         //fill the second return variable with the inliers
+        std::vector<int> inliers = ransac.inliers_;
+        for( int i = 0; i < inliers.size(); i++ )
+          inliers[i] += 1;
         dims[0] = 1;
-        dims[1] = ransac.inliers_.size();
-        plhs[0] = mxCreateNumericArray(2, dims, mxINT32_CLASS, mxREAL);
-        memcpy(mxGetData(plhs[1]), (void*) &(ransac.inliers_[0]), ransac.inliers_.size()*sizeof(int));
+        dims[1] = inliers.size();
+        plhs[1] = mxCreateNumericArray(2, dims, mxINT32_CLASS, mxREAL);
+        memcpy(mxGetData(plhs[1]), (void*) &(inliers[0]), inliers.size()*sizeof(int));
       }
 
       break;
@@ -917,10 +930,13 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
       if(nlhs > 1)
       {
         //fill the second return variable with the inliers
+        std::vector<int> inliers = ransac.inliers_;
+        for( int i = 0; i < inliers.size(); i++ )
+          inliers[i] += 1;
         dims[0] = 1;
-        dims[1] = ransac.inliers_.size();
-        plhs[0] = mxCreateNumericArray(2, dims, mxINT32_CLASS, mxREAL);
-        memcpy(mxGetData(plhs[1]), (void*) &(ransac.inliers_[0]), ransac.inliers_.size()*sizeof(int));
+        dims[1] = inliers.size();
+        plhs[1] = mxCreateNumericArray(2, dims, mxINT32_CLASS, mxREAL);
+        memcpy(mxGetData(plhs[1]), (void*) &(inliers[0]), inliers.size()*sizeof(int));
       }
 
       break;
@@ -1254,10 +1270,13 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
       if(nlhs > 1)
       {
         //fill the second return variable with the inliers
+        std::vector<int> inliers = ransac.inliers_;
+        for( int i = 0; i < inliers.size(); i++ )
+          inliers[i] += 1;
         dims[0] = 1;
-        dims[1] = ransac.inliers_.size();
-        plhs[0] = mxCreateNumericArray(2, dims, mxINT32_CLASS, mxREAL);
-        memcpy(mxGetData(plhs[1]), (void*) &(ransac.inliers_[0]), ransac.inliers_.size()*sizeof(int));
+        dims[1] = inliers.size();
+        plhs[1] = mxCreateNumericArray(2, dims, mxINT32_CLASS, mxREAL);
+        memcpy(mxGetData(plhs[1]), (void*) &(inliers[0]), inliers.size()*sizeof(int));
       }
 
       break;
@@ -1288,10 +1307,13 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
       if(nlhs > 1)
       {
         //fill the second return variable with the inliers
+        std::vector<int> inliers = ransac.inliers_;
+        for( int i = 0; i < inliers.size(); i++ )
+          inliers[i] += 1;
         dims[0] = 1;
-        dims[1] = ransac.inliers_.size();
-        plhs[0] = mxCreateNumericArray(2, dims, mxINT32_CLASS, mxREAL);
-        memcpy(mxGetData(plhs[1]), (void*) &(ransac.inliers_[0]), ransac.inliers_.size()*sizeof(int));
+        dims[1] = inliers.size();
+        plhs[1] = mxCreateNumericArray(2, dims, mxINT32_CLASS, mxREAL);
+        memcpy(mxGetData(plhs[1]), (void*) &(inliers[0]), inliers.size()*sizeof(int));
       }
 
       break;
@@ -1317,10 +1339,13 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
       if(nlhs > 1)
       {
         //fill the second return variable with the inliers
+        std::vector<int> inliers = ransac.inliers_;
+        for( int i = 0; i < inliers.size(); i++ )
+          inliers[i] += 1;
         dims[0] = 1;
-        dims[1] = ransac.inliers_.size();
-        plhs[0] = mxCreateNumericArray(2, dims, mxINT32_CLASS, mxREAL);
-        memcpy(mxGetData(plhs[1]), (void*) &(ransac.inliers_[0]), ransac.inliers_.size()*sizeof(int));
+        dims[1] = inliers.size();
+        plhs[1] = mxCreateNumericArray(2, dims, mxINT32_CLASS, mxREAL);
+        memcpy(mxGetData(plhs[1]), (void*) &(inliers[0]), inliers.size()*sizeof(int));
       }
 
       break;
@@ -1346,10 +1371,13 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
       if(nlhs > 1)
       {
         //fill the second return variable with the inliers
+        std::vector<int> inliers = ransac.inliers_;
+        for( int i = 0; i < inliers.size(); i++ )
+          inliers[i] += 1;
         dims[0] = 1;
-        dims[1] = ransac.inliers_.size();
-        plhs[0] = mxCreateNumericArray(2, dims, mxINT32_CLASS, mxREAL);
-        memcpy(mxGetData(plhs[1]), (void*) &(ransac.inliers_[0]), ransac.inliers_.size()*sizeof(int));
+        dims[1] = inliers.size();
+        plhs[1] = mxCreateNumericArray(2, dims, mxINT32_CLASS, mxREAL);
+        memcpy(mxGetData(plhs[1]), (void*) &(inliers[0]), inliers.size()*sizeof(int));
       }
 
       break;
@@ -1375,10 +1403,13 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
       if(nlhs > 1)
       {
         //fill the second return variable with the inliers
+        std::vector<int> inliers = ransac.inliers_;
+        for( int i = 0; i < inliers.size(); i++ )
+          inliers[i] += 1;
         dims[0] = 1;
-        dims[1] = ransac.inliers_.size();
-        plhs[0] = mxCreateNumericArray(2, dims, mxINT32_CLASS, mxREAL);
-        memcpy(mxGetData(plhs[1]), (void*) &(ransac.inliers_[0]), ransac.inliers_.size()*sizeof(int));
+        dims[1] = inliers.size();
+        plhs[1] = mxCreateNumericArray(2, dims, mxINT32_CLASS, mxREAL);
+        memcpy(mxGetData(plhs[1]), (void*) &(inliers[0]), inliers.size()*sizeof(int));
       }
 
       break;
@@ -1407,10 +1438,13 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
       if(nlhs > 1)
       {
         //fill the second return variable with the inliers
+        std::vector<int> inliers = ransac.inliers_;
+        for( int i = 0; i < inliers.size(); i++ )
+          inliers[i] += 1;
         dims[0] = 1;
-        dims[1] = ransac.inliers_.size();
-        plhs[0] = mxCreateNumericArray(2, dims, mxINT32_CLASS, mxREAL);
-        memcpy(mxGetData(plhs[1]), (void*) &(ransac.inliers_[0]), ransac.inliers_.size()*sizeof(int));
+        dims[1] = inliers.size();
+        plhs[1] = mxCreateNumericArray(2, dims, mxINT32_CLASS, mxREAL);
+        memcpy(mxGetData(plhs[1]), (void*) &(inliers[0]), inliers.size()*sizeof(int));
       }
 
       break;
@@ -1531,10 +1565,13 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
       if(nlhs > 1)
       {
         //fill the second return variable with the inliers
+        std::vector<int> inliers = ransac.inliers_;
+        for( int i = 0; i < inliers.size(); i++ )
+          inliers[i] += 1;
         dims[0] = 1;
-        dims[1] = ransac.inliers_.size();
-        plhs[0] = mxCreateNumericArray(2, dims, mxINT32_CLASS, mxREAL);
-        memcpy(mxGetData(plhs[1]), (void*) &(ransac.inliers_[0]), ransac.inliers_.size()*sizeof(int));
+        dims[1] = inliers.size();
+        plhs[1] = mxCreateNumericArray(2, dims, mxINT32_CLASS, mxREAL);
+        memcpy(mxGetData(plhs[1]), (void*) &(inliers[0]), inliers.size()*sizeof(int));
       }
 
       break;
@@ -1560,10 +1597,13 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
       if(nlhs > 1)
       {
         //fill the second return variable with the inliers
+        std::vector<int> inliers = ransac.inliers_;
+        for( int i = 0; i < inliers.size(); i++ )
+          inliers[i] += 1;
         dims[0] = 1;
-        dims[1] = ransac.inliers_.size();
-        plhs[0] = mxCreateNumericArray(2, dims, mxINT32_CLASS, mxREAL);
-        memcpy(mxGetData(plhs[1]), (void*) &(ransac.inliers_[0]), ransac.inliers_.size()*sizeof(int));
+        dims[1] = inliers.size();
+        plhs[1] = mxCreateNumericArray(2, dims, mxINT32_CLASS, mxREAL);
+        memcpy(mxGetData(plhs[1]), (void*) &(inliers[0]), inliers.size()*sizeof(int));
       }
 
       break;
@@ -1589,10 +1629,13 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
       if(nlhs > 1)
       {
         //fill the second return variable with the inliers
+        std::vector<int> inliers = ransac.inliers_;
+        for( int i = 0; i < inliers.size(); i++ )
+          inliers[i] += 1;
         dims[0] = 1;
-        dims[1] = ransac.inliers_.size();
-        plhs[0] = mxCreateNumericArray(2, dims, mxINT32_CLASS, mxREAL);
-        memcpy(mxGetData(plhs[1]), (void*) &(ransac.inliers_[0]), ransac.inliers_.size()*sizeof(int));
+        dims[1] = inliers.size();
+        plhs[1] = mxCreateNumericArray(2, dims, mxINT32_CLASS, mxREAL);
+        memcpy(mxGetData(plhs[1]), (void*) &(inliers[0]), inliers.size()*sizeof(int));
       }
 
       break;
@@ -1662,10 +1705,13 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
       if(nlhs > 1)
       {
         //fill the second return variable with the inliers
+        std::vector<int> inliers = ransac.inliers_;
+        for( int i = 0; i < inliers.size(); i++ )
+          inliers[i] += 1;
         dims[0] = 1;
-        dims[1] = ransac.inliers_.size();
-        plhs[0] = mxCreateNumericArray(2, dims, mxINT32_CLASS, mxREAL);
-        memcpy(mxGetData(plhs[1]), (void*) &(ransac.inliers_[0]), ransac.inliers_.size()*sizeof(int));
+        dims[1] = inliers.size();
+        plhs[1] = mxCreateNumericArray(2, dims, mxINT32_CLASS, mxREAL);
+        memcpy(mxGetData(plhs[1]), (void*) &(inliers[0]), inliers.size()*sizeof(int));
       }
       
       break;

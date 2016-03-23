@@ -86,7 +86,7 @@ for i=1:number_outliers
     
     %generate random point
     normalizedPoint = 2.0*(rand(3,1)-repmat(0.5,3,1));
-    norm1 = sqrt(sum(normalizedPoints.*normalizedPoints));
+    norm1 = sqrt(sum(normalizedPoint.*normalizedPoint));
     direction = normalizedPoint./norm1;
     point = (maxDepth-minDepth) * normalizedPoint + minDepth * direction;
     

@@ -114,8 +114,8 @@ int main( int argc, char** argv )
   std::cout << "running gpnp over 6 correspondences" << std::endl;
   std::vector<int> indices6 = getNindices(6);
   transformation_t gpnp_transformation_6 =
-      absolute_pose::gpnp(adapter,indices6);
-  
+      absolute_pose::gpnp( adapter, indices6 );
+
   std::cout << "running upnp over all correspondences" << std::endl;
   transformations_t upnp_transformations;
   gettimeofday( &tic, 0 );
@@ -124,9 +124,10 @@ int main( int argc, char** argv )
   gettimeofday( &toc, 0);
   double upnp_time = TIMETODOUBLE(timeval_minus(toc,tic)) / iterations;
   
-  //std::cout << "running upnp over 6 correspondences" << std::endl;
-  //transformations_t upnp_transformations_6 =
-  //    absolute_pose::upnp(adapter,indices6);
+  std::cout << "running upnp over 3 correspondences" << std::endl;
+  std::vector<int> indices3 = getNindices(3);
+  transformations_t upnp_transformations_3 =
+      absolute_pose::upnp( adapter, indices3 );
 
   std::cout << "setting perturbed pose and ";
   std::cout << "performing nonlinear optimization" << std::endl;
@@ -167,6 +168,10 @@ int main( int argc, char** argv )
   std::cout << "results from upnp algorithm:" << std::endl;
   for(size_t i = 0; i < upnp_transformations.size(); i++)
     std::cout << upnp_transformations[i] << std::endl << std::endl;
+  std::cout << "results from upnp algorithm with only 3 correspondences:";
+  std::cout << std::endl;
+  for(size_t i = 0; i < upnp_transformations_3.size(); i++)
+    std::cout << upnp_transformations_3[i] << std::endl << std::endl;
   std::cout << "results from nonlinear algorithm:" << std::endl;
   std::cout << nonlinear_transformation << std::endl << std::endl;
   std::cout << "results from nonlinear algorithm with only 10 correspondences:";

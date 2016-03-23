@@ -17,11 +17,11 @@ outlier_fraction = 0.0;
 iterations = 5000;
 
 % The algorithms we want to test
-algorithms = { 'p3p_kneip'; 'p3p_gao'; 'epnp'; 'abs_nonlin_central' };
+algorithms = { 'p3p_kneip'; 'p3p_gao'; 'epnp'; 'abs_nonlin_central'; 'upnp'; 'upnp' };
 % This defines the number of points used for every algorithm
-indices = { [1, 2, 3]; [1, 2, 3]; [1, 2, 3, 4, 5, 6]; [1, 2, 3, 4, 5, 6] };
+indices = { [1, 2, 3]; [1, 2, 3]; [1, 2, 3, 4, 5, 6]; [1, 2, 3, 4, 5, 6]; [1, 2, 3, 4, 5, 6]; [1, 2, 3] };
 % The name of the algorithms on the plots
-names = { 'P3P (Kneip)'; 'P3P (Gao)'; 'EPnP'; 'nonlinear optimization' };
+names = { 'P3P (Kneip)'; 'P3P (Gao)'; 'EPnP'; 'nonlinear optimization'; 'UPnP'; 'UPnP (minimal)' };
 
 % The maximum noise to analyze
 max_noise = 5.0;
@@ -87,28 +87,28 @@ end
 %% Plot the results
 
 figure(1)
-plot(noise_levels,mean_rotation_errors,'LineWidth',2)
+plot(noise_levels',mean_rotation_errors','LineWidth',2)
 legend(names,'Location','NorthWest')
 xlabel('noise level [pix]')
 ylabel('mean rot. error [rad]')
 grid on
 
 figure(2)
-plot(noise_levels,median_rotation_errors,'LineWidth',2)
+plot(noise_levels',median_rotation_errors','LineWidth',2)
 legend(names,'Location','NorthWest')
 xlabel('noise level [pix]')
 ylabel('median rot. error [rad]')
 grid on
 
 figure(3)
-plot(noise_levels,mean_position_errors,'LineWidth',2)
+plot(noise_levels',mean_position_errors','LineWidth',2)
 legend(names,'Location','NorthWest')
 xlabel('noise level [pix]')
 ylabel('mean pos. error [m]')
 grid on
 
 figure(4)
-plot(noise_levels,median_position_errors,'LineWidth',2)
+plot(noise_levels',median_position_errors','LineWidth',2)
 legend(names,'Location','NorthWest')
 xlabel('noise level [pix]')
 ylabel('median pos. error [m]')

@@ -90,14 +90,14 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
   switch(algorithm)
   {
     case 0:
-	  problem = nrelRansacPtr( new nrelRansac( *relativeAdapter, nrelRansac::SIXPT ) );
-	  break;
-	case 1:
-	  problem = nrelRansacPtr( new nrelRansac( *relativeAdapter, nrelRansac::GE ) );
-	  break;
-	case 2:
-	  problem = nrelRansacPtr( new nrelRansac( *relativeAdapter, nrelRansac::SEVENTEENPT ) );
-	  break;
+	    problem = nrelRansacPtr( new nrelRansac( *relativeAdapter, nrelRansac::SIXPT ) );
+	    break;
+	  case 1:
+	    problem = nrelRansacPtr( new nrelRansac( *relativeAdapter, nrelRansac::GE ) );
+	    break;
+  	case 2:
+  	  problem = nrelRansacPtr( new nrelRansac( *relativeAdapter, nrelRansac::SEVENTEENPT ) );
+  	  break;
   }
 
   opengv::sac::Ransac<nrelRansac> ransac;

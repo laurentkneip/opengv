@@ -36,6 +36,7 @@ OPTION(BUILD_TESTS "Build tests" ON)
 OPTION(BUILD_SHARED_LIBS "Build shared libraries" OFF)
 OPTION(BUILD_PYTHON "Build Python extension" OFF)
 OPTION(BUILD_POSITION_INDEPENDENT_CODE "Build position independent code (-fPIC)" ON)
+OPTION(INSTALL_OPENGV "Install OpenGV on the system" OFF)
 
 add_definitions (-Wall -march=native -O3) #TODO use correct c++11 def once everybody has moved to gcc 4.7 # for now I even removed std=gnu++0x
 
@@ -297,14 +298,16 @@ IF (BUILD_TESTS)
     WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
     COMMAND test_Sturm)
 
-ENDIF (BUILD_TESTS)
+ENDIF()
 
-install(
-  TARGETS opengv
-  ARCHIVE DESTINATION lib
-  LIBRARY DESTINATION lib
-  COMPONENT library
-)
+IF (INSTALL_OPENGV)
+  install(
+    TARGETS opengv
+    ARCHIVE DESTINATION lib
+    LIBRARY DESTINATION lib
+    COMPONENT library
+  )
+ENDIF()
 
 if (BUILD_PYTHON)
   add_subdirectory( python )

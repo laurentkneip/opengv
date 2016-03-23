@@ -1,5 +1,15 @@
 /** \page page_installation Installation
  *
+ * \section sec_installation_0_5 Before you start
+ *
+ * If you are only interested in using the library under Matlab, now there is a precompiled mex-library for 64-bit systems available. You can download it from (more versions will be added soon):
+ *
+\verbatim
+Mac OSX: https://dl.dropboxusercontent.com/u/23966023/opengv/opengv.mexmaci64
+\endverbatim
+ *
+ * These versions have been added around March 2016, so please be aware that later additions may not be included in this distribution. You can go immediately to \ref page_matlab "Use under Matlab" to receive further instructions on the Matlab interface.
+ *
  * \section sec_installation_1 Downloading the source code
  * 
  * OpenGV is freely available under
@@ -8,10 +18,11 @@
 https://github.com/laurentkneip/opengv
 \endverbatim
  *
- * You may first have to register on github.com. You may just download a zip-file with the code, but we strongly recommend that you make yourself familiar with git. Git is a distributed version-control and source code management system. Use git clone to easily get updates at a later stage. Under Linux, simply type:
-  *
+ * You may first have to register on github.com. You can just download a zip-file with the code, but we strongly recommend that you make yourself familiar with git. Git is a distributed version-control and source code management system. By using git to clone the repository locally, you can easily get updates at a later stage, and also facilitate the integration of own improvements or extensions into the original repository on github. This is done using the pull-request mechanism.
+ *
+ * To clone the library under Mac OSX or Linux, simply type (assuming that git is installed):
+ *
 \verbatim
-sudo apt-get install git
 git clone https://github.com/laurentkneip/opengv
 \endverbatim
  *
@@ -25,49 +36,51 @@ http://git-scm.com/
  *
  * \section sec_installation_2 Installation under Linux
  *
- *  <ul>
- *  <li>Setup the required tools for compilation of standard libraries under Linux (gcc compiler etc). Type:
+ * <ul>
+ * <li>Setup the required tools for compilation of standard libraries under Linux (gcc compiler etc). Type:
  *
 \verbatim
 sudo apt-get install build-essential
 \endverbatim
  *
- *  <li>Install cmake, eigen3 and boost, those tools are required by the library. Type:
+ * <li>Install cmake and eigen3, those tools are required by the library. Type:
  *
 \verbatim
-sudo apt-get install cmake libeigen3-dev libboost-all-dev
+sudo apt-get install cmake libeigen3-dev
 \endverbatim
  *
- *  CMake is a cross-platform, open-source build system used for pretty much anything in the compilation process but the compilation/linking itself. Eigen3 is a powerful linear algebra library used for all computations in OpenGV. Boost is a powerful C++ library which extends the functionality of the Standard Library.
- *  <li>Go to the top-level directory of OpenGV. Type:
+ * CMake is a cross-platform, open-source build system used for pretty much anything in the compilation process but the compilation/linking itself. Eigen3 is a powerful linear algebra library used for all computations in OpenGV.
+ *
+ * <li>Go to the top-level directory of OpenGV. Type:
  *
 \verbatim
 mkdir build && cd build && cmake .. && make
 \endverbatim
  *
- *  <li>Done
- *  </ul>
+ * <li>Done. The default configuration does not build the tests or python-wrappers, please set the according variables in CMakeLists.txt to ON if you desire the tests or python-wrappers to be built as well.
+ * </ul>
  *
  * \section sec_installation_3 Installation under Windows
  *
- *  <ul>
- *  <li>We need a suitable compiler for C++. We chose Visual Studio Express, which is free. Google for "Microsoft Visual Studio Express", it should be one of the first links. Make sure you download and install the "Windows Desktop version". If you are in a school setting without Administrator rights, just go to your local IT guy and ask him to install Microsoft Visual Studio on your machine.
- *  <li>We also need CMake under Windows. Go to:
+ * <ul>
+ * <li>We need a suitable compiler for C++. We chose Visual Studio Express, which is free. Google for "Microsoft Visual Studio Express", it should be one of the first links. Make sure you download and install the "Windows Desktop version". If you are in a school setting without Administrator rights, just go to your local IT guy and ask him to install Microsoft Visual Studio on your machine.
+ *
+ * <li>We also need CMake under Windows. Go to:
  *
 \verbatim
 http://www.cmake.org/
 \endverbatim
  *
- *  and download the latest version. In a school setting without administrator rights, chose to download the zip-file. Extract it somewhere.
- *  <li>Open a new Developer Command Prompt for VS2012 and make sure all VS path variables are correctly set by checking the output of PATH. We also need to add the cmake-tools to the path. Add it by typing
+ * and download the latest version. In a school setting without administrator rights, chose to download the zip-file. Extract it somewhere.
+ * <li>Open a new Developer Command Prompt for VS2012 and make sure all VS path variables are correctly set by checking the output of PATH. We also need to add the cmake-tools to the path. Add it by typing
  *
 \verbatim
 cd C:\<path to cmake>\bin
 PATH=%PATH%;%cd%;
 \endverbatim
  *
- *  <li>Go to the opengv directory and add a build folder
- *  <li>Now go to the
+ * <li>Go to the opengv directory and add a build folder
+ * <li>Now go to the
  *
 \verbatim
 opengv\build
@@ -79,18 +92,33 @@ opengv\build
 cmake -G "Visual Studio 11" ..
 \endverbatim
  *
- *  You need to add the correct generator for your Visual Studio version. I downloaded Visual Studio 2012, so it's 11 :)
- *  <li>Now build the library by typing:
+ * You need to add the correct generator for your Visual Studio version. I downloaded Visual Studio 2012, so it's 11 :)
+ * <li>Now build the library by typing:
  *
 \verbatim
 msbuild opengv.sln /p:Configuration=Release
 \endverbatim
  *
- *  inside the build directory. While there is not a single warning under Linux, there are thousands of warnings under Windows :) If anyone knows the reason, please let us know.
- *  <li>Note that we included third-party stuff like eigen and boost in the sub-folder third_party. It is cleaner to get a fresh download of those dependencies on your computer, and reset the INCLUDE-directories in the CMakeLists.txt file. You should absolutely do so if you already have a version of these dependencies installed on your system.
- *  </ul>
+ * inside the build directory. While there is not a single warning under Linux, there are thousands of warnings under Windows :) If anyone knows the reason, please let us know.
  *
- * \section sec_installation_4 Installing the library under Matlab (Windows-version)
+ * <li>Note that we included third-party stuff like eigen in the sub-folder third_party. It is cleaner to get a fresh download of those dependencies on your computer, and reset the INCLUDE-directories in the CMakeLists.txt file. You should absolutely do so if you already have a version of these dependencies installed on your system.
+ * </ul>
+ *
+ * \section sec_installation_35 Installation under OSX
+ *
+ * Has been succesfully tested as well.
+ *
+ * <ul>
+ * <li> Install homebrew: http://brew.sh/
+ * <li> Type: "brew install cmake eigen"
+ * <li> Compile using normal cmake procedure.
+ * </ul>
+ *
+ * \section sec_installation_36 Installing OpenGV on the host OS
+ *
+ * At least under Linux and OSX, the installation on the host OS (including the headers) can be activated by simply setting INSTALL_OPENGV to ON.
+ *
+ * \section sec_installation_4 Installing the Matlab-wrapper (Windows-version)
  *
  * <ul>
  * <li>First setup the compiler from Matlab. Go to the matlab console and type
@@ -99,9 +127,8 @@ msbuild opengv.sln /p:Configuration=Release
 mex -setup
 \endverbatim
  *
- * and chose the right compiler by following the instructions. You will have to chose the same compiler than the one you used for compiling the opengv library before-hand. Under windows you might also
- * run into the following problem. Depending on the distribution (e.g. R2012b), Matlab does not yet "know" your compiler (e.g. Visual Studio 2012), so you will have to additionally follow the
- * following instructions.
+ * and chose the right compiler by following the instructions. You will have to chose the same compiler than the one you used for compiling the opengv library before-hand. Under Windows you might also
+ * run into the following problem. Depending on the distribution (e.g. R2012b), Matlab does not yet "know" your compiler (e.g. Visual Studio 2012), so you will have to additionally follow the instructions under
  *
 \verbatim
 http://jimdavid.blogspot.com.au/2012/12/matlab-2012b-mex-setup-with-vs2012.html
@@ -111,7 +138,7 @@ http://jimdavid.blogspot.com.au/2012/12/matlab-2012b-mex-setup-with-vs2012.html
  * <li>Once this is done, you can compile the mex-file by going to the opengv/matlab folder and typing in the console
  *
 \verbatim
-mex -I../include -I../third_party -I../third_party/eigen3 -L../lib/Release -lopengv opengv.cpp
+mex -I../include -I../third_party -I../third_party/eigen3 -L../build/lib/Release -lopengv opengv.cpp
 \endverbatim
  *
  * <li>An additional note on 64-bit Windows/Matlab systems: If you have a Matlab version that is 64-bit, you will have to also compile OpenGV in 64-bit. You will have to follow
@@ -125,7 +152,7 @@ cmake -G "Visual Studio 11 Win64" ..
  * The actual build command stays the same.
  * </ul>
  *
- * \section sec_installation_5 Installing the library under Matlab (Linux-version)
+ * \section sec_installation_5 Installing the Matlab-wrapper (Linux-version)
  * 
  * The following has been tested under Ubuntu 12.04 and a recent Matlab edition (>2013) (thanks to Oliver Dunkley for providing this information).
  *
@@ -135,27 +162,25 @@ cmake -G "Visual Studio 11 Win64" ..
  * <li> In order to make Matlab know about the shared object opengv.so, the path to opengv.so has to be added to LD_LIBRARY_PATH. Open .bashrc and add the line
  *
 \verbatim
-export LD_LIBRARY_PATH=~/Code/external/opengv/lib:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=<path to OpenGV>/build/lib:$LD_LIBRARY_PATH
 \endverbatim
  *
  * and then start Matlab from the terminal, it'll know about opengv ...
  * <li>Go to the opengv/matlab-folder inside Matlab, and issue the command
  *
 \verbatim
-mex -I../include -I../third_party -I../third_party/eigen3 -L../lib -lopengv opengv.cpp -cxx
+mex -I../include -I../third_party -I../third_party/eigen3 -L../build/lib -lopengv opengv.cpp -cxx
 \endverbatim
  *
  * Note the lib directory does not contain a Release subfolder under linux, and that the -cxx option has to be added.
  * </ul>
  *
- * \section sec_installation_6 Using the library under OSX-version
+ * \section sec_installation_6 Installing the Matlab-wrapper (OSX-version)
  *
- * Has been succesfully tested as well.
+ * To compile the Matlab interface under OSX, use the same command as under Windows, with adapted library folder (-L../build/lib instead of -L../build/lib/Release). You of course need to make sure again that Matlab knows where to find the library, and that a suitable compiler is set up in Matlab as well.
  *
- * <ul>
- * <li> Install homebrew: http://brew.sh/
- * <li> Type: "brew install cmake eigen boost"
- * <li> Compile using normal cmake procedure.
- * <li> To compile the Matlab interface, use the same command as under Windows, with adapted library folder (-L../lib instead of -L../lib/Release)
+ * \section sec_installation_7 Installing the python wrappers
+ *
+ * The compliation of the Python wrappers can be enabled by setting the option BUILD_PYTHON to ON. Note that the python wrappers depend additionally on boost, and that the wrapper currently only allows access to the central methods.
  *
  */

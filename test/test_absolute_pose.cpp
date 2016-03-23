@@ -126,7 +126,20 @@ int main( int argc, char** argv )
   std::cout << "running epnp with 6 correspondences" << std::endl;
   std::vector<int> indices6 = getNindices(6);
   transformation_t epnp_transformation_6 =
-      absolute_pose::epnp(adapter,indices6);
+      absolute_pose::epnp( adapter, indices6 );
+
+  std::cout << "running upnp with all correspondences" << std::endl;
+  transformations_t upnp_transformations;
+  gettimeofday( &tic, 0 );
+  for(size_t i = 0; i < iterations; i++)
+    upnp_transformations = absolute_pose::upnp(adapter);
+  gettimeofday( &toc, 0 );
+  double upnp_time = TIMETODOUBLE(timeval_minus(toc,tic)) / iterations;
+
+  std::cout << "running upnp with 3 correspondences" << std::endl;
+  std::vector<int> indices3 = getNindices(3);
+  transformations_t upnp_transformations_3 =
+      absolute_pose::upnp( adapter, indices3 );
 
   std::cout << "setting perturbed pose";
   std::cout << "and performing nonlinear optimization" << std::endl;
@@ -169,6 +182,13 @@ int main( int argc, char** argv )
   std::cout << "results from epnp algorithm with only 6 correspondences:";
   std::cout << std::endl;
   std::cout << epnp_transformation_6 << std::endl << std::endl;
+  std::cout << "results from upnp:" << std::endl;
+  for(size_t i = 0; i < upnp_transformations.size(); i++)
+    std::cout << upnp_transformations[i] << std::endl << std::endl;
+  std::cout << "results form upnp algorithm with only 3 correspondences:";
+  std::cout << std::endl;
+  for(size_t i = 0; i < upnp_transformations_3.size(); i++)
+    std::cout << upnp_transformations_3[i] << std::endl << std::endl;
   std::cout << "results from nonlinear algorithm:" << std::endl;
   std::cout << nonlinear_transformation << std::endl << std::endl;
   std::cout << "results from nonlinear algorithm with only 10 correspondences:";
@@ -183,6 +203,8 @@ int main( int argc, char** argv )
   std::cout << p3p_gao_time << std::endl;
   std::cout << "timings from epnp algorithm: ";
   std::cout << epnp_time << std::endl;
+  std::cout << "timings for the upnp algorithm: ";
+  std::cout << upnp_time << std::endl;
   std::cout << "timings from nonlinear algorithm: ";
   std::cout << nonlinear_time << std::endl;
 }
