@@ -2,8 +2,8 @@ var classopengv_1_1sac__problems_1_1relative__pose_1_1TranslationOnlySacProblem 
 [
     [ "adapter_t", "classopengv_1_1sac__problems_1_1relative__pose_1_1TranslationOnlySacProblem.html#a6e9734ba5ad36e2365a4b91cf71a665e", null ],
     [ "model_t", "classopengv_1_1sac__problems_1_1relative__pose_1_1TranslationOnlySacProblem.html#a7dfe125c5e10fcdb0062a711cc68bd71", null ],
-    [ "TranslationOnlySacProblem", "classopengv_1_1sac__problems_1_1relative__pose_1_1TranslationOnlySacProblem.html#aa917c195da560b56b96d47f853192ef6", null ],
-    [ "TranslationOnlySacProblem", "classopengv_1_1sac__problems_1_1relative__pose_1_1TranslationOnlySacProblem.html#a144f8d16ab23ddf7d93759f458dfaa23", null ],
+    [ "TranslationOnlySacProblem", "classopengv_1_1sac__problems_1_1relative__pose_1_1TranslationOnlySacProblem.html#accfb8f48df4cdf59993c49edff2747b1", null ],
+    [ "TranslationOnlySacProblem", "classopengv_1_1sac__problems_1_1relative__pose_1_1TranslationOnlySacProblem.html#aa1af44caf2adfac665961315c098eaf9", null ],
     [ "~TranslationOnlySacProblem", "classopengv_1_1sac__problems_1_1relative__pose_1_1TranslationOnlySacProblem.html#a1ea435eea7ae8d148e2765485fa2300b", null ],
     [ "computeModelCoefficients", "classopengv_1_1sac__problems_1_1relative__pose_1_1TranslationOnlySacProblem.html#aa2f247e79fd279002f676442d7fb01ac", null ],
     [ "getSampleSize", "classopengv_1_1sac__problems_1_1relative__pose_1_1TranslationOnlySacProblem.html#a195c0888a38c2fa28b9e05a4d2327eb3", null ],

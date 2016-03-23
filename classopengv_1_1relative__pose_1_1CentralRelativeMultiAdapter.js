@@ -1,6 +1,6 @@
 var classopengv_1_1relative__pose_1_1CentralRelativeMultiAdapter =
 [
-    [ "CentralRelativeMultiAdapter", "classopengv_1_1relative__pose_1_1CentralRelativeMultiAdapter.html#a48fb9a7359d7302da06c6de471859f6d", null ],
+    [ "CentralRelativeMultiAdapter", "classopengv_1_1relative__pose_1_1CentralRelativeMultiAdapter.html#a757036cf4860fa6fd12b1ec289ce5471", null ],
     [ "~CentralRelativeMultiAdapter", "classopengv_1_1relative__pose_1_1CentralRelativeMultiAdapter.html#a35ad99fc5f8f93e2ad0040df5b02fde5", null ],
     [ "convertMultiIndex", "classopengv_1_1relative__pose_1_1CentralRelativeMultiAdapter.html#a04f03b1505d572b5396f991c2394b328", null ],
     [ "convertMultiIndices", "classopengv_1_1relative__pose_1_1CentralRelativeMultiAdapter.html#adef249c61c65646c97b16188ea5edce2", null ],
@@ -13,8 +13,8 @@ var classopengv_1_1relative__pose_1_1CentralRelativeMultiAdapter =
     [ "getWeight", "classopengv_1_1relative__pose_1_1CentralRelativeMultiAdapter.html#a1d3b5fecf0199e75ece7b44fe21b099a", null ],
     [ "multiCorrespondenceIndex", "classopengv_1_1relative__pose_1_1CentralRelativeMultiAdapter.html#a755b60b9223475f22ae525c8b8ea4ecd", null ],
     [ "multiPairIndex", "classopengv_1_1relative__pose_1_1CentralRelativeMultiAdapter.html#a0a368137dc1f4c8af77cc6149fb58ae5", null ],
-    [ "_bearingVectors1", "classopengv_1_1relative__pose_1_1CentralRelativeMultiAdapter.html#a76b64c4f41c552b2e9acb3f64055f552", null ],
-    [ "_bearingVectors2", "classopengv_1_1relative__pose_1_1CentralRelativeMultiAdapter.html#a5ab2354136829e8ed4794b9e0805778e", null ],
+    [ "_bearingVectors1", "classopengv_1_1relative__pose_1_1CentralRelativeMultiAdapter.html#aa42ec83032d3cf20f66aef4b6e28148f", null ],
+    [ "_bearingVectors2", "classopengv_1_1relative__pose_1_1CentralRelativeMultiAdapter.html#a5c8dbb6f4721c7df5e79f94999653f42", null ],
     [ "multiKeypointIndices", "classopengv_1_1relative__pose_1_1CentralRelativeMultiAdapter.html#a4cfda069afe9319f1fbda7771c7eb886", null ],
     [ "multiPairIndices", "classopengv_1_1relative__pose_1_1CentralRelativeMultiAdapter.html#adfa479c55d2c9fd48421e55e9ff8283f", null ],
     [ "singleIndexOffsets", "classopengv_1_1relative__pose_1_1CentralRelativeMultiAdapter.html#a7ca55d87d61ce88e3b7ed518267ff5ad", null ]

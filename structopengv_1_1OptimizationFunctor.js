@@ -4,6 +4,8 @@ var structopengv_1_1OptimizationFunctor =
     [ "JacobianType", "structopengv_1_1OptimizationFunctor.html#a68e680cdd69a26082a9c3487204afbd0", null ],
     [ "Scalar", "structopengv_1_1OptimizationFunctor.html#ac6b8eb527652b163ec954d13cdc4372d", null ],
     [ "ValueType", "structopengv_1_1OptimizationFunctor.html#a20b83c63b26238ba8b941cafa0c0ed0b", null ],
+    [ "InputsAtCompileTime", "structopengv_1_1OptimizationFunctor.html#ae48f1083933b99f518932885b0c784abad933fde2039092da2a533fc434b426c8", null ],
+    [ "ValuesAtCompileTime", "structopengv_1_1OptimizationFunctor.html#ae48f1083933b99f518932885b0c784aba95a6c41d54de93199fb21a6c36f153c9", null ],
     [ "OptimizationFunctor", "structopengv_1_1OptimizationFunctor.html#a2ae1ca41e781c599cfed33112307f6b9", null ],
     [ "OptimizationFunctor", "structopengv_1_1OptimizationFunctor.html#a397eaf6984f0d3e8e90b5590c827d672", null ],
     [ "inputs", "structopengv_1_1OptimizationFunctor.html#a16a48027fb64538e701ea91431d9947c", null ],

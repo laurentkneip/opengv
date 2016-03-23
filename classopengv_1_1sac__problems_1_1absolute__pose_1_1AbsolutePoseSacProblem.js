@@ -3,9 +3,15 @@ var classopengv_1_1sac__problems_1_1absolute__pose_1_1AbsolutePoseSacProblem =
     [ "adapter_t", "classopengv_1_1sac__problems_1_1absolute__pose_1_1AbsolutePoseSacProblem.html#ac0058f051e97686883c1ef5dad060f6a", null ],
     [ "algorithm_t", "classopengv_1_1sac__problems_1_1absolute__pose_1_1AbsolutePoseSacProblem.html#a87468cf2ad8bfde00cde3228910a9f5c", null ],
     [ "model_t", "classopengv_1_1sac__problems_1_1absolute__pose_1_1AbsolutePoseSacProblem.html#a8985cc3ff0d7bc7a565015b3a8f19cf8", null ],
-    [ "Algorithm", "classopengv_1_1sac__problems_1_1absolute__pose_1_1AbsolutePoseSacProblem.html#ab5be2e6e950f3614b54cbfbc3c80d8de", null ],
-    [ "AbsolutePoseSacProblem", "classopengv_1_1sac__problems_1_1absolute__pose_1_1AbsolutePoseSacProblem.html#a4eb0c7e56b86b5976d5eb41321c1a834", null ],
-    [ "AbsolutePoseSacProblem", "classopengv_1_1sac__problems_1_1absolute__pose_1_1AbsolutePoseSacProblem.html#ab3328ed99f90e648a8657075025b08d0", null ],
+    [ "Algorithm", "classopengv_1_1sac__problems_1_1absolute__pose_1_1AbsolutePoseSacProblem.html#ab5be2e6e950f3614b54cbfbc3c80d8de", [
+      [ "TWOPT", "classopengv_1_1sac__problems_1_1absolute__pose_1_1AbsolutePoseSacProblem.html#ab5be2e6e950f3614b54cbfbc3c80d8dea20badb7e47c946fa8100fea7ab2571fd", null ],
+      [ "KNEIP", "classopengv_1_1sac__problems_1_1absolute__pose_1_1AbsolutePoseSacProblem.html#ab5be2e6e950f3614b54cbfbc3c80d8dea93878fecab853716bfeb57299de6f83a", null ],
+      [ "GAO", "classopengv_1_1sac__problems_1_1absolute__pose_1_1AbsolutePoseSacProblem.html#ab5be2e6e950f3614b54cbfbc3c80d8dea3ba3af246a13cd23df97cb46974b01b1", null ],
+      [ "EPNP", "classopengv_1_1sac__problems_1_1absolute__pose_1_1AbsolutePoseSacProblem.html#ab5be2e6e950f3614b54cbfbc3c80d8deaed9d2712ae9c8ebfeea482c0d7016185", null ],
+      [ "GP3P", "classopengv_1_1sac__problems_1_1absolute__pose_1_1AbsolutePoseSacProblem.html#ab5be2e6e950f3614b54cbfbc3c80d8dea3151595572eba9cd1a94643f7d9ac8f3", null ]
+    ] ],
+    [ "AbsolutePoseSacProblem", "classopengv_1_1sac__problems_1_1absolute__pose_1_1AbsolutePoseSacProblem.html#a39b9965fea0a6e575406cbf4ce932282", null ],
+    [ "AbsolutePoseSacProblem", "classopengv_1_1sac__problems_1_1absolute__pose_1_1AbsolutePoseSacProblem.html#ab4ce5de25f4cb98d7ee272ebdb0caac7", null ],
     [ "~AbsolutePoseSacProblem", "classopengv_1_1sac__problems_1_1absolute__pose_1_1AbsolutePoseSacProblem.html#afb3002d4533ea8fa13c7514bcec006b0", null ],
     [ "computeModelCoefficients", "classopengv_1_1sac__problems_1_1absolute__pose_1_1AbsolutePoseSacProblem.html#a9c681a3f66409e8bb108f1e25c857384", null ],
     [ "getSampleSize", "classopengv_1_1sac__problems_1_1absolute__pose_1_1AbsolutePoseSacProblem.html#a06e8e7d76f8100fea60dcb568730d3b8", null ],

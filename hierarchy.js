@@ -1,12 +1,15 @@
 var hierarchy =
 [
     [ "opengv::absolute_pose::AbsoluteAdapterBase", "classopengv_1_1absolute__pose_1_1AbsoluteAdapterBase.html", [
-      [ "opengv::absolute_pose::AbsoluteMultiAdapterBase", "classopengv_1_1absolute__pose_1_1AbsoluteMultiAdapterBase.html", null ],
+      [ "opengv::absolute_pose::AbsoluteMultiAdapterBase", "classopengv_1_1absolute__pose_1_1AbsoluteMultiAdapterBase.html", [
+        [ "opengv::absolute_pose::NoncentralAbsoluteMultiAdapter", "classopengv_1_1absolute__pose_1_1NoncentralAbsoluteMultiAdapter.html", null ]
+      ] ],
       [ "opengv::absolute_pose::CentralAbsoluteAdapter", "classopengv_1_1absolute__pose_1_1CentralAbsoluteAdapter.html", null ],
       [ "opengv::absolute_pose::MACentralAbsolute", "classopengv_1_1absolute__pose_1_1MACentralAbsolute.html", null ],
       [ "opengv::absolute_pose::MANoncentralAbsolute", "classopengv_1_1absolute__pose_1_1MANoncentralAbsolute.html", null ],
       [ "opengv::absolute_pose::NoncentralAbsoluteAdapter", "classopengv_1_1absolute__pose_1_1NoncentralAbsoluteAdapter.html", null ]
     ] ],
+    [ "opengv::math::Bracket", "classopengv_1_1math_1_1Bracket.html", null ],
     [ "opengv::EigensolverOutput", "structopengv_1_1EigensolverOutput.html", null ],
     [ "opengv::GeOutput", "structopengv_1_1GeOutput.html", null ],
     [ "opengv::Indices", "structopengv_1_1Indices.html", null ],
@@ -15,6 +18,7 @@ var hierarchy =
     ] ],
     [ "opengv::sac::MultiSampleConsensusProblem< MODEL_T >", "classopengv_1_1sac_1_1MultiSampleConsensusProblem.html", null ],
     [ "opengv::sac::MultiSampleConsensusProblem< transformation_t >", "classopengv_1_1sac_1_1MultiSampleConsensusProblem.html", [
+      [ "opengv::sac_problems::absolute_pose::MultiNoncentralAbsolutePoseSacProblem", "classopengv_1_1sac__problems_1_1absolute__pose_1_1MultiNoncentralAbsolutePoseSacProblem.html", null ],
       [ "opengv::sac_problems::relative_pose::MultiNoncentralRelativePoseSacProblem", "classopengv_1_1sac__problems_1_1relative__pose_1_1MultiNoncentralRelativePoseSacProblem.html", null ]
     ] ],
     [ "opengv::sac::MultiSampleConsensusProblem< transformations_t >", "classopengv_1_1sac_1_1MultiSampleConsensusProblem.html", [

@@ -11,6 +11,6 @@ var classopengv_1_1sac_1_1MultiSampleConsensus =
     [ "model_", "classopengv_1_1sac_1_1MultiSampleConsensus.html#a7a42ed527e35b2d40b5143bc4b5c41ac", null ],
     [ "model_coefficients_", "classopengv_1_1sac_1_1MultiSampleConsensus.html#a8ebae4682988b9971409038ba04a291d", null ],
     [ "probability_", "classopengv_1_1sac_1_1MultiSampleConsensus.html#ae3d9d3d0b8f81cd9e64afbe7396c34d6", null ],
-    [ "sac_model_", "classopengv_1_1sac_1_1MultiSampleConsensus.html#a7c7c36424de2c5d514e707d5e6131723", null ],
+    [ "sac_model_", "classopengv_1_1sac_1_1MultiSampleConsensus.html#a31bad78742f8e0d3f3acb4a3d525841a", null ],
     [ "threshold_", "classopengv_1_1sac_1_1MultiSampleConsensus.html#a7bda54037886fa359eee9495e4623093", null ]
 ];
