@@ -56,157 +56,161 @@ opengv::absolute_pose::modules::p3p_kneip_main(
   point_t P2 = p[1];
   point_t P3 = p[2];
 
-  Eigen::Vector3d temp1 = P2 - P1;
-  Eigen::Vector3d temp2 = P3 - P1;
-
-  if( temp1.cross(temp2).norm() == 0)
+  if((P2-P1).cross(P3-P1).norm() == 0)
     return;
 
   bearingVector_t f1 = f[0];
   bearingVector_t f2 = f[1];
   bearingVector_t f3 = f[2];
 
-  Eigen::Vector3d e1 = f1;
-  Eigen::Vector3d e3 = f1.cross(f2);
-  e3 = e3/e3.norm();
-  Eigen::Vector3d e2 = e3.cross(e1);
-
   rotation_t T;
-  T.row(0) = e1.transpose();
-  T.row(1) = e2.transpose();
-  T.row(2) = e3.transpose();
+  T.row(0) = f1;
+  T.row(2) = f1.cross(f2).normalized();
+  T.row(1) = T.row(2).cross(f1);
 
   f3 = T*f3;
 
-  if( f3(2,0) > 0)
-  {
-    f1 = f[1];
-    f2 = f[0];
-    f3 = f[2];
+  // check for orthogonal feature vector planes: f1Vf2 and f1Vf3
+  if (abs(f3[1]) < 1E-6) {
 
-    e1 = f1;
-    e3 = f1.cross(f2);
-    e3 = e3/e3.norm();
-    e2 = e3.cross(e1);
+	if (f3[2] > 0) {
 
-    T.row(0) = e1.transpose();
-    T.row(1) = e2.transpose();
-    T.row(2) = e3.transpose();
+		f1 = f[1];
+		f2 = f[0];
+		f3 = f[2];
+		P1 = p[1];
+		P2 = p[0];
 
-    f3 = T*f3;
+	} else {
 
-    P1 = p[1];
-    P2 = p[0];
-    P3 = p[2];
+		f1 = f[2];
+		f2 = f[0];
+		f3 = f[1];
+		P1 = p[2];
+		P2 = p[0];
+		P3 = p[1];
+	}
+
+	T.row(0) = f1;
+	T.row(2) = f1.cross(f2).normalized();
+	T.row(1) = T.row(2).cross(f1);
+
+	f3 = T*f3;
+
+  } else if (f3[2] > 0) {
+
+	f2 = f[0];
+	f1 = f[1];
+	f3 = f[2];
+	P2 = p[0];
+	P1 = p[1];
+	
+	T.row(0) = f1;
+	T.row(2) = -T.row(2);
+	T.row(1) = T.row(2).cross(f1);
+
+	f3 = T*f3;
+	
   }
-
-  Eigen::Vector3d n1 = P2-P1;
-  n1 = n1/n1.norm();
-  Eigen::Vector3d n3 = n1.cross(P3-P1);
-  n3 = n3/n3.norm();
+  
+  Eigen::Vector3d n1 = (P2-P1).normalized();
+  Eigen::Vector3d n3 = n1.cross(P3-P1).normalized();
   Eigen::Vector3d n2 = n3.cross(n1);
 
   rotation_t N;
-  N.row(0) = n1.transpose();
-  N.row(1) = n2.transpose();
-  N.row(2) = n3.transpose();
+  N.row(0) = n1;
+  N.row(1) = n2;
+  N.row(2) = n3;
 
   P3 = N*(P3-P1);
 
-  double d_12 = temp1.norm();
+  double d_12 = (P2-P1).norm();
   double p_1 = P3(0,0);
   double p_2 = P3(1,0);
 
   double cos_beta = f1.dot(f2);
-  double b = 1/( 1 - pow( cos_beta, 2 ) ) - 1;
+  double b = sqrt(1.0/(1.0-cos_beta*cos_beta)-1.0);
 
-  if( cos_beta < 0 )
-    b = -sqrt(b);
-  else
-    b = sqrt(b);
-  
+  if(cos_beta<0)
+	b = -b;
+
+  double f_1;
+  double f_2;
   std::vector<double> realRoots;
-  double f_1, f_2;
-  if (f3(2,0) == 0) {
-    // the trivial case, theta = 0 or theta = pi
-    f_1 = f3(0,0);
-    f_2 = f3(1,0);
-    realRoots.push_back(1.0);
-    realRoots.push_back(-1.0);
-  } else {
-    // the common case, 0 > theta > pi
-    f_1 = f3(0,0)/f3(2,0);
-    f_2 = f3(1,0)/f3(2,0);
-
-    double f_1_pw2 = pow(f_1,2);
-    double f_2_pw2 = pow(f_2,2);
-    double p_1_pw2 = pow(p_1,2);
-    double p_1_pw3 = p_1_pw2 * p_1;
-    double p_1_pw4 = p_1_pw3 * p_1;
-    double p_2_pw2 = pow(p_2,2);
-    double p_2_pw3 = p_2_pw2 * p_2;
-    double p_2_pw4 = p_2_pw3 * p_2;
-    double d_12_pw2 = pow(d_12,2);
-    double b_pw2 = pow(b,2);
-
-    Eigen::Matrix<double,5,1> factors;
-
-    factors(0,0) = -f_2_pw2*p_2_pw4
-                   -p_2_pw4*f_1_pw2
-                   -p_2_pw4;
-
-    factors(1,0) = 2*p_2_pw3*d_12*b
-                   +2*f_2_pw2*p_2_pw3*d_12*b
-                   -2*f_2*p_2_pw3*f_1*d_12;
-
-    factors(2,0) = -f_2_pw2*p_2_pw2*p_1_pw2
-                   -f_2_pw2*p_2_pw2*d_12_pw2*b_pw2
-                   -f_2_pw2*p_2_pw2*d_12_pw2
-                   +f_2_pw2*p_2_pw4
-                   +p_2_pw4*f_1_pw2
-                   +2*p_1*p_2_pw2*d_12
-                   +2*f_1*f_2*p_1*p_2_pw2*d_12*b
-                   -p_2_pw2*p_1_pw2*f_1_pw2
-                   +2*p_1*p_2_pw2*f_2_pw2*d_12
-                   -p_2_pw2*d_12_pw2*b_pw2
-                   -2*p_1_pw2*p_2_pw2;
-
-    factors(3,0) = 2*p_1_pw2*p_2*d_12*b
-                   +2*f_2*p_2_pw3*f_1*d_12
-                   -2*f_2_pw2*p_2_pw3*d_12*b
-                   -2*p_1*p_2*d_12_pw2*b;
-
-    factors(4,0) = -2*f_2*p_2_pw2*f_1*p_1*d_12*b
-                   +f_2_pw2*p_2_pw2*d_12_pw2
-                   +2*p_1_pw3*d_12
-                   -p_1_pw2*d_12_pw2
-                   +f_2_pw2*p_2_pw2*p_1_pw2
-                   -p_1_pw4
-                   -2*f_2_pw2*p_2_pw2*p_1*d_12
-                   +p_2_pw2*f_1_pw2*p_1_pw2
-                   +f_2_pw2*p_2_pw2*d_12_pw2*b_pw2;
+  realRoots.reserve(4);
   
-    realRoots = math::o4_roots(factors);
+  if (abs(f3[2]) < 1E-6) {
+	// trivial case, theta == 0 || theta == pi
+	f_1 = f3[0];
+	f_2 = f3[1];
+	realRoots.push_back(1.0);
+	realRoots.push_back(-1.0);
+  } else {
+	// the common case, 0 < theta < pi 
+	f_1 = f3(0,0)/f3(2,0);
+	f_2 = f3(1,0)/f3(2,0);
+
+	double f_1_pw2 = f_1*f_1;
+	double f_2_pw2 = f_2*f_2;
+	double p_1_pw2 = p_1*p_1;
+	double p_1_pw3 = p_1_pw2 * p_1;
+	double p_1_pw4 = p_1_pw3 * p_1;
+	double p_2_pw2 = p_2*p_2;
+	double p_2_pw3 = p_2_pw2 * p_2;
+	double p_2_pw4 = p_2_pw3 * p_2;
+	double d_12_pw2 = d_12*d_12;
+	double b_pw2 = b*b;
+
+	Eigen::Matrix<double,5,1> factors;
+
+	factors(0,0) = 	-(f_2_pw2+f_1_pw2+1)
+					*p_2_pw4;
+
+	factors(1,0) = 	(b*f_2_pw2-f_1*f_2+b)
+					*2.0*d_12*p_2_pw3;
+
+	factors(2,0) = 	(f_2_pw2+f_1_pw2)*p_2_pw4
+					+((-f_2_pw2-f_1_pw2-2.0)*p_1_pw2
+					+(2.0*d_12*f_2_pw2
+					+2.0*b*d_12*f_1*f_2
+					+2.0*d_12)*p_1
+					+(-b_pw2-1.0)*d_12_pw2*f_2_pw2
+					-b_pw2*d_12_pw2)
+					*p_2_pw2;
+
+	factors(3,0) = 	((f_1*f_2-b*f_2_pw2)*p_2_pw2
+					+(p_1_pw2-d_12*p_1)*b)
+					*p_2*d_12*2.0;
+		
+	factors(4,0) = 	((f_2_pw2+f_1_pw2)*p_1_pw2
+					+(f_2_pw2+b*f_1*f_2)*-2.0*d_12*p_1
+					+(b_pw2+1)*d_12_pw2*f_2_pw2)*p_2_pw2
+					-p_1_pw4
+					+2.0*d_12*p_1_pw3
+					-d_12_pw2*p_1_pw2;
+
+	realRoots = math::o4_roots(factors);
   }
+
 
   for( int i = 0; i < realRoots.size(); i++ )
   {
-    double cot_alpha =
-        (-f_1*p_1/f_2-realRoots[i]*p_2+d_12*b)/
-        (-f_1*realRoots[i]*p_2/f_2+p_1-d_12);
-
     double cos_theta = realRoots[i];
-    double sin_theta = sqrt(1-pow(realRoots[i],2));
-    double sin_alpha = sqrt(1/(pow(cot_alpha,2)+1));
-    double cos_alpha = sqrt(1-pow(sin_alpha,2));
+    double sin_theta = sqrt(1-cos_theta*cos_theta);
+    double cot_alpha =
+        (-f_1/f_2*p_1-cos_theta*p_2+d_12*b)/
+        (-f_1/f_2*cos_theta*p_2+p_1-d_12);
 
-    if (cot_alpha < 0)
-      cos_alpha = -cos_alpha;
+    double sin_alpha = sqrt(1/(cot_alpha*cot_alpha+1));
+    double cos_alpha = cot_alpha*sin_alpha;
 
     translation_t C;
-    C(0,0) = d_12*cos_alpha*(sin_alpha*b+cos_alpha);
-    C(1,0) = cos_theta*d_12*sin_alpha*(sin_alpha*b+cos_alpha);
-    C(2,0) = sin_theta*d_12*sin_alpha*(sin_alpha*b+cos_alpha);
+
+	double temp = (sin_alpha*b+cos_alpha)*d_12;
+
+    C(0,0) = temp*cos_alpha;
+    C(1,0) = temp*sin_alpha*cos_theta;
+    C(2,0) = temp*sin_alpha*sin_theta;
 
     C = P1 + N.transpose()*C;
 
