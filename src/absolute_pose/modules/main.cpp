@@ -46,8 +46,10 @@
 #include <opengv/math/arun.hpp>
 #include <opengv/math/cayley.hpp>
 
+#define MIN_DIV 1E-6
+
 void
-opengv::absolute_pose::modules::p3p_kneip_main(
+opengv::absolute_pose::modules::p3p_kneip_main_opt(
     const bearingVectors_t & f,
     const points_t & p,
     transformations_t & solutions )
@@ -67,60 +69,71 @@ opengv::absolute_pose::modules::p3p_kneip_main(
   T.row(0) = f1;
   T.row(2) = f1.cross(f2).normalized();
   T.row(1) = T.row(2).cross(f1);
+  
+  // use C as temp vector here and reuse it later in backsubstitution
+  translation_t C;
+  C = T*f3;
 
-  f3 = T*f3;
+  // ensure 0 < theta < pi
+  if (C[2] > 0) {
 
-  // check for orthogonal feature vector planes: f1Vf2 and f1Vf3
-  if (abs(f3[1]) < 1E-6) {
+	// check for orthogonal feature vector planes
+	if (abs(C[0]) < MIN_DIV) {
 
-	if (f3[2] > 0) {
-
-		f1 = f[1];
-		f2 = f[0];
-		f3 = f[2];
-		P1 = p[1];
-		P2 = p[0];
-
+		C  = f1;
+		f1 = f3;
+		f3 = f2;
+		f2 = C;
+		C  = P1;
+		P1 = P3;
+		P3 = P2;
+		P2 = C;
+		T.row(2) = f1.cross(f2).normalized();
+			
 	} else {
+			
+		C  = f1;
+		f1 = f2;
+		f2 = C;
+		C  = P1;
+		P1 = P2;
+		P2 = C;
+		T.row(2) = -T.row(2);
 
-		f1 = f[2];
-		f2 = f[0];
-		f3 = f[1];
-		P1 = p[2];
-		P2 = p[0];
-		P3 = p[1];
 	}
 
 	T.row(0) = f1;
-	T.row(2) = f1.cross(f2).normalized();
 	T.row(1) = T.row(2).cross(f1);
 
-	f3 = T*f3;
+	C = T*f3;
 
-  } else if (f3[2] > 0) {
+  } else {
 
-	f2 = f[0];
-	f1 = f[1];
-	f3 = f[2];
-	P2 = p[0];
-	P1 = p[1];
-	
-	T.row(0) = f1;
-	T.row(2) = -T.row(2);
-	T.row(1) = T.row(2).cross(f1);
+	// check for orthogonal feature vector planes
+	if (abs(C[1]) < MIN_DIV) {
+		C  = f1;
+		f1 = f3;
+		f3 = f2;
+		f2 = C;
+		C  = P1;
+		P1 = P3;
+		P3 = P2;
+		P2 = C;
+			
+		T.row(0) = f1;
+		T.row(2) = f1.cross(f2).normalized();
+		T.row(1) = T.row(2).cross(f1);
 
-	f3 = T*f3;
-	
+		C = T*f3;
+	}
   }
   
-  Eigen::Vector3d n1 = (P2-P1).normalized();
-  Eigen::Vector3d n3 = n1.cross(P3-P1).normalized();
-  Eigen::Vector3d n2 = n3.cross(n1);
-
+  f3 = C;
+  
   rotation_t N;
-  N.row(0) = n1;
-  N.row(1) = n2;
-  N.row(2) = n3;
+  N.row(0) = (P2-P1).normalized();
+  N.row(2) = N.row(0).cross(P3-P1).normalized();
+  N.row(1) = N.row(2).cross(N.row(0));
 
   P3 = N*(P3-P1);
 
@@ -134,12 +147,11 @@ opengv::absolute_pose::modules::p3p_kneip_main(
   if(cos_beta<0)
 	b = -b;
 
-  double f_1;
-  double f_2;
+  double f_1, f_2;
   std::vector<double> realRoots;
   realRoots.reserve(4);
   
-  if (abs(f3[2]) < 1E-6) {
+  if (abs(f3[2]) < MIN_DIV) {
 	// trivial case, theta == 0 || theta == pi
 	f_1 = f3[0];
 	f_2 = f3[1];
@@ -164,34 +176,31 @@ opengv::absolute_pose::modules::p3p_kneip_main(
 	Eigen::Matrix<double,5,1> factors;
 
 	factors(0,0) = 	-(f_2_pw2+f_1_pw2+1)
-					*p_2_pw4;
+			*p_2_pw4;
 
 	factors(1,0) = 	(b*f_2_pw2-f_1*f_2+b)
-					*2.0*d_12*p_2_pw3;
+			*2.0*d_12*p_2_pw3;
 
 	factors(2,0) = 	(f_2_pw2+f_1_pw2)*p_2_pw4
-					+((-f_2_pw2-f_1_pw2-2.0)*p_1_pw2
-					+(2.0*d_12*f_2_pw2
-					+2.0*b*d_12*f_1*f_2
-					+2.0*d_12)*p_1
-					+(-b_pw2-1.0)*d_12_pw2*f_2_pw2
-					-b_pw2*d_12_pw2)
-					*p_2_pw2;
+			+((-f_2_pw2-f_1_pw2-2.0)*p_1_pw2
+			+(f_2_pw2+b*f_1*f_2+1)*2.0*d_12*p_1
+			+(-b_pw2-1.0)*d_12_pw2*f_2_pw2
+			-b_pw2*d_12_pw2)
+			*p_2_pw2;
 
 	factors(3,0) = 	((f_1*f_2-b*f_2_pw2)*p_2_pw2
-					+(p_1_pw2-d_12*p_1)*b)
-					*p_2*d_12*2.0;
+			+(p_1_pw2-d_12*p_1)*b)
+			*p_2*d_12*2.0;
 		
 	factors(4,0) = 	((f_2_pw2+f_1_pw2)*p_1_pw2
-					+(f_2_pw2+b*f_1*f_2)*-2.0*d_12*p_1
-					+(b_pw2+1)*d_12_pw2*f_2_pw2)*p_2_pw2
-					-p_1_pw4
-					+2.0*d_12*p_1_pw3
-					-d_12_pw2*p_1_pw2;
+			+(f_2_pw2+b*f_1*f_2)*-2.0*d_12*p_1
+			+(b_pw2+1)*d_12_pw2*f_2_pw2)*p_2_pw2
+			-p_1_pw4
+			+2.0*d_12*p_1_pw3
+			-d_12_pw2*p_1_pw2;
 
 	realRoots = math::o4_roots(factors);
   }
-
 
   for( int i = 0; i < realRoots.size(); i++ )
   {
@@ -204,9 +213,7 @@ opengv::absolute_pose::modules::p3p_kneip_main(
     double sin_alpha = sqrt(1/(cot_alpha*cot_alpha+1));
     double cos_alpha = cot_alpha*sin_alpha;
 
-    translation_t C;
-
-	double temp = (sin_alpha*b+cos_alpha)*d_12;
+    double temp = (sin_alpha*b+cos_alpha)*d_12;
 
     C(0,0) = temp*cos_alpha;
     C(1,0) = temp*sin_alpha*cos_theta;
