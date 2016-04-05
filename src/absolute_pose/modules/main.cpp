@@ -49,7 +49,7 @@
 #define MIN_DIV 1E-6
 
 void
-opengv::absolute_pose::modules::p3p_kneip_main_opt(
+opengv::absolute_pose::modules::p3p_kneip_main(
     const bearingVectors_t & f,
     const points_t & p,
     transformations_t & solutions )
