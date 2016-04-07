@@ -42,7 +42,8 @@
 #include <stdlib.h>
 #include <vector>
 #include <opengv/types.hpp>
-#include <boost/shared_ptr.hpp>
+//#include <boost/shared_ptr.hpp>
+#include <memory>
 #include <opengv/absolute_pose/AbsoluteMultiAdapterBase.hpp>
 
 /**

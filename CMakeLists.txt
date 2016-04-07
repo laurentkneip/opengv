@@ -38,7 +38,12 @@ OPTION(BUILD_PYTHON "Build Python extension" OFF)
 OPTION(BUILD_POSITION_INDEPENDENT_CODE "Build position independent code (-fPIC)" ON)
 OPTION(INSTALL_OPENGV "Install OpenGV on the system" OFF)
 
-add_definitions (-Wall -march=native -O3) #TODO use correct c++11 def once everybody has moved to gcc 4.7 # for now I even removed std=gnu++0x
+IF(WIN32)
+add_definitions (-bigobj -W0 -MP)
+#set (CMAKE_CXX_FLAGS "-bigobj -W0 -MP")
+ELSE()
+add_definitions (-Wall -march=native -O3 ) #TODO use correct c++11 def once everybody has moved to gcc 4.7 # for now I even removed std=gnu++0x
+ENDIF()
 
 IF(BUILD_POSITION_INDEPENDENT_CODE)
   add_definitions( -fPIC )
