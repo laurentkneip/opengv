@@ -42,6 +42,22 @@ opengv::absolute_pose::MANoncentralAbsolute::MANoncentralAbsolute(
     _numberBearingVectors(numberBearingVectors)
 {}
 
+// with bearing vector covariance
+// edited by Steffen Urban / urbste@gmail.com
+opengv::absolute_pose::MANoncentralAbsolute::MANoncentralAbsolute(
+	const double * points,
+	const double * bearingVectors,
+	const double * covMats,
+	int numberPoints,
+	int numberBearingVectors,
+	int numberCovMats) :
+	_points(points),
+	_bearingVectors(bearingVectors),
+	_numberPoints(numberPoints),
+	_numberBearingVectors(numberBearingVectors),
+	_numberCovMats(numberCovMats)
+{}
+
 opengv::absolute_pose::MANoncentralAbsolute::~MANoncentralAbsolute()
 {}
 
@@ -55,6 +71,48 @@ opengv::absolute_pose::MANoncentralAbsolute::
   bearingVector[1] = _bearingVectors[index * 6 + 1];
   bearingVector[2] = _bearingVectors[index * 6 + 2];
   return bearingVector;
+}
+
+// edited by Steffen Urban / urbste@gmail.com
+opengv::bearingVectors_t
+opengv::absolute_pose::MANoncentralAbsolute::
+getBearingVectors() const
+{
+	//todo
+	bearingVectors_t all(_numberPoints);
+	for (int i = 0; i < _numberPoints; ++i)
+		all[i] = getBearingVector(i);
+	return all;
+}
+
+// edited by Steffen Urban / urbste@gmail.com
+opengv::cov3_mat_t
+opengv::absolute_pose::MANoncentralAbsolute::
+getCovariance(size_t index) const
+{
+	assert(index < _numberBearingVectors);
+	cov3_mat_t cov;
+	cov(0, 0) = _covMats[index * 9];
+	cov(0, 1) = _covMats[index * 9 + 1];
+	cov(0, 2) = _covMats[index * 9 + 2];
+	cov(1, 0) = _covMats[index * 9 + 3];
+	cov(1, 1) = _covMats[index * 9 + 4];
+	cov(1, 2) = _covMats[index * 9 + 5];
+	cov(2, 0) = _covMats[index * 9 + 6];
+	cov(2, 1) = _covMats[index * 9 + 7];
+	cov(2, 2) = _covMats[index * 9 + 8];
+	return cov;
+}
+
+// edited by Steffen Urban / urbste@gmail.com
+opengv::cov3_mats_t
+opengv::absolute_pose::MANoncentralAbsolute::
+getCovariances() const
+{
+	cov3_mats_t all(_numberPoints);
+	for (int i = 0; i < _numberPoints; ++i)
+		all[i] = getCovariance(i);
+	return all;
 }
 
 double
@@ -74,6 +132,17 @@ opengv::absolute_pose::MANoncentralAbsolute::
   point[1] = _points[index * 3 + 1];
   point[2] = _points[index * 3 + 2];
   return point;
+}
+
+// edited by Steffen Urban / urbste@gmail.com
+opengv::points_t
+opengv::absolute_pose::MANoncentralAbsolute::
+getPoints() const
+{
+	points_t all(_numberPoints);
+	for (int i = 0; i < _numberPoints; ++i)
+		all[i] = getPoint(i);
+	return all;
 }
 
 opengv::translation_t

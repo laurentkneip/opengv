@@ -232,6 +232,32 @@ transformation_t epnp(
     const AbsoluteAdapterBase & adapter,
     const std::vector<int> & indices );
 
+
+/**
+* \brief Compute the pose of a central viewpoint using the MLPnP method [4].
+*        Using all available correspondences.
+*
+* \param[in] adapter Visitor holding bearing vector to world point correspondences.
+* \return Pose of viewpoint (position seen from world frame and orientation
+*         from viewpoint to world frame, transforms points from viewpoint to
+*         world frame).
+*/
+transformation_t mlpnp(const AbsoluteAdapterBase & adapter);
+
+/**
+* \brief Compute the pose of a central viewpoint using the MLPnP method [4].
+*
+* \param[in] adapter Visitor holding bearing vector to world point correspondences.
+* \param[in] indices Indices of the n correspondences that are used for
+*                    deriving the pose.
+* \return Pose of viewpoint (position seen from world frame and orientation
+*         from viewpoint to world frame, transforms points from viewpoint to
+*         world frame).
+*/
+transformation_t mlpnp(
+	const AbsoluteAdapterBase & adapter,
+	const std::vector<int> & indices);
+
 /**
  * \brief Compute the pose of a non-central viewpoint using the gPnP method [3].
  *        Using all available correspondences.

@@ -37,8 +37,10 @@ opengv::absolute_pose::CentralAbsoluteAdapter::CentralAbsoluteAdapter(
     const points_t & points ) :
     AbsoluteAdapterBase(),
     _bearingVectors(bearingVectors),
-    _points(points)
-{}
+    _points(points),
+	_cov_mats(cov3_mats_t(1))
+{
+}
 
 opengv::absolute_pose::CentralAbsoluteAdapter::CentralAbsoluteAdapter(
     const bearingVectors_t & bearingVectors,
@@ -46,7 +48,8 @@ opengv::absolute_pose::CentralAbsoluteAdapter::CentralAbsoluteAdapter(
     const rotation_t & R ) :
     AbsoluteAdapterBase(R),
     _bearingVectors(bearingVectors),
-    _points(points)
+	_points(points),
+	_cov_mats(cov3_mats_t(1))
 {}
 
 opengv::absolute_pose::CentralAbsoluteAdapter::CentralAbsoluteAdapter(
@@ -56,7 +59,41 @@ opengv::absolute_pose::CentralAbsoluteAdapter::CentralAbsoluteAdapter(
     const rotation_t & R ) :
     AbsoluteAdapterBase(t,R),
     _bearingVectors(bearingVectors),
-    _points(points)
+	_points(points),
+	_cov_mats(cov3_mats_t(1))
+{}
+
+opengv::absolute_pose::CentralAbsoluteAdapter::CentralAbsoluteAdapter(
+	const bearingVectors_t & bearingVectors,
+	const cov3_mats_t & covMats,
+	const points_t & points) :
+	AbsoluteAdapterBase(),
+	_bearingVectors(bearingVectors),
+	_points(points),
+	_cov_mats(covMats)
+{}
+
+opengv::absolute_pose::CentralAbsoluteAdapter::CentralAbsoluteAdapter(
+	const bearingVectors_t & bearingVectors,
+	const cov3_mats_t & covMats,
+	const points_t & points,
+	const rotation_t & R) :
+	AbsoluteAdapterBase(R),
+	_bearingVectors(bearingVectors),
+	_points(points),
+	_cov_mats(covMats)
+{}
+
+opengv::absolute_pose::CentralAbsoluteAdapter::CentralAbsoluteAdapter(
+	const bearingVectors_t & bearingVectors,
+	const cov3_mats_t & covMats,
+	const points_t & points,
+	const translation_t & t,
+	const rotation_t & R) :
+	AbsoluteAdapterBase(t, R),
+	_bearingVectors(bearingVectors),
+	_points(points),
+	_cov_mats(covMats)
 {}
 
 opengv::absolute_pose::CentralAbsoluteAdapter::~CentralAbsoluteAdapter()
@@ -68,6 +105,12 @@ opengv::absolute_pose::CentralAbsoluteAdapter::getBearingVector(
 {
   assert(index < _bearingVectors.size());
   return _bearingVectors[index];
+}
+
+opengv::bearingVectors_t
+opengv::absolute_pose::CentralAbsoluteAdapter::getBearingVectors() const
+{
+	return _bearingVectors;
 }
 
 double
@@ -83,6 +126,12 @@ opengv::absolute_pose::CentralAbsoluteAdapter::getPoint(
 {
   assert(index < _bearingVectors.size());
   return _points[index];
+}
+
+opengv::points_t
+opengv::absolute_pose::CentralAbsoluteAdapter::getPoints() const
+{
+	return _points;
 }
 
 opengv::translation_t
@@ -108,4 +157,19 @@ opengv::absolute_pose::CentralAbsoluteAdapter::
     getNumberCorrespondences() const
 {
   return _bearingVectors.size();
+}
+
+// covariances
+opengv::cov3_mat_t
+opengv::absolute_pose::CentralAbsoluteAdapter::getCovariance(
+size_t index) const
+{
+	assert(index < _bearingVectors.size());
+	return _cov_mats[index];
+}
+
+opengv::cov3_mats_t
+opengv::absolute_pose::CentralAbsoluteAdapter::getCovariances() const
+{
+	return _cov_mats;
 }

@@ -299,6 +299,36 @@ opengv::absolute_pose::epnp(
   return epnp(adapter,idx);
 }
 
+//////////////////
+// MLPnP 
+//////////////////
+opengv::transformation_t
+opengv::absolute_pose::mlpnp(
+	const AbsoluteAdapterBase & adapter,
+	const std::vector<int> & indices)
+{
+	transformation_t result;
+	result.setZero();
+
+	modules::mlpnp_main(adapter.getBearingVectors(),
+		adapter.getPoints(),
+		adapter.getCovariances(),
+		indices, result);
+
+	return result;
+}
+
+opengv::transformation_t
+opengv::absolute_pose::mlpnp(
+	const AbsoluteAdapterBase & adapter)
+{
+	std::vector<int> idx;
+	for (int i = 0; i < adapter.getNumberCorrespondences(); ++i)
+		idx.push_back(i);
+
+	return mlpnp(adapter, idx);
+}
+
 namespace opengv
 {
 namespace absolute_pose

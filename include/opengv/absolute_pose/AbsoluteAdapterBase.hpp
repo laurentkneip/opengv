@@ -105,6 +105,24 @@ public:
    */
   virtual opengv::bearingVector_t getBearingVector(size_t index ) const = 0;
   /**
+  * \brief Retrieve all bearing vectors.
+  * \return The complete set of bearing vectors.
+  */
+  virtual opengv::bearingVectors_t getBearingVectors() const = 0;
+
+  /**
+  * \brief Retrieve all bearing vectors.
+  * \return The complete set of bearing vectors.
+  */
+  virtual opengv::cov3_mat_t getCovariance(size_t index) const = 0;
+
+  /**
+  * \brief Retrieve all bearing vectors.
+  * \return The complete set of bearing vectors.
+  */
+  virtual opengv::cov3_mats_t getCovariances() const = 0;
+
+  /**
    * \brief Retrieve the weight of a correspondence. The weight is supposed to
    *        reflect the quality of a correspondence, and typically is between
    *        0 and 1.
@@ -134,6 +152,11 @@ public:
    * \return The corresponding world point.
    */
   virtual opengv::point_t getPoint( size_t index ) const = 0;
+  /**
+  * \brief Retrieve all world points.
+  * \return The world points.
+  */
+  virtual opengv::points_t getPoints() const = 0;
   /**
    * \brief Retrieve the number of correspondences.
    * \return The number of correspondences.

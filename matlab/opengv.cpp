@@ -89,6 +89,7 @@ static const char* methods[]=
   "p3p_kneip",                //  9
   "p3p_gao",                  //  7
   "epnp",                     //  4
+  "mlpnp",                    //  5
   "p3p_kneip_ransac",         // 16
   "p3p_gao_ransac",           // 14
   "epnp_ransac",              // 11
@@ -131,20 +132,20 @@ static const char* methods[]=
 
 // The length of the method strings (needed for comparison)
 static const int methodsLengths[] =
-    { 3,9,7,4,16,14,11,18,4,11,4,21,4,5,18,12,16,13,12,
+    { 3,9,7,4,5,16,14,11,18,4,11,4,21,4,5,18,12,16,13,12,
 	  7,7,11,19,23,20,14,14,18,18,5,11,2,12,18,9,21,12,19 };
 
 static const int absCentralFirst    =  0;
-static const int absCentralLast     =  7;
-static const int absNoncentralFirst =  8;
-static const int absNoncentralLast  = 11;
-static const int upnpIndex          = 12;
-static const int relCentralFirst    = 13;
-static const int relCentralLast     = 28;
-static const int relNoncentralFirst = 29;
-static const int relNoncentralLast  = 35;
-static const int pointCloudFirst    = 36;
-static const int pointCloudLast     = 37;
+static const int absCentralLast     =  8;
+static const int absNoncentralFirst =  9;
+static const int absNoncentralLast  = 12;
+static const int upnpIndex          = 13;
+static const int relCentralFirst    = 14;
+static const int relCentralLast     = 29;
+static const int relNoncentralFirst = 30;
+static const int relNoncentralLast  = 36;
+static const int pointCloudFirst    = 37;
+static const int pointCloudLast     = 38;
 
 // The number of methods (needed for comparison)
 static const int numberMethods = pointCloudLast + 1;
@@ -155,6 +156,7 @@ enum Method
   P3P_KNEIP,
   P3P_GAO,
   EPNP,
+  MLPNP,
   P3P_KNEIP_RANSAC,
   P3P_GAO_RANSAC,
   EPNP_RANSAC,
@@ -257,12 +259,13 @@ typedef std::shared_ptr<ptRansac> ptRansacPtr;
 void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
 {
   // Check if right number of arguments
-  if( nrhs < 3 || nrhs > 5 )
+  if( nrhs < 3 || nrhs > 6 )
   {
     mexPrintf("opengv: Not an acceptable number of arguments\n");
     mexPrintf("Usage:  X = opengv( method, data1, data2 )\n");
     mexPrintf("Or:     X = opengv( method, indices, data1, data2 )\n");
     mexPrintf("Or:     X = opengv( method, indices, data1, data2, prior )\n");
+    mexPrintf("Or:     X = opengv( method, indices, data1, data2, prior, data3)\n");
     return;
   }
 
@@ -273,6 +276,7 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
     mexPrintf("Usage:  X = opengv( method, data1, data2 )\n");
     mexPrintf("Or:     X = opengv( method, indices, data1, data2 )\n");
     mexPrintf("Or:     X = opengv( method, indices, data1, data2, prior )\n");
+    mexPrintf("Or:     X = opengv( method, indices, data1, data2, prior, data3)\n");
     mexPrintf("Hint:   Method must be a string\n");
     return;
   }
@@ -293,10 +297,12 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
 
   // Characterize the type of the call
   int callCharacter = -1;
-  const mxArray *data1;
-  const mxArray *data2;
+  const mxArray *data1; // scene points
+  const mxArray *data2; // bearing vectors
+  const mxArray *data3; // cov
   const mwSize *data1dim;
   const mwSize *data2dim;
+  const mwSize *data3dim;
 
   if( nrhs == 3 ) // X = opengv( method, data1, data2 )
   {
@@ -403,7 +409,54 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
 
     callCharacter = 2;
   }
+  
+    // if there is covariance information
+  if(nrhs == 6)
+  {
+    // X = opengv( method, indices, data1, data2, prior, covariancedata)
+    // Check the input
+    data1 = prhs[2]; // pointrs
+    data2 = prhs[3]; // bearings
+    data3 = prhs[5]; // covariance 
+    // Check the dimensions of the arguments
+    int ndimensions1 = mxGetNumberOfDimensions(data1);
+    int ndimensions2 = mxGetNumberOfDimensions(data2);
+    int ndimensions5 = mxGetNumberOfDimensions(data3);
+    int ndimensions3 = mxGetNumberOfDimensions(prhs[1]);
+    int ndimensions4 = mxGetNumberOfDimensions(prhs[4]);
+    data1dim = mxGetDimensions(data1);
+    data2dim = mxGetDimensions(data2);
+    data3dim = mxGetDimensions(data3);
+    const mwSize *indicesDim = mxGetDimensions(prhs[1]);
+    const mwSize *priorDim = mxGetDimensions(prhs[4]);
+  
+    // Now check them 
+    if( ndimensions1 != 2 || ndimensions2 != 2 || ndimensions3 != 2 || ndimensions4 != 2 ||
+        (data1dim[0] != 3 && data1dim[0] != 6) ||
+        (data2dim[0] != 3 && data2dim[0] != 6) ||
+        data3dim[0] != 9 ||
+        indicesDim[0] != 1 ||
+        priorDim[0] != 3 ||
+        (priorDim[1] != 1 &&  priorDim[1] != 3 && priorDim[1] != 4) ||
+        data1dim[1] != data2dim[1] ||
+        data1dim[1] < 1 || data2dim[1] < 1 || 
+        data2dim[1] < indicesDim[1])
+    {
+      mexPrintf("opengv: Bad input to mex function opengv_cov\n");
+      mexPrintf("Assuming signature: X = opengv( method, indices, data1 (pts), ");
+      mexPrintf("data2 (bearings), prior, data3 (covariance))\n");
+      mexPrintf("Inputs data1 and data2 must have size (3,n) or (6,n),\n");
+      mexPrintf("with an equal number of columns\n");
+      mexPrintf("indices must be a 1xm vector, with m smaller or equal than n\n");
+      mexPrintf("prior must be a 3x1, 3x3, or 3x4 matrix\n");
+      mexPrintf("Covariance must be (9,n) (reshape(cov_3x3,9,1) \n");
+      return;
+    }
+  
+    callCharacter = 3;
+  }
 
+  
   //create three pointers to absolute, relative, and point_cloud adapters here
   opengv::absolute_pose::AbsoluteAdapterBase* absoluteAdapter;
   opengv::relative_pose::RelativeAdapterBase* relativeAdapter;
@@ -481,11 +534,25 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
       return;
     }
 
-    absoluteAdapter = new opengv::absolute_pose::MACentralAbsolute(
-        (double*) mxGetData(data1),
-        (double*) mxGetData(data2),
-        data1dim[1],
-        data2dim[1] );
+    // here we can set the covariance information if it is available
+    if (callCharacter == 3)
+    {
+        absoluteAdapter = new opengv::absolute_pose::MACentralAbsolute(
+            (double*) mxGetData(data1),
+            (double*) mxGetData(data2),
+            (double*) mxGetData(data3),
+            data1dim[1],
+            data2dim[1],
+            data3dim[1]);
+    }
+    else
+    {
+        absoluteAdapter = new opengv::absolute_pose::MACentralAbsolute(
+            (double*) mxGetData(data1),
+            (double*) mxGetData(data2),
+            data1dim[1],
+            data2dim[1]);
+    }
 
     if( translationPrior == 1 )
       absoluteAdapter->sett(translation);
@@ -756,6 +823,20 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
         temp = opengv::absolute_pose::epnp(*absoluteAdapter,indices);
       else
         temp = opengv::absolute_pose::epnp(*absoluteAdapter);
+      int dims[2];
+      dims[0] = 3;
+      dims[1] = 4;
+      plhs[0] = mxCreateNumericArray(2, dims, mxDOUBLE_CLASS, mxREAL);
+      memcpy(mxGetData(plhs[0]), temp.data(), 12*sizeof(double));
+      break;
+    }
+    case MLPNP:
+    {
+      opengv::transformation_t temp;
+      if(useIndices)
+        temp = opengv::absolute_pose::mlpnp(*absoluteAdapter,indices);
+      else
+        temp = opengv::absolute_pose::mlpnp(*absoluteAdapter);
       int dims[2];
       dims[0] = 3;
       dims[1] = 4;

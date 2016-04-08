@@ -90,6 +90,30 @@ public:
       const translation_t & t,
       const rotation_t & R );
   /**
+  * \brief Constructor. See protected class-members to understand parameters
+  */
+  CentralAbsoluteAdapter(
+	  const bearingVectors_t & bearingVectors,
+	  const cov3_mats_t & covMats,
+	  const points_t & points);
+  /**
+  * \brief Constructor. See protected class-members to understand parameters
+  */
+  CentralAbsoluteAdapter(
+	  const bearingVectors_t & bearingVectors,
+	  const cov3_mats_t & covMats,
+	  const points_t & points,
+	  const rotation_t & R);
+  /**
+  * \brief Constructor. See protected class-members to understand parameters
+  */
+  CentralAbsoluteAdapter(
+	  const bearingVectors_t & bearingVectors,
+	  const cov3_mats_t & covMats,
+	  const points_t & points,
+	  const translation_t & t,
+	  const rotation_t & R);
+  /**
    * Destructor
    */
   virtual ~CentralAbsoluteAdapter();
@@ -97,7 +121,13 @@ public:
   //Access of correspondences
   
   /** See parent-class */
-  virtual opengv::bearingVector_t getBearingVector( size_t index ) const;
+  virtual opengv::bearingVector_t getBearingVector(size_t index) const;
+  /** See parent-class */
+  virtual opengv::bearingVectors_t getBearingVectors() const;
+  /** See parent-class */
+  virtual opengv::cov3_mat_t getCovariance(size_t index) const;
+  /** See parent-class */
+  virtual opengv::cov3_mats_t getCovariances() const;
   /** See parent-class */
   virtual double getWeight( size_t index ) const;
   /** See parent-class. Returns zero for this adapter. */
@@ -107,11 +137,15 @@ public:
   /** See parent-class */
   virtual opengv::point_t getPoint( size_t index ) const;
   /** See parent-class */
+  virtual opengv::points_t getPoints() const;
+  /** See parent-class */
   virtual size_t getNumberCorrespondences() const;
 
 protected:
   /** Reference to the bearing-vectors expressed in the camera-frame */
   const bearingVectors_t & _bearingVectors;
+  /** Reference to the covariance-matrix related to the bearing vector */
+  const cov3_mats_t & _cov_mats;
   /** Reference to the points expressed in the world-frame. */
   const points_t & _points;
 };

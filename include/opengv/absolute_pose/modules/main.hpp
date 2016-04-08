@@ -41,7 +41,6 @@ namespace absolute_pose
 {
 namespace modules
 {
-
 void p3p_kneip_main(
     const bearingVectors_t & f,
     const points_t & p,
@@ -50,6 +49,12 @@ void p3p_gao_main(
     const bearingVectors_t & f,
     const points_t & p,
     transformations_t & solutions );
+void mlpnp_main(
+	const bearingVectors_t & f,
+	const points_t & p,
+	const cov3_mats_t & covMats,
+	const std::vector<int>& indices,
+	transformation_t & solution);
 void gp3p_main(
     const Eigen::Matrix3d & f,
     const Eigen::Matrix3d & v,

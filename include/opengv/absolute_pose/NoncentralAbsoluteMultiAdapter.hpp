@@ -94,6 +94,9 @@ public:
   virtual bearingVector_t getBearingVector(
       size_t frameIndex, size_t correspondenceIndex ) const;
   /** See parent-class */
+  virtual cov3_mat_t getCovariance(
+	  size_t frameIndex, size_t correspondenceIndex) const;
+  /** See parent-class */
   virtual double getWeight( size_t frameIndex, size_t correspondenceIndex ) const;
   /** See parent-class */
   virtual translation_t getMultiCamOffset( size_t frameIndex ) const;
@@ -121,6 +124,9 @@ protected:
   /** References to multiple sets of bearing-vectors (the ones from each camera).
    */
   std::vector<std::shared_ptr<bearingVectors_t> > _bearingVectors;
+  /** References to multiple sets of covariance matrices (the ones from each camera).
+  */
+  std::vector<std::shared_ptr<cov3_mats_t> > _cov_mats;
   /** References to multiple sets of points (the ones from each camera).
    */
   std::vector<std::shared_ptr<points_t> > _points;

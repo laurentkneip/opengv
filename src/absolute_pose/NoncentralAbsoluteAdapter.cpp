@@ -42,7 +42,8 @@ opengv::absolute_pose::NoncentralAbsoluteAdapter::NoncentralAbsoluteAdapter(
     _camCorrespondences(camCorrespondences),
     _points(points),
     _camOffsets(camOffsets),
-    _camRotations(camRotations)
+    _camRotations(camRotations),
+	_cov_mats(cov3_mats_t(1))
 {}
 
 opengv::absolute_pose::NoncentralAbsoluteAdapter::NoncentralAbsoluteAdapter(
@@ -57,7 +58,8 @@ opengv::absolute_pose::NoncentralAbsoluteAdapter::NoncentralAbsoluteAdapter(
     _camCorrespondences(camCorrespondences),
     _points(points),
     _camOffsets(camOffsets),
-    _camRotations(camRotations)
+    _camRotations(camRotations),
+	_cov_mats(cov3_mats_t(1))
 {}
 
 opengv::absolute_pose::NoncentralAbsoluteAdapter::NoncentralAbsoluteAdapter(
@@ -73,7 +75,8 @@ opengv::absolute_pose::NoncentralAbsoluteAdapter::NoncentralAbsoluteAdapter(
     _camCorrespondences(camCorrespondences),
     _points(points),
     _camOffsets(camOffsets),
-    _camRotations(camRotations)
+    _camRotations(camRotations),
+	_cov_mats(cov3_mats_t(1))
 {}
 
 opengv::absolute_pose::NoncentralAbsoluteAdapter::~NoncentralAbsoluteAdapter()
@@ -85,6 +88,28 @@ opengv::absolute_pose::NoncentralAbsoluteAdapter::
 {
   assert(index < _bearingVectors.size());
   return _bearingVectors[index];
+}
+// edited by Steffen Urban / urbste@gmail.com
+opengv::bearingVectors_t
+opengv::absolute_pose::NoncentralAbsoluteAdapter::
+getBearingVectors() const
+{
+	return _bearingVectors;
+}
+// edited by Steffen Urban / urbste@gmail.com
+opengv::cov3_mat_t
+opengv::absolute_pose::NoncentralAbsoluteAdapter::
+getCovariance(size_t index) const
+{
+	assert(index < _bearingVectors.size());
+	return _cov_mats[index];
+}
+// edited by Steffen Urban / urbste@gmail.com
+opengv::cov3_mats_t
+opengv::absolute_pose::NoncentralAbsoluteAdapter::
+getCovariances() const
+{
+	return _cov_mats;
 }
 
 double
@@ -100,6 +125,13 @@ opengv::absolute_pose::NoncentralAbsoluteAdapter::
 {
   assert(index < _bearingVectors.size());
   return _points[index];
+}
+// edited by Steffen Urban / urbste@gmail.com
+opengv::points_t
+opengv::absolute_pose::NoncentralAbsoluteAdapter::
+getPoints() const
+{
+	return _points;
 }
 
 opengv::translation_t

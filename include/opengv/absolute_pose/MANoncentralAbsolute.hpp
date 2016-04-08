@@ -76,7 +76,17 @@ public:
       const double * bearingVectors,
       int numberPoints,
       int numberBearingVectors );
-      
+  /**
+  * \brief Constructor. See protected class-members to understand parameters
+  */
+  // edited by Steffen Urban / urbste@gmail.com
+  MANoncentralAbsolute(
+	  const double * points,
+	  const double * bearingVectors,
+	  const double * covMats,
+	  int numberPoints,
+	  int numberBearingVectors,
+	  int numberCovMats);
   /**
    * Destructor
    */
@@ -85,7 +95,13 @@ public:
   //Access of correspondences
   
   /** See parent-class */
-  virtual opengv::bearingVector_t getBearingVector( size_t index ) const;
+  virtual opengv::bearingVector_t getBearingVector(size_t index) const;
+  /** See parent-class */
+  virtual opengv::bearingVectors_t getBearingVectors() const;
+  /** See parent-class */
+  virtual opengv::cov3_mat_t getCovariance(size_t index) const;
+  /** See parent-class */
+  virtual opengv::cov3_mats_t getCovariances() const;
   /** See parent-class */
   virtual double getWeight( size_t index ) const;
   /** See parent-class */
@@ -95,18 +111,24 @@ public:
   /** See parent-class */
   virtual opengv::point_t getPoint( size_t index ) const;
   /** See parent-class */
+  virtual opengv::points_t getPoints() const;
+  /** See parent-class */
   virtual size_t getNumberCorrespondences() const;
 
 protected:
 
-  /** A pointer to the point data */  
+  /** A pointer to the point data */
   const double * _points;
   /** A pointer to the bearing-vectors */
   const double * _bearingVectors;
+  /** A pointer to the covariance-vectors */
+  const double * _covMats;
   /** The number of points */
   int _numberPoints;
   /** The number of bearing vectors */
   int _numberBearingVectors;
+  /** The number of covariance matrices */
+  int _numberCovMats;
 };
 
 }

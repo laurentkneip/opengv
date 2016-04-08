@@ -58,6 +58,23 @@ typedef Eigen::Vector3d
 typedef std::vector<bearingVector_t, Eigen::aligned_allocator<bearingVector_t> >
     bearingVectors_t;
 
+/** A 3-matrix containing the 3D covariance information of a bearing vector */
+typedef Eigen::Matrix3d
+cov3_mat_t;
+
+/** A 2-matrix containing the 2D covariance information of a bearing vector
+*/
+typedef Eigen::Matrix2d
+cov2_mat_t;
+
+/** An array of 2D covariance matrices */
+typedef std::vector<cov2_mat_t, Eigen::aligned_allocator<cov2_mat_t> >
+cov2_mats_t;
+
+/** An array of 3D covariance matrices */
+typedef std::vector<cov3_mat_t, Eigen::aligned_allocator<cov3_mat_t> >
+cov3_mats_t;
+
 /** A 3-vector describing a translation/camera position */
 typedef Eigen::Vector3d
     translation_t;
@@ -125,6 +142,14 @@ typedef Eigen::Vector3d
 /** An array of 3D-points */
 typedef std::vector<point_t, Eigen::aligned_allocator<point_t> >
     points_t;
+
+/** A homogeneous 3-vector describing a point in 3D-space */
+typedef Eigen::Vector4d
+point4_t;
+
+/** An array of homogeneous 3D-points */
+typedef std::vector<point4_t, Eigen::aligned_allocator<point4_t> >
+points4_t;
 
 /** A 3-vector containing the Eigenvalues of matrix \f$ \mathbf{M} \f$ in the
  *  eigensolver-algorithm (described in [11])
