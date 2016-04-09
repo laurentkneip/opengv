@@ -81,7 +81,8 @@ public:
       const camCorrespondences_t & camCorrespondences,
       const points_t & points,
       const translations_t & camOffsets,
-      const rotations_t & camRotations );
+	  const rotations_t & camRotations,
+	  const cov3_mats_t & covMats = cov3_mats_t());
   /**
    * \brief Constructor. See protected class-members to understand parameters
    */
@@ -91,7 +92,8 @@ public:
       const points_t & points,
       const translations_t & camOffsets,
       const rotations_t & camRotations,
-      const rotation_t & R );
+	  const rotation_t & R,
+	  const cov3_mats_t & covMats = cov3_mats_t());
   /**
    * \brief Constructor. See protected class-members to understand parameters
    */
@@ -102,7 +104,8 @@ public:
       const translations_t & camOffsets,
       const rotations_t & camRotations,
       const translation_t & t,
-      const rotation_t & R );
+	  const rotation_t & R,
+	  const cov3_mats_t & covMats = cov3_mats_t());
   /**
    * \brief Destructor.
    */

@@ -115,7 +115,7 @@ transformation_t& result)
 
 	// if we do have covariance information 
 	// -> fill covariance matrix
-	if (covMats.size() > 1)
+	if (covMats.size() == numberCorrespondences)
 	{
 		use_cov = true;
 		int l = 0;

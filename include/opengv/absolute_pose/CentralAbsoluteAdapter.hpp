@@ -73,14 +73,16 @@ public:
    */
   CentralAbsoluteAdapter(
       const bearingVectors_t & bearingVectors,
-      const points_t & points );
+	  const points_t & points,
+	  const cov3_mats_t & covMats = cov3_mats_t(1));
   /**
    * \brief Constructor. See protected class-members to understand parameters
    */
   CentralAbsoluteAdapter(
       const bearingVectors_t & bearingVectors,
       const points_t & points,
-      const rotation_t & R );
+      const rotation_t & R,
+	  const cov3_mats_t & covMats = cov3_mats_t(1));
   /**
    * \brief Constructor. See protected class-members to understand parameters
    */
@@ -88,31 +90,8 @@ public:
       const bearingVectors_t & bearingVectors,
       const points_t & points,
       const translation_t & t,
-      const rotation_t & R );
-  /**
-  * \brief Constructor. See protected class-members to understand parameters
-  */
-  CentralAbsoluteAdapter(
-	  const bearingVectors_t & bearingVectors,
-	  const cov3_mats_t & covMats,
-	  const points_t & points);
-  /**
-  * \brief Constructor. See protected class-members to understand parameters
-  */
-  CentralAbsoluteAdapter(
-	  const bearingVectors_t & bearingVectors,
-	  const cov3_mats_t & covMats,
-	  const points_t & points,
-	  const rotation_t & R);
-  /**
-  * \brief Constructor. See protected class-members to understand parameters
-  */
-  CentralAbsoluteAdapter(
-	  const bearingVectors_t & bearingVectors,
-	  const cov3_mats_t & covMats,
-	  const points_t & points,
-	  const translation_t & t,
-	  const rotation_t & R);
+	  const rotation_t & R,
+	  const cov3_mats_t & covMats = cov3_mats_t(1));
   /**
    * Destructor
    */

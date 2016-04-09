@@ -36,14 +36,15 @@ opengv::absolute_pose::NoncentralAbsoluteAdapter::NoncentralAbsoluteAdapter(
     const camCorrespondences_t & camCorrespondences,
     const points_t & points,
     const translations_t & camOffsets,
-    const rotations_t & camRotations ) :
+    const rotations_t & camRotations,
+	const cov3_mats_t & covMats) :
     AbsoluteAdapterBase(),
     _bearingVectors(bearingVectors),
     _camCorrespondences(camCorrespondences),
     _points(points),
     _camOffsets(camOffsets),
     _camRotations(camRotations),
-	_cov_mats(cov3_mats_t(1))
+	_cov_mats(covMats)
 {}
 
 opengv::absolute_pose::NoncentralAbsoluteAdapter::NoncentralAbsoluteAdapter(
@@ -52,14 +53,15 @@ opengv::absolute_pose::NoncentralAbsoluteAdapter::NoncentralAbsoluteAdapter(
     const points_t & points,
     const translations_t & camOffsets,
     const rotations_t & camRotations,
-    const rotation_t & R ) :
+    const rotation_t & R,
+	const cov3_mats_t & covMats) :
     AbsoluteAdapterBase(R),
     _bearingVectors(bearingVectors),
     _camCorrespondences(camCorrespondences),
     _points(points),
     _camOffsets(camOffsets),
     _camRotations(camRotations),
-	_cov_mats(cov3_mats_t(1))
+	_cov_mats(covMats)
 {}
 
 opengv::absolute_pose::NoncentralAbsoluteAdapter::NoncentralAbsoluteAdapter(
@@ -69,14 +71,15 @@ opengv::absolute_pose::NoncentralAbsoluteAdapter::NoncentralAbsoluteAdapter(
     const translations_t & camOffsets,
     const rotations_t & camRotations,
     const translation_t & t,
-    const rotation_t & R ) :
+    const rotation_t & R,
+	const cov3_mats_t & covMats) :
     AbsoluteAdapterBase(t,R),
     _bearingVectors(bearingVectors),
     _camCorrespondences(camCorrespondences),
     _points(points),
     _camOffsets(camOffsets),
     _camRotations(camRotations),
-	_cov_mats(cov3_mats_t(1))
+	_cov_mats(covMats)
 {}
 
 opengv::absolute_pose::NoncentralAbsoluteAdapter::~NoncentralAbsoluteAdapter()

@@ -123,7 +123,7 @@ int main( int argc, char** argv )
   gettimeofday( &toc, 0 );
   double epnp_time = TIMETODOUBLE(timeval_minus(toc,tic)) / iterations;
 
-  std::cout << "running MLPnP (all correspondences no covariance information)" << std::endl;
+  std::cout << "running MLPnP (all correspondences w/o covariance)" << std::endl;
   transformation_t mlpnp_transformation;
   gettimeofday(&tic, 0);
   for (size_t i = 0; i < iterations; i++)
@@ -136,7 +136,7 @@ int main( int argc, char** argv )
   transformation_t epnp_transformation_6 =
       absolute_pose::epnp( adapter, indices6 );
 
-  std::cout << "running epnp with 6 correspondences" << std::endl;
+  std::cout << "running mlpnp with 6 correspondences" << std::endl;
   transformation_t mlpnp_transformation_6 =
 	  absolute_pose::mlpnp(adapter, indices6);
 
@@ -169,7 +169,7 @@ int main( int argc, char** argv )
   gettimeofday( &toc, 0 );
   double nonlinear_time = TIMETODOUBLE(timeval_minus(toc,tic)) / iterations;
 
-  std::cout << "setting perturbed pose";
+  std::cout << "setting perturbed pose ";
   std::cout << "and performing nonlinear optimization with 10 correspondences";
   std::cout << std::endl;
   std::vector<int> indices10 = getNindices(10);

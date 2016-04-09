@@ -34,64 +34,33 @@
 
 opengv::absolute_pose::CentralAbsoluteAdapter::CentralAbsoluteAdapter(
     const bearingVectors_t & bearingVectors,
-    const points_t & points ) :
+    const points_t & points,
+	const cov3_mats_t & covMats) :
     AbsoluteAdapterBase(),
     _bearingVectors(bearingVectors),
     _points(points),
-	_cov_mats(cov3_mats_t(1))
-{
-}
+	_cov_mats(covMats)
+{}
 
 opengv::absolute_pose::CentralAbsoluteAdapter::CentralAbsoluteAdapter(
     const bearingVectors_t & bearingVectors,
     const points_t & points,
-    const rotation_t & R ) :
+	const rotation_t & R,
+	const cov3_mats_t & covMats) :
     AbsoluteAdapterBase(R),
     _bearingVectors(bearingVectors),
 	_points(points),
-	_cov_mats(cov3_mats_t(1))
+	_cov_mats(covMats)
 {}
 
 opengv::absolute_pose::CentralAbsoluteAdapter::CentralAbsoluteAdapter(
     const bearingVectors_t & bearingVectors,
     const points_t & points,
     const translation_t & t,
-    const rotation_t & R ) :
+	const rotation_t & R,
+	const cov3_mats_t & covMats) :
     AbsoluteAdapterBase(t,R),
     _bearingVectors(bearingVectors),
-	_points(points),
-	_cov_mats(cov3_mats_t(1))
-{}
-
-opengv::absolute_pose::CentralAbsoluteAdapter::CentralAbsoluteAdapter(
-	const bearingVectors_t & bearingVectors,
-	const cov3_mats_t & covMats,
-	const points_t & points) :
-	AbsoluteAdapterBase(),
-	_bearingVectors(bearingVectors),
-	_points(points),
-	_cov_mats(covMats)
-{}
-
-opengv::absolute_pose::CentralAbsoluteAdapter::CentralAbsoluteAdapter(
-	const bearingVectors_t & bearingVectors,
-	const cov3_mats_t & covMats,
-	const points_t & points,
-	const rotation_t & R) :
-	AbsoluteAdapterBase(R),
-	_bearingVectors(bearingVectors),
-	_points(points),
-	_cov_mats(covMats)
-{}
-
-opengv::absolute_pose::CentralAbsoluteAdapter::CentralAbsoluteAdapter(
-	const bearingVectors_t & bearingVectors,
-	const cov3_mats_t & covMats,
-	const points_t & points,
-	const translation_t & t,
-	const rotation_t & R) :
-	AbsoluteAdapterBase(t, R),
-	_bearingVectors(bearingVectors),
 	_points(points),
 	_cov_mats(covMats)
 {}
