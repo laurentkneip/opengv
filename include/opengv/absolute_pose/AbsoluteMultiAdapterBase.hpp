@@ -110,6 +110,14 @@ public:
   virtual opengv::bearingVector_t getBearingVector(
       size_t frameIndex, size_t correspondenceIndex ) const = 0;
   /**
+  * \brief Retrieve the covariance matrix of a correspondence in a certain frame.
+  * \param[in] frameIndex Index of the frame.
+  * \param[in] correspondenceIndex Index of the correspondence in this frame.
+  * \return The corresponding covariance matrix.
+  */
+  virtual opengv::cov3_mat_t getCovariance(
+	  size_t frameIndex, size_t correspondenceIndex) const = 0;
+  /**
    * \brief Retrieve the weight of a correspondence. The weight is supposed to
    *        reflect the quality of a correspondence, and typically is between
    *        0 and 1.
@@ -196,6 +204,25 @@ public:
         multiFrameIndex(index), multiCorrespondenceIndex(index) );
   }
   /** See parent-class (no need to overload) */
+  // edited Steffen Urban / This is still wrong wrong!!!
+  virtual bearingVectors_t getBearingVectors() const
+  {
+	  return getBearingVectors();
+  }
+  /** See parent-class (no need to overload) */
+  // edited Steffen Urban / This is still wrong wrong!!!
+  virtual cov3_mats_t getCovariances() const
+  {
+	  return getCovariances();
+  }
+  /** See parent-class (no need to overload) */
+  // edited Steffen Urban / This is still wrong wrong!!!
+  virtual cov3_mat_t getCovariance(size_t index) const
+  {
+	  return getCovariance(
+		  multiFrameIndex(index), multiCorrespondenceIndex(index));
+  }
+  /** See parent-class (no need to overload) */
   virtual double getWeight( size_t index ) const
   {
     return getWeight(
@@ -212,6 +239,12 @@ public:
   {
     return getPoint(
         multiFrameIndex(index), multiCorrespondenceIndex(index) );
+  }
+  /** See parent-class (no need to overload) */ 
+  // edited Steffen Urban / This is still wrong wrong!!!
+  virtual points_t getPoints() const
+  {
+	  return getPoints();
   }
   /** See parent-class (no need to overload) */
   virtual size_t getNumberCorrespondences() const

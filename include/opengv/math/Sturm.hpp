@@ -40,7 +40,8 @@
 #include <stdlib.h>
 #include <vector>
 #include <list>
-#include <boost/shared_ptr.hpp>
+//#include <boost/shared_ptr.hpp>
+#include <memory>
 #include <Eigen/Eigen>
 #include <Eigen/src/Core/util/DisableStupidWarnings.h>
 

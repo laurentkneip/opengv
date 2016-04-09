@@ -9,19 +9,19 @@ addpath('helpers');
 
 % central case -> only one camera
 cam_number = 1;
-% let's only get 6 points, and generate new ones in each iteration
+% let's get 50 points, and generate new ones in each iteration
 pt_number = 50;
 % noise test, so no outliers
 outlier_fraction = 0.0;
 % repeat 1000 iterations
-iterations = 1000;
+iterations = 100;
 
 % The algorithms we want to test
-algorithms = { 'p2p'; 'p3p_kneip'; 'p3p_gao'; 'epnp'; 'upnp' };
+algorithms = { 'p2p'; 'p3p_kneip'; 'p3p_gao'; 'mlpnp';'epnp'; 'upnp' };
 % This defines the number of points used for every algorithm
-indices = { [1, 2]; [1, 2, 3]; [1, 2, 3]; [1:1:50]; [1:1:50] };
+indices = { [1, 2]; [1, 2, 3]; [1, 2, 3]; [1:1:50];[1:1:50]; [1:1:50] };
 % The name of the algorithms on the plots
-names = { 'P2P'; 'P3P (Kneip)'; 'P3P (Gao)'; 'EPnP (50pts)'; 'UPnP (50pts)'};
+names = { 'P2P'; 'P3P (Kneip)'; 'P3P (Gao)'; 'MLPnP (50pts)';'EPnP (50pts)'; 'UPnP (50pts)'};
 
 % The noise in this experiment
 noise = 1.0;
@@ -43,7 +43,7 @@ for i=1:iterations
     % run all algorithms
     for a=1:num_algorithms
         tic;
-        T = opengv_donotuse(algorithms{a},indices{a},points,v,T_perturbed);
+        T = opengv(algorithms{a},indices{a},points,v,T_perturbed);
         execution_times(a,i) = toc/20.0;
     end
     

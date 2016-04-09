@@ -36,11 +36,29 @@ opengv::absolute_pose::MACentralAbsolute::MACentralAbsolute(
     const double * points,
     const double * bearingVectors,
     int numberPoints,
-    int numberBearingVectors ) :
+    int numberBearingVectors) :
     _points(points),
     _bearingVectors(bearingVectors),
     _numberPoints(numberPoints),
-    _numberBearingVectors(numberBearingVectors)
+	_numberBearingVectors(numberBearingVectors),
+	_numberCovMats(0)
+{}
+
+// with bearing vector covariance
+// edited by Steffen Urban / urbste@gmail.com
+opengv::absolute_pose::MACentralAbsolute::MACentralAbsolute(
+	const double * points,
+	const double * bearingVectors,
+	const double * covMats,
+	int numberPoints,
+	int numberBearingVectors,
+	int numberCovMats) :
+	_points(points),
+	_bearingVectors(bearingVectors),
+	_covMats(covMats),
+	_numberPoints(numberPoints),
+	_numberBearingVectors(numberBearingVectors),
+	_numberCovMats(numberCovMats)
 {}
 
 opengv::absolute_pose::MACentralAbsolute::~MACentralAbsolute()
@@ -56,6 +74,46 @@ opengv::absolute_pose::MACentralAbsolute::
   bearingVector[1] = _bearingVectors[index * 3 + 1];
   bearingVector[2] = _bearingVectors[index * 3 + 2];
   return bearingVector;
+}
+// edited by Steffen Urban / urbste@gmail.com
+opengv::bearingVectors_t
+opengv::absolute_pose::MACentralAbsolute::
+getBearingVectors() const
+{
+	bearingVectors_t all(_numberPoints);
+	for (int i = 0; i < _numberPoints; ++i)
+		all[i] = getBearingVector(i);
+	return all;
+}
+// get its covariance
+// edited by Steffen Urban / urbste@gmail.com
+opengv::cov3_mat_t
+opengv::absolute_pose::MACentralAbsolute::
+getCovariance(size_t index) const
+{
+	assert(index < _numberCovMats);
+	cov3_mat_t cov;
+	cov(0, 0) = _covMats[index * 9];
+	cov(0, 1) = _covMats[index * 9 + 1];
+	cov(0, 2) = _covMats[index * 9 + 2];
+	cov(1, 0) = _covMats[index * 9 + 3];
+	cov(1, 1) = _covMats[index * 9 + 4];
+	cov(1, 2) = _covMats[index * 9 + 5];
+	cov(2, 0) = _covMats[index * 9 + 6];
+	cov(2, 1) = _covMats[index * 9 + 7];
+	cov(2, 2) = _covMats[index * 9 + 8];
+	return cov;
+}
+// get its covariance
+// edited by Steffen Urban / urbste@gmail.com
+opengv::cov3_mats_t
+opengv::absolute_pose::MACentralAbsolute::
+getCovariances() const
+{
+	cov3_mats_t all(_numberCovMats);
+	for (int i = 0; i < _numberCovMats; ++i)
+		all[i] = getCovariance(i);
+	return all;
 }
 
 double
@@ -75,6 +133,17 @@ opengv::absolute_pose::MACentralAbsolute::
   point[1] = _points[index * 3 + 1];
   point[2] = _points[index * 3 + 2];
   return point;
+}
+
+// edited by Steffen Urban / urbste@gmail.com
+opengv::points_t
+opengv::absolute_pose::MACentralAbsolute::getPoints() const
+{
+	//todo
+	points_t all(_numberPoints);
+	for (int i = 0; i < _numberPoints; ++i)
+		all[i] = getPoint(i);
+	return all;
 }
 
 opengv::translation_t

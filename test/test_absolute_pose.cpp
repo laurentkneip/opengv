@@ -123,10 +123,22 @@ int main( int argc, char** argv )
   gettimeofday( &toc, 0 );
   double epnp_time = TIMETODOUBLE(timeval_minus(toc,tic)) / iterations;
 
+  std::cout << "running MLPnP (all correspondences w/o covariance)" << std::endl;
+  transformation_t mlpnp_transformation;
+  gettimeofday(&tic, 0);
+  for (size_t i = 0; i < iterations; i++)
+	  mlpnp_transformation = absolute_pose::mlpnp(adapter);
+  gettimeofday(&toc, 0);
+  double mlpnp_time = TIMETODOUBLE(timeval_minus(toc, tic)) / iterations;
+
   std::cout << "running epnp with 6 correspondences" << std::endl;
   std::vector<int> indices6 = getNindices(6);
   transformation_t epnp_transformation_6 =
       absolute_pose::epnp( adapter, indices6 );
+
+  std::cout << "running mlpnp with 6 correspondences" << std::endl;
+  transformation_t mlpnp_transformation_6 =
+	  absolute_pose::mlpnp(adapter, indices6);
 
   std::cout << "running upnp with all correspondences" << std::endl;
   transformations_t upnp_transformations;
@@ -157,7 +169,7 @@ int main( int argc, char** argv )
   gettimeofday( &toc, 0 );
   double nonlinear_time = TIMETODOUBLE(timeval_minus(toc,tic)) / iterations;
 
-  std::cout << "setting perturbed pose";
+  std::cout << "setting perturbed pose ";
   std::cout << "and performing nonlinear optimization with 10 correspondences";
   std::cout << std::endl;
   std::vector<int> indices10 = getNindices(10);
@@ -182,6 +194,11 @@ int main( int argc, char** argv )
   std::cout << "results from epnp algorithm with only 6 correspondences:";
   std::cout << std::endl;
   std::cout << epnp_transformation_6 << std::endl << std::endl;
+  std::cout << "results from MLPnP algorithm:" << std::endl;
+  std::cout << mlpnp_transformation << std::endl << std::endl;
+  std::cout << "results from MLPnP algorithm with only 6 correspondences:";
+  std::cout << std::endl;
+  std::cout << mlpnp_transformation_6 << std::endl << std::endl;
   std::cout << "results from upnp:" << std::endl;
   for(size_t i = 0; i < upnp_transformations.size(); i++)
     std::cout << upnp_transformations[i] << std::endl << std::endl;
@@ -203,6 +220,8 @@ int main( int argc, char** argv )
   std::cout << p3p_gao_time << std::endl;
   std::cout << "timings from epnp algorithm: ";
   std::cout << epnp_time << std::endl;
+  std::cout << "timings from MLPnP algorithm: ";
+  std::cout << mlpnp_time << std::endl;
   std::cout << "timings for the upnp algorithm: ";
   std::cout << upnp_time << std::endl;
   std::cout << "timings from nonlinear algorithm: ";

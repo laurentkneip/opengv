@@ -81,7 +81,8 @@ public:
       const camCorrespondences_t & camCorrespondences,
       const points_t & points,
       const translations_t & camOffsets,
-      const rotations_t & camRotations );
+	  const rotations_t & camRotations,
+	  const cov3_mats_t & covMats = cov3_mats_t());
   /**
    * \brief Constructor. See protected class-members to understand parameters
    */
@@ -91,7 +92,8 @@ public:
       const points_t & points,
       const translations_t & camOffsets,
       const rotations_t & camRotations,
-      const rotation_t & R );
+	  const rotation_t & R,
+	  const cov3_mats_t & covMats = cov3_mats_t());
   /**
    * \brief Constructor. See protected class-members to understand parameters
    */
@@ -102,7 +104,8 @@ public:
       const translations_t & camOffsets,
       const rotations_t & camRotations,
       const translation_t & t,
-      const rotation_t & R );
+	  const rotation_t & R,
+	  const cov3_mats_t & covMats = cov3_mats_t());
   /**
    * \brief Destructor.
    */
@@ -111,7 +114,13 @@ public:
   //Access of correspondences
   
   /** See parent-class */
-  virtual opengv::bearingVector_t getBearingVector( size_t index ) const;
+  virtual opengv::bearingVector_t getBearingVector(size_t index) const;
+  /** See parent-class */
+  virtual opengv::bearingVectors_t getBearingVectors() const;
+  /** See parent-class */
+  virtual opengv::cov3_mat_t getCovariance(size_t index) const;
+  /** See parent-class */
+  virtual opengv::cov3_mats_t getCovariances() const;
   /** See parent-class */
   virtual double getWeight( size_t index ) const;
   /** See parent-class */
@@ -121,11 +130,15 @@ public:
   /** See parent-class */
   virtual opengv::point_t getPoint( size_t index ) const;
   /** See parent-class */
+  virtual opengv::points_t getPoints() const;
+  /** See parent-class */
   virtual size_t getNumberCorrespondences() const;
 
 protected:
   /** Reference to the bearing-vectors expressed in the camera-frames */
   const bearingVectors_t & _bearingVectors;
+  /** Reference to the bearing-vectors expressed in the camera-frames */
+  const cov3_mats_t & _cov_mats;
   /** Reference to an array of camera-indices for the bearing vectors. Length
    *  equals to number of bearing-vectors, and elements are indices of cameras
    *  in the _camOffsets and _camRotations arrays.

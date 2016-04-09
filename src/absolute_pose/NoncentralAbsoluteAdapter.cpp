@@ -36,13 +36,15 @@ opengv::absolute_pose::NoncentralAbsoluteAdapter::NoncentralAbsoluteAdapter(
     const camCorrespondences_t & camCorrespondences,
     const points_t & points,
     const translations_t & camOffsets,
-    const rotations_t & camRotations ) :
+    const rotations_t & camRotations,
+	const cov3_mats_t & covMats) :
     AbsoluteAdapterBase(),
     _bearingVectors(bearingVectors),
     _camCorrespondences(camCorrespondences),
     _points(points),
     _camOffsets(camOffsets),
-    _camRotations(camRotations)
+    _camRotations(camRotations),
+	_cov_mats(covMats)
 {}
 
 opengv::absolute_pose::NoncentralAbsoluteAdapter::NoncentralAbsoluteAdapter(
@@ -51,13 +53,15 @@ opengv::absolute_pose::NoncentralAbsoluteAdapter::NoncentralAbsoluteAdapter(
     const points_t & points,
     const translations_t & camOffsets,
     const rotations_t & camRotations,
-    const rotation_t & R ) :
+    const rotation_t & R,
+	const cov3_mats_t & covMats) :
     AbsoluteAdapterBase(R),
     _bearingVectors(bearingVectors),
     _camCorrespondences(camCorrespondences),
     _points(points),
     _camOffsets(camOffsets),
-    _camRotations(camRotations)
+    _camRotations(camRotations),
+	_cov_mats(covMats)
 {}
 
 opengv::absolute_pose::NoncentralAbsoluteAdapter::NoncentralAbsoluteAdapter(
@@ -67,13 +71,15 @@ opengv::absolute_pose::NoncentralAbsoluteAdapter::NoncentralAbsoluteAdapter(
     const translations_t & camOffsets,
     const rotations_t & camRotations,
     const translation_t & t,
-    const rotation_t & R ) :
+    const rotation_t & R,
+	const cov3_mats_t & covMats) :
     AbsoluteAdapterBase(t,R),
     _bearingVectors(bearingVectors),
     _camCorrespondences(camCorrespondences),
     _points(points),
     _camOffsets(camOffsets),
-    _camRotations(camRotations)
+    _camRotations(camRotations),
+	_cov_mats(covMats)
 {}
 
 opengv::absolute_pose::NoncentralAbsoluteAdapter::~NoncentralAbsoluteAdapter()
@@ -85,6 +91,28 @@ opengv::absolute_pose::NoncentralAbsoluteAdapter::
 {
   assert(index < _bearingVectors.size());
   return _bearingVectors[index];
+}
+// edited by Steffen Urban / urbste@gmail.com
+opengv::bearingVectors_t
+opengv::absolute_pose::NoncentralAbsoluteAdapter::
+getBearingVectors() const
+{
+	return _bearingVectors;
+}
+// edited by Steffen Urban / urbste@gmail.com
+opengv::cov3_mat_t
+opengv::absolute_pose::NoncentralAbsoluteAdapter::
+getCovariance(size_t index) const
+{
+	assert(index < _bearingVectors.size());
+	return _cov_mats[index];
+}
+// edited by Steffen Urban / urbste@gmail.com
+opengv::cov3_mats_t
+opengv::absolute_pose::NoncentralAbsoluteAdapter::
+getCovariances() const
+{
+	return _cov_mats;
 }
 
 double
@@ -100,6 +128,13 @@ opengv::absolute_pose::NoncentralAbsoluteAdapter::
 {
   assert(index < _bearingVectors.size());
   return _points[index];
+}
+// edited by Steffen Urban / urbste@gmail.com
+opengv::points_t
+opengv::absolute_pose::NoncentralAbsoluteAdapter::
+getPoints() const
+{
+	return _points;
 }
 
 opengv::translation_t

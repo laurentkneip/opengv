@@ -1,4 +1,4 @@
-function v_noisy = addNoise(v_clean,focal_length,pixel_noise)
+function [v_noisy,v_noisy_norm,noiseX,noiseY] = addNoise(v_clean,focal_length,pixel_noise)
 
     %find good vector in normal plane based on good conditioning
     inPlaneVector1 = zeros(3,1);
@@ -27,9 +27,9 @@ function v_noisy = addNoise(v_clean,focal_length,pixel_noise)
     noiseX = pixel_noise * (rand-0.5)*2.0;% / sqrt(2);
     noiseY = pixel_noise * (rand-0.5)*2.0;% / sqrt(2);
     
-    v_noisy = focal_length * v_clean + noiseX * inPlaneVector1 + noiseY * inPlaneVector2;
-    
-    v_noisy_norm = norm(v_noisy);
-    v_noisy = v_noisy ./ v_noisy_norm;
+    v_noisy_un = focal_length * v_clean + noiseX * inPlaneVector1 + noiseY * inPlaneVector2;
+
+    v_noisy_norm = norm(v_noisy_un);
+    v_noisy = v_noisy_un ./ v_noisy_norm;
     
 end

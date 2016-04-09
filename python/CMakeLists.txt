@@ -4,12 +4,12 @@ include_directories(${Boost_INCLUDE_DIRS})
 
 set(Python_ADDITIONAL_VERSIONS "2.7")
 find_package(PythonLibs REQUIRED)
-include_directories(${PYTHON_INCLUDE_DIRS})
+include_directories(${PYTHON_INCLUDE_DIRS})         
 
 find_package(NumPy REQUIRED)
 include_directories(${NUMPY_INCLUDE_DIRS})
-
-
+               
+        
 add_library( pyopengv SHARED pyopengv.cpp )
 target_link_libraries(pyopengv opengv)
 

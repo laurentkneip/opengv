@@ -83,6 +83,16 @@ opengv::absolute_pose::NoncentralAbsoluteMultiAdapter::
   return (*_bearingVectors[frameIndex])[correspondenceIndex];
 }
 
+opengv::cov3_mat_t
+opengv::absolute_pose::NoncentralAbsoluteMultiAdapter::
+getCovariance(size_t frameIndex, size_t correspondenceIndex) const
+{
+	assert(frameIndex < _bearingVectors.size());
+	assert(correspondenceIndex < _bearingVectors[frameIndex]->size());
+
+	return (*_cov_mats[frameIndex])[correspondenceIndex];
+}
+
 double
 opengv::absolute_pose::NoncentralAbsoluteMultiAdapter::
     getWeight( size_t frameIndex, size_t correspondenceIndex ) const

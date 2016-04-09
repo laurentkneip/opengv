@@ -38,11 +38,16 @@ OPTION(BUILD_PYTHON "Build Python extension" OFF)
 OPTION(BUILD_POSITION_INDEPENDENT_CODE "Build position independent code (-fPIC)" ON)
 OPTION(INSTALL_OPENGV "Install OpenGV on the system" OFF)
 
-add_definitions (-Wall -march=native -O3) #TODO use correct c++11 def once everybody has moved to gcc 4.7 # for now I even removed std=gnu++0x
-
+IF(WIN32)
+add_definitions (-bigobj -W0 -MP)
+ELSE()
+add_definitions (-Wall -march=native -O3 ) #TODO use correct c++11 def once everybody has moved to gcc 4.7 # for now I even removed std=gnu++0x
 IF(BUILD_POSITION_INDEPENDENT_CODE)
   add_definitions( -fPIC )
 ENDIF()
+ENDIF()
+
+
 
 
 # get eigen (under windows)
@@ -87,6 +92,8 @@ set( OPENGV_SOURCE_FILES
   src/absolute_pose/modules/gpnp5/spolynomials.cpp
   src/absolute_pose/modules/upnp2.cpp
   src/absolute_pose/modules/upnp4.cpp
+  src/absolute_pose/modules/mlpnp/mlpnp.cpp
+  src/absolute_pose/modules/mlpnp/mlpnp_lm.cpp
   src/relative_pose/modules/main.cpp
   src/relative_pose/modules/fivept_nister/modules.cpp
   src/relative_pose/modules/fivept_stewenius/modules.cpp
