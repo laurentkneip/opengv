@@ -22,7 +22,7 @@ if(APPLE)
     set_target_properties(pyopengv PROPERTIES
         LINK_FLAGS "-undefined dynamic_lookup"
     )
-    target_link_libraries(pyopengv "${Boost_LIBRARY_DIR}/libboost_python.a")
+    target_link_libraries(pyopengv ${Boost_LIBRARIES})
 else()
     target_link_libraries(pyopengv
         ${Boost_LIBRARIES}
