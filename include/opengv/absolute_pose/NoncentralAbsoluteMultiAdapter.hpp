@@ -39,10 +39,10 @@
 #ifndef OPENGV_ABSOLUTE_POSE_NONCENTRALABSOLUTEMULTIADAPTER_HPP_
 #define OPENGV_ABSOLUTE_POSE_NONCENTRALABSOLUTEMULTIADAPTER_HPP_
 
+#include <memory>
 #include <stdlib.h>
 #include <vector>
 #include <opengv/types.hpp>
-#include <boost/shared_ptr.hpp>
 #include <opengv/absolute_pose/AbsoluteMultiAdapterBase.hpp>
 
 /**

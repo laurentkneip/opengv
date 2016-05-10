@@ -37,10 +37,10 @@
 #ifndef OPENGV_STURM_HPP_
 #define OPENGV_STURM_HPP_
 
+#include <memory>
 #include <stdlib.h>
 #include <vector>
 #include <list>
-#include <boost/shared_ptr.hpp>
 #include <Eigen/Eigen>
 #include <Eigen/src/Core/util/DisableStupidWarnings.h>
 
