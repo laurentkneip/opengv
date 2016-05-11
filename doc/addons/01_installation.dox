@@ -2,9 +2,10 @@
  *
  * \section sec_installation_0_5 Before you start
  *
- * If you are only interested in using the library under Matlab, now there is a precompiled mex-library for 64-bit systems available. You can download it from (more versions will be added soon):
+ * If you are only interested in using the library under Matlab, now there is a precompiled mex-library for 64-bit systems available. You can download it from:
  *
 \verbatim
+Windows: https://dl.dropboxusercontent.com/u/23966023/opengv/opengv.mexw64
 Mac OSX: https://dl.dropboxusercontent.com/u/23966023/opengv/opengv.mexmaci64
 \endverbatim
  *
