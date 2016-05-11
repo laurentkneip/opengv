@@ -5,6 +5,8 @@ brief:   OpenGV is a collection of computer vision methods for solving
          triangulation, and point-cloud alignment methods for the calibrated
          case. All problems can be solved with central or non-central cameras,
          and embedded into a random sample consensus or nonlinear optimization
-         context. Please consult the documentation for more information.
+         context. Matlab and Python interfaces are implemented as well. The link
+         to the above pages also shows links to precompiled Matlab mex-libraries.
+         Please consult the documentation for more information.
 author:  Laurent Kneip, The Australian National University
 contact: kneip.laurent@gmail.com
