@@ -545,7 +545,7 @@ transformations_t upnp(
   
   //Round 1: chirality check
   std::vector<std::pair<double,Eigen::Vector4d>,Eigen::aligned_allocator< std::pair<double,Eigen::Vector4d> > > quaternions2;
-  for( int i = 0; i < quaternions1.size(); i++ )
+  for( size_t i = 0; i < quaternions1.size(); i++ )
   {
     rotation_t Rinv = math::quaternion2rot(quaternions1[i].second);
     
