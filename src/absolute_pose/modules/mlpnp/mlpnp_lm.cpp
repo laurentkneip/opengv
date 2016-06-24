@@ -30,6 +30,7 @@
 
 #include <opengv/absolute_pose/modules/mlpnp.hpp>
 #include <opengv/math/cayley.hpp>
+#include <opengv/math/rodrigues.hpp>
 #include <Eigen/Sparse>
 #include <iostream>
 
@@ -42,18 +43,18 @@ void opengv::absolute_pose::modules::mlpnp::mlpnp_residuals_and_jacs(
 	Eigen::MatrixXd& fjac,
 	bool getJacs)
 {
-	cayley_t c(x[0], x[1], x[2]);
+	rodrigues_t w(x[0], x[1], x[2]);
 	translation_t T(x[3], x[4], x[5]);
 
-	rotation_t R = math::cayley2rot(c);
-
+	//rotation_t R = math::cayley2rot(c);
+	rotation_t R = math::rodrigues2rot(w);
 	int ii = 0;
 
 	Eigen::MatrixXd jacs(2, 6);
 
 	for (int i = 0; i < pts.size(); ++i)
 	{
-		Eigen::Vector3d ptCam = R.transpose()*(pts[i] - T);
+		Eigen::Vector3d ptCam = R*pts[i] + T;
 		ptCam /= ptCam.norm();
 
 		r[ii] = nullspaces[i].col(0).transpose()*ptCam;
@@ -63,7 +64,7 @@ void opengv::absolute_pose::modules::mlpnp::mlpnp_residuals_and_jacs(
 			// jacs
 			modules::mlpnp::mlpnpJacs(pts[i],
 				nullspaces[i].col(0), nullspaces[i].col(1),
-				c, T,
+				w, T,
 				jacs);
 
 			// r

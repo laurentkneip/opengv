@@ -106,6 +106,10 @@ typedef std::vector<transformation_t, Eigen::aligned_allocator<transformation_t>
 typedef Eigen::Vector3d
     cayley_t;
 
+/** A 3-vector containing the rodrigues parameters of a rotation matrix */
+typedef Eigen::Vector3d
+	rodrigues_t;
+
 /** A 4-vector containing the quaternion parameters of rotation matrix */
 typedef Eigen::Vector4d
     quaternion_t;

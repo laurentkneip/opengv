@@ -14,7 +14,7 @@ pt_number = 6;
 % noise test, so no outliers
 outlier_fraction = 0.0;
 % repeat 5000 iterations per noise level
-iterations = 5000;
+iterations = 200;
 
 % The algorithms we want to test
 algorithms = { 'p3p_kneip'; 'p3p_gao'; 'mlpnp'; 'epnp'; 'abs_nonlin_central'; 'upnp'; 'upnp' };
@@ -26,7 +26,7 @@ names = { 'P3P (Kneip)'; 'P3P (Gao)'; 'MLPnP';'EPnP'; 'nonlinear optimization'; 
 % The maximum noise to analyze
 max_noise = 5.0;
 % The step in between different noise levels
-noise_step = 0.1;
+noise_step = 1;
 
 %% Run the benchmark
 

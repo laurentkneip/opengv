@@ -1,7 +1,7 @@
 /******************************************************************************
-* Author:   Steffen Urban													 *
-* Contact:  urbste@gmail.com                                                 *
-* License:  Copyright (c) 2016 Steffen Urban, ANU. All rights reserved.      *
+* Author:   Steffen Urban                                                    *
+* Contact:  urbste@googlemail.com                                            *
+* License:  Copyright (c) 2013 Steffen Urban, ANU. All rights reserved.      *
 *                                                                            *
 * Redistribution and use in source and binary forms, with or without         *
 * modification, are permitted provided that the following conditions         *
@@ -28,68 +28,46 @@
 * SUCH DAMAGE.                                                               *
 ******************************************************************************/
 
+/**
+* \file rodrigues.hpp
+* \brief Functions for back-and-forth transformation between rotation matrices
+*        and Rodrigues-parameters.
+*/
 
-#ifndef OPENGV_ABSOLUTE_POSE_MODULES_MLPNP_HPP
-#define OPENGV_ABSOLUTE_POSE_MODULES_MLPNP_HPP
+#ifndef OPENGV_RODRIGUES_HPP_
+#define OPENGV_RODRIGUES_HPP_
 
 #include <stdlib.h>
-#include <Eigen/Eigen>
-#include <Eigen/Sparse>
-#include <Eigen/src/Core/util/DisableStupidWarnings.h>
 #include <opengv/types.hpp>
 
+/**
+* \brief The namespace of this library.
+*/
 namespace opengv
 {
-namespace absolute_pose
+/**
+* \brief The namespace of the math tools.
+*/
+namespace math
 {
-namespace modules
-{
-namespace mlpnp
-{
-	void mlpnpJacs(
-		const point_t& pt,
-		const Eigen::Vector3d& nullspace_r,
-		const Eigen::Vector3d& nullspace_s,
-		const rodrigues_t& c,
-		const translation_t& t,
-		Eigen::MatrixXd& jacs);
 
-	void do_scale(const point_t& pt,
-	const rotation_t& rot,
-	const translation_t& t,
-	double& v1,
-	Eigen::Vector2d& scales);
+/**
+* \brief Compute a rotation matrix from Rodrigues axis angle.
+*
+* \param[in] omega The Rodrigues-parameters of a rotation.
+* \return The 3x3 rotation matrix.
+*/
+rotation_t rodrigues2rot(const rodrigues_t & omega);
 
-	void mlpnp_lm(Eigen::VectorXd& x,
-		const points_t& pts,
-		const std::vector<Eigen::MatrixXd>& nullspaces,
-		const Eigen::SparseMatrix<double> Kll,
-		bool use_cov);
+/**
+* \brief Compute the Rodrigues-parameters of a rotation matrix.
+*
+* \param[in] R The 3x3 rotation matrix.
+* \return The Rodrigues-parameters.
+*/
+rodrigues_t rot2rodrigues(const rotation_t & R);
 
-	void mlpnp_gn(Eigen::VectorXd& x,
-			const points_t& pts,
-			const std::vector<Eigen::MatrixXd>& nullspaces,
-			const Eigen::SparseMatrix<double> Kll,
-			bool use_cov);
-
-	void mlpnp_gn(Eigen::VectorXd& x,
-		const points_t& pts,
-		const std::vector<Eigen::MatrixXd>& nullspaces,
-		const Eigen::SparseMatrix<double> Kll,
-		Eigen::MatrixXd& Qldld,
-		Eigen::MatrixXd& Qxx,
-		bool use_cov);
-
-	void mlpnp_residuals_and_jacs(
-		const Eigen::VectorXd& x,
-		const points_t& pts,
-		const std::vector<Eigen::MatrixXd>& nullspaces,
-		Eigen::VectorXd& r,
-		Eigen::MatrixXd& fjac,
-		bool getJacs);
-}
-}
 }
 }
 
-#endif 
+#endif /* OPENGV_RODRIGUES_HPP_ */

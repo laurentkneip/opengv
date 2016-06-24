@@ -105,6 +105,7 @@ set( OPENGV_SOURCE_FILES
   src/relative_pose/modules/eigensolver/modules.cpp
   src/relative_pose/modules/ge/modules.cpp
   src/math/cayley.cpp
+  src/math/rodrigues.cpp
   src/math/quaternion.cpp
   src/math/arun.cpp
   src/math/Sturm.cpp
@@ -148,6 +149,7 @@ set( OPENGV_HEADER_FILES
   include/opengv/triangulation/methods.hpp
   include/opengv/point_cloud/methods.hpp
   include/opengv/math/cayley.hpp
+  include/opengv/math/rodrigues.hpp
   include/opengv/math/quaternion.hpp
   include/opengv/math/arun.hpp
   include/opengv/math/Sturm.hpp

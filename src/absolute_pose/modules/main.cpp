@@ -46,7 +46,7 @@
 #include <opengv/math/roots.hpp>
 #include <opengv/math/arun.hpp>
 #include <opengv/math/cayley.hpp>
-
+#include <opengv/math/rodrigues.hpp>
 
 /////////////////////
 // MLPnP
@@ -57,7 +57,7 @@ opengv::absolute_pose::modules::mlpnp_main(
 	const points_t& p,
 	const cov3_mats_t& covMats,
 	const std::vector<int>& indices,
-transformation_t& result)
+	transformation_t& result)
 {
 	size_t numberCorrespondences = indices.size();
 	assert(numberCorrespondences > 5);
@@ -92,7 +92,7 @@ transformation_t& result)
 
 	// if yes -> transform points to new eigen frame
 	//if (minEigenVal < 1e-3 || minEigenVal == 0.0)
-	rankTest.setThreshold(1e-10);
+	//rankTest.setThreshold(1e-10);
 	if (rankTest.rank() == 2)
 	{
 		planar = true;
@@ -259,10 +259,12 @@ transformation_t& result)
 		tmp << 0.0, result1(0, 0), result1(1, 0),
 			0.0, result1(2, 0), result1(3, 0),
 			0.0, result1(4, 0), result1(5, 0);
-		double scale = 1 / sqrt(tmp.col(1).norm() * tmp.col(2).norm());
+		//double scale = 1 / sqrt(tmp.col(1).norm() * tmp.col(2).norm());
 		// row 3
 		tmp.col(0) = tmp.col(1).cross(tmp.col(2));
 		tmp.transposeInPlace();
+
+		double scale = 1.0 / std::sqrt(std::abs(tmp.col(1).norm()* tmp.col(2).norm()));
 		// find best rotation matrix in frobenius sense
 		Eigen::JacobiSVD<Eigen::MatrixXd> svd_R_frob(tmp, Eigen::ComputeFullU | Eigen::ComputeFullV);
 		rotation_t Rout1 = svd_R_frob.matrixU() * svd_R_frob.matrixV().transpose();
@@ -319,8 +321,8 @@ transformation_t& result)
 			result1(1, 0), result1(4, 0), result1(7, 0),
 			result1(2, 0), result1(5, 0), result1(8, 0);
 		// get the scale
-
-		double scale = 1.0 / std::pow(std::abs(tmp.col(0).norm() * tmp.col(1).norm()* tmp.col(2).norm()), 1.0 / 3.0);
+		double scale = 1.0 / 
+			std::pow(std::abs(tmp.col(0).norm() * tmp.col(1).norm()* tmp.col(2).norm()), 1.0 / 3.0);
 		// find best rotation matrix in frobenius sense
 		Eigen::JacobiSVD<Eigen::MatrixXd> svd_R_frob(tmp, Eigen::ComputeFullU | Eigen::ComputeFullV);
 		Rout = svd_R_frob.matrixU() * svd_R_frob.matrixV().transpose();
@@ -328,37 +330,47 @@ transformation_t& result)
 		if (Rout.determinant() < 0)
 			Rout *= -1.0;
 		// scale translation
-		tout = Rout * (scale *
-			translation_t(result1(9, 0), result1(10, 0), result1(11, 0)));
+		tout = Rout * (scale * translation_t(result1(9, 0), result1(10, 0), result1(11, 0)));
 		// find correct direction in terms of reprojection error, just take the first 6 correspondences
-		Rout.transposeInPlace();
+		//Rout.transposeInPlace();
 		double diff1 = 0.0;
 		double diff2 = 0.0;
-		for (int p = 0; p < 6; ++p)
+		vector<double> error(2);
+		vector<Eigen::Matrix4d> Ts(2);
+
+		for (int s = 0; s < 2; ++s)
 		{
-			bearingVector_t v1a = Rout*(points3v[p] - tout);
-			bearingVector_t v1b = Rout*(points3v[p] + tout);
-			v1a = v1a / v1a.norm();
-			v1b = v1b / v1b.norm();
-			diff1 += 1.0 - v1a.transpose()*f[indices[p]];
-			diff2 += 1.0 - v1b.transpose()*f[indices[p]];
+			error[s] = 0.0;
+			Ts[s] = Eigen::Matrix4d::Identity();
+			Ts[s].block<3, 3>(0, 0) = Rout;
+			if (s == 0)
+				Ts[s].block<3, 1>(0, 3) = tout;
+			else
+				Ts[s].block<3, 1>(0, 3) = -tout;
+			Ts[s] = Ts[s].inverse();
+			for (int p = 0; p < 6; ++p)
+			{
+				bearingVector_t v = Ts[s].block<3, 3>(0, 0)* points3v[p] + Ts[s].block<3, 1>(0, 3);
+				v = v / v.norm();
+				error[s] += 1.0 - v.transpose() * f[indices[p]];
+			}
 		}
-		diff1 /= 6.0;
-		diff2 /= 6.0;
-		if (diff1 > diff2)
-			tout = -tout;
-		tout = -Rout*tout;
+		if (error[0] < error[1])
+			tout = Ts[0].block<3, 1>(0, 3);
+		else
+			tout = Ts[1].block<3, 1>(0, 3);
+		Rout = Ts[0].block<3, 3>(0, 0);
+
 	}
 
 	//////////////////////////////////////
 	// 5. gauss newton
 	//////////////////////////////////////
-	cayley_t cay = math::rot2cayley(Rout.transpose());
+	rodrigues_t omega = math::rot2rodrigues(Rout);
 	Eigen::VectorXd minx(6);
-	minx[0] = cay[0];
-	minx[1] = cay[1];
-	minx[2] = cay[2];
-	tout = -Rout.transpose()*tout;
+	minx[0] = omega[0];
+	minx[1] = omega[1];
+	minx[2] = omega[2];
 	minx[3] = tout[0];
 	minx[4] = tout[1];
 	minx[5] = tout[2];
@@ -366,11 +378,11 @@ transformation_t& result)
 	modules::mlpnp::mlpnp_gn(minx,
 		points3v, nullspaces, P, use_cov);
 
-	Rout = math::cayley2rot(cayley_t(minx[0], minx[1], minx[2]));
+	Rout = math::rodrigues2rot(rodrigues_t(minx[0], minx[1], minx[2]));
 	tout = translation_t(minx[3], minx[4], minx[5]);
-	// result
-	result.block<3, 3>(0, 0) = Rout;
-	result.block<3, 1>(0, 3) = tout;
+	// result inverse as opengv uses this convention
+	result.block<3, 3>(0, 0) = Rout.transpose();
+	result.block<3, 1>(0, 3) = -result.block<3, 3>(0, 0)*tout;
 }
 
 

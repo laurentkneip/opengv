@@ -1,8 +1,8 @@
 function R = cayley2rot(v)
 
-  cayley0 = v(1,1);
-  cayley1 = v(2,1);
-  cayley2 = v(3,1);
+  cayley0 = v(1);
+  cayley1 = v(2);
+  cayley2 = v(3);
   
   R = zeros(3,3);
   scale = 1+cayley0^2+cayley1^2+cayley2^2;

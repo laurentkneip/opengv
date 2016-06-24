@@ -1,7 +1,7 @@
 /******************************************************************************
-* Author:   Steffen Urban													 *
-* Contact:  urbste@gmail.com                                                 *
-* License:  Copyright (c) 2016 Steffen Urban, ANU. All rights reserved.      *
+* Author:   Steffen Urban                                                    *
+* Contact:  urbste@googlemail.com                                            *
+* License:  Copyright (c) 2013 Steffen Urban, ANU. All rights reserved.      *
 *                                                                            *
 * Redistribution and use in source and binary forms, with or without         *
 * modification, are permitted provided that the following conditions         *
@@ -28,68 +28,43 @@
 * SUCH DAMAGE.                                                               *
 ******************************************************************************/
 
+#include <opengv/math/rodrigues.hpp>
 
-#ifndef OPENGV_ABSOLUTE_POSE_MODULES_MLPNP_HPP
-#define OPENGV_ABSOLUTE_POSE_MODULES_MLPNP_HPP
-
-#include <stdlib.h>
-#include <Eigen/Eigen>
-#include <Eigen/Sparse>
-#include <Eigen/src/Core/util/DisableStupidWarnings.h>
-#include <opengv/types.hpp>
-
-namespace opengv
+opengv::rotation_t
+opengv::math::rodrigues2rot( const cayley_t & omega)
 {
-namespace absolute_pose
-{
-namespace modules
-{
-namespace mlpnp
-{
-	void mlpnpJacs(
-		const point_t& pt,
-		const Eigen::Vector3d& nullspace_r,
-		const Eigen::Vector3d& nullspace_s,
-		const rodrigues_t& c,
-		const translation_t& t,
-		Eigen::MatrixXd& jacs);
+  rotation_t R = Eigen::Matrix3d::Identity();
+	
+  Eigen::Matrix3d skewW;
+  skewW<<0.0, -omega(2), omega(1),
+	  omega(2), 0.0, -omega(0),
+	  -omega(1), omega(0), 0.0;
 
-	void do_scale(const point_t& pt,
-	const rotation_t& rot,
-	const translation_t& t,
-	double& v1,
-	Eigen::Vector2d& scales);
+  double omega_norm = omega.norm();
 
-	void mlpnp_lm(Eigen::VectorXd& x,
-		const points_t& pts,
-		const std::vector<Eigen::MatrixXd>& nullspaces,
-		const Eigen::SparseMatrix<double> Kll,
-		bool use_cov);
+  if (omega_norm > std::numeric_limits<double>::epsilon())
+	  R = R + sin(omega_norm) / omega_norm*skewW 
+	  + (1 - cos(omega_norm)) / (omega_norm*omega_norm)*(skewW*skewW);
 
-	void mlpnp_gn(Eigen::VectorXd& x,
-			const points_t& pts,
-			const std::vector<Eigen::MatrixXd>& nullspaces,
-			const Eigen::SparseMatrix<double> Kll,
-			bool use_cov);
-
-	void mlpnp_gn(Eigen::VectorXd& x,
-		const points_t& pts,
-		const std::vector<Eigen::MatrixXd>& nullspaces,
-		const Eigen::SparseMatrix<double> Kll,
-		Eigen::MatrixXd& Qldld,
-		Eigen::MatrixXd& Qxx,
-		bool use_cov);
-
-	void mlpnp_residuals_and_jacs(
-		const Eigen::VectorXd& x,
-		const points_t& pts,
-		const std::vector<Eigen::MatrixXd>& nullspaces,
-		Eigen::VectorXd& r,
-		Eigen::MatrixXd& fjac,
-		bool getJacs);
-}
-}
-}
+  return R;
 }
 
-#endif 
+
+opengv::rodrigues_t
+opengv::math::rot2rodrigues( const rotation_t & R )
+{
+  rodrigues_t omega;
+  omega << 0.0, 0.0, 0.0;
+  
+  double trace = R.trace() - 1.0;
+  double wnorm = acos(trace / 2.0);
+  if (wnorm > std::numeric_limits<double>::epsilon())
+  {
+	  omega[0] = (R(2, 1) - R(1, 2));
+	  omega[1] = (R(0, 2) - R(2, 0));
+	  omega[2] = (R(1, 0) - R(0, 1));
+	  double sc = wnorm / (2.0*sin(wnorm));
+	  omega *= sc;
+  }
+  return omega;
+}
