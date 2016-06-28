@@ -302,7 +302,7 @@ opengv::absolute_pose::modules::mlpnp_main(
 				reproPt = reproPt / reproPt.norm();
 				norms += 1.0 - reproPt.transpose()*f[indices[p]];
 			}
-			normVal[i] = norms / 6.0;
+			normVal[i] = norms;
 		}
 		std::vector<double>::iterator
 			findMinRepro = std::min_element(std::begin(normVal), std::end(normVal));
