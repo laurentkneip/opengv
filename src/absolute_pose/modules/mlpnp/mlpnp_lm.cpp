@@ -27,6 +27,21 @@
 * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF     *
 * SUCH DAMAGE.                                                               *
 ******************************************************************************/
+ 
+/* if you use MLPnP consider citing our paper:
+@INPROCEEDINGS {mlpnp2016,
+	title={MLPNP - A REAL-TIME MAXIMUM LIKELIHOOD SOLUTION TO THE PERSPECTIVE-N-POINT PROBLEM},
+	author={Urban, Steffen and Leitloff, Jens and Hinz, Stefan},
+	booktitle={ISPRS Annals of Photogrammetry, Remote Sensing \& Spatial Information Sciences},
+	pages={131-138},
+	year={2016},
+	volume={3}
+}
+
+29.06.2016 Steffen Urban
+*/
+
+
 
 #include <opengv/absolute_pose/modules/mlpnp.hpp>
 #include <opengv/math/cayley.hpp>

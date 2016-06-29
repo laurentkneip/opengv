@@ -1,7 +1,7 @@
 /******************************************************************************
 * Author:   Steffen Urban                                                    *
 * Contact:  urbste@googlemail.com                                            *
-* License:  Copyright (c) 2013 Steffen Urban, ANU. All rights reserved.      *
+* License:  Copyright (c) 2016 Steffen Urban, ANU. All rights reserved.      *
 *                                                                            *
 * Redistribution and use in source and binary forms, with or without         *
 * modification, are permitted provided that the following conditions         *
@@ -27,6 +27,7 @@
 * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF     *
 * SUCH DAMAGE.                                                               *
 ******************************************************************************/
+//29.06.2016 Steffen Urban
 
 /**
 * \file rodrigues.hpp
