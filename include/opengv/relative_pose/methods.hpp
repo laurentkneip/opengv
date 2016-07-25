@@ -470,6 +470,39 @@ transformation_t seventeenpt(
     const std::vector<int> & indices );
 
 /**
+* \brief Compute the relative pose between two non-central viewpoints
+*        following venturas method. Using all available correspondences.
+*
+* \param[in] adapter Visitor holding bearing-vector correspondences, plus the
+*                    multi-camera configuration.
+* \return Pose of viewpoint 2 seen from viewpoint 1 (
+*         \f$ \mathbf{T} = \left(\begin{array}{cc} \mathbf{R} & \mathbf{t} \end{array}\right) \f$,
+*         with \f$ \mathbf{t} \f$ being the position of viewpoint 2 seen from
+*         viewpoint 1, and \f$ \mathbf{R} \f$ being the rotation from
+*         viewpoint 2 to viewpoint 1).
+*/
+rotations_t sixpt_ventura(
+	const RelativeAdapterBase & adapter);
+
+/**
+* \brief Compute the relative pose between two non-central viewpoints
+*        following venturas method.
+*
+* \param[in] adapter Visitor holding bearing-vector correspondences, plus the
+*                    multi-camera configuration.
+* \param[in] indices Indices of the correspondences used for deriving
+*                    the rotation matrix.
+* \return Pose of viewpoint 2 seen from viewpoint 1 (
+*         \f$ \mathbf{T} = \left(\begin{array}{cc} \mathbf{R} & \mathbf{t} \end{array}\right) \f$,
+*         with \f$ \mathbf{t} \f$ being the position of viewpoint 2 seen from
+*         viewpoint 1, and \f$ \mathbf{R} \f$ being the rotation from
+*         viewpoint 2 to viewpoint 1).
+*/
+rotations_t sixpt_ventura(
+	const RelativeAdapterBase & adapter,
+	const std::vector<int> & indices);
+
+/**
  * \brief Compute the pose between two viewpoints using nonlinear optimization.
  *        Using all available correspondences. Works for both central and
  *        non-central case.

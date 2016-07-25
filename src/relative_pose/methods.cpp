@@ -40,7 +40,7 @@
 #include <opengv/math/cayley.hpp>
 #include <opengv/relative_pose/modules/main.hpp>
 #include <opengv/triangulation/methods.hpp>
-
+#include <opengv/math/rodrigues.hpp>
 #include <iostream>
 
 opengv::translation_t
@@ -1194,3 +1194,75 @@ opengv::relative_pose::optimize_nonlinear(
   Indices idx(indices);
   return optimize_nonlinear(adapter,idx);
 }
+
+
+namespace opengv
+{
+	namespace relative_pose
+	{
+		Eigen::Matrix3d skew2full(const Eigen::Vector3d& in)
+		{
+			Eigen::Matrix3d out;
+			out << 0.0, -in[2], in[1],
+				in[2], 0.0, -in[0],
+				-in[1], in[0], 0.0;
+			return out;
+		}
+		rotations_t sixpt_ventura_run(
+			const RelativeAdapterBase & adapter,
+			const Indices& indices)
+		{
+			size_t numberCorrespondences = indices.size();
+			assert(numberCorrespondences == 6);
+
+			vector<Eigen::Matrix<double, 6, 6>> w(6);
+			Eigen::Matrix<double, 6, 1> L1;
+			Eigen::Matrix<double, 6, 1> L2;
+
+			for (size_t i = 0; i < 6; i++)
+			{
+				bearingVector_t f1 =
+					adapter.getCamRotation1(indices[i]) * adapter.getBearingVector1(indices[i]);
+				bearingVector_t f2 =
+					adapter.getCamRotation2(indices[i]) * adapter.getBearingVector2(indices[i]);
+
+
+				L1.block<3, 1>(0, 0) = f1;
+				L2.block<3, 1>(0, 0) = f2;
+
+				L1.block<3, 1>(3, 0) = f1.cross(adapter.getCamOffset1(indices[i]));
+				L2.block<3, 1>(3, 0) = f2.cross(adapter.getCamOffset2(indices[i]));
+
+				w[i] = L2*L1.transpose();
+			}
+			vector<Eigen::Vector3d> sols;
+			modules::sixpt_ventura_main(w[0],
+				w[1], w[2], w[3], w[4], w[5], sols);
+
+			// create solution R=I+[r]_x
+			rotations_t solutions(sols.size());
+			for (int s = 0; s < sols.size(); ++s)
+				solutions[s] = math::rodrigues2rot(sols[s]);
+			
+			return solutions;
+		}
+	}
+}
+
+opengv::rotations_t
+opengv::relative_pose::sixpt_ventura(
+const RelativeAdapterBase & adapter,
+const std::vector<int> & indices)
+{
+	Indices idx(indices);
+	return sixpt_ventura_run(adapter, indices);
+}
+
+opengv::rotations_t
+opengv::relative_pose::sixpt_ventura(
+const RelativeAdapterBase & adapter)
+{
+	Indices idx(adapter.getNumberCorrespondences());
+	return sixpt_ventura_run(adapter, idx);
+}
+

@@ -39,7 +39,7 @@ OPTION(BUILD_POSITION_INDEPENDENT_CODE "Build position independent code (-fPIC)"
 OPTION(INSTALL_OPENGV "Install OpenGV on the system" OFF)
 
 IF(WIN32)
-add_definitions (-bigobj -W0 -MP)
+add_definitions (-bigobj -W0 -MP -Zm10)
 ELSE()
 add_definitions (-Wall -march=native -O3 ) #TODO use correct c++11 def once everybody has moved to gcc 4.7 # for now I even removed std=gnu++0x
 IF(BUILD_POSITION_INDEPENDENT_CODE)
@@ -104,6 +104,7 @@ set( OPENGV_SOURCE_FILES
   src/relative_pose/modules/sixpt/modules2.cpp
   src/relative_pose/modules/eigensolver/modules.cpp
   src/relative_pose/modules/ge/modules.cpp
+  src/relative_pose/modules/sixpt_ventura/approx_relpose_generalized_fast_computeA.cpp
   src/math/cayley.cpp
   src/math/rodrigues.cpp
   src/math/quaternion.cpp

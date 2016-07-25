@@ -66,6 +66,14 @@ void sixpt_main(
     Eigen::Matrix<double,6,6> & L1,
     Eigen::Matrix<double,6,6> & L2,
     rotations_t & solutions);
+void sixpt_ventura_main(
+	const Eigen::Matrix<double, 6, 6> &w1,
+	const Eigen::Matrix<double, 6, 6> &w2,
+	const Eigen::Matrix<double, 6, 6> &w3,
+	const Eigen::Matrix<double, 6, 6> &w4,
+	const Eigen::Matrix<double, 6, 6> &w5,
+	const Eigen::Matrix<double, 6, 6> &w6,
+	std::vector<Eigen::Vector3d> &rsolns);
 void ge_main(
     const Eigen::Matrix3d & xxF,
     const Eigen::Matrix3d & yyF,

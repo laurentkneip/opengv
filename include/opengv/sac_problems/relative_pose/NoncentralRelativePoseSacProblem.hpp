@@ -77,9 +77,10 @@ public:
   /** The possible algorithms for solving this problem */
   typedef enum Algorithm
   {
-    SIXPT = 0,      // [16]
-    GE = 1,         // []
-    SEVENTEENPT = 2 // [12]
+    SIXPT = 0,       // [16]
+    GE = 1,          // []
+    SEVENTEENPT = 2, // [12]
+	SIXPT_VENTURA = 3
   } algorithm_t;
 
   /**

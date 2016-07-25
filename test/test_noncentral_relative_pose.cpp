@@ -62,8 +62,8 @@ int main( int argc, char** argv )
   rotation_t rotation1 = Eigen::Matrix3d::Identity();
 
   //generate a random pose for viewpoint 2
-  translation_t position2 = generateRandomTranslation(2.0);
-  rotation_t rotation2 = generateRandomRotation(0.5);
+  translation_t position2 = generateRandomTranslation(0.1);
+  rotation_t rotation2 = generateRandomRotation(0.25);
 
   //create a fake central camera
   translations_t camOffsets;
@@ -104,7 +104,7 @@ int main( int argc, char** argv )
   //timer
   struct timeval tic;
   struct timeval toc;
-  size_t iterations = 100;
+  size_t iterations = 1;
 
   //running experiment
   std::cout << "running sixpt with 6 correspondences" << std::endl;
@@ -116,6 +116,17 @@ int main( int argc, char** argv )
   gettimeofday( &toc, 0 );
   double sixpt_time = TIMETODOUBLE(timeval_minus(toc,tic)) / iterations;
   
+  //running experiment
+  std::cout << "running sixpt_ventura with 6 correspondences" << std::endl;
+  std::vector<int> indices61 = getNindices(6);
+  rotations_t sixpt_translations;
+  gettimeofday(&tic, 0);
+  for (size_t i = 0; i < iterations; i++)
+	  sixpt_translations = relative_pose::sixpt_ventura(adapter, indices61);
+  gettimeofday(&toc, 0);
+  double sixpt_ventura_time = TIMETODOUBLE(timeval_minus(toc, tic)) / iterations;
+
+
   std::cout << "running ge with 8 correspondences" << std::endl;
   std::vector<int> indices8 = getNindices(8);
   rotation_t ge_rotation;
@@ -171,9 +182,12 @@ int main( int argc, char** argv )
       relative_pose::optimize_nonlinear(adapter,indices10);
 
   //print results
-  std::cout << "results from 6pt algorithm:" << std::endl;
-  for( int i = 0; i < sixpt_rotations.size(); i++ )
-    std::cout << sixpt_rotations[i] << std::endl << std::endl;
+  //std::cout << "results from 6pt algorithm:" << std::endl;
+  //for( int i = 0; i < sixpt_rotations.size(); i++ )
+  //  std::cout << sixpt_rotations[i] << std::endl << std::endl;
+  std::cout << "results from 6pt venturas algorithm:" << std::endl;
+  for (int i = 0; i < sixpt_translations.size(); i++)
+	  std::cout << sixpt_translations[i] << std::endl << std::endl;
   std::cout << "result from ge using 8 points:" << std::endl;
   std::cout << ge_rotation << std::endl << std::endl;
   std::cout << "results from 17pt algorithm:" << std::endl;
@@ -185,9 +199,11 @@ int main( int argc, char** argv )
   std::cout << "results from nonlinear algorithm with only few correspondences:";
   std::cout << std::endl;
   std::cout << nonlinear_transformation_10 << std::endl << std::endl;
-  
+
   std::cout << "timings from 6pt algorithm: ";
   std::cout << sixpt_time << std::endl;
+  std::cout << "timings from 6pt venturas algorithm: ";
+  std::cout << sixpt_ventura_time << std::endl;
   std::cout << "timings from ge: ";
   std::cout << ge_time << std::endl;
   std::cout << "timings from 17pt algorithm: ";
@@ -196,4 +212,6 @@ int main( int argc, char** argv )
   std::cout << seventeenpt_time_all << std::endl;
   std::cout << "timings from nonlinear algorithm: ";
   std::cout << nonlinear_time << std::endl;
+
+
 }

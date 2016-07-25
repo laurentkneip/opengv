@@ -56,18 +56,18 @@ int main( int argc, char** argv )
   initializeRandomSeed();
 
   //set experiment parameters
-  double noise = 0.3;
+  double noise = 0.1;
   double outlierFraction = 0.3;
-  size_t numberPoints = 100;
-  int numberCameras = 4;
+  size_t numberPoints = 200;
+  int numberCameras = 3;
 
   //generate a random pose for viewpoint 1
   translation_t position1 = Eigen::Vector3d::Zero();
   rotation_t rotation1 = Eigen::Matrix3d::Identity();
 
   //generate a random pose for viewpoint 2
-  translation_t position2 = generateRandomTranslation(2.0);
-  rotation_t rotation2 = generateRandomRotation(0.5);
+  translation_t position2 = generateRandomTranslation(0.1);
+  rotation_t rotation2 = generateRandomRotation(0.1);
 
   //create a fake central camera
   translations_t camOffsets;
@@ -113,10 +113,11 @@ int main( int argc, char** argv )
       relposeproblem_ptr(
       new sac_problems::relative_pose::NoncentralRelativePoseSacProblem(
       adapter,
-      sac_problems::relative_pose::NoncentralRelativePoseSacProblem::SIXPT));
+      sac_problems::relative_pose::NoncentralRelativePoseSacProblem::SIXPT_VENTURA));
+
   ransac.sac_model_ = relposeproblem_ptr;
-  ransac.threshold_ = 2.0*(1.0 - cos(atan(sqrt(2.0)*0.5/800.0)));
-  ransac.max_iterations_ = 10000;
+  ransac.threshold_ = 0.00001;//2.0*(1.0 - cos(atan(sqrt(2.0)*0.5/800.0)));
+  ransac.max_iterations_ = 300;
 
   //Run the experiment
   struct timeval tic;
