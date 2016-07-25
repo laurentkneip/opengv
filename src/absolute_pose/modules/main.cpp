@@ -146,11 +146,10 @@ opengv::absolute_pose::modules::mlpnp_main(
 		A = MatrixXd(rowsA, 12);
 	A.setZero();
 
-	int col = 0;
 	// fill design matrix
 	if (planar)
 	{
-		for (int i = 0; i < numberCorrespondences; i++)
+		for (size_t i = 0; i < numberCorrespondences; i++)
 		{
 			point_t pt3_current = points3.col(i);
 			//point4_t points4v = opengv::point4_t(pt3_current[0],
@@ -187,7 +186,7 @@ opengv::absolute_pose::modules::mlpnp_main(
 	}
 	else
 	{
-		for (int i = 0; i < numberCorrespondences; i++)
+		for (size_t i = 0; i < numberCorrespondences; i++)
 		{
 			point_t pt3_current = points3.col(i);
 			//point4_t points4v = opengv::point4_t(pt3_current[0],
@@ -333,8 +332,6 @@ opengv::absolute_pose::modules::mlpnp_main(
 		tout = Rout * (scale * translation_t(result1(9, 0), result1(10, 0), result1(11, 0)));
 		// find correct direction in terms of reprojection error, just take the first 6 correspondences
 		//Rout.transposeInPlace();
-		double diff1 = 0.0;
-		double diff2 = 0.0;
 		vector<double> error(2);
 		vector<Eigen::Matrix4d> Ts(2);
 
