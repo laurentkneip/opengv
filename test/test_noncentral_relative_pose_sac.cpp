@@ -66,7 +66,7 @@ int main( int argc, char** argv )
   rotation_t rotation1 = Eigen::Matrix3d::Identity();
 
   //generate a random pose for viewpoint 2
-  translation_t position2 = generateRandomTranslation(0.1);
+  translation_t position2 = generateRandomTranslation(0.5);
   rotation_t rotation2 = generateRandomRotation(0.1);
 
   //create a fake central camera

@@ -62,8 +62,8 @@ int main( int argc, char** argv )
   rotation_t rotation1 = Eigen::Matrix3d::Identity();
 
   //generate a random pose for viewpoint 2
-  translation_t position2 = generateRandomTranslation(0.1);
-  rotation_t rotation2 = generateRandomRotation(0.25);
+  translation_t position2 = generateRandomTranslation(0.5);
+  rotation_t rotation2 = generateRandomRotation(0.1);
 
   //create a fake central camera
   translations_t camOffsets;
@@ -182,9 +182,9 @@ int main( int argc, char** argv )
       relative_pose::optimize_nonlinear(adapter,indices10);
 
   //print results
-  //std::cout << "results from 6pt algorithm:" << std::endl;
-  //for( int i = 0; i < sixpt_rotations.size(); i++ )
-  //  std::cout << sixpt_rotations[i] << std::endl << std::endl;
+  std::cout << "results from 6pt algorithm:" << std::endl;
+  for( int i = 0; i < sixpt_rotations.size(); i++ )
+    std::cout << sixpt_rotations[i] << std::endl << std::endl;
   std::cout << "results from 6pt venturas algorithm:" << std::endl;
   for (int i = 0; i < sixpt_translations.size(); i++)
 	  std::cout << sixpt_translations[i] << std::endl << std::endl;
