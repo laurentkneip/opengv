@@ -68,7 +68,7 @@ opengv::absolute_pose::modules::mlpnp_main(
 	Eigen::MatrixXd points3(3, numberCorrespondences);
 	opengv::points_t points3v(numberCorrespondences);
 	opengv::points4_t points4v(numberCorrespondences);
-	for (int i = 0; i < numberCorrespondences; i++)
+	for (size_t i = 0; i < numberCorrespondences; i++)
 	{
 		bearingVector_t f_current = f[indices[i]];
 		points3.col(i) = p[indices[i]];
@@ -102,7 +102,7 @@ opengv::absolute_pose::modules::mlpnp_main(
 		Eigen::SelfAdjointEigenSolver<Matrix3d> eigen_solver(planarTest);
 		eigenRot = eigen_solver.eigenvectors().real();
 		eigenRot.transposeInPlace();
-		for (int i = 0; i < numberCorrespondences; i++)
+		for (size_t i = 0; i < numberCorrespondences; i++)
 			points3.col(i) = eigenRot * points3.col(i);
 	}
 	//////////////////////////////////////
@@ -119,7 +119,7 @@ opengv::absolute_pose::modules::mlpnp_main(
 	{
 		use_cov = true;
 		int l = 0;
-		for (int i = 0; i < numberCorrespondences; ++i)
+		for (size_t i = 0; i < numberCorrespondences; ++i)
 		{
 			// invert matrix
 			cov2_mat_t temp = (nullspaces[i].transpose() * covMats[i] * nullspaces[i]).inverse();
