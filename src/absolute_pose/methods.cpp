@@ -545,7 +545,7 @@ transformations_t upnp(
   
   //Round 1: chirality check
   std::vector<std::pair<double,Eigen::Vector4d>,Eigen::aligned_allocator< std::pair<double,Eigen::Vector4d> > > quaternions2;
-  for( int i = 0; i < quaternions1.size(); i++ )
+  for( std::size_t i = 0; i < quaternions1.size(); i++ )
   {
     rotation_t Rinv = math::quaternion2rot(quaternions1[i].second);
     
@@ -563,7 +563,7 @@ transformations_t upnp(
     
     int count_negative = 0;
     
-    for( int j = 0; j < (int) indices.size(); j++ )
+    for( std::size_t j = 0; j <  indices.size(); j++ )
     {
       Eigen::Matrix<double,3,1> f = adapter.getCamRotation(indices[j]) * adapter.getBearingVector(indices[j]);
       Eigen::Matrix<double,3,1> p = adapter.getPoint(indices[j]);
