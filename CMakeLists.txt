@@ -21,7 +21,6 @@ set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR}/lib)
 
 OPTION(BUILD_TESTS "Build tests" ON)
 OPTION(BUILD_PYTHON "Build Python extension" OFF)
-OPTION(INSTALL_OPENGV "Install OpenGV on the system" OFF)
 
 IF(MSVC)
   set(BUILD_SHARED_LIBS OFF)
@@ -39,6 +38,15 @@ ENDIF()
 IF(BUILD_POSITION_INDEPENDENT_CODE)
   add_definitions( -fPIC )
 ENDIF()
+
+ADD_DEFINITIONS (
+-Wall
+-Wextra
+#-Werror
+-Wwrite-strings
+-Wno-unused-parameter
+-fno-strict-aliasing
+)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/modules/")
 find_package(Eigen REQUIRED)
@@ -314,19 +322,18 @@ IF (BUILD_TESTS)
 
 ENDIF()
 
-IF (INSTALL_OPENGV)
-  install(
-    TARGETS opengv
-    EXPORT opengv-export
-    RUNTIME DESTINATION bin
-    ARCHIVE DESTINATION lib
-    LIBRARY DESTINATION lib
-    COMPONENT library
-  )
-  target_include_directories(opengv PUBLIC "${CMAKE_INSTALL_PREFIX}/include")
-  install(DIRECTORY include/ DESTINATION include/ FILES_MATCHING PATTERN "*.h" PATTERN "*.hpp")
-  install(EXPORT opengv-export DESTINATION CMake FILE opengv-config.cmake)
-ENDIF()
+install(
+  TARGETS opengv
+  EXPORT opengv-export
+  RUNTIME DESTINATION bin
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  COMPONENT library
+)
+target_include_directories(opengv PUBLIC "${CMAKE_INSTALL_PREFIX}/include")
+install(DIRECTORY include/ DESTINATION include/ FILES_MATCHING PATTERN "*.h" PATTERN "*.hpp")
+install(EXPORT opengv-export DESTINATION CMake FILE opengv-config.cmake)
+
 
 if (BUILD_PYTHON)
   add_subdirectory( python )
