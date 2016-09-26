@@ -44,18 +44,28 @@ http://git-scm.com/
 sudo apt-get install build-essential
 \endverbatim
  *
- * <li>Install cmake and eigen3, those tools are required by the library. Type:
+ * <li>Install cmake. CMake is a cross-platform, open-source build system used for pretty much anything in the compilation process for the compilation/linking of the library. Type:
+ *
+\verbatim
+sudo apt-get install cmake
+\endverbatim
+ *
+ *
+ * <li>Install eigen3. Eigen3 is a powerful linear algebra library used for all computations in OpenGV. You can either use an installed version of a local install (unzipped version of Eigen3 downloaded from Eigen website).
  *
 \verbatim
 sudo apt-get install cmake libeigen3-dev
 \endverbatim
  *
- * CMake is a cross-platform, open-source build system used for pretty much anything in the compilation process but the compilation/linking itself. Eigen3 is a powerful linear algebra library used for all computations in OpenGV.
- *
  * <li>Go to the top-level directory of OpenGV. Type:
  *
 \verbatim
 mkdir build && cd build && cmake .. && make
+\endverbatim
+ *
+ * If a message like "Could NOT find Eigen (missing: EIGEN_INCLUDE_DIR EIGEN_VERSION_OK)" appears. It's certainly because that you does not have Eigen3 installed on your computer system path. You can specify to cmake the path where Eigen is located by adding:
+\verbatim
+mkdir build && cd build && cmake .. -DEIGEN_INCLUDE_DIR:STRING="EigenIncludePath" && make
 \endverbatim
  *
  * <li>Done. The default configuration does not build the tests or python-wrappers, please set the according variables in CMakeLists.txt to ON if you desire the tests or python-wrappers to be built as well.
@@ -117,7 +127,17 @@ msbuild opengv.sln /p:Configuration=Release
  *
  * \section sec_installation_36 Installing OpenGV on the host OS
  *
- * At least under Linux and OSX, the installation on the host OS (including the headers) can be activated by simply setting INSTALL_OPENGV to ON.
+ * Installation on the host OS (including the headers) can be activated by simply launching the install target.
+ * By using "sudo make install" on Linux and OSX and by compiling the install target on the opengv Visual Studio solution in Windows. Sudo is required for system install.
+ * You can choose to have a local installation path by setting the cmake variable CMAKE_INSTALL_PREFIX to the path of your choice by using -DCMAKE_INSTALL_PREFIX:STRING="YourInstallPath" in the cmake command line.
+\verbatim
+cmake ../opengv 
+  -DEIGEN_INCLUDE_DIR="EigenIncludePath"
+  -DBUILD_TESTS=ON
+  -DCMAKE_INSTALL_PREFIX="YourInstallPath"
+make
+make install #sudo not required since we use a local installation
+\endverbatim 
  *
  * \section sec_installation_4 Installing the Matlab-wrapper (Windows-version)
  *
@@ -184,4 +204,22 @@ mex -I../include -I../EigenIncludePath -L../build/lib -lopengv opengv.cpp -cxx
  *
  * The compliation of the Python wrappers can be enabled by setting the option BUILD_PYTHON to ON. Note that the python wrappers depend additionally on boost, and that the wrapper currently only allows access to the central methods.
  *
+ * \section sec_installation_8 Using the OpenGV inside your cmake c++ project
+ *
+ * Once your have a system or local install of opengv you can use it in your own project.
+ * In your cmake file, add the search for the opengv library:
+\verbatim
+find_package(opengv REQUIRED)
+if (opengv_FOUND)
+  add_executable(main_opengv_demo main.cpp)
+  target_link_libraries(main_opengv_demo opengv)
+endif (opengv_FOUND)
+\endverbatim
+ *
+ * Then run cmake for your project (if you are using a local install of opengv, you can specify where the library is located by using -Dopengv_DIR:
+\verbatim
+ cmake ../myproject
+ -DCMAKE_BUILD_TYPE=RELEASE 
+ -Dopengv_DIR:STRING=/home/Foo/Documents/Dev/opengv_Build/install/CMake/
+\endverbatim
  */
