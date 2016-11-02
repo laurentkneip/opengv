@@ -107,7 +107,7 @@ opengv::sac::MultiRansac<PROBLEM_T>::computeModel(
 
       size_t multiSelectionSize = 0;
       for( size_t multiIter = 0; multiIter < selection.size(); multiIter++ )
-        multiSelectionSize += selection.size();
+        multiSelectionSize += selection[multiIter].size();
 
       // Compute the k parameter (k=log(z)/log(1-w^n))
       double w = static_cast<double> (n_best_inliers_count) /
@@ -143,7 +143,7 @@ opengv::sac::MultiRansac<PROBLEM_T>::computeModel(
       multiModelSize += model_[modelIter].size();
     fprintf(stdout,
         "[sm::RandomSampleConsensus::computeModel] Model: %zu size, %d inliers.\n",
-        model_.size(), n_best_inliers_count );
+        multiModelSize, n_best_inliers_count );
   }
 
   if(model_.empty())

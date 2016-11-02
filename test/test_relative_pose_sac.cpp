@@ -38,6 +38,9 @@
 #include <opengv/relative_pose/CentralRelativeAdapter.hpp>
 #include <opengv/sac/Ransac.hpp>
 #include <opengv/sac_problems/relative_pose/CentralRelativePoseSacProblem.hpp>
+#include <opengv/relative_pose/NoncentralRelativeMultiAdapter.hpp>
+#include <opengv/sac/MultiRansac.hpp>
+#include <opengv/sac_problems/relative_pose/MultiNoncentralRelativePoseSacProblem.hpp>
 #include <sstream>
 #include <fstream>
 
@@ -110,7 +113,7 @@ int main( int argc, char** argv )
       sac_problems::relative_pose::CentralRelativePoseSacProblem> relposeproblem_ptr(
       new sac_problems::relative_pose::CentralRelativePoseSacProblem(
       adapter,
-      sac_problems::relative_pose::CentralRelativePoseSacProblem::NISTER));
+      sac_problems::relative_pose::CentralRelativePoseSacProblem::STEWENIUS));
   ransac.sac_model_ = relposeproblem_ptr;
   ransac.threshold_ = 2.0*(1.0 - cos(atan(sqrt(2.0)*0.5/800.0)));
   ransac.max_iterations_ = 50;
@@ -123,7 +126,7 @@ int main( int argc, char** argv )
   gettimeofday( &toc, 0 );
   double ransac_time = TIMETODOUBLE(timeval_minus(toc,tic));
 
-  //print results
+  //print results for ransac 1
   std::cout << "the ransac threshold is: " << ransac.threshold_ << std::endl;
   std::cout << "the ransac results is: " << std::endl;
   std::cout << ransac.model_coefficients_ << std::endl << std::endl;

@@ -251,7 +251,7 @@ opengv::sac_problems::relative_pose::MultiNoncentralRelativePoseSacProblem::
     opengv::sac_problems::relative_pose::CentralRelativePoseSacProblem
         centralProblem(_adapter, algorithm);
     returnValue = centralProblem.computeModelCoefficients(
-        _adapter.convertMultiIndices(indices),outModel);
+        _adapter.convertMultiIndices(indices),outModel);    
 
     //The transformation has been computed from cam to cam now, so transform
     //that into the body frame
@@ -281,30 +281,30 @@ opengv::sac_problems::relative_pose::
 
   for( size_t camIndex = 0; camIndex < indices.size(); camIndex++ )
   {
+    translation_t cam1Offset = _adapter.getCamOffset(camIndex);
+    rotation_t cam1Rotation = _adapter.getCamRotation(camIndex);
+    translation_t cam2Offset = _adapter.getCamOffset(camIndex);
+    rotation_t cam2Rotation = _adapter.getCamRotation(camIndex);
+
+    translation_t directTranslation =
+        cam1Rotation.transpose() *
+        ((translation - cam1Offset) + rotation * cam2Offset);
+    rotation_t directRotation =
+        cam1Rotation.transpose() * rotation * cam2Rotation;
+
+    _adapter.sett12(directTranslation);
+    _adapter.setR12(directRotation);
+
+    transformation_t inverseSolution;
+    inverseSolution.block<3,3>(0,0) = directRotation.transpose();
+    inverseSolution.col(3) =
+        -inverseSolution.block<3,3>(0,0)*directTranslation;
+
     for(
         size_t correspondenceIndex = 0;
         correspondenceIndex < indices[camIndex].size();
         correspondenceIndex++ )
     {
-      translation_t cam1Offset = _adapter.getCamOffset(camIndex);
-      rotation_t cam1Rotation = _adapter.getCamRotation(camIndex);
-      translation_t cam2Offset = _adapter.getCamOffset(camIndex);
-      rotation_t cam2Rotation = _adapter.getCamRotation(camIndex);
-
-      translation_t directTranslation =
-          cam1Rotation.transpose() *
-          ((translation - cam1Offset) + rotation * cam2Offset);
-      rotation_t directRotation =
-          cam1Rotation.transpose() * rotation * cam2Rotation;
-
-      _adapter.sett12(directTranslation);
-      _adapter.setR12(directRotation);
-
-      transformation_t inverseSolution;
-      inverseSolution.block<3,3>(0,0) = directRotation.transpose();
-      inverseSolution.col(3) =
-          -inverseSolution.block<3,3>(0,0)*directTranslation;
-
       p_hom.block<3,1>(0,0) =
           opengv::triangulation::triangulate2(
           _adapter,
