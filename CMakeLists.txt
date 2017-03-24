@@ -1,28 +1,15 @@
-cmake_minimum_required(VERSION 2.4.6)
-project(opengv)
+cmake_minimum_required(VERSION 3.1.0)
+project(opengv CXX)
 
 set (OPENGV_VERSION_MAJOR 1)
 set (OPENGV_VERSION_MINOR 0)
-
-set(CMAKE_MODULE_PATH
-  ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
-
-# ==============================================================================
-# Check and enable C++11 support if available
-# ==============================================================================
-include(CXX11)
-check_for_cxx11_compiler(CXX11_COMPILER)
-# If a C++11 compiler is available, then set the appropriate flags
-IF(CXX11_COMPILER)
-  enable_cxx11()
-ENDIF(CXX11_COMPILER)
 
 # Set the build type.  Options are:
 #
 #  None (CMAKE_C_FLAGS or CMAKE_CXX_FLAGS used)
 #  Debug (CMAKE_C_FLAGS_DEBUG or CMAKE_CXX_FLAGS_DEBUG)
 #  Release (CMAKE_C_FLAGS_RELEASE or CMAKE_CXX_FLAGS_RELEASE)
-#  RelWithDebInfo (CMAKE_C_FLAGS_RELWITHDEBINFO or CMAKE_CXX_FLAGS_RELWITHDEBINFO
+#  RelWithDebInfo (CMAKE_C_FLAGS_RELWITHDEBINFO or CMAKE_CXX_FLAGS_RELWITHDEBINFO)
 #  MinSizeRel (CMAKE_C_FLAGS_MINSIZEREL or CMAKE_CXX_FLAGS_MINSIZEREL)
 
 set(CMAKE_BUILD_TYPE Release)
@@ -33,30 +20,38 @@ set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin)
 set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR}/lib)
 
 OPTION(BUILD_TESTS "Build tests" ON)
-OPTION(BUILD_SHARED_LIBS "Build shared libraries" OFF)
 OPTION(BUILD_PYTHON "Build Python extension" OFF)
-OPTION(BUILD_POSITION_INDEPENDENT_CODE "Build position independent code (-fPIC)" ON)
-OPTION(INSTALL_OPENGV "Install OpenGV on the system" OFF)
 
-add_definitions (-Wall -march=native -O3) #TODO use correct c++11 def once everybody has moved to gcc 4.7 # for now I even removed std=gnu++0x
+IF(MSVC)
+  set(BUILD_SHARED_LIBS OFF)
+ELSE()
+  OPTION(BUILD_SHARED_LIBS "Build shared libraries" OFF)
+  OPTION(BUILD_POSITION_INDEPENDENT_CODE "Build position independent code (-fPIC)" ON)
+ENDIF()
+
+IF(MSVC)
+  add_compile_options(/wd4514 /wd4267 $<$<CONFIG:DEBUG>:/bigobj>)
+ELSE()
+  add_definitions (-Wall -march=native -O3)
+ENDIF()
 
 IF(BUILD_POSITION_INDEPENDENT_CODE)
   add_definitions( -fPIC )
 ENDIF()
 
+ADD_DEFINITIONS (
+-Wall
+-Wextra
+#-Werror
+-Wwrite-strings
+-Wno-unused-parameter
+-fno-strict-aliasing
+)
 
-# get eigen (under windows)
-IF(WIN32)
-  set(ADDITIONAL_INCLUDE_DIRS ${PROJECT_SOURCE_DIR}/third_party
-                              ${PROJECT_SOURCE_DIR}/third_party/eigen3
-                              ${PROJECT_SOURCE_DIR}/third_party/eigen3/unsupported )
-ELSE()
-  set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/modules/")
-  find_package(Eigen REQUIRED)
-  set(ADDITIONAL_INCLUDE_DIRS ${EIGEN_INCLUDE_DIRS} ${EIGEN_INCLUDE_DIR}/unsupported )
-ENDIF()
-
-include_directories(${ADDITIONAL_INCLUDE_DIRS} ${PROJECT_SOURCE_DIR}/include)
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/modules/")
+find_package(Eigen REQUIRED)
+set(ADDITIONAL_INCLUDE_DIRS ${EIGEN_INCLUDE_DIRS} ${EIGEN_INCLUDE_DIR}/unsupported)
+include_directories(${PROJECT_SOURCE_DIR}/include)
 
 set( OPENGV_SOURCE_FILES
   src/absolute_pose/modules/main.cpp
@@ -177,18 +172,19 @@ set( OPENGV_HEADER_FILES
   include/opengv/relative_pose/MANoncentralRelativeMulti.hpp
   include/opengv/point_cloud/MAPointCloud.hpp )
 
-IF(WIN32)
-  add_library( opengv ${OPENGV_SOURCE_FILES} ${OPENGV_HEADER_FILES} )
-  add_library( random_generators test/random_generators.cpp test/random_generators.hpp test/experiment_helpers.cpp test/experiment_helpers.hpp test/time_measurement.cpp test/time_measurement.hpp )
-ELSE()
-  add_library( opengv ${OPENGV_SOURCE_FILES} ${OPENGV_HEADER_FILES} )
-  add_library( random_generators test/random_generators.cpp test/random_generators.hpp test/experiment_helpers.cpp test/experiment_helpers.hpp test/time_measurement.cpp test/time_measurement.hpp )
-  target_link_libraries(random_generators opengv)
-ENDIF()
-
+add_library( opengv ${OPENGV_SOURCE_FILES} ${OPENGV_HEADER_FILES} )
+add_library( random_generators test/random_generators.cpp test/random_generators.hpp test/experiment_helpers.cpp test/experiment_helpers.hpp test/time_measurement.cpp test/time_measurement.hpp )
+set_target_properties( opengv random_generators PROPERTIES
+  CXX_STANDARD 11
+  CXX_STANDARD_REQUIRED ON
+  DEBUG_POSTFIX d )
+target_include_directories( opengv PUBLIC ${ADDITIONAL_INCLUDE_DIRS} )
+target_include_directories( random_generators PRIVATE ${ADDITIONAL_INCLUDE_DIRS} )
+target_link_libraries( random_generators opengv )
 
 IF (BUILD_TESTS)
   enable_testing()
+  include_directories( ${ADDITIONAL_INCLUDE_DIRS} )
 
   add_executable( test_absolute_pose test/test_absolute_pose.cpp )
   target_link_libraries( test_absolute_pose opengv random_generators )
@@ -298,18 +294,46 @@ IF (BUILD_TESTS)
     WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
     COMMAND test_Sturm)
 
+  set_target_properties(
+    test_absolute_pose
+    test_absolute_pose_sac
+    test_noncentral_absolute_pose
+    test_noncentral_absolute_pose_sac
+    test_multi_noncentral_absolute_pose_sac
+    test_relative_pose
+    test_relative_pose_rotationOnly
+    test_relative_pose_rotationOnly_sac
+    test_relative_pose_sac
+    test_noncentral_relative_pose
+    test_noncentral_relative_pose_sac
+    test_multi_noncentral_relative_pose_sac
+    test_eigensolver_sac
+    test_triangulation
+    test_eigensolver
+    test_point_cloud
+    test_point_cloud_sac
+    test_Sturm
+
+    PROPERTIES
+    CXX_STANDARD 11
+    CXX_STANDARD_REQUIRED ON
+    DEBUG_POSTFIX d )
+
+
 ENDIF()
 
-IF (INSTALL_OPENGV)
-  install(
-    TARGETS opengv
-    ARCHIVE DESTINATION lib
-    LIBRARY DESTINATION lib
-    COMPONENT library
-  )
-ENDIF()
-
+install(
+  TARGETS opengv
+  EXPORT opengv-export
+  RUNTIME DESTINATION bin
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  COMPONENT library
+)
+target_include_directories(opengv PUBLIC "${CMAKE_INSTALL_PREFIX}/include")
 install(DIRECTORY include/ DESTINATION include/ FILES_MATCHING PATTERN "*.h" PATTERN "*.hpp")
+install(EXPORT opengv-export DESTINATION CMake FILE opengv-config.cmake)
+
 
 if (BUILD_PYTHON)
   add_subdirectory( python )

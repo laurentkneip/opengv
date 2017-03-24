@@ -545,7 +545,7 @@ transformations_t upnp(
   
   //Round 1: chirality check
   std::vector<std::pair<double,Eigen::Vector4d>,Eigen::aligned_allocator< std::pair<double,Eigen::Vector4d> > > quaternions2;
-  for( int i = 0; i < quaternions1.size(); i++ )
+  for( size_t i = 0; i < quaternions1.size(); i++ )
   {
     rotation_t Rinv = math::quaternion2rot(quaternions1[i].second);
     
@@ -635,19 +635,23 @@ transformations_t upnp(
     characteristicPolynomial.push_back(Jacobian(2,2)+Jacobian(1,1)+Jacobian(0,0));
     characteristicPolynomial.push_back(-Jacobian(2,2)*Jacobian(1,1)-Jacobian(2,2)*Jacobian(0,0)-Jacobian(1,1)*Jacobian(0,0)+pow(Jacobian(1,2),2)+pow(Jacobian(0,2),2)+pow(Jacobian(0,1),2));
     characteristicPolynomial.push_back(Jacobian(2,2)*Jacobian(1,1)*Jacobian(0,0)+2*Jacobian(1,2)*Jacobian(0,2)*Jacobian(0,1)-Jacobian(2,2)*pow(Jacobian(0,1),2)-pow(Jacobian(1,2),2)*Jacobian(0,0)-Jacobian(1,1)*pow(Jacobian(0,2),2));
-    std::vector<double> roots = opengv::math::o3_roots( characteristicPolynomial );
     
-    bool allPositive = true;
-    for( size_t i = 0; i < roots.size(); i++ )
-    {
-      if( roots[i] < 0.0 )
-      {
-        allPositive = false;
-        break;
-      }
-    }
     
-    if( true )//allPositive)//use all results for the moment
+    //const std::vector<double> roots = opengv::math::o3_roots( characteristicPolynomial );
+    //
+    //bool allPositive = true;
+    //for( size_t i = 0; i < roots.size(); i++ )
+    //{
+    //  if( roots[i] < 0.0 )
+    //  {
+    //    allPositive = false;
+    //    break;
+    //  }
+    //}
+    //
+    // use all results for the moment
+    //
+    //if( allPositive )
     {
       //perform the polishing step
       Eigen::Vector3d cay = - Jacobian.inverse() * val;
