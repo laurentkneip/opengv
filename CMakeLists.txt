@@ -48,7 +48,6 @@ ADD_DEFINITIONS (
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/modules/")
 find_package(Eigen REQUIRED)
 set(ADDITIONAL_INCLUDE_DIRS ${EIGEN_INCLUDE_DIRS} ${EIGEN_INCLUDE_DIR}/unsupported)
-include_directories(${PROJECT_SOURCE_DIR}/include)
 
 set( OPENGV_SOURCE_FILES
   src/absolute_pose/modules/main.cpp
@@ -179,7 +178,14 @@ set_target_properties( opengv random_generators PROPERTIES
                     DEBUG_POSTFIX d )
 
 target_include_directories( opengv PUBLIC 
+                # only when building from the source tree
+                $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
+                # only when using the lib from the install path
+                $<INSTALL_INTERFACE:include>
+                ${ADDITIONAL_INCLUDE_DIRS} )
+
 target_include_directories( random_generators PRIVATE ${ADDITIONAL_INCLUDE_DIRS} )
+
 target_link_libraries( random_generators opengv )
 
 IF (BUILD_TESTS)
