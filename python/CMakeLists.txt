@@ -15,6 +15,8 @@ target_link_libraries(pyopengv opengv)
 set_target_properties(pyopengv PROPERTIES
                     CXX_STANDARD 11
                     CXX_STANDARD_REQUIRED ON
+                    SOVERSION ${PROJECT_VERSION}
+                    VERSION ${PROJECT_VERSION}
                     PREFIX ""
                     SUFFIX ".so")
 if(APPLE)
