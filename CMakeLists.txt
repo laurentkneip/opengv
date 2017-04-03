@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.1.0)
+cmake_minimum_required(VERSION 3.1.3)
 project(opengv VERSION 1.0 LANGUAGES CXX)
 
 # Set the build type.  Options are:
