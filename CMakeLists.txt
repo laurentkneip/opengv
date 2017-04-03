@@ -172,10 +172,13 @@ set( OPENGV_HEADER_FILES
 add_library( opengv ${OPENGV_SOURCE_FILES} ${OPENGV_HEADER_FILES} )
 add_library( random_generators test/random_generators.cpp test/random_generators.hpp test/experiment_helpers.cpp test/experiment_helpers.hpp test/time_measurement.cpp test/time_measurement.hpp )
 set_target_properties( opengv random_generators PROPERTIES
-  CXX_STANDARD 11
-  CXX_STANDARD_REQUIRED ON
-  DEBUG_POSTFIX d )
-target_include_directories( opengv PUBLIC ${ADDITIONAL_INCLUDE_DIRS} )
+                    SOVERSION ${PROJECT_VERSION}
+                    VERSION ${PROJECT_VERSION}
+                    CXX_STANDARD 11
+                    CXX_STANDARD_REQUIRED ON
+                    DEBUG_POSTFIX d )
+
+target_include_directories( opengv PUBLIC 
 target_include_directories( random_generators PRIVATE ${ADDITIONAL_INCLUDE_DIRS} )
 target_link_libraries( random_generators opengv )
 
