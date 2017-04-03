@@ -328,17 +328,54 @@ IF (BUILD_TESTS)
 
 ENDIF()
 
-install(
-  TARGETS opengv
-  EXPORT opengv-export
-  RUNTIME DESTINATION bin
-  ARCHIVE DESTINATION lib
-  LIBRARY DESTINATION lib
-  COMPONENT library
-)
-target_include_directories(opengv PUBLIC "${CMAKE_INSTALL_PREFIX}/include")
-install(DIRECTORY include/ DESTINATION include/ FILES_MATCHING PATTERN "*.h" PATTERN "*.hpp")
-install(EXPORT opengv-export DESTINATION CMake FILE opengv-config.cmake)
+# Configuration
+set(config_install_dir "lib/cmake/${PROJECT_NAME}")
+set(include_install_dir "include")
+set(version_config "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake")
+set(project_config "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake")
+set(targets_export_name "${PROJECT_NAME}Targets")
+
+# Include module with fuction 'write_basic_package_version_file'
+include(CMakePackageConfigHelpers)
+
+# Configure '<PROJECT-NAME>ConfigVersion.cmake'
+# Note: PROJECT_VERSION is used as a VERSION
+write_basic_package_version_file(
+    "${version_config}" COMPATIBILITY SameMajorVersion )
+
+# Configure '<PROJECT-NAME>Config.cmake'
+# Use variables:
+#   * targets_export_name
+#   * PROJECT_NAME
+configure_package_config_file(
+    "modules/Config.cmake.in"
+    "${project_config}"
+    INSTALL_DESTINATION "${config_install_dir}")
+
+# Targets:
+install(TARGETS opengv
+        EXPORT "${targets_export_name}"
+        LIBRARY DESTINATION "lib"
+        ARCHIVE DESTINATION "lib"
+        RUNTIME DESTINATION "bin"
+        INCLUDES DESTINATION "${include_install_dir}")
+
+# Config
+#   * <prefix>/lib/cmake/opengv/opengvConfig.cmake
+#   * <prefix>/lib/cmake/opengv/opengvConfigVersion.cmake
+install(FILES "${project_config}" "${version_config}"
+        DESTINATION "${config_install_dir}")
+
+# Config
+#   * <prefix>/lib/cmake/opengv/opengvTargets.cmake
+install(EXPORT "${targets_export_name}"
+        NAMESPACE "${namespace}"
+        DESTINATION "${config_install_dir}")
+
+# Headers
+install(DIRECTORY include/ 
+        DESTINATION ${include_install_dir} 
+        FILES_MATCHING PATTERN "*.h" PATTERN "*.hpp")
 
 
 if (BUILD_PYTHON)
