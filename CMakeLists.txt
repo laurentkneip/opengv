@@ -282,13 +282,13 @@ IF (BUILD_TESTS)
     WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
     COMMAND test_point_cloud)
 
-  add_Executable( test_point_cloud_sac test/test_point_cloud_sac.cpp )
+  add_executable( test_point_cloud_sac test/test_point_cloud_sac.cpp )
   target_link_libraries( test_point_cloud_sac opengv random_generators )
   add_test(NAME test_point_cloud_sac
     WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
     COMMAND test_point_cloud_sac)
 
-  add_Executable( test_Sturm test/test_Sturm.cpp )
+  add_executable( test_Sturm test/test_Sturm.cpp )
   target_link_libraries( test_Sturm opengv random_generators )
   add_test(NAME test_Sturm
     WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
