@@ -52,6 +52,8 @@ before_script:
 
 script:
   - make -j2 VERBOSE=1
+  - make test
+
 cache:
   directories:
     - $CMAKE_INSTALL
