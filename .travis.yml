@@ -50,9 +50,9 @@ before_script:
   - cd build
   - >
      if [ $CXX = "clang++" ]; then
-        cmake .. -DBUILD_TESTS=ON -DBUILD_PYTHON=OFF -DCMAKE_CXX_FLAGS="-Wno-deprecated-register"
+        cmake .. -DBUILD_TESTS:BOOL=ON -DBUILD_PYTHON:BOOL=ON -DCMAKE_CXX_FLAGS="-Wno-deprecated-register"
      else
-        cmake .. -DBUILD_TESTS=ON -DBUILD_PYTHON=OFF
+        cmake .. -DBUILD_TESTS:BOOL=ON -DBUILD_PYTHON:BOOL=ON
      fi
 
 script:
