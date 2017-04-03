@@ -48,7 +48,12 @@ before_install:
 before_script:
   - mkdir build
   - cd build
-  - cmake .. -DBUILD_TESTS=ON -DBUILD_PYTHON=OFF
+  - >
+     if [ $CXX = "clang++" ]; then
+        cmake .. -DBUILD_TESTS=ON -DBUILD_PYTHON=OFF -DCMAKE_CXX_FLAGS="-Wno-deprecated-register"
+     else
+        cmake .. -DBUILD_TESTS=ON -DBUILD_PYTHON=OFF
+     fi
 
 script:
   - make -j2 VERBOSE=1
