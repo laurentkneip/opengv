@@ -1,6 +1,19 @@
 
+option(BUILD_FOR_PYTHON3 "build pyopengv for Python 3" OFF)
 
-find_package(Boost REQUIRED COMPONENTS python3)
+if(${BUILD_FOR_PYTHON3})
+    set(BOOST_PYTHON_COMPONENT python3)
+    set(BOOST_NUMPY_COMPONENT numpy3)
+    set(Python_ADDITIONAL_VERSIONS 3.7 3.6)
+    set(Python_VERSION_SUFFIX 3)
+else()
+    set(BOOST_PYTHON_COMPONENT python)
+    set(BOOST_NUMPY_COMPONENT numpy)
+    set(Python_ADDITIONAL_VERSIONS 2.7)
+    set(Python_VERSION_SUFFIX "")
+endif()
+
+find_package(Boost REQUIRED COMPONENTS ${BOOST_PYTHON_COMPONENT})
 
 if(${Boost_VERSION} LESS 106300)
     message("Not using boost/python/numpy.")
@@ -10,19 +23,19 @@ else()
     set(USE_BOOST_PYTHON_NUMPY "on")
     add_definitions(-DUSE_BOOST_PYTHON_NUMPY)
 
-    find_package(Boost 1.63 REQUIRED COMPONENTS python3 numpy3)
+    find_package(Boost 1.63 REQUIRED COMPONENTS
+                 ${BOOST_PYTHON_COMPONENT} ${BOOST_NUMPY_COMPONENT})
 endif()
 
 include_directories(${Boost_INCLUDE_DIRS})
 
-set(Python_ADDITIONAL_VERSIONS "3.6")
-find_package(PythonLibs 3 REQUIRED)
+find_package(PythonLibs ${Python_VERSION_SUFFIX} REQUIRED)
 include_directories(${PYTHON_INCLUDE_DIRS})
 
 find_package(NumPy REQUIRED)
 include_directories(${NUMPY_INCLUDE_DIRS})
 
-add_library( pyopengv SHARED pyopengv.cpp )
+add_library(pyopengv SHARED pyopengv.cpp)
 target_link_libraries(pyopengv opengv)
 
 set_target_properties(pyopengv PROPERTIES
