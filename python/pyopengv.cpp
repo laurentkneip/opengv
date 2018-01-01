@@ -18,15 +18,17 @@
 #include <numpy/ndarrayobject.h>
 #endif
 
+/* Initialise numpy API and use 2/3 compatible return */
 #if (PY_VERSION_HEX < 0x03000000)
-static void numpy_import_array_wrapper()
-#else
-static int* numpy_import_array_wrapper()
-#endif
-{
-  /* Initialise numpy API and use 2/3 compatible return */
+static void numpy_import_array_wrapper() {
   import_array();
 }
+#else
+static int numpy_import_array_wrapper() {
+  import_array();
+  return 0;
+}
+#endif
 
 
 

@@ -1,6 +1,6 @@
 
 
-find_package(Boost REQUIRED COMPONENTS python)
+find_package(Boost REQUIRED COMPONENTS python3)
 
 if(${Boost_VERSION} LESS 106300)
     message("Not using boost/python/numpy.")
@@ -10,13 +10,13 @@ else()
     set(USE_BOOST_PYTHON_NUMPY "on")
     add_definitions(-DUSE_BOOST_PYTHON_NUMPY)
 
-    find_package(Boost 1.63 REQUIRED COMPONENTS python numpy)
+    find_package(Boost 1.63 REQUIRED COMPONENTS python3 numpy3)
 endif()
 
 include_directories(${Boost_INCLUDE_DIRS})
 
-set(Python_ADDITIONAL_VERSIONS "2.7")
-find_package(PythonLibs REQUIRED)
+set(Python_ADDITIONAL_VERSIONS "3.6")
+find_package(PythonLibs 3 REQUIRED)
 include_directories(${PYTHON_INCLUDE_DIRS})
 
 find_package(NumPy REQUIRED)
@@ -46,7 +46,7 @@ endif()
 
 # Find whether to install python libs in site-packages or dist-packages
 execute_process ( COMMAND
-    python -c "import distutils.sysconfig; print 'dist-packages' if distutils.sysconfig.get_python_lib().endswith('dist-packages') else 'site-packages'"
+    python -c "import distutils.sysconfig; print('dist-packages' if distutils.sysconfig.get_python_lib().endswith('dist-packages') else 'site-packages')"
     OUTPUT_VARIABLE PYTHON_SITE_PACKAGES OUTPUT_STRIP_TRAILING_WHITESPACE)
 
 set(PYTHON_INSTALL_DIR
