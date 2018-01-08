@@ -96,8 +96,8 @@ $(document).ready(function(){initNavTree('page_installation.html','');});
 <div class="textblock"><h1><a class="anchor" id="sec_installation_0_5"></a>
 Before you start</h1>
 <p>If you are only interested in using the library under Matlab, now there is a precompiled mex-library for 64-bit systems available. You can download it from:</p>
-<pre class="fragment">Windows: https://dl.dropboxusercontent.com/u/23966023/opengv/opengv.mexw64
-Mac OSX: https://dl.dropboxusercontent.com/u/23966023/opengv/opengv.mexmaci64
+<pre class="fragment">Windows: http://laurentkneip.github.io/publications/opengv.mexw64
+Mac OSX: http://laurentkneip.github.io/publications/opengv.mexmaci64
 </pre><p>These versions have been added around March 2016, so please be aware that later additions may not be included in this distribution. You can go immediately to <a class="el" href="page_matlab.html">Use under Matlab</a> to receive further instructions on the Matlab interface.</p>
 <h1><a class="anchor" id="sec_installation_1"></a>
 Downloading the source code</h1>
@@ -118,14 +118,19 @@ Installation under Linux</h1>
 </pre><p class="endli"></p>
 </li>
 <li>
-<p class="startli">Install cmake and eigen3, those tools are required by the library. Type:</p>
+<p class="startli">Install cmake. CMake is a cross-platform, open-source build system used for pretty much anything in the compilation process for the compilation/linking of the library. Type:</p>
+<pre class="fragment">sudo apt-get install cmake
+</pre><p class="endli"></p>
+</li>
+<li>
+<p class="startli">Install eigen3. Eigen3 is a powerful linear algebra library used for all computations in OpenGV. You can either use an installed version of a local install (unzipped version of Eigen3 downloaded from Eigen website).</p>
 <pre class="fragment">sudo apt-get install cmake libeigen3-dev
-</pre><p>CMake is a cross-platform, open-source build system used for pretty much anything in the compilation process but the compilation/linking itself. Eigen3 is a powerful linear algebra library used for all computations in OpenGV.</p>
-<p class="endli"></p>
+</pre><p class="endli"></p>
 </li>
 <li>
 <p class="startli">Go to the top-level directory of OpenGV. Type:</p>
 <pre class="fragment">mkdir build &amp;&amp; cd build &amp;&amp; cmake .. &amp;&amp; make
+</pre><p>If a message like "Could NOT find Eigen (missing: EIGEN_INCLUDE_DIR EIGEN_VERSION_OK)" appears. It's certainly because that you does not have Eigen3 installed on your computer system path. You can specify to cmake the path where Eigen is located by adding: </p><pre class="fragment">mkdir build &amp;&amp; cd build &amp;&amp; cmake .. -DEIGEN_INCLUDE_DIR:STRING="EigenIncludePath" &amp;&amp; make
 </pre><p class="endli"></p>
 </li>
 <li>
@@ -165,7 +170,7 @@ Go to the opengv directory and add a build folder </li>
 <p class="endli"></p>
 </li>
 <li>
-Note that we included third-party stuff like eigen in the sub-folder third_party. It is cleaner to get a fresh download of those dependencies on your computer, and reset the INCLUDE-directories in the CMakeLists.txt file. You should absolutely do so if you already have a version of these dependencies installed on your system. </li>
+Note that we Eigen dependency is not longer included. It is better to get a fresh download of Eigen on your computer, and specify to cmake the Eigen include path with -DEIGEN_INCLUDE_DIR="path". </li>
 </ul>
 <h1><a class="anchor" id="sec_installation_35"></a>
 Installation under OSX</h1>
@@ -180,8 +185,13 @@ Compile using normal cmake procedure. </li>
 </ul>
 <h1><a class="anchor" id="sec_installation_36"></a>
 Installing OpenGV on the host OS</h1>
-<p>At least under Linux and OSX, the installation on the host OS (including the headers) can be activated by simply setting INSTALL_OPENGV to ON.</p>
-<h1><a class="anchor" id="sec_installation_4"></a>
+<p>Installation on the host OS (including the headers) can be activated by simply launching the install target. By using "sudo make install" on Linux and OSX and by compiling the install target on the opengv Visual Studio solution in Windows. Sudo is required for system install. You can choose to have a local installation path by setting the cmake variable CMAKE_INSTALL_PREFIX to the path of your choice by using -DCMAKE_INSTALL_PREFIX:STRING="YourInstallPath" in the cmake command line. </p><pre class="fragment">cmake ../opengv 
+  -DEIGEN_INCLUDE_DIR="EigenIncludePath"
+  -DBUILD_TESTS=ON
+  -DCMAKE_INSTALL_PREFIX="YourInstallPath"
+make
+make install #sudo not required since we use a local installation
+</pre><h1><a class="anchor" id="sec_installation_4"></a>
 Installing the Matlab-wrapper (Windows-version)</h1>
 <ul>
 <li>
@@ -193,7 +203,7 @@ Installing the Matlab-wrapper (Windows-version)</h1>
 </li>
 <li>
 <p class="startli">Once this is done, you can compile the mex-file by going to the opengv/matlab folder and typing in the console</p>
-<pre class="fragment">mex -I../include -I../third_party -I../third_party/eigen3 -L../build/lib/Release -lopengv opengv.cpp
+<pre class="fragment">mex -I../include -I../EigenIncludePath -L../build/lib/Release -lopengv opengv.cpp
 </pre><p class="endli"></p>
 </li>
 <li>
@@ -215,7 +225,7 @@ Install Matlab with the provided installer, and then add the matlab-support pack
 </li>
 <li>
 <p class="startli">Go to the opengv/matlab-folder inside Matlab, and issue the command</p>
-<pre class="fragment">mex -I../include -I../third_party -I../third_party/eigen3 -L../build/lib -lopengv opengv.cpp -cxx
+<pre class="fragment">mex -I../include -I../EigenIncludePath -L../build/lib -lopengv opengv.cpp -cxx
 </pre><p class="endli">Note the lib directory does not contain a Release subfolder under linux, and that the -cxx option has to be added. </p>
 </li>
 </ul>
@@ -224,13 +234,23 @@ Installing the Matlab-wrapper (OSX-version)</h1>
 <p>To compile the Matlab interface under OSX, use the same command as under Windows, with adapted library folder (-L../build/lib instead of -L../build/lib/Release). You of course need to make sure again that Matlab knows where to find the library, and that a suitable compiler is set up in Matlab as well.</p>
 <h1><a class="anchor" id="sec_installation_7"></a>
 Installing the python wrappers</h1>
-<p>The compliation of the Python wrappers can be enabled by setting the option BUILD_PYTHON to ON. Note that the python wrappers depend additionally on boost, and that the wrapper currently only allows access to the central methods. </p>
-</div></div><!-- contents -->
+<p>The compliation of the Python wrappers can be enabled by setting the option BUILD_PYTHON to ON. Note that the python wrappers depend additionally on boost, and that the wrapper currently only allows access to the central methods.</p>
+<h1><a class="anchor" id="sec_installation_8"></a>
+Using the OpenGV inside your cmake c++ project</h1>
+<p>Once your have a system or local install of opengv you can use it in your own project. In your cmake file, add the search for the opengv library: </p><pre class="fragment">find_package(opengv REQUIRED)
+if (opengv_FOUND)
+  add_executable(main_opengv_demo main.cpp)
+  target_link_libraries(main_opengv_demo opengv)
+endif (opengv_FOUND)
+</pre><p>Then run cmake for your project (if you are using a local install of opengv, you can specify where the library is located by using -Dopengv_DIR: </p><pre class="fragment"> cmake ../myproject
+ -DCMAKE_BUILD_TYPE=RELEASE 
+ -Dopengv_DIR:STRING=/home/Foo/Documents/Dev/opengv_Build/install/CMake/
+</pre> </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Wed May 11 2016 10:55:39 for OpenGV by
+    <li class="footer">Generated on Mon Jan 8 2018 21:43:04 for OpenGV by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

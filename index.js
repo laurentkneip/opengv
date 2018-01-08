@@ -11,7 +11,8 @@ var index =
       [ "Installing the Matlab-wrapper (Windows-version)", "page_installation.html#sec_installation_4", null ],
       [ "Installing the Matlab-wrapper (Linux-version)", "page_installation.html#sec_installation_5", null ],
       [ "Installing the Matlab-wrapper (OSX-version)", "page_installation.html#sec_installation_6", null ],
-      [ "Installing the python wrappers", "page_installation.html#sec_installation_7", null ]
+      [ "Installing the python wrappers", "page_installation.html#sec_installation_7", null ],
+      [ "Using the OpenGV inside your cmake c++ project", "page_installation.html#sec_installation_8", null ]
     ] ],
     [ "How to use", "page_how_to_use.html", [
       [ "Vocabulary", "page_how_to_use.html#sec_vocabulary", null ],
