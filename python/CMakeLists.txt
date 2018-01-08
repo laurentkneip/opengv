@@ -1,8 +1,11 @@
 
 option(BUILD_FOR_PYTHON3 "build pyopengv for Python 3" OFF)
+option(BOOST_PYTHON3_COMPONENT
+       "name of the Boost Python 3 component (python3, python-py36 or python-py37)"
+       python3)
 
 if(${BUILD_FOR_PYTHON3})
-    set(BOOST_PYTHON_COMPONENT python3)
+    set(BOOST_PYTHON_COMPONENT ${BOOST_PYTHON3_COMPONENT})
     set(BOOST_NUMPY_COMPONENT numpy3)
     set(Python_ADDITIONAL_VERSIONS 3.7 3.6)
     set(Python_VERSION_SUFFIX 3)
