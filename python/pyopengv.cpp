@@ -2,6 +2,7 @@
 #include <iostream>
 #include <vector>
 #include <opengv/absolute_pose/AbsoluteAdapterBase.hpp>
+#include <opengv/absolute_pose/NoncentralAbsoluteAdapter.hpp>
 #include <opengv/absolute_pose/methods.hpp>
 #include <opengv/relative_pose/RelativeAdapterBase.hpp>
 #include <opengv/relative_pose/methods.hpp>
@@ -13,26 +14,27 @@
 
 #include "types.hpp"
 
+#ifndef USE_BOOST_PYTHON_NUMPY
 #define NPY_NO_DEPRECATED_API NPY_1_7_API_VERSION
 #include <numpy/ndarrayobject.h>
-
-#if (PY_VERSION_HEX < 0x03000000)
-static void numpy_import_array_wrapper()
-#else
-static int* numpy_import_array_wrapper()
 #endif
-{
-  /* Initialise numpy API and use 2/3 compatible return */
+
+/* Initialise numpy API and use 2/3 compatible return */
+#if (PY_VERSION_HEX < 0x03000000)
+static void numpy_import_array_wrapper() {
   import_array();
 }
-
+#else
+static int numpy_import_array_wrapper() {
+  import_array();
+  return 0;
+}
+#endif
 
 
 
 namespace pyopengv {
 
-namespace bp = boost::python;
-namespace bpn = boost::python::numeric;
 
 typedef PyArrayContiguousView<double> pyarray_t;
 
@@ -46,6 +48,42 @@ opengv::bearingVector_t bearingVectorFromArray(
   v[1] = array.get(index, 1);
   v[2] = array.get(index, 2);
   return v;
+}
+
+size_t indexFromArray(
+    const pyarray_t &array,
+    size_t index )
+{
+  size_t val = (size_t) array.get(index);
+  return val;
+}
+
+opengv::translation_t translationFromArray(
+    const pyarray_t &array,
+    size_t index )
+{
+  opengv::translation_t t;
+  t[0] = array.get(index, 0);
+  t[1] = array.get(index, 1);
+  t[2] = array.get(index, 2);
+  return t;
+}
+
+opengv::rotation_t rotationFromArray(
+    const pyarray_t &array,
+    size_t index )
+{
+  opengv::rotation_t R;
+  R(0,0) = array.get2D(index, 0);
+  R(0,1) = array.get2D(index, 1);
+  R(0,2) = array.get2D(index, 2);
+  R(1,0) = array.get2D(index, 3);
+  R(1,1) = array.get2D(index, 4);
+  R(1,2) = array.get2D(index, 5);
+  R(2,0) = array.get2D(index, 6);
+  R(2,1) = array.get2D(index, 7);
+  R(2,2) = array.get2D(index, 8);
+  return R;
 }
 
 opengv::point_t pointFromArray(
@@ -67,21 +105,18 @@ bp::object arrayFromPoints( const opengv::points_t &points )
     data[3 * i + 1] = points[i][1];
     data[3 * i + 2] = points[i][2];
   }
-  npy_intp shape[2] = {(npy_intp)points.size(), 3};
-  return bpn_array_from_data(2, shape, &data[0]);
+  return bpn_array_from_data(&data[0], points.size(), 3);
 }
 
 bp::object arrayFromTranslation( const opengv::translation_t &t )
 {
-  npy_intp shape[1] = {3};
-  return bpn_array_from_data(1, shape, t.data());
+  return bpn_array_from_data(t.data(), 3);
 }
 
 bp::object arrayFromRotation( const opengv::rotation_t &R )
 {
   Eigen::Matrix<double, 3, 3, Eigen::RowMajor> R_row_major = R;
-  npy_intp shape[2] = {3, 3};
-  return bpn_array_from_data(2, shape, R_row_major.data());
+  return bpn_array_from_data(R_row_major.data(), 3, 3);
 }
 
 bp::list listFromRotations( const opengv::rotations_t &Rs )
@@ -96,8 +131,7 @@ bp::list listFromRotations( const opengv::rotations_t &Rs )
 bp::object arrayFromEssential( const opengv::essential_t &E )
 {
   Eigen::Matrix<double, 3, 3, Eigen::RowMajor> E_row_major = E;
-  npy_intp shape[2] = {3, 3};
-  return bpn_array_from_data(2, shape, E_row_major.data());
+  return bpn_array_from_data(E_row_major.data(), 3, 3);
 }
 
 bp::list listFromEssentials( const opengv::essentials_t &Es )
@@ -112,8 +146,7 @@ bp::list listFromEssentials( const opengv::essentials_t &Es )
 bp::object arrayFromTransformation( const opengv::transformation_t &t )
 {
   Eigen::Matrix<double, 3, 4, Eigen::RowMajor> t_row_major = t;
-  npy_intp shape[2] = {3, 4};
-  return bpn_array_from_data(2, shape, t_row_major.data());
+  return bpn_array_from_data(t_row_major.data(), 3, 4);
 }
 
 bp::list listFromTransformations( const opengv::transformations_t &t )
@@ -125,6 +158,25 @@ bp::list listFromTransformations( const opengv::transformations_t &t )
   return retn;
 }
 
+//template<class T>
+//bp::list listFromStdVector(const std::vector<T>& v)
+//{
+//    bp::object get_iter = bp::iterator<std::vector<T> >();
+//    bp::object iter = get_iter(v);
+//    bp::list l(iter);
+//    return l;
+//}
+// Converts a C++ vector to a python list
+template <class T>
+bp::list listFromStdVector(std::vector<T> vector) {
+    typename std::vector<T>::iterator iter;
+    bp::list list;
+    for (iter = vector.begin(); iter != vector.end(); ++iter) {
+        list.append(*iter);
+    }
+    return list;
+}
+
 std::vector<int> getNindices( int n )
 {
   std::vector<int> indices;
@@ -133,6 +185,197 @@ std::vector<int> getNindices( int n )
   return indices;
 }
 
+
+namespace absolute_pose_noncentral {
+
+class NonCentralAbsoluteAdapter : public opengv::absolute_pose::AbsoluteAdapterBase
+{
+protected:
+  using AbsoluteAdapterBase::_t;
+  using AbsoluteAdapterBase::_R;
+
+public:
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
+
+  NonCentralAbsoluteAdapter(
+      ndarray &bearingVectors,
+      ndarray &camCorrespondences,
+      ndarray &points,
+      ndarray &camOffsets,
+      ndarray &camRotations
+  )
+    : _bearingVectors(bearingVectors)
+    , _camCorrespondences(camCorrespondences)
+    , _points(points)
+    , _camOffsets(camOffsets)
+    , _camRotations(camRotations)
+  {
+  }
+
+  NonCentralAbsoluteAdapter(
+      ndarray &bearingVectors,
+      ndarray &camCorrespondences,
+      ndarray &points,
+      ndarray &camOffsets,
+      ndarray &camRotations,
+      ndarray &R )
+    : _bearingVectors(bearingVectors)
+    , _camCorrespondences(camCorrespondences)
+    , _points(points)
+    , _camOffsets(camOffsets)
+    , _camRotations(camRotations)
+  {
+    pyarray_t R_view(R);
+    for (int i = 0; i < 3; ++i) {
+      for (int j = 0; j < 3; ++j) {
+        _R(i, j) = R_view.get(i, j);
+      }
+    }
+  }
+
+  NonCentralAbsoluteAdapter(
+      ndarray &bearingVectors,
+      ndarray &camCorrespondences,
+      ndarray &points,
+      ndarray &camOffsets,
+      ndarray &camRotations,
+      ndarray &t,
+      ndarray &R )
+    : _bearingVectors(bearingVectors)
+    , _camCorrespondences(camCorrespondences)
+    , _points(points)
+    , _camOffsets(camOffsets)
+    , _camRotations(camRotations)
+  {
+    pyarray_t t_view(t);
+    for (int i = 0; i < 3; ++i) {
+      _t(i) = t_view.get(i);
+    }
+    pyarray_t R_view(R);
+    for (int i = 0; i < 3; ++i) {
+      for (int j = 0; j < 3; ++j) {
+        _R(i, j) = R_view.get(i, j);
+      }
+    }
+  }
+
+  virtual ~NonCentralAbsoluteAdapter() {}
+
+  //Access of correspondences
+
+  virtual opengv::bearingVector_t getBearingVector( size_t index ) const {
+    //std::cout << "Getting bearing vector with index " << (int) index << std::endl;
+    return bearingVectorFromArray(_bearingVectors, index);
+  }
+
+  virtual size_t getcamCorrespondence( size_t index ) const {
+    //std::cout << "Getting cam correspondence for index " << (int) index << std::endl;
+    return indexFromArray(_camCorrespondences, index);
+  }
+
+  virtual double getWeight( size_t index ) const {
+    return 1.0;
+  }
+
+  virtual opengv::translation_t getCamOffset( size_t index ) const {
+    size_t cam_index = getcamCorrespondence(index);
+    //std::cout << "Getting offset of cam index " << (int) cam_index << std::endl;
+    return translationFromArray(_camOffsets, cam_index);
+  }
+
+  virtual opengv::rotation_t getCamRotation( size_t index ) const {
+    size_t cam_index = getcamCorrespondence(index);
+    //std::cout << "Getting rotation of cam index " << (int) cam_index << std::endl;
+    return rotationFromArray(_camRotations, cam_index);
+  }
+
+  virtual opengv::point_t getPoint( size_t index ) const {
+    //std::cout << "Getting point index " << (int) index << std::endl;
+    return pointFromArray(_points, index);
+  }
+
+  virtual size_t getNumberCorrespondences() const {
+    //std::cout << "Asking for number of correspondences = " << (int) _bearingVectors.shape(0) << std::endl;
+    return _bearingVectors.shape(0);
+  }
+
+protected:
+  pyarray_t _bearingVectors;
+  pyarray_t _camCorrespondences;
+  pyarray_t _points;
+  pyarray_t _camOffsets;
+  pyarray_t _camRotations;
+
+};
+
+
+bp::object gp3p( ndarray &v, ndarray &c, ndarray &p, ndarray &camOffsets, ndarray &camRotations)
+{
+  NonCentralAbsoluteAdapter adapter(v, c, p, camOffsets, camRotations);
+  return listFromTransformations(opengv::absolute_pose::gp3p(adapter, 0, 1, 2));
+}
+
+bp::object gpnp( ndarray &v, ndarray &c, ndarray &p, ndarray &camOffsets, ndarray &camRotations)
+{
+  NonCentralAbsoluteAdapter adapter(v, c, p, camOffsets, camRotations);
+  return arrayFromTransformation(opengv::absolute_pose::gpnp(adapter));
+}
+
+bp::object upnp( ndarray &v, ndarray &c, ndarray &p, ndarray &camOffsets, ndarray &camRotations)
+{
+  NonCentralAbsoluteAdapter adapter(v, c, p, camOffsets, camRotations);
+  return listFromTransformations(opengv::absolute_pose::upnp(adapter));
+}
+
+bp::object optimize_nonlinear(ndarray &v,
+                              ndarray &c,
+                              ndarray &p,
+                              ndarray &camOffsets,
+                              ndarray &camRotations,
+                              ndarray &t,
+                              ndarray &R)
+{
+  NonCentralAbsoluteAdapter adapter(v, c, p, camOffsets, camRotations, t, R);
+  return arrayFromTransformation(opengv::absolute_pose::optimize_nonlinear(adapter));
+}
+
+
+bp::tuple ransac( ndarray &v,
+                  ndarray &c,
+                  ndarray &p,
+                  ndarray &camOffsets,
+                  ndarray &camRotations,
+                  double threshold,
+                  int max_iterations )
+{
+  using namespace opengv::sac_problems::absolute_pose;
+
+  NonCentralAbsoluteAdapter adapter(v, c, p, camOffsets, camRotations);
+
+  // Create a ransac problem
+  // NOTE: Only can use GP3P for the non-central case
+  AbsolutePoseSacProblem::algorithm_t algorithm = AbsolutePoseSacProblem::GP3P;
+
+  std::shared_ptr<AbsolutePoseSacProblem>
+      absposeproblem_ptr(
+        new AbsolutePoseSacProblem(adapter, algorithm));
+
+  // Create a ransac solver for the problem
+  opengv::sac::Ransac<AbsolutePoseSacProblem> ransac;
+
+  ransac.sac_model_ = absposeproblem_ptr;
+  ransac.threshold_ = threshold;
+  ransac.max_iterations_ = max_iterations;
+
+  // Solve
+  ransac.computeModel();
+
+  bp::object transformation_result = arrayFromTransformation(ransac.model_coefficients_);
+  bp::object inlier_indices = bpn_array_from_vector(ransac.inliers_);
+  return bp::make_tuple(transformation_result, inlier_indices);
+}
+
+} // namespace absolute_pose_noncentral
 
 namespace absolute_pose {
 
@@ -146,16 +389,16 @@ public:
   EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 
   CentralAbsoluteAdapter(
-      bpn::array & bearingVectors,
-      bpn::array & points )
+      ndarray &bearingVectors,
+      ndarray &points )
     : _bearingVectors(bearingVectors)
     , _points(points)
   {}
 
   CentralAbsoluteAdapter(
-      bpn::array & bearingVectors,
-      bpn::array & points,
-      bpn::array & R )
+      ndarray &bearingVectors,
+      ndarray &points,
+      ndarray &R )
     : _bearingVectors(bearingVectors)
     , _points(points)
   {
@@ -168,10 +411,10 @@ public:
   }
 
   CentralAbsoluteAdapter(
-      bpn::array & bearingVectors,
-      bpn::array & points,
-      bpn::array & t,
-      bpn::array & R )
+      ndarray &bearingVectors,
+      ndarray &points,
+      ndarray &t,
+      ndarray &R )
     : _bearingVectors(bearingVectors)
     , _points(points)
   {
@@ -222,68 +465,70 @@ protected:
 
 
 
-bp::object p2p( bpn::array &v, bpn::array &p, bpn::array &R )
+bp::object p2p( ndarray &v, ndarray &p, ndarray &R )
 {
   CentralAbsoluteAdapter adapter(v, p, R);
   return arrayFromTranslation(
     opengv::absolute_pose::p2p(adapter, 0, 1));
 }
 
-bp::object p3p_kneip( bpn::array &v, bpn::array &p )
+bp::object p3p_kneip( ndarray &v, ndarray &p )
 {
   CentralAbsoluteAdapter adapter(v, p);
   return listFromTransformations(
     opengv::absolute_pose::p3p_kneip(adapter, 0, 1, 2));
 }
 
-bp::object p3p_gao( bpn::array &v, bpn::array &p )
+bp::object p3p_gao( ndarray &v, ndarray &p )
 {
   CentralAbsoluteAdapter adapter(v, p);
   return listFromTransformations(
     opengv::absolute_pose::p3p_gao(adapter, 0, 1, 2));
 }
 
-bp::object gp3p( bpn::array &v, bpn::array &p )
+bp::object gp3p( ndarray &v, ndarray &p )
 {
   CentralAbsoluteAdapter adapter(v, p);
   return listFromTransformations(
     opengv::absolute_pose::gp3p(adapter, 0, 1, 2));
 }
 
-bp::object epnp( bpn::array &v, bpn::array &p )
+bp::object epnp( ndarray &v, ndarray &p )
 {
   CentralAbsoluteAdapter adapter(v, p);
   return arrayFromTransformation(
     opengv::absolute_pose::epnp(adapter));
 }
 
-bp::object gpnp( bpn::array &v, bpn::array &p )
+bp::object gpnp( ndarray &v, ndarray &p )
 {
   CentralAbsoluteAdapter adapter(v, p);
   return arrayFromTransformation(
     opengv::absolute_pose::gpnp(adapter));
 }
 
-bp::object upnp( bpn::array &v, bpn::array &p )
+bp::object upnp( ndarray &v, ndarray &p )
 {
   CentralAbsoluteAdapter adapter(v, p);
   return listFromTransformations(
     opengv::absolute_pose::upnp(adapter));
 }
 
-bp::object optimize_nonlinear( bpn::array &v,
-                               bpn::array &p,
-                               bpn::array &t,
-                               bpn::array &R )
+bp::object optimize_nonlinear( ndarray &v,
+                               ndarray &p,
+                               ndarray &t,
+                               ndarray &R )
 {
   CentralAbsoluteAdapter adapter(v, p, t, R);
   return arrayFromTransformation(
     opengv::absolute_pose::optimize_nonlinear(adapter));
 }
 
-bp::object ransac(
-    bpn::array &v,
-    bpn::array &p,
+// ORIGINAL was just return the transformation:
+//bp::object ransac(
+bp::tuple ransac(
+    ndarray &v,
+    ndarray &p,
     std::string algo_name,
     double threshold,
     int max_iterations )
@@ -313,7 +558,14 @@ bp::object ransac(
 
   // Solve
   ransac.computeModel();
-  return arrayFromTransformation(ransac.model_coefficients_);
+
+  bp::object transformation_result = arrayFromTransformation(ransac.model_coefficients_);
+  //bp::list inlier_indices = listFromStdVector(ransac.inliers_);
+  // The following maybe more efficient:
+  bp::object inlier_indices = bpn_array_from_vector(ransac.inliers_);
+  return bp::make_tuple(transformation_result, inlier_indices);
+  // ORIGINAL was just:
+  // return arrayFromTransformation(ransac.model_coefficients_);
 }
 
 
@@ -334,16 +586,16 @@ public:
   EIGEN_MAKE_ALIGNED_OPERATOR_NEW
 
   CentralRelativeAdapter(
-      bpn::array & bearingVectors1,
-      bpn::array & bearingVectors2 )
+      ndarray &bearingVectors1,
+      ndarray &bearingVectors2 )
     : _bearingVectors1(bearingVectors1)
     , _bearingVectors2(bearingVectors2)
   {}
 
   CentralRelativeAdapter(
-      bpn::array & bearingVectors1,
-      bpn::array & bearingVectors2,
-      bpn::array & R12 )
+      ndarray &bearingVectors1,
+      ndarray &bearingVectors2,
+      ndarray &R12 )
     : _bearingVectors1(bearingVectors1)
     , _bearingVectors2(bearingVectors2)
   {
@@ -356,10 +608,10 @@ public:
   }
 
   CentralRelativeAdapter(
-      bpn::array & bearingVectors1,
-      bpn::array & bearingVectors2,
-      bpn::array & t12,
-      bpn::array & R12 )
+      ndarray &bearingVectors1,
+      ndarray &bearingVectors2,
+      ndarray &t12,
+      ndarray &R12 )
     : _bearingVectors1(bearingVectors1)
     , _bearingVectors2(bearingVectors2)
   {
@@ -415,82 +667,84 @@ protected:
 };
 
 
-bp::object twopt( bpn::array &b1, bpn::array &b2, bpn::array &R )
+bp::object twopt( ndarray &b1, ndarray &b2, ndarray &R )
 {
   CentralRelativeAdapter adapter(b1, b2, R);
   return arrayFromTranslation(
     opengv::relative_pose::twopt(adapter, true, 0, 1));
 }
 
-bp::object twopt_rotationOnly( bpn::array &b1, bpn::array &b2 )
+bp::object twopt_rotationOnly( ndarray &b1, ndarray &b2 )
 {
   CentralRelativeAdapter adapter(b1, b2);
   return arrayFromRotation(
     opengv::relative_pose::twopt_rotationOnly(adapter, 0, 1));
 }
 
-bp::object rotationOnly( bpn::array &b1, bpn::array &b2 )
+bp::object rotationOnly( ndarray &b1, ndarray &b2 )
 {
   CentralRelativeAdapter adapter(b1, b2);
   return arrayFromRotation(
     opengv::relative_pose::rotationOnly(adapter));
 }
 
-bp::object fivept_nister( bpn::array &b1, bpn::array &b2 )
+bp::object fivept_nister( ndarray &b1, ndarray &b2 )
 {
   CentralRelativeAdapter adapter(b1, b2);
   return listFromEssentials(
     opengv::relative_pose::fivept_nister(adapter));
 }
 
-bp::object fivept_kneip( bpn::array &b1, bpn::array &b2 )
+bp::object fivept_kneip( ndarray &b1, ndarray &b2 )
 {
   CentralRelativeAdapter adapter(b1, b2);
   return listFromRotations(
     opengv::relative_pose::fivept_kneip(adapter, getNindices(5)));
 }
 
-bp::object sevenpt( bpn::array &b1, bpn::array &b2 )
+bp::object sevenpt( ndarray &b1, ndarray &b2 )
 {
   CentralRelativeAdapter adapter(b1, b2);
   return listFromEssentials(
     opengv::relative_pose::sevenpt(adapter));
 }
 
-bp::object eightpt( bpn::array &b1, bpn::array &b2 )
+bp::object eightpt( ndarray &b1, ndarray &b2 )
 {
   CentralRelativeAdapter adapter(b1, b2);
   return arrayFromEssential(
     opengv::relative_pose::eightpt(adapter));
 }
 
-bp::object eigensolver( bpn::array &b1, bpn::array &b2, bpn::array &R )
+bp::object eigensolver( ndarray &b1, ndarray &b2, ndarray &R )
 {
   CentralRelativeAdapter adapter(b1, b2, R);
   return arrayFromRotation(
     opengv::relative_pose::eigensolver(adapter));
 }
 
-bp::object sixpt( bpn::array &b1, bpn::array &b2 )
+bp::object sixpt( ndarray &b1, ndarray &b2 )
 {
   CentralRelativeAdapter adapter(b1, b2);
   return listFromRotations(
     opengv::relative_pose::sixpt(adapter));
 }
 
-bp::object optimize_nonlinear( bpn::array &b1,
-                               bpn::array &b2,
-                               bpn::array &t12,
-                               bpn::array &R12 )
+bp::object optimize_nonlinear( ndarray &b1,
+                               ndarray &b2,
+                               ndarray &t12,
+                               ndarray &R12 )
 {
   CentralRelativeAdapter adapter(b1, b2, t12, R12);
   return arrayFromTransformation(
     opengv::relative_pose::optimize_nonlinear(adapter));
 }
 
-bp::object ransac(
-    bpn::array &b1,
-    bpn::array &b2,
+// ORIGINAL was just return the transformation:
+//bp::object ransac(
+bp::tuple ransac(
+    ndarray &b1,
+    ndarray &b2,
     std::string algo_name,
     double threshold,
     int max_iterations )
@@ -519,12 +773,21 @@ bp::object ransac(
 
   // Solve
   ransac.computeModel();
-  return arrayFromTransformation(ransac.model_coefficients_);
+
+  bp::object transformation_result = arrayFromTransformation(ransac.model_coefficients_);
+  //bp::list inlier_indices = listFromStdVector(ransac.inliers_);
+  // The following maybe more efficient:
+  bp::object inlier_indices = bpn_array_from_vector(ransac.inliers_);
+  return bp::make_tuple(transformation_result, inlier_indices);
+  // ORIGINAL was just:
+  // return arrayFromTransformation(ransac.model_coefficients_);
 }
 
-bp::object ransac_rotationOnly(
-    bpn::array &b1,
-    bpn::array &b2,
+// ORIGINAL was just return the transformation:
+//bp::object ransac_rotationOnly(
+bp::tuple ransac_rotationOnly(
+    ndarray &b1,
+    ndarray &b2,
     double threshold,
     int max_iterations )
 {
@@ -545,7 +808,11 @@ bp::object ransac_rotationOnly(
 
   // Solve
   ransac.computeModel();
-  return arrayFromRotation(ransac.model_coefficients_);
+  bp::object rotation_result = arrayFromRotation(ransac.model_coefficients_);
+  bp::object inlier_indices = bpn_array_from_vector(ransac.inliers_);
+  return bp::make_tuple(rotation_result, inlier_indices);
+  // ORIGINAL was just:
+  // return arrayFromRotation(ransac.model_coefficients_);
 }
 
 } // namespace relative_pose
@@ -553,10 +820,10 @@ bp::object ransac_rotationOnly(
 namespace triangulation
 {
 
-bp::object triangulate( bpn::array &b1,
-                        bpn::array &b2,
-                        bpn::array &t12,
-                        bpn::array &R12 )
+bp::object triangulate( ndarray &b1,
+                        ndarray &b2,
+                        ndarray &t12,
+                        ndarray &R12 )
 {
   pyopengv::relative_pose::CentralRelativeAdapter adapter(b1, b2, t12, R12);
 
@@ -569,10 +836,10 @@ bp::object triangulate( bpn::array &b1,
   return arrayFromPoints(points);
 }
 
-bp::object triangulate2( bpn::array &b1,
-                         bpn::array &b2,
-                         bpn::array &t12,
-                         bpn::array &R12 )
+bp::object triangulate2( ndarray &b1,
+                         ndarray &b2,
+                         ndarray &t12,
+                         ndarray &R12 )
 {
   pyopengv::relative_pose::CentralRelativeAdapter adapter(b1, b2, t12, R12);
 
@@ -593,7 +860,11 @@ bp::object triangulate2( bpn::array &b1,
 BOOST_PYTHON_MODULE(pyopengv) {
   using namespace boost::python;
 
+#ifdef USE_BOOST_PYTHON_NUMPY
+  boost::python::numpy::initialize();
+#else
   boost::python::numeric::array::set_module_and_type("numpy", "ndarray");
+#endif
   numpy_import_array_wrapper();
 
   def("absolute_pose_p2p", pyopengv::absolute_pose::p2p);
@@ -621,4 +892,11 @@ BOOST_PYTHON_MODULE(pyopengv) {
 
   def("triangulation_triangulate", pyopengv::triangulation::triangulate);
   def("triangulation_triangulate2", pyopengv::triangulation::triangulate2);
+
+  def("absolute_pose_noncentral_gp3p", pyopengv::absolute_pose_noncentral::gp3p);
+  def("absolute_pose_noncentral_gpnp", pyopengv::absolute_pose_noncentral::gpnp);
+  def("absolute_pose_noncentral_upnp", pyopengv::absolute_pose_noncentral::upnp);
+  def("absolute_pose_noncentral_optimize_nonlinear", pyopengv::absolute_pose_noncentral::optimize_nonlinear);
+  def("absolute_pose_noncentral_ransac", pyopengv::absolute_pose_noncentral::ransac);
+
 }

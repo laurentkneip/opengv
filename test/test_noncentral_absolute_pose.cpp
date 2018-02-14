@@ -157,7 +157,7 @@ int main( int argc, char** argv )
       absolute_pose::optimize_nonlinear(adapter,indices10);
 
   //print the results
-  std::cout << "results from gp3p algorithm:" << std::endl;
+  std::cout << gp3p_transformations.size() << " results from gp3p algorithm:" << std::endl;
   for(size_t i = 0; i < gp3p_transformations.size(); i++)
     std::cout << gp3p_transformations[i] << std::endl << std::endl;
   std::cout << "results from gpnp algorithm:" << std::endl;

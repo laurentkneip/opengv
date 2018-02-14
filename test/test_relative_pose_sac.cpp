@@ -63,7 +63,7 @@ int main( int argc, char** argv )
   double outlierFraction = 0.1;
   size_t numberPoints = 100;
 
-  //generate a random pose for viewpoint 1
+  //Use the identity pose for viewpoint 1
   translation_t position1 = Eigen::Vector3d::Zero();
   rotation_t rotation1 = Eigen::Matrix3d::Identity();
 
