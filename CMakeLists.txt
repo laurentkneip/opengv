@@ -12,7 +12,10 @@ set (OPENGV_VERSION_MINOR 0)
 #  RelWithDebInfo (CMAKE_C_FLAGS_RELWITHDEBINFO or CMAKE_CXX_FLAGS_RELWITHDEBINFO)
 #  MinSizeRel (CMAKE_C_FLAGS_MINSIZEREL or CMAKE_CXX_FLAGS_MINSIZEREL)
 
-set(CMAKE_BUILD_TYPE Release)
+message("Generated with config types: ${CMAKE_CONFIGURATION_TYPES}")
+# Manual setting:
+#set(CMAKE_BUILD_TYPE Release)
+#set(CMAKE_BUILD_TYPE Debug)
 
 #set the default path for built executables to the "bin" directory
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin)
@@ -32,7 +35,16 @@ ENDIF()
 IF(MSVC)
   add_compile_options(/wd4514 /wd4267 $<$<CONFIG:DEBUG>:/bigobj>)
 ELSE()
-  add_definitions (-Wall -march=native -O3)
+    IF(CMAKE_BUILD_TYPE MATCHES Debug)
+        set(CMAKE_CXX_FLAGS_DEBUG  "-g -O0")
+        # In the IDE, values are available if you compiled without optimization ie -O0 or just a little bit -O1
+        # If using -O2 or -O3, you get "optimized out" when printing variables [1],
+        message("Adding DEBUG mode to " ${PROJECT_NAME} " " ${CMAKE_CXX_FLAGS_DEBUG})
+    ELSE()
+        set(CMAKE_CXX_FLAGS_RELEASE "-O3 -DNDEBUG ")
+    ENDIF(CMAKE_BUILD_TYPE MATCHES Debug)
+    #add_definitions (-Wall -march=native -O3)
+    add_definitions (-Wall -march=native)
 ENDIF()
 
 IF(BUILD_POSITION_INDEPENDENT_CODE)
