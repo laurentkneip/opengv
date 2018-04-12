@@ -282,7 +282,8 @@ bp::object ransac(
     ndarray &p,
     std::string algo_name,
     double threshold,
-    int max_iterations )
+    int max_iterations,
+    double probability )
 {
   using namespace opengv::sac_problems::absolute_pose;
 
@@ -306,6 +307,7 @@ bp::object ransac(
   ransac.sac_model_ = absposeproblem_ptr;
   ransac.threshold_ = threshold;
   ransac.max_iterations_ = max_iterations;
+  ransac.probability_ = probability;
 
   // Solve
   ransac.computeModel();
@@ -489,7 +491,8 @@ bp::object ransac(
     ndarray &b2,
     std::string algo_name,
     double threshold,
-    int max_iterations )
+    int max_iterations,
+    double probability )
 {
   using namespace opengv::sac_problems::relative_pose;
 
@@ -512,6 +515,7 @@ bp::object ransac(
   ransac.sac_model_ = relposeproblem_ptr;
   ransac.threshold_ = threshold;
   ransac.max_iterations_ = max_iterations;
+  ransac.probability_ = probability;
 
   // Solve
   ransac.computeModel();
@@ -522,7 +526,8 @@ bp::object ransac_rotationOnly(
     ndarray &b1,
     ndarray &b2,
     double threshold,
-    int max_iterations )
+    int max_iterations,
+    double probability )
 {
   using namespace opengv::sac_problems::relative_pose;
 
@@ -538,6 +543,7 @@ bp::object ransac_rotationOnly(
   ransac.sac_model_ = relposeproblem_ptr;
   ransac.threshold_ = threshold;
   ransac.max_iterations_ = max_iterations;
+  ransac.probability_ = probability;
 
   // Solve
   ransac.computeModel();
@@ -604,7 +610,10 @@ BOOST_PYTHON_MODULE(pyopengv) {
   def("absolute_pose_gpnp", pyopengv::absolute_pose::gpnp);
   def("absolute_pose_upnp", pyopengv::absolute_pose::upnp);
   def("absolute_pose_optimize_nonlinear", pyopengv::absolute_pose::optimize_nonlinear);
-  def("absolute_pose_ransac", pyopengv::absolute_pose::ransac);
+  def("absolute_pose_ransac", pyopengv::absolute_pose::ransac,
+    (boost::python::arg("iterations") = 1000,
+     boost::python::arg("probability") = 0.99)
+);
 
   def("relative_pose_twopt", pyopengv::relative_pose::twopt);
   def("relative_pose_twopt_rotation_only", pyopengv::relative_pose::twopt_rotationOnly);
@@ -616,8 +625,14 @@ BOOST_PYTHON_MODULE(pyopengv) {
   def("relative_pose_eigensolver", pyopengv::relative_pose::eigensolver);
   def("relative_pose_sixpt", pyopengv::relative_pose::sixpt);
   def("relative_pose_optimize_nonlinear", pyopengv::relative_pose::optimize_nonlinear);
-  def("relative_pose_ransac", pyopengv::relative_pose::ransac);
-  def("relative_pose_ransac_rotation_only", pyopengv::relative_pose::ransac_rotationOnly);
+  def("relative_pose_ransac", pyopengv::relative_pose::ransac,
+    (boost::python::arg("iterations") = 1000,
+     boost::python::arg("probability") = 0.99)
+  );
+  def("relative_pose_ransac_rotation_only", pyopengv::relative_pose::ransac_rotationOnly,
+    (boost::python::arg("iterations") = 1000,
+     boost::python::arg("probability") = 0.99)
+  );
 
   def("triangulation_triangulate", pyopengv::triangulation::triangulate);
   def("triangulation_triangulate2", pyopengv::triangulation::triangulate2);
