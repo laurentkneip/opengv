@@ -39,6 +39,11 @@ IF(BUILD_POSITION_INDEPENDENT_CODE)
   add_definitions( -fPIC )
 ENDIF()
 
+if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+ADD_DEFINITIONS (
+-Wall
+)
+else ()
 ADD_DEFINITIONS (
 -Wall
 -Wextra
@@ -47,6 +52,7 @@ ADD_DEFINITIONS (
 -Wno-unused-parameter
 -fno-strict-aliasing
 )
+endif ()
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/modules/")
 find_package(Eigen REQUIRED)
@@ -336,5 +342,11 @@ install(EXPORT opengv-export DESTINATION CMake FILE opengv-config.cmake)
 
 
 if (BUILD_PYTHON)
+OPTION(BUILD_PYTHON_WITH_BOOST "Build Python extension" OFF)
+endif()
+
+if (BUILD_PYTHON_WITH_BOOST)
   add_subdirectory( python )
+else()
+  add_subdirectory( python_pybind )
 endif()
