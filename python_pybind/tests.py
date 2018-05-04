@@ -1,9 +1,4 @@
-try:
-    import pyopengv
-except Exception as e:
-    import pyopengv_pybind as pyopengv
-
-
+import pyopengv
 import numpy as np
 
 def normalized(x):
@@ -159,7 +154,7 @@ class RelativePoseDataset:
 
 
 def test_relative_pose():
-    print("Testing relative pose")
+    print "Testing relative pose"
 
     d = RelativePoseDataset(10, 0.0, 0.0)
 
@@ -174,10 +169,6 @@ def test_relative_pose():
     t_perturbed, R_perturbed = getPerturbedPose( d.position, d.rotation, 0.1)
     nonlinear_transformation = pyopengv.relative_pose_optimize_nonlinear(d.bearing_vectors1, d.bearing_vectors2, t_perturbed, R_perturbed)
 
-
-    print(d.position)
-    print(twopt_translation)
-
     assert proportional(d.position, twopt_translation)
     assert matrix_in_list(d.essential, fivept_nister_essentials)
     assert matrix_in_list(d.rotation, fivept_kneip_rotations)
@@ -186,11 +177,11 @@ def test_relative_pose():
     assert proportional(d.rotation, eigensolver_rotation)
     assert same_transformation(d.position, d.rotation, nonlinear_transformation)
 
-    print("Done testing relative pose")
+    print "Done testing relative pose"
 
 
 def test_relative_pose_ransac():
-    print("Testing relative pose ransac")
+    print "Testing relative pose ransac"
 
     d = RelativePoseDataset(100, 0.0, 0.3)
 
@@ -199,11 +190,11 @@ def test_relative_pose_ransac():
 
     assert same_transformation(d.position, d.rotation, ransac_transformation)
 
-    print("Done testing relative pose ransac")
+    print "Done testing relative pose ransac"
 
 
 def test_relative_pose_ransac_rotation_only():
-    print("Testing relative pose ransac rotation only")
+    print "Testing relative pose ransac rotation only"
 
     d = RelativePoseDataset(100, 0.0, 0.3, rotation_only=True)
 
@@ -212,11 +203,11 @@ def test_relative_pose_ransac_rotation_only():
 
     assert proportional(d.rotation, ransac_rotation)
 
-    print("Done testing relative pose ransac rotation only")
+    print "Done testing relative pose ransac rotation only"
 
 
 def test_triangulation():
-    print("Testing triangulation")
+    print "Testing triangulation"
 
     d = RelativePoseDataset(10, 0.0, 0.0)
 
@@ -230,13 +221,11 @@ def test_triangulation():
 
     assert np.allclose(d.points, points2)
 
-    print("Done testing triangulation")
+    print "Done testing triangulation"
 
 
 if __name__ == "__main__":
     test_relative_pose()
-    """
     test_relative_pose_ransac()
     test_relative_pose_ransac_rotation_only()
     test_triangulation()
-    """
