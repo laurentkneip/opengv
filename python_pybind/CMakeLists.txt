@@ -7,6 +7,7 @@
 
 
 set(LIBNAME pyopengv)
+add_definitions ( -DLIBNAME=${LIBNAME} ) # to be used in cpp file
 
 add_subdirectory( pybind11 )
 
@@ -21,10 +22,12 @@ target_link_libraries(${LIBNAME} opengv pybind11::module)
 
 if( MSVC )
 set_target_properties(${LIBNAME} PROPERTIES
+    PREFIX ""
     SUFFIX ".pyd"
 )
 else()
 set_target_properties(${LIBNAME} PROPERTIES
+    PREFIX ""
     SUFFIX ".so"
 )
 endif()

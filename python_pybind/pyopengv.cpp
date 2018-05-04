@@ -581,8 +581,13 @@ py::object triangulate2( ndarray &b1,
 
 } // namespace pyopengv
 
+#ifdef LIBNAME
+#define libname LIBNAME
+#else
+#define libname pyopengv
+#endif
 
-PYBIND11_MODULE ( pyopengv_pybind, m ) {
+PYBIND11_MODULE ( libname, m ) {
     namespace py = pybind11;
 
     numpy_import_array_wrapper ();
