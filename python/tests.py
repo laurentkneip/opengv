@@ -185,8 +185,9 @@ def test_relative_pose_ransac():
 
     d = RelativePoseDataset(100, 0.0, 0.3)
 
-    ransac_transformation = pyopengv.relative_pose_ransac(
-        d.bearing_vectors1, d.bearing_vectors2, "NISTER", 0.01, 1000)
+    ransac_transformation, inliers = pyopengv.relative_pose_ransac(
+        d.bearing_vectors1, d.bearing_vectors2, "NISTER", 0.01, 1000, 0.99, True)
+    print('Inliers: {} out of {}'.format(len(inliers), 100))
 
     assert same_transformation(d.position, d.rotation, ransac_transformation)
 
@@ -198,9 +199,10 @@ def test_relative_pose_ransac_rotation_only():
 
     d = RelativePoseDataset(100, 0.0, 0.3, rotation_only=True)
 
-    ransac_rotation = pyopengv.relative_pose_ransac_rotation_only(
-        d.bearing_vectors1, d.bearing_vectors2, 0.01, 1000)
-
+    ransac_rotation, inliers = pyopengv.relative_pose_ransac_rotation_only(
+        d.bearing_vectors1, d.bearing_vectors2, 0.01, 1000, 0.99, True)    
+    print('Inliers: {} out of {}'.format(len(inliers), 100))
+    
     assert proportional(d.rotation, ransac_rotation)
 
     print("Done testing relative pose ransac rotation only")

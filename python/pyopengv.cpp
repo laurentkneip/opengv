@@ -283,7 +283,8 @@ bp::object ransac(
     std::string algo_name,
     double threshold,
     int max_iterations,
-    double probability )
+    double probability,
+    bool return_inliers )
 {
   using namespace opengv::sac_problems::absolute_pose;
 
@@ -311,7 +312,12 @@ bp::object ransac(
 
   // Solve
   ransac.computeModel();
-  return arrayFromTransformation(ransac.model_coefficients_);
+  auto transformation = arrayFromTransformation(ransac.model_coefficients_);
+  auto inliers = bpn_array_from_vector(ransac.inliers_);
+  if (return_inliers)
+    return bp::make_tuple(transformation, inliers);
+  else
+    return transformation;
 }
 
 
@@ -492,7 +498,8 @@ bp::object ransac(
     std::string algo_name,
     double threshold,
     int max_iterations,
-    double probability )
+    double probability,
+    bool return_inliers )
 {
   using namespace opengv::sac_problems::relative_pose;
 
@@ -519,7 +526,12 @@ bp::object ransac(
 
   // Solve
   ransac.computeModel();
-  return arrayFromTransformation(ransac.model_coefficients_);
+  auto transformation = arrayFromTransformation(ransac.model_coefficients_);
+  auto inliers = bpn_array_from_vector(ransac.inliers_);
+  if (return_inliers)
+    return bp::make_tuple(transformation, inliers);
+  else
+    return transformation;
 }
 
 bp::object ransac_rotationOnly(
@@ -527,7 +539,8 @@ bp::object ransac_rotationOnly(
     ndarray &b2,
     double threshold,
     int max_iterations,
-    double probability )
+    double probability,
+    bool return_inliers )
 {
   using namespace opengv::sac_problems::relative_pose;
 
@@ -547,7 +560,12 @@ bp::object ransac_rotationOnly(
 
   // Solve
   ransac.computeModel();
-  return arrayFromRotation(ransac.model_coefficients_);
+  auto transformation = arrayFromRotation(ransac.model_coefficients_);
+  auto inliers = bpn_array_from_vector(ransac.inliers_);
+  if (return_inliers)
+    return bp::make_tuple(transformation, inliers);
+  else
+    return transformation;
 }
 
 } // namespace relative_pose
@@ -612,7 +630,8 @@ BOOST_PYTHON_MODULE(pyopengv) {
   def("absolute_pose_optimize_nonlinear", pyopengv::absolute_pose::optimize_nonlinear);
   def("absolute_pose_ransac", pyopengv::absolute_pose::ransac,
     (boost::python::arg("iterations") = 1000,
-     boost::python::arg("probability") = 0.99)
+     boost::python::arg("probability") = 0.99,
+     boost::python::arg("return_inliers") = false)
 );
 
   def("relative_pose_twopt", pyopengv::relative_pose::twopt);
@@ -627,11 +646,13 @@ BOOST_PYTHON_MODULE(pyopengv) {
   def("relative_pose_optimize_nonlinear", pyopengv::relative_pose::optimize_nonlinear);
   def("relative_pose_ransac", pyopengv::relative_pose::ransac,
     (boost::python::arg("iterations") = 1000,
-     boost::python::arg("probability") = 0.99)
+     boost::python::arg("probability") = 0.99,
+     boost::python::arg("return_inliers") = false)
   );
   def("relative_pose_ransac_rotation_only", pyopengv::relative_pose::ransac_rotationOnly,
     (boost::python::arg("iterations") = 1000,
-     boost::python::arg("probability") = 0.99)
+     boost::python::arg("probability") = 0.99,
+     boost::python::arg("return_inliers") = false)
   );
 
   def("triangulation_triangulate", pyopengv::triangulation::triangulate);
