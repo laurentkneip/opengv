@@ -33,21 +33,12 @@ ENDIF()
 IF(MSVC)
   add_compile_options(/wd4514 /wd4267 $<$<CONFIG:DEBUG>:/bigobj>)
 ELSE()
-  add_definitions (-Wall -march=${BUILD_ARCH} -O3)
+  add_definitions (-Wall -march=${BUILD_ARCH} -O3 -Wextra -Wwrite-strings -Wno-unused-parameter -fno-strict-aliasing)
 ENDIF()
 
 IF(BUILD_POSITION_INDEPENDENT_CODE)
   add_definitions( -fPIC )
 ENDIF()
-
-ADD_DEFINITIONS (
--Wall
--Wextra
-#-Werror
--Wwrite-strings
--Wno-unused-parameter
--fno-strict-aliasing
-)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/modules/")
 find_package(Eigen REQUIRED)
