@@ -154,7 +154,7 @@ class RelativePoseDataset:
 
 
 def test_relative_pose():
-    print "Testing relative pose"
+    print("Testing relative pose")
 
     d = RelativePoseDataset(10, 0.0, 0.0)
 
@@ -177,11 +177,11 @@ def test_relative_pose():
     assert proportional(d.rotation, eigensolver_rotation)
     assert same_transformation(d.position, d.rotation, nonlinear_transformation)
 
-    print "Done testing relative pose"
+    print("Done testing relative pose")
 
 
 def test_relative_pose_ransac():
-    print "Testing relative pose ransac"
+    print("Testing relative pose ransac")
 
     d = RelativePoseDataset(100, 0.0, 0.3)
 
@@ -190,11 +190,11 @@ def test_relative_pose_ransac():
 
     assert same_transformation(d.position, d.rotation, ransac_transformation)
 
-    print "Done testing relative pose ransac"
+    print("Done testing relative pose ransac")
 
 
 def test_relative_pose_ransac_rotation_only():
-    print "Testing relative pose ransac rotation only"
+    print("Testing relative pose ransac rotation only")
 
     d = RelativePoseDataset(100, 0.0, 0.3, rotation_only=True)
 
@@ -203,11 +203,11 @@ def test_relative_pose_ransac_rotation_only():
 
     assert proportional(d.rotation, ransac_rotation)
 
-    print "Done testing relative pose ransac rotation only"
+    print("Done testing relative pose ransac rotation only")
 
 
 def test_triangulation():
-    print "Testing triangulation"
+    print("Testing triangulation")
 
     d = RelativePoseDataset(10, 0.0, 0.0)
 
@@ -221,7 +221,7 @@ def test_triangulation():
 
     assert np.allclose(d.points, points2)
 
-    print "Done testing triangulation"
+    print("Done testing triangulation")
 
 
 if __name__ == "__main__":
