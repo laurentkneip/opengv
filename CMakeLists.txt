@@ -332,7 +332,7 @@ install(
 )
 target_include_directories(opengv PUBLIC "${CMAKE_INSTALL_PREFIX}/include")
 install(DIRECTORY include/ DESTINATION include/ FILES_MATCHING PATTERN "*.h" PATTERN "*.hpp")
-install(EXPORT opengv-export DESTINATION CMake FILE opengv-config.cmake)
+install(EXPORT opengv-export DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/cmake/opengv-${OPENGV_VERSION_MAJOR}.${OPENGV_VERSION_MINOR}" FILE opengv-config.cmake)
 
 
 if (BUILD_PYTHON)
