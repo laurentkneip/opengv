@@ -74,6 +74,9 @@ opengv::math::Bracket::dividable( double eps ) const
     return false;
   if( numberRoots() == 0 )
     return false;
+  double center = (_upperBound + _lowerBound) / 2.0;
+  if( center == _upperBound || center == _lowerBound)
+    return false;
   return true;
 }
 
