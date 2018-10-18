@@ -35,6 +35,7 @@
 #include <opengv/relative_pose/methods.hpp>
 #include <opengv/relative_pose/CentralRelativeAdapter.hpp>
 #include <opengv/sac/Ransac.hpp>
+#include <opengv/sac/Lmeds.hpp>
 #include <opengv/sac_problems/relative_pose/EigensolverSacProblem.hpp>
 #include <sstream>
 #include <fstream>
@@ -136,4 +137,28 @@ int main( int argc, char** argv )
   std::cout << std::endl << std::endl;
   std::cout << "the optimized result is: " << std::endl;
   std::cout << optimizedModel.rotation << std::endl;
+
+  // Create Lmeds
+  sac::Lmeds<sac_problems::relative_pose::EigensolverSacProblem> lmeds;
+  lmeds.sac_model_ = eigenproblem_ptr;
+  lmeds.threshold_ = 1.0;
+  lmeds.max_iterations_ = 50;
+
+  //Run the experiment
+  gettimeofday( &tic, 0 );
+  lmeds.computeModel();
+  gettimeofday( &toc, 0 );
+  double lmeds_time = TIMETODOUBLE(timeval_minus(toc,tic));
+
+  //print the results
+  std::cout << "the lmeds results is: " << std::endl;
+  std::cout << lmeds.model_coefficients_.rotation << std::endl << std::endl;
+  std::cout << "lmeds needed " << lmeds.iterations_ << " iterations and ";
+  std::cout << lmeds_time << " seconds" << std::endl << std::endl;
+  std::cout << "the number of inliers is: " << lmeds.inliers_.size();
+  std::cout << std::endl << std::endl;
+  std::cout << "the found inliers are: " << std::endl;
+  for(size_t i = 0; i < lmeds.inliers_.size(); i++)
+    std::cout << lmeds.inliers_[i] << " ";
+  std::cout << std::endl << std::endl;
 }

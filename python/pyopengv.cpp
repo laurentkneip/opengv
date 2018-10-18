@@ -6,6 +6,7 @@
 #include <opengv/relative_pose/RelativeAdapterBase.hpp>
 #include <opengv/relative_pose/methods.hpp>
 #include <opengv/sac/Ransac.hpp>
+#include <opengv/sac/Lmeds.hpp>
 #include <opengv/sac_problems/absolute_pose/AbsolutePoseSacProblem.hpp>
 #include <opengv/sac_problems/relative_pose/CentralRelativePoseSacProblem.hpp>
 #include <opengv/sac_problems/relative_pose/RotationOnlySacProblem.hpp>
@@ -316,7 +317,40 @@ bp::object ransac(
   return arrayFromTransformation(ransac.model_coefficients_);
 }
 
+bp::object lmeds(
+    bpn::array &v,
+    bpn::array &p,
+    std::string algo_name,
+    double threshold,
+    int max_iterations )
+{
+  using namespace opengv::sac_problems::absolute_pose;
 
+  CentralAbsoluteAdapter adapter(v, p);
+
+  // Create a lmeds problem
+  AbsolutePoseSacProblem::algorithm_t algorithm = AbsolutePoseSacProblem::KNEIP;
+  if (algo_name == "TWOPT") algorithm = AbsolutePoseSacProblem::TWOPT;
+  else if (algo_name == "KNEIP") algorithm = AbsolutePoseSacProblem::KNEIP;
+  else if (algo_name == "GAO") algorithm = AbsolutePoseSacProblem::GAO;
+  else if (algo_name == "EPNP") algorithm = AbsolutePoseSacProblem::EPNP;
+  else if (algo_name == "GP3P") algorithm = AbsolutePoseSacProblem::GP3P;
+
+  std::shared_ptr<AbsolutePoseSacProblem>
+      absposeproblem_ptr(
+        new AbsolutePoseSacProblem(adapter, algorithm));
+
+  // Create a ransac solver for the problem
+  opengv::sac::Lmeds<AbsolutePoseSacProblem> lmeds;
+
+  lmeds.sac_model_ = absposeproblem_ptr;
+  lmeds.threshold_ = threshold;
+  lmeds.max_iterations_ = max_iterations;
+
+  // Solve
+  lmeds.computeModel();
+  return arrayFromTransformation(lmeds.model_coefficients_);
+}
 
 } // namespace absolute_pose
 
@@ -522,6 +556,40 @@ bp::object ransac(
   return arrayFromTransformation(ransac.model_coefficients_);
 }
 
+bp::object lmeds(
+    bpn::array &b1,
+    bpn::array &b2,
+    std::string algo_name,
+    double threshold,
+    int max_iterations )
+{
+  using namespace opengv::sac_problems::relative_pose;
+
+  CentralRelativeAdapter adapter(b1, b2);
+
+  // Create a lmeds problem
+  CentralRelativePoseSacProblem::algorithm_t algorithm = CentralRelativePoseSacProblem::NISTER;
+  if (algo_name == "STEWENIUS") algorithm = CentralRelativePoseSacProblem::STEWENIUS;
+  else if (algo_name == "NISTER") algorithm = CentralRelativePoseSacProblem::NISTER;
+  else if (algo_name == "SEVENPT") algorithm = CentralRelativePoseSacProblem::SEVENPT;
+  else if (algo_name == "EIGHTPT") algorithm = CentralRelativePoseSacProblem::EIGHTPT;
+
+  std::shared_ptr<CentralRelativePoseSacProblem>
+      relposeproblem_ptr(
+        new CentralRelativePoseSacProblem(adapter, algorithm));
+
+  // Create a lmeds solver for the problem
+  opengv::sac::Lmeds<CentralRelativePoseSacProblem> lmeds;
+
+  lmeds.sac_model_ = relposeproblem_ptr;
+  lmeds.threshold_ = threshold;
+  lmeds.max_iterations_ = max_iterations;
+
+  // Solve
+  lmeds.computeModel();
+  return arrayFromTransformation(lmeds.model_coefficients_);
+}
+
 bp::object ransac_rotationOnly(
     bpn::array &b1,
     bpn::array &b2,
@@ -546,6 +614,32 @@ bp::object ransac_rotationOnly(
   // Solve
   ransac.computeModel();
   return arrayFromRotation(ransac.model_coefficients_);
+}
+
+bp::object lmeds_rotationOnly(
+    bpn::array &b1,
+    bpn::array &b2,
+    double threshold,
+    int max_iterations )
+{
+  using namespace opengv::sac_problems::relative_pose;
+
+  CentralRelativeAdapter adapter(b1, b2);
+
+  std::shared_ptr<RotationOnlySacProblem>
+      relposeproblem_ptr(
+        new RotationOnlySacProblem(adapter));
+
+  // Create a lmeds solver for the problem
+  opengv::sac::Lmeds<RotationOnlySacProblem> lmeds;
+
+  lmeds.sac_model_ = relposeproblem_ptr;
+  lmeds.threshold_ = threshold;
+  lmeds.max_iterations_ = max_iterations;
+
+  // Solve
+  lmeds.computeModel();
+  return arrayFromRotation(lmeds.model_coefficients_);
 }
 
 } // namespace relative_pose
@@ -605,6 +699,7 @@ BOOST_PYTHON_MODULE(pyopengv) {
   def("absolute_pose_upnp", pyopengv::absolute_pose::upnp);
   def("absolute_pose_optimize_nonlinear", pyopengv::absolute_pose::optimize_nonlinear);
   def("absolute_pose_ransac", pyopengv::absolute_pose::ransac);
+  def("absolute_pose_lmeds", pyopengv::absolute_pose::lmeds);
 
   def("relative_pose_twopt", pyopengv::relative_pose::twopt);
   def("relative_pose_twopt_rotation_only", pyopengv::relative_pose::twopt_rotationOnly);
@@ -618,6 +713,8 @@ BOOST_PYTHON_MODULE(pyopengv) {
   def("relative_pose_optimize_nonlinear", pyopengv::relative_pose::optimize_nonlinear);
   def("relative_pose_ransac", pyopengv::relative_pose::ransac);
   def("relative_pose_ransac_rotation_only", pyopengv::relative_pose::ransac_rotationOnly);
+  def("relative_pose_lmeds", pyopengv::relative_pose::lmeds);
+  def("relative_pose_lmeds_rotation_only", pyopengv::relative_pose::lmeds_rotationOnly);
 
   def("triangulation_triangulate", pyopengv::triangulation::triangulate);
   def("triangulation_triangulate2", pyopengv::triangulation::triangulate2);

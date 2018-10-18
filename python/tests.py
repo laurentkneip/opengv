@@ -1,27 +1,29 @@
 import pyopengv
 import numpy as np
 
+
 def normalized(x):
     return x / np.linalg.norm(x)
 
-def generateRandomPoint( maximumDepth, minimumDepth ):
+
+def generateRandomPoint(maximumDepth, minimumDepth):
     cleanPoint = np.random.uniform(-1.0, 1.0, 3)
     direction = normalized(cleanPoint)
     return (maximumDepth - minimumDepth) * cleanPoint + minimumDepth * direction
 
 
-def generateRandomTranslation( maximumParallax ):
+def generateRandomTranslation(maximumParallax):
     return np.random.uniform(-maximumParallax, maximumParallax, 3)
 
 
-def generateRandomRotation( maxAngle ):
+def generateRandomRotation(maxAngle):
     rpy = np.random.uniform(-maxAngle, maxAngle, 3)
 
     R1 = np.array([[1.0,  0.0,  0.0],
                    [0.0,  np.cos(rpy[0]), -np.sin(rpy[0])],
                    [0.0,  np.sin(rpy[0]),  np.cos(rpy[0])]])
 
-    R2 = np.array([[ np.cos(rpy[1]),  0.0,  np.sin(rpy[1])],
+    R2 = np.array([[np.cos(rpy[1]),  0.0,  np.sin(rpy[1])],
                    [0.0,  1.0,  0.0],
                    [-np.sin(rpy[1]),  0.0,  np.cos(rpy[1])]])
 
@@ -32,7 +34,7 @@ def generateRandomRotation( maxAngle ):
     return R3.dot(R2.dot(R1))
 
 
-def addNoise( noiseLevel, cleanPoint ):
+def addNoise(noiseLevel, cleanPoint):
     noisyPoint = cleanPoint + np.random.uniform(-noiseLevel, noiseLevel, 3)
     return normalized(noisyPoint)
 
@@ -44,18 +46,18 @@ def extractRelativePose(position1, position2, rotation1, rotation2):
 
 
 def essentialMatrix(position, rotation):
-  # E transforms vectors from vp 2 to 1: x_1^T * E * x_2 = 0
-  # and E = (t)_skew*R
-  t_skew = np.zeros((3, 3))
-  t_skew[0,1] = -position[2]
-  t_skew[0,2] = position[1]
-  t_skew[1,0] = position[2]
-  t_skew[1,2] = -position[0]
-  t_skew[2,0] = -position[1]
-  t_skew[2,1] = position[0]
+    # E transforms vectors from vp 2 to 1: x_1^T * E * x_2 = 0
+    # and E = (t)_skew*R
+    t_skew = np.zeros((3, 3))
+    t_skew[0, 1] = -position[2]
+    t_skew[0, 2] = position[1]
+    t_skew[1, 0] = position[2]
+    t_skew[1, 2] = -position[0]
+    t_skew[2, 0] = -position[1]
+    t_skew[2, 1] = position[0]
 
-  E = t_skew.dot(rotation)
-  return normalized(E)
+    E = t_skew.dot(rotation)
+    return normalized(E)
 
 
 def getPerturbedPose(position, rotation, amplitude):
@@ -84,8 +86,8 @@ def same_transformation(position, rotation, transformation):
     return proportional(position, t) and proportional(rotation, R)
 
 
-
 class RelativePoseDataset:
+
     def __init__(self, num_points, noise, outlier_fraction, rotation_only=False):
         # generate a random pose for viewpoint 1
         position1 = np.zeros(3)
@@ -108,7 +110,6 @@ class RelativePoseDataset:
             position1, position2, rotation1, rotation2)
         if not rotation_only:
             self.essential = essentialMatrix(self.position, self.rotation)
-
 
     def generateCorrespondences(self,
                                 position1, rotation1,
@@ -154,20 +155,25 @@ class RelativePoseDataset:
 
 
 def test_relative_pose():
-    print "Testing relative pose"
+    print("Testing relative pose")
 
     d = RelativePoseDataset(10, 0.0, 0.0)
 
     # running experiments
-    twopt_translation = pyopengv.relative_pose_twopt(d.bearing_vectors1, d.bearing_vectors2, d.rotation)
-    fivept_nister_essentials = pyopengv.relative_pose_fivept_nister(d.bearing_vectors1, d.bearing_vectors2)
-    fivept_kneip_rotations = pyopengv.relative_pose_fivept_kneip(d.bearing_vectors1, d.bearing_vectors2)
+    twopt_translation = pyopengv.relative_pose_twopt(
+        d.bearing_vectors1, d.bearing_vectors2, d.rotation)
+    fivept_nister_essentials = pyopengv.relative_pose_fivept_nister(
+        d.bearing_vectors1, d.bearing_vectors2)
+    fivept_kneip_rotations = pyopengv.relative_pose_fivept_kneip(
+        d.bearing_vectors1, d.bearing_vectors2)
     sevenpt_essentials = pyopengv.relative_pose_sevenpt(d.bearing_vectors1, d.bearing_vectors2)
     eightpt_essential = pyopengv.relative_pose_eightpt(d.bearing_vectors1, d.bearing_vectors2)
-    t_perturbed, R_perturbed = getPerturbedPose( d.position, d.rotation, 0.01)
-    eigensolver_rotation = pyopengv.relative_pose_eigensolver(d.bearing_vectors1, d.bearing_vectors2, R_perturbed)
-    t_perturbed, R_perturbed = getPerturbedPose( d.position, d.rotation, 0.1)
-    nonlinear_transformation = pyopengv.relative_pose_optimize_nonlinear(d.bearing_vectors1, d.bearing_vectors2, t_perturbed, R_perturbed)
+    t_perturbed, R_perturbed = getPerturbedPose(d.position, d.rotation, 0.01)
+    eigensolver_rotation = pyopengv.relative_pose_eigensolver(
+        d.bearing_vectors1, d.bearing_vectors2, R_perturbed)
+    t_perturbed, R_perturbed = getPerturbedPose(d.position, d.rotation, 0.1)
+    nonlinear_transformation = pyopengv.relative_pose_optimize_nonlinear(
+        d.bearing_vectors1, d.bearing_vectors2, t_perturbed, R_perturbed)
 
     assert proportional(d.position, twopt_translation)
     assert matrix_in_list(d.essential, fivept_nister_essentials)
@@ -177,11 +183,11 @@ def test_relative_pose():
     assert proportional(d.rotation, eigensolver_rotation)
     assert same_transformation(d.position, d.rotation, nonlinear_transformation)
 
-    print "Done testing relative pose"
+    print("Done testing relative pose")
 
 
 def test_relative_pose_ransac():
-    print "Testing relative pose ransac"
+    print("Testing relative pose ransac")
 
     d = RelativePoseDataset(100, 0.0, 0.3)
 
@@ -190,11 +196,11 @@ def test_relative_pose_ransac():
 
     assert same_transformation(d.position, d.rotation, ransac_transformation)
 
-    print "Done testing relative pose ransac"
+    print("Done testing relative pose ransac")
 
 
 def test_relative_pose_ransac_rotation_only():
-    print "Testing relative pose ransac rotation only"
+    print("Testing relative pose ransac rotation only")
 
     d = RelativePoseDataset(100, 0.0, 0.3, rotation_only=True)
 
@@ -203,11 +209,11 @@ def test_relative_pose_ransac_rotation_only():
 
     assert proportional(d.rotation, ransac_rotation)
 
-    print "Done testing relative pose ransac rotation only"
+    print("Done testing relative pose ransac rotation only")
 
 
 def test_triangulation():
-    print "Testing triangulation"
+    print("Testing triangulation")
 
     d = RelativePoseDataset(10, 0.0, 0.0)
 
@@ -221,7 +227,7 @@ def test_triangulation():
 
     assert np.allclose(d.points, points2)
 
-    print "Done testing triangulation"
+    print("Done testing triangulation")
 
 
 if __name__ == "__main__":

@@ -1,3 +1,5 @@
+dist: trusty
+sudo: false
 
 language: cpp
 
@@ -5,16 +7,58 @@ compiler:
   - clang
   - gcc
 
-before_install:
-  - sudo apt-get update
+cache:
+  apt: true
 
-install:
-  - sudo apt-get install -y build-essential cmake git python-dev libboost-python-dev python-numpy libeigen3-dev
+addons:
+  apt:
+    packages:
+        - build-essential 
+        - python-dev 
+        - libboost-python-dev 
+        - python-numpy-dev
+        - libeigen3-dev
+
+env:
+  global:
+    # CMAKE minimal required version 3.1.0
+    - CMAKE_URL="https://cmake.org/files/v3.1/cmake-3.1.3-Linux-x86_64.tar.gz"
+    - CMAKE_ROOT=${TRAVIS_BUILD_DIR}/cmake
+    - CMAKE_SOURCE=${CMAKE_ROOT}/source
+    - CMAKE_INSTALL=${CMAKE_ROOT}/install
+
+before_install:
+ # CMAKE most recent version
+ - >
+    if [ "$(ls -A ${CMAKE_INSTALL})" ]; then
+      echo "CMake found in cache.";
+      ls -A ${CMAKE_INSTALL}
+      export PATH=${CMAKE_INSTALL}/bin:${PATH};
+      cmake --version
+    else
+      mkdir --parent ${CMAKE_SOURCE}
+      mkdir --parent ${CMAKE_INSTALL}
+      ls -A ${CMAKE_INSTALL}
+      travis_retry wget --no-check-certificate --quiet -O - ${CMAKE_URL} | tar --strip-components=1 -xz -C ${CMAKE_INSTALL}
+      export PATH=${CMAKE_INSTALL}/bin:${PATH};
+      cmake --version
+    fi
+
 
 before_script:
   - mkdir build
   - cd build
-  - cmake .. -DBUILD_TESTS=ON -DBUILD_PYTHON=ON
+  - >
+     if [ $CXX = "clang++" ]; then
+        cmake .. -DBUILD_TESTS:BOOL=ON -DBUILD_PYTHON:BOOL=ON -DCMAKE_CXX_FLAGS="-Wno-deprecated-register"
+     else
+        cmake .. -DBUILD_TESTS:BOOL=ON -DBUILD_PYTHON:BOOL=ON
+     fi
 
 script:
-  - make -j2
+  - make -j2 VERBOSE=1
+  - make test
+
+cache:
+  directories:
+    - $CMAKE_INSTALL
