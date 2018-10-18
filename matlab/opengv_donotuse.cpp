@@ -685,7 +685,7 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
         else
           temp = opengv::absolute_pose::p2p(*absoluteAdapter);
       }
-      int dims[2];
+      mwSize dims[2];
       dims[0] = 3;
       dims[1] = 1;
       plhs[0] = mxCreateNumericArray(2, dims, mxDOUBLE_CLASS, mxREAL);
@@ -710,7 +710,7 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
         else
           temp = opengv::absolute_pose::p3p_kneip(*absoluteAdapter);
       }
-      int dims[3];
+      mwSize dims[3];
       dims[0] = 3;
       dims[1] = 4;
       dims[2] = temp.size();
@@ -740,7 +740,7 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
         else
           temp = opengv::absolute_pose::p3p_gao(*absoluteAdapter);
       }
-      int dims[3];
+      mwSize dims[3];
       dims[0] = 3;
       dims[1] = 4;
       dims[2] = temp.size();
@@ -770,7 +770,7 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
         else
           temp = opengv::absolute_pose::epnp(*absoluteAdapter);
       }
-      int dims[2];
+      mwSize dims[2];
       dims[0] = 3;
       dims[1] = 4;
       plhs[0] = mxCreateNumericArray(2, dims, mxDOUBLE_CLASS, mxREAL);
@@ -789,7 +789,7 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
       ransac.threshold_ = 1.0 - cos(atan(sqrt(2.0)*0.5/800.0));
       ransac.max_iterations_ = 50;
       ransac.computeModel();
-      int dims[2];
+      mwSize dims[2];
       dims[0] = 3;
       dims[1] = 4;
       plhs[0] = mxCreateNumericArray(2, dims, mxDOUBLE_CLASS, mxREAL);
@@ -821,7 +821,7 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
       ransac.threshold_ = 1.0 - cos(atan(sqrt(2.0)*0.5/800.0));
       ransac.max_iterations_ = 50;
       ransac.computeModel();
-      int dims[2];
+      mwSize dims[2];
       dims[0] = 3;
       dims[1] = 4;
       plhs[0] = mxCreateNumericArray(2, dims, mxDOUBLE_CLASS, mxREAL);
@@ -853,7 +853,7 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
       ransac.threshold_ = 1.0 - cos(atan(sqrt(2.0)*0.5/800.0));
       ransac.max_iterations_ = 50;
       ransac.computeModel();
-      int dims[2];
+      mwSize dims[2];
       dims[0] = 3;
       dims[1] = 4;
       plhs[0] = mxCreateNumericArray(2, dims, mxDOUBLE_CLASS, mxREAL);
@@ -897,7 +897,7 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
         else
           temp = opengv::absolute_pose::optimize_nonlinear(*absoluteAdapter);
       }
-      int dims[2];
+      mwSize dims[2];
       dims[0] = 3;
       dims[1] = 4;
       plhs[0] = mxCreateNumericArray(2, dims, mxDOUBLE_CLASS, mxREAL);
@@ -922,7 +922,7 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
         else
           temp = opengv::absolute_pose::gp3p(*absoluteAdapter);
       }
-      int dims[3];
+      mwSize dims[3];
       dims[0] = 3;
       dims[1] = 4;
       dims[2] = temp.size();
@@ -946,7 +946,7 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
       ransac.threshold_ = 1.0 - cos(atan(sqrt(2.0)*0.5/800.0));
       ransac.max_iterations_ = 50;
       ransac.computeModel();
-      int dims[2];
+      mwSize dims[2];
       dims[0] = 3;
       dims[1] = 4;
       plhs[0] = mxCreateNumericArray(2, dims, mxDOUBLE_CLASS, mxREAL);
@@ -984,7 +984,7 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
         else
           temp = opengv::absolute_pose::gpnp(*absoluteAdapter);
       }
-      int dims[2];
+      mwSize dims[2];
       dims[0] = 3;
       dims[1] = 4;
       plhs[0] = mxCreateNumericArray(2, dims, mxDOUBLE_CLASS, mxREAL);
@@ -1015,7 +1015,7 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
         else
           temp = opengv::absolute_pose::optimize_nonlinear(*absoluteAdapter);
       }
-      int dims[2];
+      mwSize dims[2];
       dims[0] = 3;
       dims[1] = 4;
       plhs[0] = mxCreateNumericArray(2, dims, mxDOUBLE_CLASS, mxREAL);
@@ -1041,7 +1041,7 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
           temp = opengv::absolute_pose::upnp(*absoluteAdapter);
       }
       
-      int dims[3];
+      mwSize dims[3];
       dims[0] = 3;
       dims[1] = 4;
       dims[2] = temp.size();
@@ -1071,7 +1071,7 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
         else
           temp = opengv::relative_pose::twopt(*relativeAdapter,false);
       }
-      int dims[2];
+      mwSize dims[2];
       dims[0] = 3;
       dims[1] = 1;
       plhs[0] = mxCreateNumericArray(2, dims, mxDOUBLE_CLASS, mxREAL);
@@ -1096,7 +1096,7 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
         else
           temp = opengv::relative_pose::twopt_rotationOnly(*relativeAdapter);
       }
-      int dims[2];
+      mwSize dims[2];
       dims[0] = 3;
       dims[1] = 3;
       plhs[0] = mxCreateNumericArray(2, dims, mxDOUBLE_CLASS, mxREAL);
@@ -1121,7 +1121,7 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
         else
           temp = opengv::relative_pose::rotationOnly(*relativeAdapter);
       }
-      int dims[2];
+      mwSize dims[2];
       dims[0] = 3;
       dims[1] = 3;
       plhs[0] = mxCreateNumericArray(2, dims, mxDOUBLE_CLASS, mxREAL);
@@ -1157,7 +1157,7 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
         }
         temp.push_back(essentialMatrix);
       }
-      int dims[3];
+      mwSize dims[3];
       dims[0] = 3;
       dims[1] = 3;
       dims[2] = temp.size();
@@ -1187,7 +1187,7 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
         else
           temp = opengv::relative_pose::fivept_nister(*relativeAdapter);
       }
-      int dims[3];
+      mwSize dims[3];
       dims[0] = 3;
       dims[1] = 3;
       dims[2] = temp.size();
@@ -1224,7 +1224,7 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
         mexPrintf("You must provide an indices vector\n");
         break;
       }
-      int dims[3];
+      mwSize dims[3];
       dims[0] = 3;
       dims[1] = 3;
       dims[2] = temp.size();
@@ -1254,7 +1254,7 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
         else
           temp = opengv::relative_pose::sevenpt(*relativeAdapter);
       }
-      int dims[3];
+      mwSize dims[3];
       dims[0] = 3;
       dims[1] = 3;
       dims[2] = temp.size();
@@ -1284,7 +1284,7 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
         else
           temp = opengv::relative_pose::eightpt(*relativeAdapter);
       }
-      int dims[2];
+      mwSize dims[2];
       dims[0] = 3;
       dims[1] = 3;
       plhs[0] = mxCreateNumericArray(2, dims, mxDOUBLE_CLASS, mxREAL);
@@ -1311,7 +1311,7 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
         else
           temp = opengv::relative_pose::eigensolver(*relativeAdapter);
       }
-      int dims[2];
+      mwSize dims[2];
       dims[0] = 3;
       dims[1] = 3;
       plhs[0] = mxCreateNumericArray(2, dims, mxDOUBLE_CLASS, mxREAL);
@@ -1330,7 +1330,7 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
       ransac.threshold_ = 2.0*(1.0 - cos(atan(sqrt(2.0)*0.5/800.0)));
       ransac.max_iterations_ = 50;
       ransac.computeModel();
-      int dims[2];
+      mwSize dims[2];
       dims[0] = 3;
       dims[1] = 3;
       plhs[0] = mxCreateNumericArray(2, dims, mxDOUBLE_CLASS, mxREAL);
@@ -1366,7 +1366,7 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
       opengv::transformation_t optimizedModel;
       problem->optimizeModelCoefficients(ransac.inliers_,ransac.model_coefficients_,optimizedModel);
 
-      int dims[2];
+      mwSize dims[2];
       dims[0] = 3;
       dims[1] = 4;
       plhs[0] = mxCreateNumericArray(2, dims, mxDOUBLE_CLASS, mxREAL);
@@ -1399,7 +1399,7 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
       ransac.threshold_ = 2.0*(1.0 - cos(atan(sqrt(2.0)*0.5/800.0)));
       ransac.max_iterations_ = 50;
       ransac.computeModel();
-      int dims[2];
+      mwSize dims[2];
       dims[0] = 3;
       dims[1] = 4;
       plhs[0] = mxCreateNumericArray(2, dims, mxDOUBLE_CLASS, mxREAL);
@@ -1431,7 +1431,7 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
       ransac.threshold_ = 2.0*(1.0 - cos(atan(sqrt(2.0)*0.5/800.0)));
       ransac.max_iterations_ = 50;
       ransac.computeModel();
-      int dims[2];
+      mwSize dims[2];
       dims[0] = 3;
       dims[1] = 4;
       plhs[0] = mxCreateNumericArray(2, dims, mxDOUBLE_CLASS, mxREAL);
@@ -1463,7 +1463,7 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
       ransac.threshold_ = 2.0*(1.0 - cos(atan(sqrt(2.0)*0.5/800.0)));
       ransac.max_iterations_ = 50;
       ransac.computeModel();
-      int dims[2];
+      mwSize dims[2];
       dims[0] = 3;
       dims[1] = 4;
       plhs[0] = mxCreateNumericArray(2, dims, mxDOUBLE_CLASS, mxREAL);
@@ -1498,7 +1498,7 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
       opengv::transformation_t temp;
       temp.block<3,3>(0,0) = ransac.model_coefficients_.rotation;
       temp.block<3,1>(0,3) = ransac.model_coefficients_.translation;
-      int dims[2];
+      mwSize dims[2];
       dims[0] = 3;
       dims[1] = 4;
       plhs[0] = mxCreateNumericArray(2, dims, mxDOUBLE_CLASS, mxREAL);
@@ -1541,7 +1541,7 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
         else
           temp = opengv::relative_pose::optimize_nonlinear(*relativeAdapter);
       }
-      int dims[2];
+      mwSize dims[2];
       dims[0] = 3;
       dims[1] = 4;
       plhs[0] = mxCreateNumericArray(2, dims, mxDOUBLE_CLASS, mxREAL);
@@ -1566,7 +1566,7 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
         else
           temp = opengv::relative_pose::sixpt(*relativeAdapter);
       }
-      int dims[3];
+      mwSize dims[3];
       dims[0] = 3;
       dims[1] = 3;
       dims[2] = temp.size();
@@ -1596,7 +1596,7 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
         else
           temp = opengv::relative_pose::seventeenpt(*relativeAdapter);
       }
-      int dims[2];
+      mwSize dims[2];
       dims[0] = 3;
       dims[1] = 4;
       plhs[0] = mxCreateNumericArray(2, dims, mxDOUBLE_CLASS, mxREAL);
@@ -1628,7 +1628,7 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
           temp = opengv::relative_pose::ge(*relativeAdapter,output);
       }
 
-      int dims[2];
+      mwSize dims[2];
       dims[0] = 3;
       dims[1] = 3;
       plhs[0] = mxCreateNumericArray(2, dims, mxDOUBLE_CLASS, mxREAL);
@@ -1647,7 +1647,7 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
       ransac.threshold_ = 2.0*(1.0 - cos(atan(sqrt(2.0)*0.5/800.0)));
       ransac.max_iterations_ = 50;
       ransac.computeModel();
-      int dims[2];
+      mwSize dims[2];
       dims[0] = 3;
       dims[1] = 4;
       plhs[0] = mxCreateNumericArray(2, dims, mxDOUBLE_CLASS, mxREAL);
@@ -1679,7 +1679,7 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
       ransac.threshold_ = 2.0*(1.0 - cos(atan(sqrt(2.0)*0.5/800.0)));
       ransac.max_iterations_ = 50;
       ransac.computeModel();
-      int dims[2];
+      mwSize dims[2];
       dims[0] = 3;
       dims[1] = 4;
       plhs[0] = mxCreateNumericArray(2, dims, mxDOUBLE_CLASS, mxREAL);
@@ -1711,7 +1711,7 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
       ransac.threshold_ = 2.0*(1.0 - cos(atan(sqrt(2.0)*0.5/800.0)));
       ransac.max_iterations_ = 50;
       ransac.computeModel();
-      int dims[2];
+      mwSize dims[2];
       dims[0] = 3;
       dims[1] = 4;
       plhs[0] = mxCreateNumericArray(2, dims, mxDOUBLE_CLASS, mxREAL);
@@ -1755,7 +1755,7 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
         else
           temp = opengv::relative_pose::optimize_nonlinear(*relativeAdapter);
       }
-      int dims[2];
+      mwSize dims[2];
       dims[0] = 3;
       dims[1] = 4;
       plhs[0] = mxCreateNumericArray(2, dims, mxDOUBLE_CLASS, mxREAL);
@@ -1780,7 +1780,7 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
         else
           temp = opengv::point_cloud::threept_arun(*pointCloudAdapter);
       }
-      int dims[2];
+      mwSize dims[2];
       dims[0] = 3;
       dims[1] = 4;
       plhs[0] = mxCreateNumericArray(2, dims, mxDOUBLE_CLASS, mxREAL);
@@ -1799,7 +1799,7 @@ void mexFunction( int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[] )
       ransac.threshold_ = 0.1;
       ransac.max_iterations_ = 50;
       ransac.computeModel();
-      int dims[2];
+      mwSize dims[2];
       dims[0] = 3;
       dims[1] = 4;
       plhs[0] = mxCreateNumericArray(2, dims, mxDOUBLE_CLASS, mxREAL);
