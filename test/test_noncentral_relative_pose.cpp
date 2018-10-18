@@ -172,7 +172,7 @@ int main( int argc, char** argv )
 
   //print results
   std::cout << "results from 6pt algorithm:" << std::endl;
-  for( int i = 0; i < sixpt_rotations.size(); i++ )
+  for( size_t i = 0; i < sixpt_rotations.size(); i++ )
     std::cout << sixpt_rotations[i] << std::endl << std::endl;
   std::cout << "result from ge using 8 points:" << std::endl;
   std::cout << ge_rotation << std::endl << std::endl;

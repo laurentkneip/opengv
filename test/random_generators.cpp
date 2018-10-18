@@ -130,8 +130,8 @@ opengv::generateRandomTranslation( double maximumParallax )
 Eigen::Vector3d
 opengv::generateRandomDirectionTranslation( double parallax )
 {
-  Matrix3d rotation = generateRandomRotation();
-  Vector3d translation;
+  Eigen::Matrix3d rotation = generateRandomRotation();
+  Eigen::Vector3d translation;
   translation << 1.0, 0.0, 0.0;
   translation = rotation * translation;
   translation = parallax * translation;
@@ -150,7 +150,7 @@ opengv::generateRandomRotation( double maxAngle )
   rpy[1] = maxAngle*2.0*(rpy[1]-0.5);
   rpy[2] = maxAngle*2.0*(rpy[2]-0.5);
 
-  Matrix3d R1;
+  Eigen::Matrix3d R1;
   R1(0,0) = 1.0;
   R1(0,1) = 0.0;
   R1(0,2) = 0.0;
@@ -161,7 +161,7 @@ opengv::generateRandomRotation( double maxAngle )
   R1(2,1) = -R1(1,2);
   R1(2,2) = R1(1,1);
 
-  Matrix3d R2;
+  Eigen::Matrix3d R2;
   R2(0,0) = cos(rpy[1]);
   R2(0,1) = 0.0;
   R2(0,2) = sin(rpy[1]);
@@ -172,7 +172,7 @@ opengv::generateRandomRotation( double maxAngle )
   R2(2,1) = 0.0;
   R2(2,2) = R2(0,0);
 
-  Matrix3d R3;
+  Eigen::Matrix3d R3;
   R3(0,0) = cos(rpy[2]);
   R3(0,1) = -sin(rpy[2]);
   R3(0,2) = 0.0;
@@ -183,7 +183,7 @@ opengv::generateRandomRotation( double maxAngle )
   R3(2,1) = 0.0;
   R3(2,2) = 1.0;
 
-  Matrix3d rotation = R3 * R2 * R1;
+  Eigen::Matrix3d rotation = R3 * R2 * R1;
 
   rotation.col(0) = rotation.col(0) / rotation.col(0).norm();
   rotation.col(2) = rotation.col(0).cross(rotation.col(1));
@@ -206,7 +206,7 @@ opengv::generateRandomRotation()
   rpy[1] = M_PI*(rpy[1]-0.5);
   rpy[2] = 2*M_PI*(rpy[2]-0.5);
 
-  Matrix3d R1;
+  Eigen::Matrix3d R1;
   R1(0,0) = 1.0;
   R1(0,1) = 0.0;
   R1(0,2) = 0.0;
@@ -217,7 +217,7 @@ opengv::generateRandomRotation()
   R1(2,1) = -R1(1,2);
   R1(2,2) = R1(1,1);
 
-  Matrix3d R2;
+  Eigen::Matrix3d R2;
   R2(0,0) = cos(rpy[1]);
   R2(0,1) = 0.0;
   R2(0,2) = sin(rpy[1]);
@@ -228,7 +228,7 @@ opengv::generateRandomRotation()
   R2(2,1) = 0.0;
   R2(2,2) = R2(0,0);
 
-  Matrix3d R3;
+  Eigen::Matrix3d R3;
   R3(0,0) = cos(rpy[2]);
   R3(0,1) = -sin(rpy[2]);
   R3(0,2) = 0.0;
@@ -239,7 +239,7 @@ opengv::generateRandomRotation()
   R3(2,1) = 0.0;
   R3(2,2) = 1.0;
 
-  Matrix3d rotation = R3 * R2 * R1;
+  Eigen::Matrix3d rotation = R3 * R2 * R1;
 
   rotation.col(0) = rotation.col(0) / rotation.col(0).norm();
   rotation.col(2) = rotation.col(0).cross(rotation.col(1));

@@ -3,8 +3,8 @@
  * <b>Important note:</b> If you are only interested in using the library under Matlab, now there is a precompiled mex-library for 64-bit systems available. You can download it from:
  *
 \verbatim
-Windows: https://dl.dropboxusercontent.com/u/23966023/opengv/opengv.mexw64
-Mac OSX: https://dl.dropboxusercontent.com/u/23966023/opengv/opengv.mexmaci64
+Windows: http://laurentkneip.github.io/publications/opengv.mexw64
+Mac OSX: http://laurentkneip.github.io/publications/opengv.mexmaci64
 \endverbatim
  *
  * These versions have been added around March 2016, so please be aware that later additions may not be included in this distribution. You can go immediately to \ref page_matlab "Use under Matlab" to receive further instructions on the Matlab interface.

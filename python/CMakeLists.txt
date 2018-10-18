@@ -1,18 +1,16 @@
 
-find_package(Boost COMPONENTS python REQUIRED)
+find_package(Boost COMPONENTS python-py35 REQUIRED)
 include_directories(${Boost_INCLUDE_DIRS})
 
-set(Python_ADDITIONAL_VERSIONS "2.7")
-find_package(PythonLibs REQUIRED)
+set(Python_ADDITIONAL_VERSIONS "3.5")
+find_package(PythonLibs 3 REQUIRED)
 include_directories(${PYTHON_INCLUDE_DIRS})
 
 find_package(NumPy REQUIRED)
 include_directories(${NUMPY_INCLUDE_DIRS})
 
-
 add_library( pyopengv SHARED pyopengv.cpp )
 target_link_libraries(pyopengv opengv)
-
 
 set_target_properties(pyopengv PROPERTIES
     PREFIX ""
@@ -32,7 +30,7 @@ endif()
 
 # Find whether to install python libs in site-packages or dist-packages
 execute_process ( COMMAND
-    python -c "import distutils.sysconfig; print 'dist-packages' if distutils.sysconfig.get_python_lib().endswith('dist-packages') else 'site-packages'"
+    python -c "import distutils.sysconfig; print('dist-packages' if distutils.sysconfig.get_python_lib().endswith('dist-packages') else 'site-packages')"
     OUTPUT_VARIABLE PYTHON_SITE_PACKAGES OUTPUT_STRIP_TRAILING_WHITESPACE)
 
 set(PYTHON_INSTALL_DIR
