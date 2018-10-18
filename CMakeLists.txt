@@ -359,6 +359,9 @@ configure_package_config_file(
     "${project_config}"
     INSTALL_DESTINATION "${config_install_dir}")
 
+# Export '<PROJECT-NAME>Targets.cmake' to build dir (to find package in build dir without install)
+export(TARGETS opengv FILE "${CMAKE_CURRENT_BINARY_DIR}/${targets_export_name}.cmake")
+
 # Targets:
 install(TARGETS opengv
         EXPORT "${targets_export_name}"
