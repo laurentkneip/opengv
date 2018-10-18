@@ -37,6 +37,7 @@
 #include <opengv/absolute_pose/methods.hpp>
 #include <opengv/absolute_pose/CentralAbsoluteAdapter.hpp>
 #include <opengv/sac/Ransac.hpp>
+#include <opengv/sac/Lmeds.hpp>
 #include <opengv/sac_problems/absolute_pose/AbsolutePoseSacProblem.hpp>
 #include <sstream>
 #include <fstream>
@@ -118,5 +119,29 @@ int main( int argc, char** argv )
   std::cout << "the found inliers are: " << std::endl;
   for(size_t i = 0; i < ransac.inliers_.size(); i++)
     std::cout << ransac.inliers_[i] << " ";
+  std::cout << std::endl << std::endl;
+
+  // Create LMedS
+  sac::Lmeds<sac_problems::absolute_pose::AbsolutePoseSacProblem> lmeds;
+  lmeds.sac_model_ = absposeproblem_ptr;
+  lmeds.threshold_ = 1.0 - cos(atan(sqrt(2.0)*0.5/800.0));
+  lmeds.max_iterations_ = 50;
+
+  //Run the LMedS experiment
+  gettimeofday( &tic, 0 );
+  lmeds.computeModel();
+  gettimeofday( &toc, 0 );
+  double lmeds_time = TIMETODOUBLE(timeval_minus(toc,tic));
+
+  //print the results
+  std::cout << "the lmeds results is: " << std::endl;
+  std::cout << lmeds.model_coefficients_ << std::endl << std::endl;
+  std::cout << "Lmeds needed " << lmeds.iterations_ << " iterations and ";
+  std::cout << lmeds_time << " seconds" << std::endl << std::endl;
+  std::cout << "the number of inliers is: " << lmeds.inliers_.size();
+  std::cout << std::endl << std::endl;
+  std::cout << "the found inliers are: " << std::endl;
+  for(size_t i = 0; i < lmeds.inliers_.size(); i++)
+    std::cout << lmeds.inliers_[i] << " ";
   std::cout << std::endl << std::endl;
 }
