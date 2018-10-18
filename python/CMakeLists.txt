@@ -1,5 +1,17 @@
 
 find_package(Boost COMPONENTS python-py35 REQUIRED)
+
+if(${Boost_VERSION} LESS 106300)
+    message("Not using boost/python/numpy.")
+    set(USE_BOOST_PYTHON_NUMPY "off")
+else()
+    message("Using boost/python/numpy.")
+    set(USE_BOOST_PYTHON_NUMPY "on")
+    add_definitions(-DUSE_BOOST_PYTHON_NUMPY)
+
+    find_package(Boost 1.63 REQUIRED COMPONENTS python numpy)
+endif()
+
 include_directories(${Boost_INCLUDE_DIRS})
 
 set(Python_ADDITIONAL_VERSIONS "3.5")
