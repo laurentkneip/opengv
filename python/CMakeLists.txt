@@ -13,9 +13,12 @@ add_library( pyopengv SHARED pyopengv.cpp )
 target_link_libraries(pyopengv opengv)
 
 set_target_properties(pyopengv PROPERTIES
-    PREFIX ""
-    SUFFIX ".so"
-)
+                    CXX_STANDARD 11
+                    CXX_STANDARD_REQUIRED ON
+                    SOVERSION ${PROJECT_VERSION}
+                    VERSION ${PROJECT_VERSION}
+                    PREFIX ""
+                    SUFFIX ".so")
 if(APPLE)
     set_target_properties(pyopengv PROPERTIES
         LINK_FLAGS "-undefined dynamic_lookup"

@@ -49,7 +49,9 @@ if(NOT PYTHONINTERP_FOUND)
     set(NUMPY_FOUND FALSE)
     return()
 endif()
-
+if($ENV{TRAVIS})
+  set(PYTHON_EXECUTABLE "/usr/bin/python")
+endif()
 execute_process(COMMAND "${PYTHON_EXECUTABLE}" "-c"
     "import numpy as n; print(n.__version__); print(n.get_include());"
     RESULT_VARIABLE _NUMPY_SEARCH_SUCCESS
