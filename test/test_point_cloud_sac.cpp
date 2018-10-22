@@ -37,6 +37,7 @@
 #include <opengv/point_cloud/methods.hpp>
 #include <opengv/point_cloud/PointCloudAdapter.hpp>
 #include <opengv/sac/Ransac.hpp>
+#include <opengv/sac/Lmeds.hpp>
 #include <opengv/sac_problems/point_cloud/PointCloudSacProblem.hpp>
 #include <sstream>
 #include <fstream>
@@ -117,5 +118,31 @@ int main( int argc, char** argv )
   std::cout << "the found inliers are: " << std::endl;
   for(size_t i = 0; i < ransac.inliers_.size(); i++)
     std::cout << ransac.inliers_[i] << " ";
+  std::cout << std::endl << std::endl;
+
+  // Create Lmeds
+  sac::Lmeds<
+      sac_problems::point_cloud::PointCloudSacProblem> lmeds;
+  lmeds.sac_model_ = relposeproblem_ptr;
+  lmeds.threshold_ = 0.1;
+  lmeds.max_iterations_ = 50;
+
+  //Run the experiment
+  gettimeofday( &tic, 0 );
+  lmeds.computeModel(0);
+  gettimeofday( &toc, 0 );
+  double lmeds_time = TIMETODOUBLE(timeval_minus(toc,tic));
+
+  //print the results
+  std::cout << "the lmeds threshold is: " << lmeds.threshold_ << std::endl;
+  std::cout << "the lmeds results is: " << std::endl;
+  std::cout << lmeds.model_coefficients_ << std::endl << std::endl;
+  std::cout << "Lmeds needed " << lmeds.iterations_ << " iterations and ";
+  std::cout << lmeds_time << " seconds" << std::endl << std::endl;
+  std::cout << "the number of inliers is: " << lmeds.inliers_.size();
+  std::cout << std::endl << std::endl;
+  std::cout << "the found inliers are: " << std::endl;
+  for(size_t i = 0; i < lmeds.inliers_.size(); i++)
+    std::cout << lmeds.inliers_[i] << " ";
   std::cout << std::endl << std::endl;
 }

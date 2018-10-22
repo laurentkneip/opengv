@@ -74,6 +74,9 @@ opengv::math::Bracket::dividable( double eps ) const
     return false;
   if( numberRoots() == 0 )
     return false;
+  double center = (_upperBound + _lowerBound) / 2.0;
+  if( center == _upperBound || center == _lowerBound)
+    return false;
   return true;
 }
 
@@ -142,6 +145,7 @@ opengv::math::Sturm::Sturm( const Eigen::MatrixXd & p ) :
 {
   _dimension = (size_t) _C.cols();
   _C = Eigen::MatrixXd(_dimension,_dimension);
+  _C.setZero();
   _C.row(0) = p;
 
   for( size_t i = 1; i < _dimension; i++ )
@@ -162,6 +166,7 @@ opengv::math::Sturm::Sturm( const std::vector<double> & p ) :
 {
   _dimension = (size_t) _C.cols();
   _C = Eigen::MatrixXd(_dimension,_dimension);
+  _C.setZero();
 
   for( size_t i = 0; i < _dimension; i++ )
     _C(0,i) = p[i];

@@ -29,6 +29,9 @@
  ******************************************************************************/
 
 //Note: has been derived from ROS
+#include <functional>
+
+#include <ctime>
 
 template<typename M>
 opengv::sac::SampleConsensusProblem<M>::SampleConsensusProblem(
@@ -38,7 +41,7 @@ opengv::sac::SampleConsensusProblem<M>::SampleConsensusProblem(
   rng_dist_.reset(new std::uniform_int_distribution<>( 0, std::numeric_limits<int>::max() ));
   // Create a random number generator object
   if(randomSeed)
-    rng_alg_.seed(static_cast<unsigned> (std::time(0)));
+    rng_alg_.seed(static_cast<unsigned>(time(0)) + static_cast<unsigned>(clock()) );
   else
     rng_alg_.seed(12345u);
 

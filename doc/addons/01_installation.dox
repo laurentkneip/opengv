@@ -202,7 +202,20 @@ mex -I../include -I../EigenIncludePath -L../build/lib -lopengv opengv.cpp -cxx
  *
  * \section sec_installation_7 Installing the python wrappers
  *
- * The compliation of the Python wrappers can be enabled by setting the option BUILD_PYTHON to ON. Note that the python wrappers depend additionally on boost, and that the wrapper currently only allows access to the central methods.
+ * The Python wrappers depend on the pybind11 library, which is included as a git submodule.
+ * To get it, run
+ \verbatim
+git submodule update --init --recursive
+\endverbatim
+ * With that done, the compliation of the Python wrappers can be enabled by setting the option BUILD_PYTHON to ON.
+ * The especific version of Python to target can be set using the option PYBIND11_PYTHON_VERSION.
+ * For example,
+\verbatim
+cmake ../opengv
+  -DBUILD_PYTHON=ON
+  -DPYBIND11_PYTHON_VERSION=3.6
+\endverbatim
+ * Note that the python wrappers currently only allow access to the central methods.
  *
  * \section sec_installation_8 Using the OpenGV inside your cmake c++ project
  *
