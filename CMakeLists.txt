@@ -336,7 +336,7 @@ IF (BUILD_TESTS)
 ENDIF()
 
 # Configuration
-set(config_install_dir "lib/cmake/${PROJECT_NAME}")
+set(config_install_dir "lib/cmake/${PROJECT_NAME}-${PROJECT_VERSION}")
 set(include_install_dir "include")
 set(version_config "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake")
 set(project_config "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake")
