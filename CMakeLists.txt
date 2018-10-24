@@ -27,30 +27,31 @@ ELSE()
 ENDIF()
 
 IF(MSVC)
-  add_compile_options(/wd4514 /wd4267 $<$<CONFIG:DEBUG>:/bigobj>)
+  add_compile_options(/wd4514 /wd4267 /bigobj)
+  add_definitions(-D_USE_MATH_DEFINES)
 ELSE()
   IF (CMAKE_SYSTEM_PROCESSOR MATCHES "(arm64)|(ARM64)|(aarch64)|(AARCH64)")
-    add_definitions (-Wall -march=armv8-a -O3)
+    add_definitions (-march=armv8-a)
   ELSEIF (CMAKE_SYSTEM_PROCESSOR MATCHES 
           "(arm)|(ARM)|(armhf)|(ARMHF)|(armel)|(ARMEL)")
-    add_definitions (-Wall -march=armv7-a -O3)
+    add_definitions (-march=armv7-a)
   ELSE ()
-    add_definitions (-Wall -march=native -O3) #TODO use correct c++11 def once everybody has moved to gcc 4.7 # for now I even removed std=gnu++0x
+    add_definitions (-march=native) #TODO use correct c++11 def once everybody has moved to gcc 4.7 # for now I even removed std=gnu++0x
   ENDIF()
+  add_definitions (
+    -O3
+    -Wall
+    -Wextra
+    #-Werror
+    -Wwrite-strings
+    -Wno-unused-parameter
+    -fno-strict-aliasing
+  )
 ENDIF()
 
 IF(BUILD_POSITION_INDEPENDENT_CODE)
   add_definitions( -fPIC )
 ENDIF()
-
-ADD_DEFINITIONS (
--Wall
--Wextra
-#-Werror
--Wwrite-strings
--Wno-unused-parameter
--fno-strict-aliasing
-)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/modules/")
 find_package(Eigen REQUIRED)
