@@ -212,6 +212,19 @@ def test_relative_pose_ransac_rotation_only():
     print("Done testing relative pose ransac rotation only")
 
 
+def test_relative_pose_ransac_translation_only():
+    print("Testing relative pose ransac translation only")
+
+    d = RelativePoseDataset(100, 0.0, 0.3)
+
+    ransac_transformation = pyopengv.relative_pose_ransac_translation_only(
+        d.bearing_vectors1, d.bearing_vectors2, d.rotation, 0.01, 1000)
+
+    assert same_transformation(d.position, d.rotation, ransac_transformation)
+
+    print("Done testing relative pose ransac translation only")
+
+
 def test_triangulation():
     print("Testing triangulation")
 
@@ -234,4 +247,5 @@ if __name__ == "__main__":
     test_relative_pose()
     test_relative_pose_ransac()
     test_relative_pose_ransac_rotation_only()
+    test_relative_pose_ransac_translation_only()
     test_triangulation()

@@ -9,6 +9,7 @@
 #include <opengv/sac_problems/absolute_pose/AbsolutePoseSacProblem.hpp>
 #include <opengv/sac_problems/relative_pose/CentralRelativePoseSacProblem.hpp>
 #include <opengv/sac_problems/relative_pose/RotationOnlySacProblem.hpp>
+#include <opengv/sac_problems/relative_pose/TranslationOnlySacProblem.hpp>
 #include <opengv/triangulation/methods.hpp>
 
 #include "types.hpp"
@@ -622,6 +623,29 @@ py::object lmeds_rotationOnly(
   return arrayFromRotation(lmeds.model_coefficients_);
 }
 
+py::object ransac_translationOnly(pyarray_d &b1,
+                                  pyarray_d &b2,
+                                  pyarray_d &R,
+                                  double threshold,
+                                  int max_iterations,
+                                  double probability) {
+
+  using namespace opengv::sac_problems::relative_pose;
+
+  CentralRelativeAdapter adapter(b1, b2, R);
+  std::shared_ptr<TranslationOnlySacProblem> relposeproblem_ptr(new TranslationOnlySacProblem(adapter));
+
+  opengv::sac::Ransac<TranslationOnlySacProblem> ransac;
+
+  ransac.sac_model_ = relposeproblem_ptr;
+  ransac.threshold_ = threshold;
+  ransac.max_iterations_ = max_iterations;
+  ransac.probability_ = probability;
+
+  ransac.computeModel();
+  return arrayFromTransformation(ransac.model_coefficients_);
+}
+
 } // namespace relative_pose
 
 namespace triangulation
@@ -733,9 +757,14 @@ PYBIND11_MODULE(pyopengv, m) {
         py::arg("iterations") = 1000,
         py::arg("probability") = 0.99
   );
-
-
-
+  m.def("relative_pose_ransac_translation_only", pyopengv::relative_pose::ransac_translationOnly,
+        py::arg("b1"),
+        py::arg("b2"),
+        py::arg("R"),
+        py::arg("threshold"),
+        py::arg("max_iterations") = 1000,
+        py::arg("probability") = 0.99
+  );
   m.def("triangulation_triangulate", pyopengv::triangulation::triangulate);
   m.def("triangulation_triangulate2", pyopengv::triangulation::triangulate2);
 }
