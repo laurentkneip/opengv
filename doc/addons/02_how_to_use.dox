@@ -220,7 +220,7 @@ relative_pose::CentralRelativeAdapter adapter(
 
 // Relative translation with only two point-correspondences
 // (no or known rotation)
-adapter.setR(knownRotation);
+adapter.setR12(knownRotation);
 translation_t twopt_translation =
     relative_pose::twopt( adapter, true, indices1 );
 
@@ -245,13 +245,13 @@ essential_t eightpt_essential =
     relative_pose::eightpt( adapter, indices4 );
 
 // Kneip's eigensolver
-adapter.setR(initial_rotation);
+adapter.setR12(initial_rotation);
 eigensolver_rotation =
     relative_pose::eigensolver( adapter, indices5 );
 
 // non-linear optimization (using all available correspondences)
-adapter.sett(initial_translation);
-adapter.setR(initial_rotation);
+adapter.sett12(initial_translation);
+adapter.setR12(initial_rotation);
 transformation_t nonlinear_transformation =
     relative_pose::optimize_nonlinear(adapter);
 \endcode
