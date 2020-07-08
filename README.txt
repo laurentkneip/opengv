@@ -8,5 +8,5 @@ brief:   OpenGV is a collection of computer vision methods for solving
          context. Matlab and Python interfaces are implemented as well. The link
          to the above pages also shows links to precompiled Matlab mex-libraries.
          Please consult the documentation for more information.
-author:  Laurent Kneip, The Australian National University
+author:  Laurent Kneip, ShanghaiTech, Mobile Perception Lab (http://mpl.sist.shanghaitech.edu.cn)
 contact: kneip.laurent@gmail.com
