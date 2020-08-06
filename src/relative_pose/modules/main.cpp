@@ -615,6 +615,19 @@ struct Eigensolver_step : OptimizationFunctor<double>
 }
 }
 
+struct myPair {
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
+
+  Eigen::Vector3d first;
+  double second;
+};
+
+bool operator<( const myPair & p1, const myPair & p2 ) {
+  if( p1.second > p2.second )
+    return true;
+  return false;
+}
+
 void
 opengv::relative_pose::modules::eigensolver_main(
   const Eigen::Matrix3d & xxF,
@@ -648,15 +661,23 @@ opengv::relative_pose::modules::eigensolver_main(
   Eigen::Matrix<std::complex<double>,3,3> V_complex = Eig.eigenvectors();
   eigenvalues_t D;
   eigenvectors_t V;
-  for(size_t i = 0; i < 3; i++)
-  {
-    D[i] = D_complex[i].real();
+  
+  std::vector< myPair > pairs;
+  for(size_t i = 0; i < 3; i++) {
+    myPair newPair;
+    newPair.second = D_complex[i].real();
     for(size_t j = 0; j < 3; j++)
-      V(i,j) = V_complex(i,j).real();
+      newPair.first(j,0) = V_complex(j,i).real();
+    pairs.push_back(newPair);
+  }
+  std::sort(pairs.begin(),pairs.end());
+  for(size_t i = 0; i < 3; i++) {
+    D[i] = pairs[i].second;
+    V.col(i) = pairs[i].first;
   }
 
-  double translationMagnitude = sqrt(pow(D[1],2) + pow(D[2],2));
-  translation_t t = translationMagnitude * V.col(0);
+  double translationMagnitude = sqrt(pow(D[0],2) + pow(D[1],2));
+  translation_t t = translationMagnitude * V.col(2);
 
   output.translation = t;
   output.rotation = R;
@@ -769,6 +790,19 @@ struct Ge_step : OptimizationFunctor<double>
 }
 }
 
+struct myPair_ge {
+  EIGEN_MAKE_ALIGNED_OPERATOR_NEW
+
+  Eigen::Vector4d first;
+  double second;
+};
+
+bool operator<( const myPair_ge & p1, const myPair_ge & p2 ) {
+  if( p1.second > p2.second )
+    return true;
+  return false;
+}
+
 void
 opengv::relative_pose::modules::ge_main(
     const Eigen::Matrix3d & xxF,
@@ -817,15 +851,23 @@ opengv::relative_pose::modules::ge_main(
   Eigen::Matrix<std::complex<double>,4,4> V_complex = Eig.eigenvectors();
   Eigen::Vector4d D;
   Eigen::Matrix4d V;
-  for(size_t i = 0; i < 4; i++)
-  {
-    D[i] = D_complex[i].real();
+  
+  std::vector< myPair_ge > pairs;
+  for(size_t i = 0; i < 4; i++) {
+    myPair_ge newPair;
+    newPair.second = D_complex[i].real();
     for(size_t j = 0; j < 4; j++)
-      V(i,j) = V_complex(i,j).real();
+      newPair.first(j,0) = V_complex(j,i).real();
+    pairs.push_back(newPair);
   }
-
-  double factor = V(3,0);
-  Eigen::Vector4d t = (1.0/factor) * V.col(0);
+  std::sort(pairs.begin(),pairs.end());
+  for(size_t i = 0; i < 4; i++) {
+    D[i] = pairs[i].second;
+    V.col(i) = pairs[i].first;
+  }
+  
+  double factor = V(3,3);
+  Eigen::Vector4d t = (1.0/factor) * V.col(3);
 
   output.translation = t;
   output.rotation = R;
@@ -981,16 +1023,24 @@ opengv::relative_pose::modules::ge_main2(
   Eigen::Matrix<std::complex<double>,4,4> V_complex = Eig.eigenvectors();
   Eigen::Vector4d D;
   Eigen::Matrix4d V;
-  for(size_t i = 0; i < 4; i++)
-  {
-    D[i] = D_complex[i].real();
+  
+  std::vector< myPair_ge > pairs;
+  for(size_t i = 0; i < 4; i++) {
+    myPair_ge newPair;
+    newPair.second = D_complex[i].real();
     for(size_t j = 0; j < 4; j++)
-      V(i,j) = V_complex(i,j).real();
+      newPair.first(j,0) = V_complex(j,i).real();
+    pairs.push_back(newPair);
   }
-
-  double factor = V(3,0);
-  Eigen::Vector4d t = (1.0/factor) * V.col(0);
-
+  std::sort(pairs.begin(),pairs.end());
+  for(size_t i = 0; i < 4; i++) {
+    D[i] = pairs[i].second;
+    V.col(i) = pairs[i].first;
+  }
+  
+  double factor = V(3,3);
+  Eigen::Vector4d t = (1.0/factor) * V.col(3);
+  
   output.translation = t;
   output.rotation = math::cayley2rot(cayley);
   output.eigenvalues = D;
