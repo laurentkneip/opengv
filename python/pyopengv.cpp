@@ -691,6 +691,7 @@ py::object triangulate2( pyarray_d &b1,
 
 PYBIND11_MODULE(pyopengv, m) {
   namespace py = pybind11;
+  using namespace pybind11::literals;
 
   m.def("absolute_pose_p2p", pyopengv::absolute_pose::p2p);
   m.def("absolute_pose_p3p_kneip", pyopengv::absolute_pose::p3p_kneip);
@@ -717,16 +718,16 @@ PYBIND11_MODULE(pyopengv, m) {
         py::arg("probability") = 0.99
   );
 
-  m.def("relative_pose_twopt", pyopengv::relative_pose::twopt);
-  m.def("relative_pose_twopt_rotation_only", pyopengv::relative_pose::twopt_rotationOnly);
-  m.def("relative_pose_rotation_only", pyopengv::relative_pose::rotationOnly);
-  m.def("relative_pose_fivept_nister", pyopengv::relative_pose::fivept_nister);
-  m.def("relative_pose_fivept_kneip", pyopengv::relative_pose::fivept_kneip);
-  m.def("relative_pose_sevenpt", pyopengv::relative_pose::sevenpt);
-  m.def("relative_pose_eightpt", pyopengv::relative_pose::eightpt);
-  m.def("relative_pose_eigensolver", pyopengv::relative_pose::eigensolver);
-  m.def("relative_pose_sixpt", pyopengv::relative_pose::sixpt);
-  m.def("relative_pose_optimize_nonlinear", pyopengv::relative_pose::optimize_nonlinear);
+  m.def("relative_pose_twopt", pyopengv::relative_pose::twopt, "b1"_a, "b2"_a, "R"_a);
+  m.def("relative_pose_twopt_rotation_only", pyopengv::relative_pose::twopt_rotationOnly, "b1"_a, "b2"_a);
+  m.def("relative_pose_rotation_only", pyopengv::relative_pose::rotationOnly, "b1"_a, "b2"_a);
+  m.def("relative_pose_fivept_nister", pyopengv::relative_pose::fivept_nister, "b1"_a, "b2"_a);
+  m.def("relative_pose_fivept_kneip", pyopengv::relative_pose::fivept_kneip, "b1"_a, "b2"_a);
+  m.def("relative_pose_sevenpt", pyopengv::relative_pose::sevenpt, "b1"_a, "b2"_a);
+  m.def("relative_pose_eightpt", pyopengv::relative_pose::eightpt, "b1"_a, "b2"_a);
+  m.def("relative_pose_eigensolver", pyopengv::relative_pose::eigensolver, "b1"_a, "b2"_a, "R"_a);
+  m.def("relative_pose_sixpt", pyopengv::relative_pose::sixpt, "b1"_a, "b2"_a);
+  m.def("relative_pose_optimize_nonlinear", pyopengv::relative_pose::optimize_nonlinear, "b1"_a, "b2"_a, "t12"_a, "R12"_a);
   m.def("relative_pose_ransac", pyopengv::relative_pose::ransac,
         py::arg("b1"),
         py::arg("b2"),
@@ -765,6 +766,6 @@ PYBIND11_MODULE(pyopengv, m) {
         py::arg("max_iterations") = 1000,
         py::arg("probability") = 0.99
   );
-  m.def("triangulation_triangulate", pyopengv::triangulation::triangulate);
-  m.def("triangulation_triangulate2", pyopengv::triangulation::triangulate2);
+  m.def("triangulation_triangulate", pyopengv::triangulation::triangulate, "b1"_a, "b2"_a, "t12"_a, "R12"_a);
+  m.def("triangulation_triangulate2", pyopengv::triangulation::triangulate2, "b1"_a, "b2"_a, "t12"_a, "R12"_a);
 }

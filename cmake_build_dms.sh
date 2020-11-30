@@ -1,0 +1,1 @@
+cmake .. -DBUILD_TESTS=OFF -DBUILD_PYTHON=ON -DPYBIND11_PYTHON_VERSION=3.8 -DPYTHON_INSTALL_DIR=/home/dmaturan/miniconda2/envs/colmap_ws/lib/python3.8/site-packages/ -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX
