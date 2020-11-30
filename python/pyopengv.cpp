@@ -17,25 +17,23 @@
 namespace pyopengv {
 
 
-opengv::bearingVector_t bearingVectorFromArray(
-    const pyarray_d &array,
+opengv::bearingVector_t bearingVectorFromPtr(
+    const double *array_ptr,
     size_t index )
 {
+  const double *a = array_ptr + 3 * index;
   opengv::bearingVector_t v;
-  v[0] = *array.data(index, 0);
-  v[1] = *array.data(index, 1);
-  v[2] = *array.data(index, 2);
+  v << a[0], a[1], a[2];
   return v;
 }
 
-opengv::point_t pointFromArray(
-    const pyarray_d &array,
+opengv::point_t pointFromPtr(
+    const double *array_ptr,
     size_t index )
 {
+  const double *a = array_ptr + 3 * index;
   opengv::point_t p;
-  p[0] = *array.data(index, 0);
-  p[1] = *array.data(index, 1);
-  p[2] = *array.data(index, 2);
+  p << a[0], a[1], a[2];
   return p;
 }
 
@@ -125,14 +123,15 @@ public:
       pyarray_d &points )
     : _bearingVectors(bearingVectors)
     , _points(points)
+    , _bearingVectors_ptr(bearingVectors.data(0, 0))
+    , _points_ptr(points.data(0, 0))
   {}
 
   CentralAbsoluteAdapter(
       pyarray_d &bearingVectors,
       pyarray_d &points,
       pyarray_d &R )
-    : _bearingVectors(bearingVectors)
-    , _points(points)
+    : CentralAbsoluteAdapter(bearingVectors, points)
   {
     for (int i = 0; i < 3; ++i) {
       for (int j = 0; j < 3; ++j) {
@@ -146,16 +145,10 @@ public:
       pyarray_d &points,
       pyarray_d &t,
       pyarray_d &R )
-    : _bearingVectors(bearingVectors)
-    , _points(points)
+    : CentralAbsoluteAdapter(bearingVectors, points, R)
   {
     for (int i = 0; i < 3; ++i) {
       _t(i) = *t.data(i);
-    }
-    for (int i = 0; i < 3; ++i) {
-      for (int j = 0; j < 3; ++j) {
-        _R(i, j) = *R.data(i, j);
-      }
     }
   }
 
@@ -164,7 +157,7 @@ public:
   //Access of correspondences
 
   virtual opengv::bearingVector_t getBearingVector( size_t index ) const {
-    return bearingVectorFromArray(_bearingVectors, index);
+    return bearingVectorFromPtr(_bearingVectors_ptr, index);
   }
 
   virtual double getWeight( size_t index ) const {
@@ -180,7 +173,7 @@ public:
   }
 
   virtual opengv::point_t getPoint( size_t index ) const {
-    return pointFromArray(_points, index);
+    return pointFromPtr(_points_ptr, index);
   }
 
   virtual size_t getNumberCorrespondences() const {
@@ -190,6 +183,8 @@ public:
 protected:
   pyarray_d _bearingVectors;
   pyarray_d _points;
+  const double *_bearingVectors_ptr;
+  const double *_points_ptr;
 };
 
 
@@ -347,14 +342,15 @@ public:
       pyarray_d &bearingVectors2 )
     : _bearingVectors1(bearingVectors1)
     , _bearingVectors2(bearingVectors2)
+    , _bearingVectors1_ptr(bearingVectors1.data(0, 0))
+    , _bearingVectors2_ptr(bearingVectors2.data(0, 0))
   {}
 
   CentralRelativeAdapter(
       pyarray_d &bearingVectors1,
       pyarray_d &bearingVectors2,
       pyarray_d &R12 )
-    : _bearingVectors1(bearingVectors1)
-    , _bearingVectors2(bearingVectors2)
+    : CentralRelativeAdapter(bearingVectors1, bearingVectors2)
   {
     for (int i = 0; i < 3; ++i) {
       for (int j = 0; j < 3; ++j) {
@@ -368,27 +364,21 @@ public:
       pyarray_d &bearingVectors2,
       pyarray_d &t12,
       pyarray_d &R12 )
-    : _bearingVectors1(bearingVectors1)
-    , _bearingVectors2(bearingVectors2)
+    : CentralRelativeAdapter(bearingVectors1, bearingVectors2, R12)
   {
     for (int i = 0; i < 3; ++i) {
       _t12(i) = *t12.data(i);
-    }
-    for (int i = 0; i < 3; ++i) {
-      for (int j = 0; j < 3; ++j) {
-        _R12(i, j) = *R12.data(i, j);
-      }
     }
   }
 
   virtual ~CentralRelativeAdapter() {}
 
   virtual opengv::bearingVector_t getBearingVector1( size_t index ) const {
-    return bearingVectorFromArray(_bearingVectors1, index);
+    return bearingVectorFromPtr(_bearingVectors1_ptr, index);
   }
 
   virtual opengv::bearingVector_t getBearingVector2( size_t index ) const {
-    return bearingVectorFromArray(_bearingVectors2, index);
+    return bearingVectorFromPtr(_bearingVectors2_ptr, index);
   }
 
   virtual double getWeight( size_t index ) const {
@@ -418,6 +408,8 @@ public:
 protected:
   pyarray_d _bearingVectors1;
   pyarray_d _bearingVectors2;
+  const double *_bearingVectors1_ptr;
+  const double *_bearingVectors2_ptr;
 };
 
 
