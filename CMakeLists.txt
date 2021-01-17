@@ -337,7 +337,7 @@ IF (BUILD_TESTS)
 ENDIF()
 
 # Configuration
-set(config_install_dir "lib/cmake/${PROJECT_NAME}-${PROJECT_VERSION}")
+set(config_install_dir "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}-${PROJECT_VERSION}")
 set(include_install_dir "include")
 set(version_config "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake")
 set(project_config "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake")
@@ -366,10 +366,10 @@ export(TARGETS opengv FILE "${CMAKE_CURRENT_BINARY_DIR}/${targets_export_name}.c
 # Targets:
 install(TARGETS opengv
         EXPORT "${targets_export_name}"
-        LIBRARY DESTINATION "lib"
-        ARCHIVE DESTINATION "lib"
-        RUNTIME DESTINATION "bin"
-        INCLUDES DESTINATION "${include_install_dir}")
+        LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+        ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+        RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
+        INCLUDES DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}")
 
 # Config
 #   * <prefix>/lib/cmake/opengv/opengvConfig.cmake
