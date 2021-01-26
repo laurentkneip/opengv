@@ -15,8 +15,10 @@ addons:
     packages:
         - build-essential 
         - python-dev 
+        - python3-dev 
         - libboost-python-dev 
         - python-numpy-dev
+        - python3-numpy-dev
         - libeigen3-dev
 
 env:
@@ -50,9 +52,9 @@ before_script:
   - cd build
   - >
      if [ $CXX = "clang++" ]; then
-        cmake .. -DBUILD_TESTS:BOOL=ON -DBUILD_PYTHON:BOOL=ON -DCMAKE_CXX_FLAGS="-Wno-deprecated-register"
+        cmake .. -DBUILD_TESTS:BOOL=ON -DBUILD_PYTHON:BOOL=ON -DPYBIND11_PYTHON_VERSION=3.4 -DCMAKE_CXX_FLAGS="-Wno-deprecated-register -Wno-deprecated-declarations" 
      else
-        cmake .. -DBUILD_TESTS:BOOL=ON -DBUILD_PYTHON:BOOL=ON
+        cmake .. -DBUILD_TESTS:BOOL=ON -DBUILD_PYTHON:BOOL=ON -DPYBIND11_PYTHON_VERSION=3.4
      fi
 
 script:
