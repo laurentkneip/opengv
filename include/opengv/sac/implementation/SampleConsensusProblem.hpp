@@ -54,7 +54,7 @@ opengv::sac::SampleConsensusProblem<M>::~SampleConsensusProblem()
 
 template<typename M>
 bool opengv::sac::SampleConsensusProblem<M>::isSampleGood(
-    const std::vector<int> & sample) const
+    const std::vector<int> & /* sample */) const
 {
   // Default implementation
   return true;
