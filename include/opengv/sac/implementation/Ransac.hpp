@@ -115,7 +115,7 @@ opengv::sac::Ransac<PROBLEM_T>::computeModel(
     ++iterations_;
     if(debug_verbosity_level > 1)
       fprintf(stdout,
-          "[sm::RandomSampleConsensus::computeModel] Trial %d out of %f: %d inliers (best is: %d so far).\n",
+          "[sm::RandomSampleConsensus::computeModel] Trial %d out of %d: %d inliers (best is: %d so far).\n",
           iterations_, k, n_inliers_count, n_best_inliers_count );
     if(iterations_ > max_iterations_)
     {
