@@ -35,6 +35,8 @@ ELSE()
   ELSEIF (CMAKE_SYSTEM_PROCESSOR MATCHES 
           "(arm)|(ARM)|(armhf)|(ARMHF)|(armel)|(ARMEL)")
     add_definitions (-march=armv7-a)
+  ELSEIF (CMAKE_SYSTEM_PROCESSOR MATCHES "(riscv64)")
+    add_definitions (-march=rv64gc)
   ELSE ()
     add_definitions (-march=native) #TODO use correct c++11 def once everybody has moved to gcc 4.7 # for now I even removed std=gnu++0x
   ENDIF()
