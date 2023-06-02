@@ -31,6 +31,8 @@
 
 #include <opengv/math/arun.hpp>
 
+#include <cassert>
+
 opengv::rotation_t
 opengv::math::arun( const Eigen::MatrixXd & Hcross )
 {

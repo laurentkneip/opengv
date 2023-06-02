@@ -35,6 +35,8 @@
 
 #include <opengv/OptimizationFunctor.hpp>
 
+#include <cassert>
+
 void
 opengv::relative_pose::modules::fivept_nister::composeA(
     const Eigen::Matrix<double,9,4> & EE,

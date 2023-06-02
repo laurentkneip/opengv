@@ -31,6 +31,8 @@
 
 #include <opengv/relative_pose/MANoncentralRelative.hpp>
 
+#include <cassert>
+
 opengv::relative_pose::MANoncentralRelative::MANoncentralRelative(
       const double * bearingVectors1,
       const double * bearingVectors2,

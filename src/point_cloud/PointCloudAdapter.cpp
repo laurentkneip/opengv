@@ -31,6 +31,8 @@
 
 #include <opengv/point_cloud/PointCloudAdapter.hpp>
 
+#include <cassert>
+
 opengv::point_cloud::PointCloudAdapter::PointCloudAdapter(
     const points_t & points1,
     const points_t & points2 ) :

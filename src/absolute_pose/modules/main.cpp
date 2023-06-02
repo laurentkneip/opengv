@@ -46,6 +46,8 @@
 #include <opengv/math/arun.hpp>
 #include <opengv/math/cayley.hpp>
 
+#include <cassert>
+
 void
 opengv::absolute_pose::modules::p3p_kneip_main(
     const bearingVectors_t & f,
