@@ -26,6 +26,9 @@ ELSE()
   OPTION(BUILD_POSITION_INDEPENDENT_CODE "Build position independent code (-fPIC)" ON)
 ENDIF()
 
+set(CMAKE_CXX_STANDARD 11 CACHE STRING "The C++ standard used by the project")
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 IF(MSVC)
   add_compile_options(/wd4514 /wd4267 /bigobj)
   add_definitions(-D_USE_MATH_DEFINES)
@@ -181,8 +184,6 @@ add_library( random_generators test/random_generators.cpp test/random_generators
 set_target_properties( opengv random_generators PROPERTIES
                     SOVERSION ${PROJECT_VERSION}
                     VERSION ${PROJECT_VERSION}
-                    CXX_STANDARD 11
-                    CXX_STANDARD_REQUIRED ON
                     DEBUG_POSTFIX d )
 
 target_include_directories( opengv PUBLIC 
