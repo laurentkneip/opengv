@@ -41,6 +41,7 @@
 #include <opengv/relative_pose/modules/main.hpp>
 #include <opengv/triangulation/methods.hpp>
 
+#include <cassert>
 #include <iostream>
 
 opengv::translation_t

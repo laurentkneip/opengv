@@ -31,6 +31,8 @@
 
 #include <opengv/absolute_pose/NoncentralAbsoluteAdapter.hpp>
 
+#include <cassert>
+
 opengv::absolute_pose::NoncentralAbsoluteAdapter::NoncentralAbsoluteAdapter(
     const bearingVectors_t & bearingVectors,
     const camCorrespondences_t & camCorrespondences,

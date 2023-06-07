@@ -26,18 +26,13 @@ ELSE()
   OPTION(BUILD_POSITION_INDEPENDENT_CODE "Build position independent code (-fPIC)" ON)
 ENDIF()
 
+set(CMAKE_CXX_STANDARD 11 CACHE STRING "The C++ standard used by the project")
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 IF(MSVC)
   add_compile_options(/wd4514 /wd4267 /bigobj)
   add_definitions(-D_USE_MATH_DEFINES)
 ELSE()
-  IF (CMAKE_SYSTEM_PROCESSOR MATCHES "(arm64)|(ARM64)|(aarch64)|(AARCH64)")
-    add_definitions (-march=armv8-a)
-  ELSEIF (CMAKE_SYSTEM_PROCESSOR MATCHES 
-          "(arm)|(ARM)|(armhf)|(ARMHF)|(armel)|(ARMEL)")
-    add_definitions (-march=armv7-a)
-  ELSE ()
-    add_definitions (-march=native) #TODO use correct c++11 def once everybody has moved to gcc 4.7 # for now I even removed std=gnu++0x
-  ENDIF()
   add_definitions (
     -O3
     -Wall
@@ -181,8 +176,6 @@ add_library( random_generators test/random_generators.cpp test/random_generators
 set_target_properties( opengv random_generators PROPERTIES
                     SOVERSION ${PROJECT_VERSION}
                     VERSION ${PROJECT_VERSION}
-                    CXX_STANDARD 11
-                    CXX_STANDARD_REQUIRED ON
                     DEBUG_POSTFIX d )
 
 target_include_directories( opengv PUBLIC 

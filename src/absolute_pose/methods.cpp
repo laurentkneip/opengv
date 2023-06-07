@@ -42,6 +42,7 @@
 #include <opengv/math/quaternion.hpp>
 #include <opengv/math/roots.hpp>
 
+#include <cassert>
 #include <iostream>
 
 opengv::translation_t

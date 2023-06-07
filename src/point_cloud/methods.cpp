@@ -39,6 +39,8 @@
 #include <opengv/math/arun.hpp>
 #include <opengv/math/cayley.hpp>
 
+#include <cassert>
+
 namespace opengv
 {
 namespace point_cloud
