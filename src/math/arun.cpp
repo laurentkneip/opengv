@@ -29,6 +29,7 @@
  ******************************************************************************/
 
 
+#include <cassert>
 #include <opengv/math/arun.hpp>
 
 opengv::rotation_t

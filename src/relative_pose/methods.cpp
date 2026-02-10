@@ -29,6 +29,7 @@
  ******************************************************************************/
 
 
+#include <cassert>
 #include <opengv/relative_pose/methods.hpp>
 #include <opengv/Indices.hpp>
 

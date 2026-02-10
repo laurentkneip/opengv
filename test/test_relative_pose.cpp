@@ -129,13 +129,27 @@ int main( int argc, char** argv )
   double fivept_nister_time = TIMETODOUBLE(timeval_minus(toc,tic)) / iterations;
 
   std::cout << "running fivept_kneip" << std::endl;
+  std::cout << "  - Adapter has " << adapter.getNumberCorrespondences() << " correspondences" << std::endl;
+  std::cout << "  - Getting 5 random indices..." << std::endl;
   rotations_t fivept_kneip_rotations;
   gettimeofday( &tic, 0 );
   std::vector<int> indices5 = getNindices(5);
+  std::cout << "  - Indices: ";
+  for(size_t i = 0; i < indices5.size(); i++)
+    std::cout << indices5[i] << " ";
+  std::cout << std::endl;
+  std::cout << "  - Calling fivept_kneip() " << iterations << " times..." << std::endl;
   for(size_t i = 0; i < iterations; i++)
+  {
+    if(i == 0)
+      std::cout << "  - First iteration..." << std::endl;
     fivept_kneip_rotations = relative_pose::fivept_kneip(adapter,indices5);
+    if(i == 0)
+      std::cout << "  - First iteration completed, returned " << fivept_kneip_rotations.size() << " rotations" << std::endl;
+  }
   gettimeofday( &toc, 0 );
   double fivept_kneip_time = TIMETODOUBLE(timeval_minus(toc,tic)) / iterations;
+  std::cout << "  - fivept_kneip completed successfully" << std::endl;
 
   std::cout << "running sevenpt" << std::endl;
   essentials_t sevenpt_essentials;

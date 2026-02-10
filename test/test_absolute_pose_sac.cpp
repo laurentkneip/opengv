@@ -33,6 +33,10 @@
 #include <iostream>
 #include <iomanip>
 #include <limits.h>
+#include <cmath>
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
 #include <Eigen/Eigen>
 #include <opengv/absolute_pose/methods.hpp>
 #include <opengv/absolute_pose/CentralAbsoluteAdapter.hpp>
@@ -57,7 +61,7 @@ int main( int argc, char** argv )
   initializeRandomSeed();
   
   //set experiment parameters
-  double noise = 0.0;
+  double noise = 0.5;  // Add noise to see refinement differences
   double outlierFraction = 0.1;
   size_t numberPoints = 100;
 

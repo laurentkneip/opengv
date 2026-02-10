@@ -34,11 +34,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#ifdef WIN32
-  struct timeval {
-    int tv_sec;
-    int tv_usec;
-  };
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
+  #include <windows.h>
 
   void gettimeofday( timeval * timeofday, int dummy);
 #else

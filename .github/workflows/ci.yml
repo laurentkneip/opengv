@@ -1,0 +1,266 @@
+name: CI
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+
+jobs:
+  build-and-test-ubuntu:
+    runs-on: ubuntu-22.04
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y \
+          cmake \
+          build-essential \
+          libeigen3-dev \
+          python3-dev \
+          python3-pip \
+          python3-venv \
+          pybind11-dev
+
+    - name: Configure CMake (with Python and tests)
+      run: |
+        mkdir -p build
+        cd build
+        cmake .. \
+          -DBUILD_TESTS=ON \
+          -DBUILD_PYTHON=ON \
+          -DPYTHON_EXECUTABLE=$(which python3)
+
+    - name: Build everything (C++ and Python)
+      run: |
+        cd build
+        make -j$(nproc)
+
+    - name: Run C++ tests
+      run: |
+        cd build
+        ctest --output-on-failure
+
+    - name: Test Python module
+      run: |
+        cd ${{ github.workspace }}
+        python3 -m venv .venv
+        source .venv/bin/activate
+        pip install numpy scipy pytest
+        PYTHONPATH=build/lib pytest python/ -v
+
+  test-conda-environment:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest]
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Setup Miniconda
+      uses: conda-incubator/setup-miniconda@v3
+      with:
+        auto-update-conda: true
+        python-version: '3.11'
+        environment-file: environment.yml
+        activate-environment: opengv
+
+    - name: Run conda environment test (Windows)
+      if: runner.os == 'Windows'
+      shell: powershell
+      run: |
+        .\scripts\test_conda_env.bat
+
+  build-wheel-ubuntu:
+    runs-on: ubuntu-22.04
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y \
+          cmake \
+          build-essential \
+          libeigen3-dev \
+          python3-dev \
+          python3-pip \
+          python3-venv \
+          pybind11-dev
+
+    - name: Create virtual environment and build wheel
+      run: |
+        python3 -m venv .venv
+        source .venv/bin/activate
+        pip install --upgrade pip wheel build
+        pip wheel . --no-deps -w dist/
+
+    - name: Install and test wheel
+      run: |
+        source .venv/bin/activate
+        pip install dist/pyopengv-*.whl
+        pip install scipy pytest
+        pytest python/ -v
+
+    - name: Upload wheel artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: wheel-ubuntu-22.04
+        path: dist/*.whl
+
+  build-and-test-macos:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macos-14, macos-latest]  # macos-14 = Sonoma (ARM), macos-latest = latest available
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Install dependencies
+      run: |
+        brew install cmake eigen pybind11
+
+    - name: Configure CMake (with Python and tests)
+      run: |
+        mkdir -p build
+        cd build
+        cmake .. \
+          -DCMAKE_CXX_STANDARD=14 \
+          -DBUILD_TESTS=ON \
+          -DBUILD_PYTHON=ON \
+          -DPYTHON_EXECUTABLE=$(which python3)
+
+    - name: Build everything (C++ and Python)
+      run: |
+        cd build
+        make -j$(sysctl -n hw.ncpu)
+
+    - name: Run C++ tests
+      run: |
+        cd build
+        ctest --output-on-failure
+
+    - name: Test Python module (direct build)
+      run: |
+        cd ${{ github.workspace }}
+        python3 -m venv .venv
+        source .venv/bin/activate
+        pip install numpy scipy pytest
+        PYTHONPATH=build/lib pytest python/ -v
+
+    - name: Build and test wheel
+      run: |
+        source .venv/bin/activate
+        pip install --upgrade pip wheel build
+        pip wheel . --no-deps -w dist/
+        pip install dist/pyopengv-*.whl
+        pytest python/ -v
+
+    - name: Upload wheel artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: wheel-${{ matrix.os }}
+        path: dist/*.whl
+  
+  build-and-test-windows-clang-ninja:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Setup Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+        architecture: 'x64'
+
+    - name: Verify Python development files
+      run: |
+        python -c "import sys; print(f'Python: {sys.executable}')"
+        $pythonRoot = python -c "import sys; print(sys.prefix)"
+        Write-Host "Python root: $pythonRoot"
+        if (Test-Path "$pythonRoot\libs\python311.lib") {
+          Write-Host "✓ python311.lib found"
+        } else {
+          Write-Host "✗ python311.lib NOT found"
+        }
+
+    - name: Install LLVM/Clang
+      run: |
+        choco install llvm ninja -y
+        echo "C:\Program Files\LLVM\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+
+    - name: Install Eigen and pybind11 (headers-only, via vcpkg)
+      shell: bash
+      run: |
+        if [ ! -d "/c/vcpkg" ]; then
+          git clone https://github.com/Microsoft/vcpkg.git /c/vcpkg
+          /c/vcpkg/bootstrap-vcpkg.bat
+        fi
+        /c/vcpkg/vcpkg install eigen3:x64-windows pybind11:x64-windows
+
+    - name: Install Python dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install numpy pybind11
+
+    - name: Configure CMake with Clang and Ninja
+      shell: bash
+      run: |
+        export CC=clang
+        export CXX=clang++
+        mkdir build
+        cd build
+        cmake .. \
+          -G Ninja \
+          -DCMAKE_BUILD_TYPE=Release \
+          -DBUILD_TESTS=ON \
+          -DBUILD_PYTHON=ON \
+          -DPYTHON_EXECUTABLE=$(which python) \
+          -DCMAKE_TOOLCHAIN_FILE=/c/vcpkg/scripts/buildsystems/vcpkg.cmake
+
+    - name: Build everything with Ninja (blazing fast!)
+      shell: bash
+      run: |
+        cd build
+        ninja -j$(nproc)
+
+    - name: Run C++ tests
+      shell: bash
+      run: |
+        cd build
+        ctest --output-on-failure
+
+    - name: Test Python module (direct build)
+      shell: bash
+      run: |
+        export PYTHONPATH="$PWD/build/lib"
+        pip install scipy pytest
+        pytest python/ -v
+
+    - name: Build and test wheel
+      shell: powershell
+      run: |
+        pip install wheel build
+        pip wheel . --no-deps --no-build-isolation -w dist\
+        $wheel = Get-ChildItem -Path dist\pyopengv-*.whl | Select-Object -First 1
+        pip install $wheel.FullName
+        pytest python\ -v
+
+    - name: Upload wheel artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: wheel-windows-clang-ninja
+        path: dist/*.whl
+

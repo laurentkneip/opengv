@@ -30,6 +30,7 @@
 
 
 #include <opengv/relative_pose/MACentralRelative.hpp>
+#include <cassert>
 
 opengv::relative_pose::MACentralRelative::MACentralRelative(
     const double * bearingVectors1,

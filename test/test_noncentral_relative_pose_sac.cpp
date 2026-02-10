@@ -106,7 +106,10 @@ int main( int argc, char** argv )
       position,
       rotation);
 
+  std::cout << "Adapter created with " << adapter.getNumberCorrespondences() << " correspondences" << std::endl;
+
   //Create a NoncentralRelativePoseSacProblem and Ransac
+  std::cout << "Creating RANSAC problem with SIXPT algorithm..." << std::endl;
   sac::Ransac<
       sac_problems::relative_pose::NoncentralRelativePoseSacProblem> ransac;
   std::shared_ptr<
@@ -115,17 +118,20 @@ int main( int argc, char** argv )
       new sac_problems::relative_pose::NoncentralRelativePoseSacProblem(
       adapter,
       sac_problems::relative_pose::NoncentralRelativePoseSacProblem::SIXPT));
+  std::cout << "RANSAC problem created successfully" << std::endl;
   ransac.sac_model_ = relposeproblem_ptr;
   ransac.threshold_ = 2.0*(1.0 - cos(atan(sqrt(2.0)*0.5/800.0)));
   ransac.max_iterations_ = 10000;
 
   //Run the experiment
+  std::cout << "Running RANSAC..." << std::endl;
   struct timeval tic;
   struct timeval toc;
   gettimeofday( &tic, 0 );
   ransac.computeModel();
   gettimeofday( &toc, 0 );
   double ransac_time = TIMETODOUBLE(timeval_minus(toc,tic));
+  std::cout << "RANSAC completed successfully" << std::endl;
 
   //print the results
   std::cout << "the ransac threshold is: " << ransac.threshold_ << std::endl;

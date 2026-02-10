@@ -30,6 +30,7 @@
 
 
 #include <opengv/absolute_pose/MACentralAbsolute.hpp>
+#include <cassert>
 
 
 opengv::absolute_pose::MACentralAbsolute::MACentralAbsolute(

@@ -108,13 +108,27 @@ int main( int argc, char** argv )
 
   //running experiment
   std::cout << "running sixpt with 6 correspondences" << std::endl;
+  std::cout << "  - Adapter has " << adapter.getNumberCorrespondences() << " total correspondences" << std::endl;
+  std::cout << "  - Getting 6 random indices..." << std::endl;
   std::vector<int> indices6 = getNindices(6);
+  std::cout << "  - Indices: ";
+  for(size_t i = 0; i < indices6.size(); i++)
+    std::cout << indices6[i] << " ";
+  std::cout << std::endl;
+  std::cout << "  - Calling sixpt() " << iterations << " times..." << std::endl;
   rotations_t sixpt_rotations;
   gettimeofday( &tic, 0 );
   for( size_t i = 0; i < iterations; i++ )
+  {
+    if(i == 0)
+      std::cout << "  - First iteration..." << std::endl;
     sixpt_rotations = relative_pose::sixpt(adapter,indices6);
+    if(i == 0)
+      std::cout << "  - First iteration completed, returned " << sixpt_rotations.size() << " rotations" << std::endl;
+  }
   gettimeofday( &toc, 0 );
   double sixpt_time = TIMETODOUBLE(timeval_minus(toc,tic)) / iterations;
+  std::cout << "  - sixpt completed successfully" << std::endl;
   
   std::cout << "running ge with 8 correspondences" << std::endl;
   std::vector<int> indices8 = getNindices(8);

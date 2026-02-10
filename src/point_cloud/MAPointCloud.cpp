@@ -30,6 +30,7 @@
 
 
 #include <opengv/point_cloud/MAPointCloud.hpp>
+#include <cassert>
 
 opengv::point_cloud::MAPointCloud::MAPointCloud(
     const double * points1,

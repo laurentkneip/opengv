@@ -30,6 +30,7 @@
 
 
 #include <opengv/relative_pose/CentralRelativeWeightingAdapter.hpp>
+#include <cassert>
 
 opengv::relative_pose::CentralRelativeWeightingAdapter::CentralRelativeWeightingAdapter(
     const bearingVectors_t & bearingVectors1,

@@ -30,6 +30,7 @@
 
 
 #include <opengv/absolute_pose/CentralAbsoluteAdapter.hpp>
+#include <cassert>
 
 
 opengv::absolute_pose::CentralAbsoluteAdapter::CentralAbsoluteAdapter(

@@ -30,6 +30,7 @@
 
 
 #include <opengv/absolute_pose/MANoncentralAbsolute.hpp>
+#include <cassert>
 
 opengv::absolute_pose::MANoncentralAbsolute::MANoncentralAbsolute(
     const double * points,

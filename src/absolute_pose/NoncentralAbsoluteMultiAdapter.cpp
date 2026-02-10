@@ -30,6 +30,7 @@
 
 
 #include <opengv/absolute_pose/NoncentralAbsoluteMultiAdapter.hpp>
+#include <cassert>
 
 opengv::absolute_pose::NoncentralAbsoluteMultiAdapter::NoncentralAbsoluteMultiAdapter(
     std::vector<std::shared_ptr<bearingVectors_t> > bearingVectors,

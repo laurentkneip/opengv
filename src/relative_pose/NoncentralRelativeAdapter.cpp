@@ -30,6 +30,7 @@
 
 
 #include <opengv/relative_pose/NoncentralRelativeAdapter.hpp>
+#include <cassert>
 
 opengv::relative_pose::NoncentralRelativeAdapter::NoncentralRelativeAdapter(
     const bearingVectors_t & bearingVectors1,

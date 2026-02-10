@@ -1,0 +1,35 @@
+# Include the license and readme files
+include LICENSE.txt
+include License.txt
+include README.txt
+include README.md
+
+# Include the CMake build files
+include CMakeLists.txt
+recursive-include cmake *.cmake *.cmake.in
+recursive-include modules *.cmake
+
+# Include all C++ source and header files
+recursive-include src *.cpp *.c *.hpp *.h
+recursive-include include *.hpp *.h
+
+# Include Python bindings
+recursive-include python *.cpp *.hpp *.h *.py
+include python/CMakeLists.txt
+
+# Include pybind11 submodule (if needed)
+graft python/pybind11
+
+# Exclude build artifacts and caches
+global-exclude *.pyc
+global-exclude *.pyo
+global-exclude __pycache__
+global-exclude *.so
+global-exclude *.dylib
+global-exclude *.dll
+global-exclude .git*
+recursive-exclude build *
+recursive-exclude .git *
+
+# Exclude test binaries
+exclude test/test_*

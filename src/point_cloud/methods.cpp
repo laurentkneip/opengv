@@ -30,6 +30,7 @@
 
 
 #include <opengv/point_cloud/methods.hpp>
+#include <cassert>
 #include <opengv/Indices.hpp>
 
 #include <Eigen/NonLinearOptimization>

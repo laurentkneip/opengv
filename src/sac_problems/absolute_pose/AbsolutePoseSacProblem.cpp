@@ -113,6 +113,42 @@ opengv::sac_problems::
     solutions = opengv::absolute_pose::gp3p(_adapter,indices);
     break;
   }
+  case SQPNP:
+  {
+    transformation_t solution = opengv::absolute_pose::sqpnp(_adapter,indices);
+
+    //transform solution into body frame (case of single shifted cam)
+    translation_t t_bc = _adapter.getCamOffset(indices[0]);
+    rotation_t R_bc = _adapter.getCamRotation(indices[0]);
+
+    translation_t translation = solution.col(3);
+    rotation_t rotation = solution.block<3,3>(0,0);
+    solution.col(3) = translation - rotation * R_bc.transpose() * t_bc;
+    solution.block<3,3>(0,0) = rotation * R_bc.transpose();
+
+    solutions.push_back(solution);
+    break;
+  }
+  case UPNP:
+  {
+    // UPnP returns multiple solutions - evaluate all and pick best
+    transformations_t upnp_solutions = opengv::absolute_pose::upnp(_adapter,indices);
+    
+    //transform solutions into body frame (case of single shifted cam)
+    translation_t t_bc = _adapter.getCamOffset(indices[0]);
+    rotation_t R_bc = _adapter.getCamRotation(indices[0]);
+
+    for(size_t i = 0; i < upnp_solutions.size(); i++)
+    {
+      translation_t translation = upnp_solutions[i].col(3);
+      rotation_t rotation = upnp_solutions[i].block<3,3>(0,0);
+      upnp_solutions[i].col(3) = translation - rotation * R_bc.transpose() * t_bc;
+      upnp_solutions[i].block<3,3>(0,0) = rotation * R_bc.transpose();
+    }
+    
+    solutions = upnp_solutions;
+    break;
+  }
   }
   
   if( solutions.size() == 1 )
@@ -205,9 +241,76 @@ opengv::sac_problems::
     const model_t & model,
     model_t & optimized_model)
 {
-  _adapter.sett(model.col(3));
-  _adapter.setR(model.block<3,3>(0,0));
-  optimized_model = opengv::absolute_pose::optimize_nonlinear(_adapter,inliers);
+  // Use refinement algorithm (may differ from minimal solver)
+  if(_refine_algorithm == SQPNP)
+  {
+    // For SQPNP, use SQPNP refinement which properly handles
+    // omnidirectional/panorama bearing vectors
+    optimized_model = opengv::absolute_pose::sqpnp(_adapter, inliers);
+  }
+  else if(_refine_algorithm == UPNP)
+  {
+    // For UPNP, run upnp on inliers and pick best solution
+    transformations_t upnp_solutions = opengv::absolute_pose::upnp(_adapter, inliers);
+    
+    if(upnp_solutions.empty())
+    {
+      // Fallback to input model if UPnP fails
+      optimized_model = model;
+    }
+    else if(upnp_solutions.size() == 1)
+    {
+      optimized_model = upnp_solutions[0];
+    }
+    else
+    {
+      // Multiple solutions - pick best by evaluating reprojection error
+      double best_error = std::numeric_limits<double>::max();
+      optimized_model = upnp_solutions[0];
+      
+      for(const auto& solution : upnp_solutions)
+      {
+        // Compute average reprojection error for this solution
+        model_t inverseSolution;
+        inverseSolution.block<3,3>(0,0) = solution.block<3,3>(0,0).transpose();
+        inverseSolution.col(3) = -inverseSolution.block<3,3>(0,0)*solution.col(3);
+        
+        double sum_error = 0.0;
+        for(size_t i = 0; i < inliers.size(); i++)
+        {
+          Eigen::Matrix<double,4,1> p_hom;
+          p_hom.block<3,1>(0,0) = _adapter.getPoint(inliers[i]);
+          p_hom[3] = 1.0;
+          
+          point_t bodyReprojection = inverseSolution * p_hom;
+          point_t reprojection = _adapter.getCamRotation(inliers[i]).transpose() *
+              (bodyReprojection - _adapter.getCamOffset(inliers[i]));
+          reprojection = reprojection / reprojection.norm();
+          
+          sum_error += 1.0 - (reprojection.transpose() * _adapter.getBearingVector(inliers[i]));
+        }
+        
+        if(sum_error < best_error)
+        {
+          best_error = sum_error;
+          optimized_model = solution;
+        }
+      }
+    }
+  }
+  else if(_refine_algorithm == EPNP)
+  {
+    // Use EPnP directly on inliers
+    optimized_model = opengv::absolute_pose::epnp(_adapter, inliers);
+  }
+  else
+  {
+    // For other algorithms (KNEIP, GAO), use standard nonlinear optimization
+    // (Levenberg-Marquardt with reprojection error)
+    _adapter.sett(model.col(3));
+    _adapter.setR(model.block<3,3>(0,0));
+    optimized_model = opengv::absolute_pose::optimize_nonlinear(_adapter,inliers);
+  }
 }
 
 int
@@ -219,5 +322,7 @@ opengv::sac_problems::
     sampleSize = 2;
   if(_algorithm == EPNP)
     sampleSize = 6;
+  if(_algorithm == SQPNP)
+    sampleSize = 6;  // SQPNP needs at least 6 points for stable solution
   return sampleSize;
 }

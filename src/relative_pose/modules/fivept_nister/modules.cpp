@@ -29,6 +29,7 @@
  ******************************************************************************/
 
 
+#include <cassert>
 #include <opengv/relative_pose/modules/fivept_nister/modules.hpp>
 #include <Eigen/NonLinearOptimization>
 #include <Eigen/NumericalDiff>

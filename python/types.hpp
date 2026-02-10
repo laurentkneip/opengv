@@ -16,14 +16,14 @@ typedef py::array_t<double, py::array::c_style | py::array::forcecast> pyarray_d
 
 template <typename T>
 py::array_t<T> py_array_from_data(const T *data, size_t shape0) {
-  py::array_t<T> res({shape0});
+  py::array_t<T> res({static_cast<py::ssize_t>(shape0)});
   std::copy(data, data + shape0, res.mutable_data());
   return res;
 }
 
 template <typename T>
 py::array_t<T> py_array_from_data(const T *data, size_t shape0, size_t shape1) {
-  py::array_t<T> res({shape0, shape1});
+  py::array_t<T> res({static_cast<py::ssize_t>(shape0), static_cast<py::ssize_t>(shape1)});
   std::copy(data, data + shape0 * shape1, res.mutable_data());
   return res;
 }

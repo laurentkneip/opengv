@@ -1,0 +1,17 @@
+name: opengv
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python>=3.7
+  - cmake>=3.5
+  - numpy
+  - eigen
+  - pybind11
+  - pip
+  - wheel
+  - setuptools
+  - build
+  - ninja  # Build system (faster than make)
+  - clangxx  # Clang C++ compiler
+  - compilers  # C++ compiler toolchain (gcc/clang on Unix, MSVC on Windows)

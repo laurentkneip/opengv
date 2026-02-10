@@ -30,27 +30,47 @@ if(NOT Eigen_FIND_VERSION)
 endif(NOT Eigen_FIND_VERSION)
 
 macro(_eigen3_check_version)
-  file(READ "${EIGEN_INCLUDE_DIR}/Eigen/src/Core/util/Macros.h" _eigen3_version_header)
-
-  string(REGEX MATCH "define[ \t]+EIGEN_WORLD_VERSION[ \t]+([0-9]+)" _eigen3_world_version_match "${_eigen3_version_header}")
-  set(EIGEN_WORLD_VERSION "${CMAKE_MATCH_1}")
-  string(REGEX MATCH "define[ \t]+EIGEN_MAJOR_VERSION[ \t]+([0-9]+)" _eigen3_major_version_match "${_eigen3_version_header}")
-  set(EIGEN_MAJOR_VERSION "${CMAKE_MATCH_1}")
-  string(REGEX MATCH "define[ \t]+EIGEN_MINOR_VERSION[ \t]+([0-9]+)" _eigen3_minor_version_match "${_eigen3_version_header}")
-  set(EIGEN_MINOR_VERSION "${CMAKE_MATCH_1}")
-
-  set(EIGEN_VERSION ${EIGEN_WORLD_VERSION}.${EIGEN_MAJOR_VERSION}.${EIGEN_MINOR_VERSION})
-  if(${EIGEN_VERSION} VERSION_LESS ${Eigen_FIND_VERSION})
-    set(EIGEN_VERSION_OK FALSE)
-  else(${EIGEN_VERSION} VERSION_LESS ${Eigen_FIND_VERSION})
-    set(EIGEN_VERSION_OK TRUE)
-  endif(${EIGEN_VERSION} VERSION_LESS ${Eigen_FIND_VERSION})
-
-  if(NOT EIGEN_VERSION_OK)
-
-    message(STATUS "Eigen version ${EIGEN_VERSION} found in ${EIGEN_INCLUDE_DIR}, "
-                   "but at least version ${Eigen_FIND_VERSION} is required")
-  endif(NOT EIGEN_VERSION_OK)
+  # Try to read version from Macros.h (Eigen 2.x and 3.x both use same format)
+  set(_eigen3_version_header_file "${EIGEN_INCLUDE_DIR}/Eigen/src/Core/util/Macros.h")
+  if(EXISTS "${_eigen3_version_header_file}")
+    file(READ "${_eigen3_version_header_file}" _eigen3_version_header)
+    
+    # Eigen 2.x and 3.x both use: EIGEN_WORLD_VERSION, EIGEN_MAJOR_VERSION, EIGEN_MINOR_VERSION
+    string(REGEX MATCH "define[ \t]+EIGEN_WORLD_VERSION[ \t]+([0-9]+)" _eigen3_world_version_match "${_eigen3_version_header}")
+    if(_eigen3_world_version_match)
+      set(EIGEN_WORLD_VERSION "${CMAKE_MATCH_1}")
+      string(REGEX MATCH "define[ \t]+EIGEN_MAJOR_VERSION[ \t]+([0-9]+)" _eigen3_major_version_match "${_eigen3_version_header}")
+      set(EIGEN_MAJOR_VERSION "${CMAKE_MATCH_1}")
+      string(REGEX MATCH "define[ \t]+EIGEN_MINOR_VERSION[ \t]+([0-9]+)" _eigen3_minor_version_match "${_eigen3_version_header}")
+      set(EIGEN_MINOR_VERSION "${CMAKE_MATCH_1}")
+      if(EIGEN_WORLD_VERSION AND EIGEN_MAJOR_VERSION AND EIGEN_MINOR_VERSION)
+        set(EIGEN_VERSION "${EIGEN_WORLD_VERSION}.${EIGEN_MAJOR_VERSION}.${EIGEN_MINOR_VERSION}")
+      endif()
+    endif()
+  endif()
+  
+  # If version detection failed but we found Eigen 3.x signature file, accept it
+  if(NOT EIGEN_VERSION)
+    if(EXISTS "${EIGEN_INCLUDE_DIR}/signature_of_eigen3_matrix_library")
+      # Eigen 3.x is definitely newer than 2.91.0
+      set(EIGEN_VERSION "3.0.0")
+      set(EIGEN_VERSION_OK TRUE)
+      message(STATUS "Found Eigen3 in ${EIGEN_INCLUDE_DIR} (version detection skipped, assuming >= 2.91.0)")
+    else()
+      set(EIGEN_VERSION_OK FALSE)
+      message(STATUS "Could not determine Eigen version in ${EIGEN_INCLUDE_DIR}")
+    endif()
+  else()
+    # Compare versions
+    if(${EIGEN_VERSION} VERSION_LESS ${Eigen_FIND_VERSION})
+      set(EIGEN_VERSION_OK FALSE)
+      message(STATUS "Eigen version ${EIGEN_VERSION} found in ${EIGEN_INCLUDE_DIR}, "
+                     "but at least version ${Eigen_FIND_VERSION} is required")
+    else()
+      set(EIGEN_VERSION_OK TRUE)
+      message(STATUS "Found Eigen version ${EIGEN_VERSION} in ${EIGEN_INCLUDE_DIR}")
+    endif()
+  endif()
 endmacro(_eigen3_check_version)
 
 if (EIGEN_INCLUDE_DIRS)

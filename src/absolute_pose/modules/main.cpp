@@ -29,6 +29,7 @@
  ******************************************************************************/
 
 
+#include <cassert>
 #include <Eigen/NonLinearOptimization>
 #include <Eigen/NumericalDiff>
 

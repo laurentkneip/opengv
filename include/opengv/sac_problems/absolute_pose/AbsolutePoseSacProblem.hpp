@@ -81,7 +81,9 @@ public:
     KNEIP = 1,     // central     [1]
     GAO = 2,       // central     [2]
     EPNP = 3,      // central     [4]
-    GP3P = 4       // non-central [3]
+    GP3P = 4,      // non-central [3]
+    SQPNP = 5,     // central, omnidirectional-friendly
+    UPNP = 6       // central, best for panoramic/wide-angle
   } algorithm_t;
 
   /**
@@ -95,7 +97,26 @@ public:
       bool randomSeed = true) :
       sac::SampleConsensusProblem<model_t> (randomSeed),
       _adapter(adapter),
-      _algorithm(algorithm)
+      _algorithm(algorithm),
+      _refine_algorithm(algorithm)
+  {
+    setUniformIndices(adapter.getNumberCorrespondences());
+  };
+
+  /**
+   * \brief Constructor with separate refinement algorithm.
+   * \param[in] adapter Visitor holding bearing vectors, world points, etc.
+   * \param[in] algorithm The minimal solver algorithm (P3P: KNEIP/GAO).
+   * \param[in] refine_algorithm The refinement algorithm for inliers (EPNP/UPNP/SQPNP).
+   * \param[in] randomSeed Whether to seed the random number generator with
+   *            the current time.
+   */
+  AbsolutePoseSacProblem(adapter_t & adapter, algorithm_t algorithm,
+      algorithm_t refine_algorithm, bool randomSeed = true) :
+      sac::SampleConsensusProblem<model_t> (randomSeed),
+      _adapter(adapter),
+      _algorithm(algorithm),
+      _refine_algorithm(refine_algorithm)
   {
     setUniformIndices(adapter.getNumberCorrespondences());
   };
@@ -116,7 +137,8 @@ public:
       bool randomSeed = true) :
       sac::SampleConsensusProblem<model_t> (randomSeed),
       _adapter(adapter),
-      _algorithm(algorithm)
+      _algorithm(algorithm),
+      _refine_algorithm(algorithm)
   {
     setIndices(indices);
   };
@@ -157,8 +179,10 @@ public:
 protected:
   /** The adapter holding all input data */
   adapter_t & _adapter;
-  /** The algorithm we are using */
+  /** The minimal solver algorithm (for random subsets) */
   algorithm_t _algorithm;
+  /** The refinement algorithm (for inliers) */
+  algorithm_t _refine_algorithm;
 };
 
 }

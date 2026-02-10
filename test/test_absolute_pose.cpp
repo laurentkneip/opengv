@@ -123,6 +123,15 @@ int main( int argc, char** argv )
   gettimeofday( &toc, 0 );
   double epnp_time = TIMETODOUBLE(timeval_minus(toc,tic)) / iterations;
 
+  std::cout << "running sqpnp (all correspondences)" << std::endl;
+  transformation_t sqpnp_transformation;
+  gettimeofday( &tic, 0 );
+  for(size_t i = 0; i < iterations; i++)
+    sqpnp_transformation = absolute_pose::sqpnp(adapter);
+  gettimeofday( &toc, 0 );
+  double sqpnp_time = TIMETODOUBLE(timeval_minus(toc,tic)) / iterations;
+
+
   std::cout << "running epnp with 6 correspondences" << std::endl;
   std::vector<int> indices6 = getNindices(6);
   transformation_t epnp_transformation_6 =
@@ -179,6 +188,8 @@ int main( int argc, char** argv )
     std::cout << p3p_gao_transformations[i] << std::endl << std::endl;
   std::cout << "results from epnp algorithm:" << std::endl;
   std::cout << epnp_transformation << std::endl << std::endl;
+  std::cout << "results from sqpnp algorithm:" << std::endl;
+  std::cout << sqpnp_transformation << std::endl << std::endl;
   std::cout << "results from epnp algorithm with only 6 correspondences:";
   std::cout << std::endl;
   std::cout << epnp_transformation_6 << std::endl << std::endl;
@@ -203,6 +214,8 @@ int main( int argc, char** argv )
   std::cout << p3p_gao_time << std::endl;
   std::cout << "timings from epnp algorithm: ";
   std::cout << epnp_time << std::endl;
+  std::cout << "timings from sqpnp algorithm: ";
+  std::cout << sqpnp_time << std::endl;
   std::cout << "timings for the upnp algorithm: ";
   std::cout << upnp_time << std::endl;
   std::cout << "timings from nonlinear algorithm: ";

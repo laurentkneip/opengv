@@ -1,5 +1,13 @@
 lib
-build
+build*/
+ dist/
 *.mexa64
 *.pyc
 .vscode
+.claude
+_codeql_build_dir/
+_codeql_detected_source_root
+.venv*/
+dist/
+pyopengv.egg-info
+*.pyd

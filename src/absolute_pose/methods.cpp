@@ -29,6 +29,7 @@
  ******************************************************************************/
 
 
+#include <cassert>
 #include <opengv/absolute_pose/methods.hpp>
 #include <opengv/Indices.hpp>
 
@@ -37,6 +38,7 @@
 
 #include <opengv/absolute_pose/modules/main.hpp>
 #include <opengv/absolute_pose/modules/Epnp.hpp>
+#include <opengv/absolute_pose/modules/Sqpnp.hpp>
 #include <opengv/OptimizationFunctor.hpp>
 #include <opengv/math/cayley.hpp>
 #include <opengv/math/quaternion.hpp>
@@ -298,6 +300,75 @@ opengv::absolute_pose::epnp(
   Indices idx(indices);
   return epnp(adapter,idx);
 }
+
+namespace opengv
+{
+namespace absolute_pose
+{
+
+transformation_t sqpnp(
+    const AbsoluteAdapterBase & adapter,
+    const Indices & indices )
+{
+  //starting from 4 points, we have a unique solution
+  assert(indices.size() > 5);
+
+  modules::Sqpnp PnP;
+  PnP.set_maximum_number_of_correspondences(indices.size());
+  PnP.reset_correspondences();
+
+  for( size_t i = 0; i < indices.size(); i++ )
+  {
+    point_t p = adapter.getPoint(indices[i]);
+    bearingVector_t f = adapter.getBearingVector(indices[i]);
+    PnP.add_correspondence(p[0], p[1], p[2], f[0], f[1], f[2]);
+  }
+
+  double R_sqpnp[3][3], t_sqpnp[3];
+  PnP.compute_pose(R_sqpnp, t_sqpnp);
+
+  rotation_t rotation;
+  translation_t translation;
+
+  for(int r = 0; r < 3; r++)
+  {
+    for(int c = 0; c < 3; c++)
+      rotation(r,c) = R_sqpnp[r][c];
+  }
+
+  translation[0] = t_sqpnp[0];
+  translation[1] = t_sqpnp[1];
+  translation[2] = t_sqpnp[2];
+
+  //take inverse transformation
+  rotation.transposeInPlace();
+  translation = -rotation * translation;
+
+  transformation_t transformation;
+  transformation.col(3) = translation;
+  transformation.block<3,3>(0,0) = rotation;
+  return transformation;
+}
+
+}
+}
+
+opengv::transformation_t
+opengv::absolute_pose::sqpnp( const AbsoluteAdapterBase & adapter )
+{
+  Indices idx(adapter.getNumberCorrespondences());
+  return sqpnp(adapter,idx);
+}
+
+opengv::transformation_t
+opengv::absolute_pose::sqpnp(
+    const AbsoluteAdapterBase & adapter,
+    const std::vector<int> & indices )
+{
+  Indices idx(indices);
+  return sqpnp(adapter,idx);
+}
+
 
 namespace opengv
 {
