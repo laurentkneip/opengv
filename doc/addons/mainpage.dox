@@ -63,7 +63,7 @@ Mac OSX: http://laurentkneip.github.io/publications/opengv.mexmaci64
  *    <li>17-point algorithm by Hongdong Li
  *    <li>non-linear optimization over n correspondences (both central and non-central)
  *    <li>relative rotation as an iterative eigenproblem (by Kneip)
- *    <li>generalized reltive rotation for multi-camera systems as an iterative eigenproblem (by Kneip)
+ *    <li>generalized relative rotation for multi-camera systems as an iterative eigenproblem (by Kneip)
  *    </ol>
  *  <li>Two methods for point-triangulation
  *  <li>Arun's method for aligning point clouds
